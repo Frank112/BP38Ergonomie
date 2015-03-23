@@ -287,6 +287,7 @@ void TimerViewController::syncCurrentTime(const QTime &currentTime){
     minTimerView->setTime(currentTime);
     maxTimerView->setTime(currentTime);
     this->currentTime = currentTime;
+    this->startTimeBasic = currentTime;
 }
 
 // PROTECTED

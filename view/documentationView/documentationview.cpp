@@ -67,6 +67,10 @@ void DocumentationView::onLeaving(){
     timerViewController->closeTimerView();
 }
 
+void DocumentationView::onEnter(){
+    showStartView(ViewType::BODY_POSTURE_VIEW);
+}
+
 
 // PRIVATE SLOTS
 void DocumentationView::showGant(){

@@ -38,6 +38,7 @@ public:
 
 public slots:
     void onLeaving();
+    void onEnter();
 
 private slots:
     void showGant();
