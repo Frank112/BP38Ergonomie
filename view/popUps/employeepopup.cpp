@@ -12,7 +12,7 @@ EmployeePopUp::EmployeePopUp(QWidget *parent):
 
     QWidget *employeeListContent = new QWidget(this);
     employeeListContent->setLayout(mainLayout);
-
+    mainLayout->setAlignment(Qt::AlignTop);
     scEmployees->setWidget(employeeListContent);
     scEmployees->setMinimumSize(330, 400);
     scEmployees->setWidgetResizable(true);
