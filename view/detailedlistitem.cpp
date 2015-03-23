@@ -162,7 +162,7 @@ void DetailedListItem::deselect(){
 }
 
 bool DetailedListItem::isSelected(){
-    return this->isChecked();
+    return checkBox->isChecked();
 }
 
 void DetailedListItem::selectExclusiveWithID(int id){
