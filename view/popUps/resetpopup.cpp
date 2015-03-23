@@ -21,7 +21,7 @@ ResetPopUp::ResetPopUp(QWidget *parent):
     bShiftData(false),
     bFtpConnection(false)
 {
-
+    connect(this, SIGNAL(confirm()), this, SLOT(onConfirm()));
     connect(headData, SIGNAL(clicked()), this, SLOT(headDataClicked()));
     connect(workplaces, SIGNAL(clicked()), this, SLOT(workplacesClicked()));
     connect(equipment, SIGNAL(clicked()), this, SLOT(equipmentClicked()));
@@ -140,4 +140,9 @@ void ResetPopUp::shiftDataClicked(){
 
 void ResetPopUp::ftpConnectionClicked(){
     bFtpConnection = !bFtpConnection;
+}
+
+void ResetPopUp::onConfirm(){
+    emit resetSelectedEntries(this);
+    emit closePopUp();
 }

@@ -47,7 +47,7 @@ public:
     }
 
     static QString configFile(){
-        return QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("config.csv");
+        return QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("config.txt");
     }
 
     static QString errorLog(){

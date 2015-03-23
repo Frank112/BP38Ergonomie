@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "../standardpaths.h"
+#include "../../settings.h"
 
 LanguagePopUp::LanguagePopUp(QWidget *parent):
    AbstractPopUpWidget(ConfirmMode::ACCEPT, tr("Select language"), parent),
@@ -10,6 +11,8 @@ LanguagePopUp::LanguagePopUp(QWidget *parent):
    english(new DetailedListItem(this, "englishIcon",  "English", QList<QStringList>(), false, true, false, false, false)),
    languages(new QList<DetailedListItem*>())
 {
+    connect(this, SIGNAL(confirm()), this, SLOT(onConfirm()));
+
     languages->append(german);
     languages->append(english);
 
@@ -18,7 +21,7 @@ LanguagePopUp::LanguagePopUp(QWidget *parent):
     for(int i = 0; i < languages->length(); ++i){
         DetailedListItem *language = languages->at(i);
         language->setID(i);
-        connect(language, SIGNAL(selected(int)), this, SLOT(selectedLanguageChanged(int)));
+        connect(language, SIGNAL(selected(int)), this, SLOT(setSelectedLanguage(int)));
         connect(this, SIGNAL(languageSelected(int)), language, SLOT(selectExclusiveWithID(int)));
         mainLayout->addWidget(language);
     }
@@ -31,27 +34,38 @@ LanguagePopUp::~LanguagePopUp()
 
 }
 
+//PUBLIC SLOTS
 void LanguagePopUp::onEnter(){
-    QFile file(StandardPaths::configFile());
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    QString line = in.readLine();
-    QStringList settings = line.split(',');
-    if(settings.at(0) == "german")
+    if(Settings::value(Settings::SETTING_LANGUAGE).toString() == Settings::LANGUAGE_GERMAN)
         german->select();
     else
         english->select();
 }
 
-void LanguagePopUp::selectedLanguageChanged(int id){
-    selectedLanguageID = id;
-    emit languageSelected(id);
-}
+//PRIVATE SLOTS
+void LanguagePopUp::onConfirm(){
+    if(Settings::value(Settings::SETTING_LANGUAGE).toString() == Settings::LANGUAGE_GERMAN){
+        if(english->isSelected()){
+            Settings::insert(Settings::SETTING_LANGUAGE, Settings::LANGUAGE_ENGLISH);
+            emit showMessage(tr("Language changed"), NotificationMessage::ACCEPT);
+            emit showMessage(("Restart App to apply changes"), NotificationMessage::INFORMATION, NotificationMessage::PERSISTENT);
+            emit languageChanged();
+        }
+    }
+    else {
+        if(german->isSelected()){
+            Settings::insert(Settings::SETTING_LANGUAGE, Settings::LANGUAGE_GERMAN);
+            emit showMessage(tr("Language changed"), NotificationMessage::ACCEPT);
+            emit showMessage(("Neustart erforderlich um die Änderungen zu übernehmen"), NotificationMessage::INFORMATION, NotificationMessage::PERSISTENT);
+            emit languageChanged();
+        }
+    }
 
-int LanguagePopUp::getSelectedLanguage() const{
-    return selectedLanguageID;
+    emit closePopUp();
 }
 
 void LanguagePopUp::setSelectedLanguage(int id){
-    selectedLanguageChanged(id);
+    emit languageSelected(id);
 }
+
+

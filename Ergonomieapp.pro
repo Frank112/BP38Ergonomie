@@ -23,10 +23,12 @@ RESOURCES += \
 HEADERS += \
     enum.h \
     standardpaths.h \
-    errorreporter.h
+    errorreporter.h \
+    settings.h
 
 SOURCES += \
-    main.cpp
+    main.cpp \
+    settings.cpp
 
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

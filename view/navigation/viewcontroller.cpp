@@ -1,6 +1,7 @@
 #include "viewcontroller.h"
 #include "../separator.h"
 #include "../../standardpaths.h"
+#include "../../settings.h"
 #include <QVBoxLayout>
 #include <QDir>
 #include <QDateTime>
@@ -165,20 +166,13 @@ void ViewController::adaptNavigationBar(ViewType type){
     int leftWidth = 0;
     int rightWidth = 0;
 
-    QFile file(StandardPaths::configFile());
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    QString line = in.readLine();
-    QStringList settings = line.split(',');
-
-
     if(currentWidget->canGoBack()){
         btnBack->show();
         ViewType backType = currentWidget->getBackViewType();
         if(backType == UNKNOWN){
             backType = previousViews->at(previousViews->count() - 2);
         }
-        if(settings.at(3) == "tTrue")
+        if(Settings::value(Settings::SETTING_SHOW_NAVIGATION_TITLE).toBool())
             lblBackTitle->setText(viewTypeToWidget->value(backType)->getTitle());
         else
             lblBackTitle->setText("");
@@ -193,7 +187,7 @@ void ViewController::adaptNavigationBar(ViewType type){
 
     if(currentWidget->canGoForward() && viewTypeToWidget->contains(currentWidget->getForwardViewType())){
         btnForward->show();
-        if(settings.at(3) == "tTrue")
+        if(Settings::value(Settings::SETTING_SHOW_NAVIGATION_TITLE).toBool())
             lblForwardTitle->setText(viewTypeToWidget->value(currentWidget->getForwardViewType())->getTitle());
         else
             lblForwardTitle->setText("");

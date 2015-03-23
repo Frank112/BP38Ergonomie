@@ -57,6 +57,7 @@ class Controller : QObject
     Q_OBJECT
 public:
     explicit Controller(QObject *parent = 0, QApplication *app = 0);
+    ~Controller();
 
 signals:
     void clearAll();
@@ -183,7 +184,7 @@ signals:
     void createdRotationGroupTaskEntry(QHash<QString, QVariant> values);
     void removedRotationGroupTaskEntry(int id);
 
-private slots:
+public slots:
     //Analyst
     void initializeAnalysts();
     void createAnalyst(QHash<QString, QVariant> values);
@@ -338,10 +339,10 @@ private slots:
 
     //Reset
     void resetDatabaseFactory();
-    void resetSelectedEntries();
+    void resetSelectedEntries(ISelectedDatabaseReset *widget);
 
-    void languageChanged();
-    void themeChanged();
+    //Theme
+    void changeTheme();
 
 private:
     QApplication *application;

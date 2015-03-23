@@ -6,6 +6,7 @@
 #include <QDir>
 #include "../ftpHandler/ftphandler.h"
 #include "../errorreporter.h"
+#include "../settings.h"
 
 
 Controller::Controller(QObject *parent, QApplication *app) :
@@ -357,10 +358,13 @@ Controller::Controller(QObject *parent, QApplication *app) :
     connect(shiftCalendarView, SIGNAL(requestMoveEntryUp(int)), this, SLOT(moveRotationGroupEntryUp(int)));
     connect(shiftCalendarView, SIGNAL(requestRemoveEntry(int)), this, SLOT(removeRotationGroupEntry(int)));
 
+    //WorkplacePopUp signals/slots
+    connect(workplacePopUp, SIGNAL(saveWorkplace(QHash<QString, QVariant>)), this, SLOT(createWorkplace(QHash<QString,QVariant>)));
 
-    connect(languagePopUp, SIGNAL(confirm()), this, SLOT(languageChanged()));
-    connect(themePopUp, SIGNAL(confirm()), this, SLOT(themeChanged()));
-    connect(resetPopUp, SIGNAL(confirm()), this, SLOT(resetSelectedEntries()));
+    connect(languagePopUp, SIGNAL(languageChanged()), settingsView, SLOT(languageChanged()));
+    connect(themePopUp, SIGNAL(themeChanged()), settingsView, SLOT(themeChanged()));
+    connect(themePopUp, SIGNAL(themeChanged()), this, SLOT(changeTheme()));
+    connect(resetPopUp, SIGNAL(resetSelectedEntries(ISelectedDatabaseReset*)), this, SLOT(resetSelectedEntries(ISelectedDatabaseReset*)));
     connect(factorySettingsPopUp, SIGNAL(confirm()), this, SLOT(resetDatabaseFactory()));
 
     // Register Documentation Views
@@ -415,6 +419,7 @@ Controller::Controller(QObject *parent, QApplication *app) :
     documentationView->showStartView(ViewType::BODY_POSTURE_VIEW);
     viewCon->showStartView(ViewType::ANALYST_SELECTION_VIEW);
 
+
     initializeAnalysts();
     initializeProducts();
     initializeTansportations();
@@ -423,6 +428,10 @@ Controller::Controller(QObject *parent, QApplication *app) :
     initializeLines();
     initializeWorkplaces();
     initializeRotationGroupTasks();
+}
+
+Controller::~Controller(){
+    Settings::saveSettings(StandardPaths::configFile());
 }
 
 //PRIVATE SLOTS
@@ -1283,7 +1292,7 @@ void Controller::saveShift(QHash<QString, QVariant> values){
     values.insert(DBConstants::COL_SHIFT_ROTATION_GROUP_ID, rotationGroup_ID);
     values.insert(DBConstants::COL_SHIFT_ID, shift_ID);
     dbHandler->save(DBConstants::TBL_SHIFT, DBConstants::HASH_SHIFT_TYPES, values, filter, DBConstants::COL_SHIFT_ID);
-
+    emit selectedShift(values);
 }
 
 //RotationGroup
@@ -1480,74 +1489,87 @@ void Controller::resetDatabaseFactory()
     viewCon->showView(ViewType::ANALYST_SELECTION_VIEW);
 }
 
-
-void Controller::languageChanged(){
-    QFile file(StandardPaths::configFile());
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    QString line = in.readLine();
-    QStringList settings = line.split(',');
-    file.close();
-    file.open(QIODevice::WriteOnly);
-    QTextStream out(&file);
-
-    int languageID = languagePopUp->getSelectedLanguage();
-    switch(languageID){
-    case(0):
-         out<<"german"<<','<<settings.at(1)<<','<<settings.at(2)<<','<<settings.at(3);
-         file.close();
-         settingsView->setCurrentLanguageIcon("germanIcon");
-         viewCon->showMessage(tr("Language changed"), NotificationMessage::ACCEPT);
-         viewCon->showMessage(("Neustart erforderlich um die Änderungen zu übernehmen"), NotificationMessage::INFORMATION, NotificationMessage::PERSISTENT);
-         break;
-    case(1):
-         out<<"english"<<','<<settings.at(1)<<','<<settings.at(2)<<','<<settings.at(3);
-         file.close();
-         settingsView->setCurrentLanguageIcon("englishIcon");
-         viewCon->showMessage(tr("Language changed"), NotificationMessage::ACCEPT);
-         viewCon->showMessage(("Restart App to apply changes"), NotificationMessage::INFORMATION, NotificationMessage::PERSISTENT);
-         break;
-    default:
-         out<<"english"<<','<<settings.at(1)<<','<<settings.at(2)<<','<<settings.at(3);
-         file.close();
-         settingsView->setCurrentLanguageIcon("englishIcon");
-         break;
+//Database selected reset
+void Controller::resetSelectedEntries(ISelectedDatabaseReset *widget){
+    QString emptyFilter = QString("");
+    if(widget->headDataSelected()){
+        factory_ID = 0;
+        dbHandler->deleteAll(DBConstants::TBL_BRANCH_OF_INDUSTRY, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_CORPORATION, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_EMPLOYER, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_FACTORY, emptyFilter);
     }
-    viewCon->closePopUp();
+    if(widget->workplacesSelected()){
+        recording_ID = 1;
+        workplace_ID = 0;
+        workcondition_ID = 0;
+        activity_ID = 0;
+        appliedforce_ID = 0;
+        loadhandling_ID = 0;
+        workprocess_Type = AVType::BASIC;
+        workprocess_ID = 0;
+        dbHandler->deleteAll(DBConstants::TBL_ACTIVITY, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_APPLIED_FORCE, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_BODY_POSTURE, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_COMMENT, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_LINE, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_LOAD_HANDLING, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_RECORDING, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_RECORDING_OB_LINE, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_RECORDING_OB_WORKPLACE, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_WORKPLACE, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_WORK_CONDITION, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_WORK_PROCESS, emptyFilter);
+        emit clearWorkplaces();
+    }
+    if(widget->equipmentSelected()){
+        dbHandler->deleteAll(DBConstants::TBL_EQUIPMENT, emptyFilter);
+        emit clearEquipments();
+    }
+    if(widget->productsSelected()){
+        dbHandler->deleteAll(DBConstants::TBL_PRODUCT, emptyFilter);
+        emit clearProducts();
+    }
+    if(widget->transportationSelected()){
+        dbHandler->deleteAll(DBConstants::TBL_TRANSPORTATION, emptyFilter);
+        emit clearTransportations();
+    }
+    if(widget->employeeSelected()){
+        employee_ID = 1;
+        bodyMeasurement_ID = 1;
+        dbHandler->deleteAll(DBConstants::TBL_EMPLOYEE, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_BODY_MEASUREMENT, emptyFilter);
+        emit clearEmployees();
+    }
+    if(widget->shiftDataSelected()){
+        dbHandler->deleteAll(DBConstants::TBL_SHIFT, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_BREAK, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP_TASK, emptyFilter);
+        dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, emptyFilter);
+        emit clearRotationGroup();
+        emit clearRotationGroupTaskEntries();
+        emit clearRotationGroupTasks();
+    }
+    if(resetPopUp->ftpConnectionSelected()){
+        dbHandler->deleteAll(DBConstants::TBL_CONNECTION, emptyFilter);
+    }
+
+    viewCon->showMessage(tr("Reset successful"), NotificationMessage::ACCEPT);
 }
 
-void Controller::themeChanged()
-{
-    QFile file(StandardPaths::configFile());
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    QString line = in.readLine();
-    QStringList settings = line.split(',');
-    file.close();
-    file.open(QIODevice::WriteOnly);
-    QTextStream out(&file);
 
-    int themeID = themePopUp->getSelectedTheme();
-    switch(themeID)
-        {
-        case(0):
-            settingsView->setCurrentThemeIcon("blueIcon");
-            application->setStyleSheet(stringFromResource(":/assets/stylesheet.qss"));
-            out<<settings.at(0)<<','<<"blue"<<','<<settings.at(2)<<','<<settings.at(3);
-            break;
-        case(1):
-            settingsView->setCurrentThemeIcon("greenIcon");
-            application->setStyleSheet(stringFromResource(":/assets/stylesheetGreen.qss"));
-            out<<settings.at(0)<<','<<"green"<<','<<settings.at(2)<<','<<settings.at(3);
-            break;
-        default:
-            settingsView->setCurrentThemeIcon("blueIcon");
-            application->setStyleSheet(stringFromResource(":/assets/stylesheet.qss"));
-            out<<settings.at(0)<<','<<"blue"<<','<<settings.at(2)<<','<<settings.at(3);
-            break;
-        }
-    file.close();
-    viewCon->closePopUp();
+
+// Changing of the application theme/stylesheet
+void Controller::changeTheme(){
+    if(Settings::value(Settings::SETTING_THEME) == Settings::THEME_GREEN){
+        application->setStyleSheet(stringFromResource(":/assets/stylesheetGreen.qss"));
+    }
+    else {
+        application->setStyleSheet(stringFromResource(":/assets/stylesheet.qss"));
+    }
+
     viewCon->showMessage(tr("Theme changed"), NotificationMessage::ACCEPT);
 }
 
@@ -1635,66 +1657,3 @@ void Controller::deleteWorkProcesses(int activity_ID)
     dbHandler->deleteAll(tbl, filter);
 }
 
-void Controller::resetSelectedEntries(){
-    QString emptyFilter = QString("");
-    if(resetPopUp->headDataSelected()){
-        factory_ID = 0;
-        dbHandler->deleteAll(DBConstants::TBL_BRANCH_OF_INDUSTRY, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_CORPORATION, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_EMPLOYER, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_FACTORY, emptyFilter);
-    }
-    if(resetPopUp->workplacesSelected()){
-        recording_ID = 1;
-        workplace_ID = 0;
-        workcondition_ID = 0;
-        activity_ID = 0;
-        appliedforce_ID = 0;
-        loadhandling_ID = 0;
-        workprocess_Type = AVType::BASIC;
-        workprocess_ID = 0;
-        dbHandler->deleteAll(DBConstants::TBL_ACTIVITY, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_APPLIED_FORCE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_BODY_POSTURE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_COMMENT, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_LINE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_LOAD_HANDLING, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_RECORDING, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_RECORDING_OB_LINE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_RECORDING_OB_WORKPLACE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_WORKPLACE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_WORK_CONDITION, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_WORK_PROCESS, emptyFilter);
-        emit clearWorkplaces();
-    }
-    if(resetPopUp->equipmentSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_EQUIPMENT, emptyFilter);
-        emit clearEquipments();
-    }
-    if(resetPopUp->productsSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_PRODUCT, emptyFilter);
-        emit clearProducts();
-    }
-    if(resetPopUp->transportationSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_TRANSPORTATION, emptyFilter);
-        emit clearTransportations();
-    }
-    if(resetPopUp->employeeSelected()){
-        employee_ID = 1;
-        bodyMeasurement_ID = 1;
-        dbHandler->deleteAll(DBConstants::TBL_EMPLOYEE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_BODY_MEASUREMENT, emptyFilter);
-        emit clearEmployees();
-    }
-    if(resetPopUp->shiftDataSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_SHIFT, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_BREAK, emptyFilter);
-    }
-    if(resetPopUp->ftpConnectionSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_CONNECTION, emptyFilter);
-    }
-
-    viewCon->closePopUp();
-    viewCon->showMessage(tr("Reset successful"), NotificationMessage::ACCEPT);
-}

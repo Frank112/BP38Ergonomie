@@ -16,12 +16,11 @@ public:
     bool canGoForward() const {
         return false;
     }
-signals:
-    void resetDatabase();
 
 public slots:
-    void setCurrentLanguageIcon(const QString &objectName);
-    void setCurrentThemeIcon(const QString &objectName);
+    void languageChanged();
+    void themeChanged();
+    void onEnter();
 
 private slots:
     void btnResetRecordingsClicked();
@@ -38,9 +37,6 @@ private:
     IconButton *btnSelectTheme;
     DetailedListItem *dliShowTitles;
     DetailedListItem *dliShowNotifications;
-
-    bool showNotifications;
-    bool showTitles;
 };
 
 #endif // SETTINGSVIEW_H

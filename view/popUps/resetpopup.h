@@ -3,10 +3,12 @@
 
 #include "../navigation/abstractpopupwidget.h"
 #include "../detailedlistitem.h"
+#include "../interfaces/iselecteddatabasereset.h"
 
-class ResetPopUp : public AbstractPopUpWidget
+class ResetPopUp : public AbstractPopUpWidget, ISelectedDatabaseReset
 {
     Q_OBJECT
+    Q_INTERFACES(ISelectedDatabaseReset)
 public:
     explicit ResetPopUp(QWidget *parent = 0);
     ~ResetPopUp();
@@ -20,6 +22,9 @@ public:
     bool shiftDataSelected() const;
     bool ftpConnectionSelected() const;
 
+signals:
+    void resetSelectedEntries(ISelectedDatabaseReset *widget);
+
 public slots:
     void onEnter();
 
@@ -32,6 +37,8 @@ private slots:
     void employeeClicked();
     void shiftDataClicked();
     void ftpConnectionClicked();
+
+    void onConfirm();
 
 private:
     DetailedListItem *headData;

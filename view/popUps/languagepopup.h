@@ -16,13 +16,14 @@ public:
 
 signals:
     void languageSelected(int id);
+    void languageChanged();
 
 public slots:
     void onEnter();
-    void setSelectedLanguage(int id);
 
 private slots:
-    void selectedLanguageChanged(int id);
+    void onConfirm();
+    void setSelectedLanguage(int id);
 
 private:
     int selectedLanguageID;

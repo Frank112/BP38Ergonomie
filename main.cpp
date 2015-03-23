@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "control/controller.h"
+#include "../settings.h"
 
 QString stringFromResource(const QString &resName)
 {
@@ -18,34 +19,31 @@ extern "C" int qtmn(int argc, char **argv)
 int main(int argc, char *argv[])
 #endif
 {
-    QStringList settings;
-    QFile file(StandardPaths::configFile());
-    if(file.open(QIODevice::ReadOnly)){
-        QTextStream in(&file);
-        QString line = in.readLine();
-        settings = line.split(',');
-    }
+    Settings::loadSettings(StandardPaths::configFile());
 
     QApplication a(argc, argv); 
     QTranslator t;
 
-    if(!settings.empty()){
-        if(settings.at(1) == "green")
-            a.setStyleSheet(stringFromResource(":/assets/stylesheetGreen.qss"));
-        else
-            a.setStyleSheet(stringFromResource(":/assets/stylesheet.qss"));
-        if(settings.at(0) == "german")
-            t.load(":/translations/ergo_trans_de");
-        else
-            t.load(":/translations/ergo_trans_en");
-    }
-    else {
-        file.open(QIODevice::WriteOnly);
-        QTextStream out(&file);
-        out<<"german"<<','<<"blue"<<','<<"nTrue"<<','<<"tTrue";
+    if(!Settings::contains(Settings::SETTING_THEME))
+        Settings::insert(Settings::SETTING_THEME, Settings::THEME_BLUE);
+    if(Settings::value(Settings::SETTING_THEME).toString() == Settings::THEME_GREEN)
+        a.setStyleSheet(stringFromResource(":/assets/stylesheetGreen.qss"));
+    else
         a.setStyleSheet(stringFromResource(":/assets/stylesheet.qss"));
+
+    if(!Settings::contains(Settings::SETTING_LANGUAGE))
+        Settings::insert(Settings::SETTING_LANGUAGE, Settings::LANGUAGE_GERMAN);
+    if(Settings::value(Settings::SETTING_LANGUAGE).toString() == Settings::LANGUAGE_GERMAN)
         t.load(":/translations/ergo_trans_de");
-    }
+    else
+        t.load(":/translations/ergo_trans_en");
+
+    if(!Settings::contains(Settings::SETTING_SHOW_NAVIGATION_TITLE))
+        Settings::insert(Settings::SETTING_SHOW_NAVIGATION_TITLE, true);
+
+    if(!Settings::contains(Settings::SETTING_SHOW_NOTIFICATIONS))
+        Settings::insert(Settings::SETTING_SHOW_NOTIFICATIONS, true);
+
     a.installTranslator(&t);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 

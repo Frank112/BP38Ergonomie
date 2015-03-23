@@ -14,20 +14,18 @@ public:
     explicit ThemePopUp(QWidget *parent = 0);
     ~ThemePopUp();
 
-    int getSelectedTheme() const;
-
 signals:
+    void themeChanged();
     void themeSelected(int id);
 
 public slots:
     void onEnter();
-    void setSelectedTheme(int id);
 
 private slots:
     void selectedThemeChanged(int id);
+    void onConfirm();
 
 private:
-    int selectedThemeID;
     DetailedListItem *blue;
     DetailedListItem *green;
     QList<DetailedListItem*> *themes;

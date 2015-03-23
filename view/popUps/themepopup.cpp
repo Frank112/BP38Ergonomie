@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "../standardpaths.h"
+#include "../../settings.h"
 
 
 ThemePopUp::ThemePopUp(QWidget *parent) :
@@ -11,6 +12,7 @@ ThemePopUp::ThemePopUp(QWidget *parent) :
     green(new DetailedListItem(0, "greenIcon", tr("Green"), QList<QStringList>(), false, true, false, false, false)),
     themes(new QList<DetailedListItem*>())
 {
+    connect(this, SIGNAL(confirm()), this, SLOT(onConfirm()));
     QVBoxLayout *layout = new QVBoxLayout;
 
     themes->append(blue);
@@ -32,27 +34,27 @@ ThemePopUp::~ThemePopUp()
 
 }
 
+//PUBLIC SLOTS
 void ThemePopUp::onEnter(){
-    QFile file(StandardPaths::configFile());
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    QString line = in.readLine();
-    QStringList settings = line.split(',');
-    if(settings.at(1) == "green")
+    if(Settings::value(Settings::SETTING_THEME).toString() == Settings::THEME_GREEN)
         green->select();
     else
         blue->select();
 }
 
+//PRIVATE SLOTS
 void ThemePopUp::selectedThemeChanged(int id){
-    selectedThemeID = id;
     emit themeSelected(id);
 }
 
-int ThemePopUp::getSelectedTheme() const{
-    return selectedThemeID;
-}
-
-void ThemePopUp::setSelectedTheme(int id){
-    selectedThemeChanged(id);
+void ThemePopUp::onConfirm(){
+    if(green->isSelected() && Settings::value(Settings::SETTING_THEME).toString() != Settings::THEME_GREEN){
+        Settings::insert(Settings::SETTING_THEME, Settings::THEME_GREEN);
+        emit themeChanged();
+    }
+    else if(blue->isSelected() && Settings::value(Settings::SETTING_THEME).toString() != Settings::THEME_BLUE){
+        Settings::insert(Settings::SETTING_THEME, Settings::THEME_BLUE);
+        emit themeChanged();
+    }
+    emit closePopUp();
 }

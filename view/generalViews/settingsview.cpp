@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QTextStream>
 #include <QDebug>
+#include "../../settings.h"
 
 SettingsView::SettingsView(QWidget *parent) :
     SimpleNavigateableWidget(tr("Settings"), parent),
@@ -17,34 +18,7 @@ SettingsView::SettingsView(QWidget *parent) :
     dliShowTitles(new DetailedListItem(this, "titleIcon", tr("Show Titles"), QList<QStringList>(), false, true, false, false, false)),
     dliShowNotifications(new DetailedListItem(this, "notificationIcon", tr("Show Notifications"), QList<QStringList>(), false, true, false, false, false))
 {
-    QFile file(StandardPaths::configFile());
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    QString line = in.readLine();
-    QStringList settings = line.split(',');
 
-    if(settings.at(0) == "english")
-        btnSelectLanguage->setIcon("englishIcon");
-
-    if(settings.at(1) == "green")
-        btnSelectTheme->setIcon("greenIcon");
-
-    if(settings.at(2) == "nTrue"){
-        showNotifications = true;
-        dliShowNotifications->select();
-    }
-    else{
-        showNotifications = false;
-        dliShowNotifications->deselect();
-    }
-    if(settings.at(3) == "tTrue"){
-        showTitles = true;
-        dliShowTitles->select();
-    }
-    else{
-        showTitles = false;
-        dliShowTitles->deselect();
-    }
 
     btnResetRecordings->setMinimumSize(400, 60);
     connect(btnResetRecordings, SIGNAL(clicked()), this, SLOT(btnResetRecordingsClicked()));
@@ -109,6 +83,47 @@ SettingsView::SettingsView(QWidget *parent) :
     setLayout(mainLayout);
 }
 
+//PUBLIC SLOTS
+void SettingsView::languageChanged(){
+    if(Settings::value(Settings::SETTING_LANGUAGE).toString() == Settings::LANGUAGE_ENGLISH)
+        btnSelectLanguage->setIcon("englishIcon");
+    else
+        btnSelectLanguage->setIcon("germanIcon");
+}
+
+void SettingsView::themeChanged(){
+    if(Settings::value(Settings::SETTING_THEME).toString() == Settings::THEME_GREEN)
+        btnSelectTheme->setIcon("greenIcon");
+    else
+        btnSelectTheme->setIcon("blueIcon");
+}
+
+void SettingsView::onEnter(){
+    if(Settings::value(Settings::SETTING_LANGUAGE).toString() == Settings::LANGUAGE_ENGLISH)
+        btnSelectLanguage->setIcon("englishIcon");
+    else
+        btnSelectLanguage->setIcon("germanIcon");
+
+    if(Settings::value(Settings::SETTING_THEME).toString() == Settings::THEME_GREEN)
+        btnSelectTheme->setIcon("greenIcon");
+    else
+        btnSelectTheme->setIcon("blueIcon");
+
+    if(Settings::value(Settings::SETTING_SHOW_NOTIFICATIONS).toBool()){
+        dliShowNotifications->select();
+    }
+    else{
+        dliShowNotifications->deselect();
+    }
+    if(Settings::value(Settings::SETTING_SHOW_NAVIGATION_TITLE).toBool()){
+        dliShowTitles->select();
+    }
+    else{
+        dliShowTitles->deselect();
+    }
+}
+
+//PRIVATE SLOTS
 void SettingsView::btnRestoreFactoryClicked(){
     emit showPopUp((PopUpType::FACTORYSETTINGS_POPUP));
 }
@@ -125,51 +140,12 @@ void SettingsView::btnSelectThemeClicked(){
     emit showPopUp(PopUpType::THEME_POPUP);
 }
 
-void SettingsView::setCurrentLanguageIcon(const QString &objectName){
-    btnSelectLanguage->setIcon(objectName);
-}
-
-void SettingsView::setCurrentThemeIcon(const QString &objectName){
-    btnSelectTheme->setIcon(objectName);
-}
-
 void SettingsView::showNotificationsClicked(){
-    QFile file(StandardPaths::configFile());
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    QString line = in.readLine();
-    QStringList settings = line.split(',');
-    file.close();
-    file.open(QIODevice::WriteOnly);
-    QTextStream out(&file);
-
-    if(showNotifications){
-        showNotifications = false;
-        out<<settings.at(0)<<','<<settings.at(1)<<','<<"nFalse"<<','<<settings.at(3);
-    }
-    else {
-        showNotifications = true;
-        out<<settings.at(0)<<','<<settings.at(1)<<','<<"nTrue"<<','<<settings.at(3);
-    }
+    bool oldSetting = Settings::value(Settings::SETTING_SHOW_NOTIFICATIONS).toBool();
+    Settings::insert(Settings::SETTING_SHOW_NOTIFICATIONS, !oldSetting);
 }
 
 void SettingsView::showTitlesClicked(){
-    QFile file(StandardPaths::configFile());
-    file.open(QIODevice::ReadOnly);
-    QTextStream in(&file);
-    QString line = in.readLine();
-    QStringList settings = line.split(',');
-    file.close();
-    file.open(QIODevice::WriteOnly);
-    QTextStream out(&file);
-
-    if(showTitles){
-        showTitles = false;
-        out<<settings.at(0)<<','<<settings.at(1)<<','<<settings.at(2)<<','<<"tFalse";
-    }
-    else {
-        showTitles = true;
-        out<<settings.at(0)<<','<<settings.at(1)<<','<<settings.at(2)<<','<<"tTrue";
-    }
-
+    bool oldSetting = Settings::value(Settings::SETTING_SHOW_NAVIGATION_TITLE).toBool();
+    Settings::insert(Settings::SETTING_SHOW_NAVIGATION_TITLE, !oldSetting);
 }
