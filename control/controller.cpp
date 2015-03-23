@@ -959,6 +959,7 @@ void Controller::createRotationGroupEntry(QHash<QString, QVariant> values){
         filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(values.value(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).toString());
         QHash<QString, QVariant> additionalValues = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
         values.insert(DBConstants::COL_ROTATION_GROUP_TASK_NAME, additionalValues.value(DBConstants::COL_ROTATION_GROUP_TASK_NAME));
+        values.insert(DBConstants::COL_ROTATION_GROUP_TASK_DURATION, additionalValues.value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_DURATION));
         emit addRotationGroupEntry(values);
         emit showMessage(tr("Added rotation group task to calendar"));
     }
@@ -980,6 +981,7 @@ void Controller::createRotationGroupBreakEntry(QHash<QString, QVariant> values){
         values.insert(DBConstants::COL_ROTATION_GROUP_ID, rotationGroup_ID);
         int success = dbHandler->insert(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
         if(success > 0) {
+            values.insert(DBConstants::COL_BREAK_DURATION, duration);
             emit addRotationGroupBreakEntry(values);
             emit showMessage(tr("Added break to calendar"));
         }

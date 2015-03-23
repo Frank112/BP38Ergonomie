@@ -21,7 +21,7 @@ Separator::~Separator(){
 }
 
 //Private methods
-void Separator::paintEvent(QPaintEvent *event){
+void Separator::paintEvent(QPaintEvent *){
     QStyleOption opt;
     opt.init(this);
     QPainter p(this);
