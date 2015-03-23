@@ -45,7 +45,7 @@ private slots:
     void editItem();
 
 protected:
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent*);
 
 private:
     int id;

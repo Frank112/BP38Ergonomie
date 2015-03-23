@@ -13,7 +13,7 @@ IconButton::IconButton(QWidget *parent, const QString &objectName, const QString
     lblIcon->setFixedSize(45, 45);
     connect(lblIcon, SIGNAL(clicked()), this, SIGNAL(clicked()));
 
-    layout->addWidget(lblIcon, 0, 0, 1, 1, Qt::AlignLeft);
+    layout->addWidget(lblIcon, 0, 0, 1, 1, (Qt::AlignLeft | Qt::AlignVCenter));
     layout->addWidget(lblText, 0, 1, 1, 1, Qt::AlignCenter);
     layout->addWidget(lblSpacer, 0, 2, 1, 1, Qt::AlignRight);
 
@@ -38,5 +38,5 @@ void IconButton::paintEvent(QPaintEvent*){
 }
 
 QSize IconButton::sizeHint() const{
-    return QSize(300, lblIcon->iconSize().height());
+    return QSize(300, lblIcon->iconSize().height() + 20);
 }

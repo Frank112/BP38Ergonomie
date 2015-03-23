@@ -36,6 +36,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     rotationGroupTaskView(new RotationGroupTaskView()),
     rotationGroupTaskListView(new RotationGroupTaskListView()),
     settingsView(new SettingsView()),
+    errorLogView(new ErrorLogView()),
     documentationView(new DocumentationView()),
     workProcessMetaDataView(new WorkProcessMetaDataView()),
     appliedForceView(new AppliedForceView()),
@@ -227,7 +228,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(controller, SIGNAL(removedActivity(int)), activityView, SLOT(removeActivity(int)));
     connect(activityView, SIGNAL(editActivity(int)), controller, SLOT(editActivity(int)));
     connect(controller, SIGNAL(updatedActivity(QHash<QString,QVariant>)), activityView, SLOT(updateActivity(QHash<QString,QVariant>)));
-    connect(activityView, SIGNAL(selectActivity(int)), controller, SLOT(selectACtivity(int)));
+    connect(activityView, SIGNAL(selectActivity(int)), controller, SLOT(selectActivity(int)));
 
     //Equipment View signals/slots
     connect(controller, SIGNAL(clearAll()), equipmentView, SLOT(clearEquipments()));
@@ -392,6 +393,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     registerView(metaDataView, ViewType::METADATA_VIEW);
     registerView(workplaceListView, ViewType::WORKPLACELIST_VIEW);
     registerView(settingsView, ViewType::SETTINGS_VIEW);
+    registerView(errorLogView, ViewType::ERROR_LOG_VIEW);
     registerView(activityView, ViewType::ACTIVITY_VIEW);
     registerView(commentView, ViewType::COMMENT_VIEW);
     registerView(lineView, ViewType::LINE_VIEW);

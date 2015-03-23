@@ -18,6 +18,7 @@
 #include "../../control/controller.h"
 #include "../generalViews/mainmenu.h"
 #include "../generalViews/metadataview.h"
+#include "../generalViews/errorlogview.h"
 #include "../workplaceView/activityview.h"
 #include "../workplaceView/commentview.h"
 #include "../workplaceView/lineview.h"
@@ -125,6 +126,7 @@ private:
     RotationGroupTaskView *rotationGroupTaskView;
     RotationGroupTaskListView *rotationGroupTaskListView;
     SettingsView *settingsView;
+    ErrorLogView *errorLogView;
 
     DocumentationView *documentationView;
     WorkProcessMetaDataView *workProcessMetaDataView;

@@ -86,8 +86,7 @@ DetailedListItem::DetailedListItem(QWidget *parent, const QString &objectName, c
     else {
         layout->addItem(new QSpacerItem(50, 0, QSizePolicy::Fixed, QSizePolicy::Fixed), layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
     }
-    setLayout(layout);
-
+    setLayout(layout);    
     connect(this, SIGNAL(clicked()), this, SLOT(itemPressed()));
 }
 

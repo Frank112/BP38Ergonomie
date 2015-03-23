@@ -187,7 +187,8 @@ void ShiftCalendar::clearRotationGroupTasks(){
 
 // IRotationGroup
 void ShiftCalendar::addRotationGroupEntry(QHash<QString, QVariant> values){
-    DetailedListItem *newListItem = new DetailedListItem(this, "workplaceIcon", values.value(DBConstants::COL_ROTATION_GROUP_TASK_NAME).toString(), QList<QStringList>(), false, true, false, false, false);
+    QString name = values.value(DBConstants::COL_ROTATION_GROUP_TASK_NAME).toString();
+    DetailedListItem *newListItem = new DetailedListItem(this, "workplaceIcon", name, QList<QStringList>(), false, true, false, false, false);
     int orderNumber = values.value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
     newListItem->setID(orderNumber);
     // TODO HIER HÄNGT DAS PROBLEM!
