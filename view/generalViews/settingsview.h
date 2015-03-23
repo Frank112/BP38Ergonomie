@@ -13,9 +13,6 @@ class SettingsView : public SimpleNavigateableWidget
     Q_OBJECT
 public:
     explicit SettingsView(QWidget *parent = 0);
-    bool canGoForward() const {
-        return false;
-    }
 
 public slots:
     void languageChanged();
@@ -25,6 +22,7 @@ public slots:
 private slots:
     void btnResetRecordingsClicked();
     void btnRestoreFactoryClicked();
+    void btnErrorLogClicked();
     void btnSelectLanguageClicked();
     void btnSelectThemeClicked();
     void showTitlesClicked();
@@ -33,6 +31,7 @@ private slots:
 private:
     IconButton *btnResetRecordings;
     IconButton *btnRestoreFactory;
+    IconButton *btnErrorLog;
     IconButton *btnSelectLanguage;
     IconButton *btnSelectTheme;
     DetailedListItem *dliShowTitles;

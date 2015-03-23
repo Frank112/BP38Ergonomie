@@ -13,6 +13,7 @@ SettingsView::SettingsView(QWidget *parent) :
     SimpleNavigateableWidget(tr("Settings"), parent),
     btnResetRecordings(new IconButton(this, "resetIcon", tr("Reset Recordings"))),
     btnRestoreFactory(new IconButton(this, "resetFactoryIcon", tr("Restore Factory Settings"))),
+    btnErrorLog(new IconButton(this, "errorIcon", tr("Error Log"))),
     btnSelectLanguage(new IconButton(this, "germanIcon", tr("Change Language"))),
     btnSelectTheme(new IconButton(this, "blueIcon", tr("Change Theme"))),
     dliShowTitles(new DetailedListItem(this, "titleIcon", tr("Show Titles"), QList<QStringList>(), false, true, false, false, false)),
@@ -25,6 +26,9 @@ SettingsView::SettingsView(QWidget *parent) :
 
     btnRestoreFactory->setMinimumSize(400, 60);
     connect(btnRestoreFactory, SIGNAL(clicked()), this, SLOT(btnRestoreFactoryClicked()));
+
+    btnErrorLog->setMinimumSize(400, 60);
+    connect(btnErrorLog, SIGNAL(clicked()), this, SLOT(btnErrorLogClicked()));
 
     btnSelectLanguage->setMinimumSize(400, 60);
     connect(btnSelectLanguage, SIGNAL(clicked()), this, SLOT(btnSelectLanguageClicked()));
@@ -66,6 +70,8 @@ SettingsView::SettingsView(QWidget *parent) :
     rightLayout->addWidget(btnResetRecordings, 0, Qt::AlignCenter);
     rightLayout->addSpacerItem(new QSpacerItem(0,60,QSizePolicy::Minimum, QSizePolicy::Fixed));
     rightLayout->addWidget(btnRestoreFactory, 0, Qt::AlignCenter);
+    rightLayout->addSpacerItem(new QSpacerItem(0,60,QSizePolicy::Minimum, QSizePolicy::Fixed));
+    rightLayout->addWidget(btnErrorLog, 0, Qt::AlignCenter);
     rightLayout->addSpacerItem(new QSpacerItem(0,60,QSizePolicy::Minimum, QSizePolicy::Fixed));
     rightLayout->addWidget(btnSelectLanguage, 0, Qt::AlignCenter);
     rightLayout->addSpacerItem(new QSpacerItem(0,60,QSizePolicy::Minimum, QSizePolicy::Fixed));
@@ -130,6 +136,10 @@ void SettingsView::btnRestoreFactoryClicked(){
 
 void SettingsView::btnResetRecordingsClicked(){
     emit showPopUp(PopUpType::RESET_POPUP);
+}
+
+void SettingsView::btnErrorLogClicked(){
+    emit showView(ViewType::ERROR_LOG_VIEW);
 }
 
 void SettingsView::btnSelectLanguageClicked(){
