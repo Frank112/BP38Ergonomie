@@ -47,7 +47,7 @@ void NotificationWidget::closePopUp(){
     currentPopUp->onLeaving();
 }
 
-void NotificationWidget::showMessage(const QString &message, NotificationMessage::MessageType msgType, NotificationMessage::MessageDisplayType msgDisplayType){
+void NotificationWidget::showMessage(QString message, NotificationMessage::MessageType msgType, NotificationMessage::MessageDisplayType msgDisplayType){
     if(Settings::value(Settings::SETTING_SHOW_NOTIFICATIONS).toBool())
         notifiMessage->showMessage(message, msgType, msgDisplayType);
 }

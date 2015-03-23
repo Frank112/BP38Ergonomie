@@ -21,7 +21,7 @@ public:
 
 public slots:
     void closePopUp();
-    void showMessage(const QString &message, NotificationMessage::MessageType msgType = NotificationMessage::INFORMATION, NotificationMessage::MessageDisplayType msgDisplayType = NotificationMessage::MIDDLE);
+    void showMessage(QString message, NotificationMessage::MessageType msgType = NotificationMessage::INFORMATION, NotificationMessage::MessageDisplayType msgDisplayType = NotificationMessage::MIDDLE);
     void closeMessage();
 
 protected slots:

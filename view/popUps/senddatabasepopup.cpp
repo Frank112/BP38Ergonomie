@@ -52,7 +52,7 @@ void SendDatabasePopUp::onConfirm(){
         emit editFTPConnection(this, ftpConnectionWidget->getSelectedID());
 
     emit sendData(this);
-
+    emit closePopUp();
 }
 
 //GETTER / SETTER

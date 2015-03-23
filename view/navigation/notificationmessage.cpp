@@ -22,7 +22,7 @@ NotificationMessage::~NotificationMessage()
 }
 
 //PUBLIC SLOTS
-void NotificationMessage::showMessage(const QString &message, MessageType msgType, MessageDisplayType msgDisplayType){
+void NotificationMessage::showMessage(QString message, MessageType msgType, MessageDisplayType msgDisplayType){
     Message m;
     m.text = message;
     m.type = msgType;

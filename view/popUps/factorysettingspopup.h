@@ -9,6 +9,9 @@ class FactorySettingsPopUp : public AbstractPopUpWidget
 public:
     explicit FactorySettingsPopUp(QWidget *parent = 0);
     ~FactorySettingsPopUp();
+
+private slots:
+    void onConfirm();
 };
 
 #endif // FACTORYSETTINGSPOPUP_H

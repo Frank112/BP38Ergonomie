@@ -2,64 +2,35 @@
 #define CONTROLLER_H
 
 #include <QObject>
-#include "../databaseHandler/dbhandler.h"
-#include "../view/navigation/viewcontroller.h"
-#include "../xmlHandler/xmlparser.h"
-#include "standardpaths.h"
-#include "../view/generalViews/mainmenu.h"
-#include "../view/generalViews/metadataview.h"
-#include "../view/workplaceView/activityview.h"
-#include "../view/workplaceView/commentview.h"
-#include "../view/workplaceView/lineview.h"
-#include "../view/workplaceView/workplacelistview.h"
-#include "../view/workplaceView/workplaceview.h"
-#include "../view/documentationView/documentationview.h"
-#include "../view/generalViews/analystselectionview.h"
-#include "../view/timerView/ganttimerview.h"
-#include "../view/rotationGroupView/shiftview.h"
-#include "../view/rotationGroupView/shiftcalendar.h"
-#include "../view/rotationGroupView/rotationgrouptaskview.h"
-#include "../view/rotationGroupView/rotationgrouptasklistview.h"
-#include "../view/ressourceManagementView/equipmentview.h"
-#include "../view/ressourceManagementView/transportationview.h"
-#include "../view/ressourceManagementView/productview.h"
-#include "../view/ressourceManagementView/ressourcemanagementview.h"
-#include "../view/ressourceManagementView/bodymeasurementview.h"
-#include "../view/ressourceManagementView/employeeview.h"
-#include "../view/ressourceManagementView/employeelistview.h"
-#include "../view/generalViews/settingsview.h"
-#include "../view/popUps/equipmentpopup.h"
-#include "../view/popUps/transporationpopup.h"
-#include "../view/popUps/senddatabasepopup.h"
-#include "../view/popUps/analystpopup.h"
-#include "../view/popUps/createproductpopup.h"
-#include "../view/popUps/activitypopup.h"
-#include "../view/popUps/languagepopup.h"
-#include "../view/popUps/themepopup.h"
-#include "../view/popUps/workplacepopup.h"
-#include "../view/popUps/importdatapopup.h"
-#include "../view/interfaces/iftpconnections.h"
-#include "../view/popUps/resetpopup.h"
-#include "../view/popUps/employeepopup.h"
-#include "../view/popUps/factorysettingspopup.h"
-#include "../view/popUps/linepopup.h"
-#include "../view/documentationView/appliedforceview.h"
-#include "../view/documentationView/loadhandlingview.h"
-#include "../view/documentationView/executionconditionview.h"
-#include "../view/documentationView/workprocessmetadataview.h"
-#include "../view/documentationView/bodyPostureView/bodypostureview.h"
 #include <QHash>
 #include <QApplication>
+#include <QDir>
+#include "../view/navigation/notificationmessage.h"
+#include "../databaseHandler/dbhandler.h"
+#include "../xmlHandler/xmlparser.h"
+#include "../standardpaths.h"
+#include "../enum.h"
+#include "../view/interfaces/iimportdata.h"
+#include "../view/interfaces/isenddata.h"
+#include "../view/interfaces/iselecteddatabasereset.h"
+#include "../ftpHandler/ftphandler.h"
+#include "../errorreporter.h"
+#include "../settings.h"
+#include "../view/navigation/viewtype.h"
 
-
-class Controller : QObject
+class Controller : public QObject
 {
     Q_OBJECT
 public:
     explicit Controller(QObject *parent = 0, QApplication *app = 0);
     ~Controller();
 
+    void initialize();
+
 signals:
+    void showMessage(QString message, NotificationMessage::MessageType msgType = NotificationMessage::ACCEPT, NotificationMessage::MessageDisplayType msgDisplayType = NotificationMessage::MIDDLE);
+    void showView(ViewType view, QList<ViewType> *previousViews = 0);
+
     void clearAll();
 
     //Analyst
@@ -239,8 +210,8 @@ public slots:
     void initializeActivities(int workplace_ID);
     void createActivity(QHash<QString, QVariant> values);
     void saveActivity(QHash<QString, QVariant> values);
-    void deleteActivity(int id, bool showMessage = true);
-    void selectACtivity(int id);
+    void deleteActivity(int id, bool showMsg = true);
+    void selectActivity(int id);
     void editActivity(int id);
 
     //Equipment
@@ -335,7 +306,7 @@ public slots:
     //RotationGroupTaskEntry
     void initializeRotationGroupTaskEntries(int id);
     void createRotationGroupTaskEntry(QHash<QString, QVariant> values);
-    void deleteRotationGroupTaskEntry(int id, bool showMesssage = true);
+    void deleteRotationGroupTaskEntry(int id, bool showMsg = true);
 
     //Reset
     void resetDatabaseFactory();
@@ -347,53 +318,6 @@ public slots:
 private:
     QApplication *application;
     DBHandler *dbHandler;
-    ViewController *viewCon;
-
-    AnalystSelectionView *analystSelectionView;
-    MainMenu *mainMenuView;
-    MetaDataView *metaDataView;
-    WorkplaceListView *workplaceListView;
-    WorkplaceView *workplaceView;
-    LineView *lineView;
-    ActivityView *activityView;
-    CommentView *commentView;
-    RessourceManagementView *ressourceManagementView;
-    ProductView *productView;
-    EquipmentView *equipmentView;
-    TransportationView *transportationView;
-    EmployeeView *employeeView;
-    EmployeeListView *employeeListView;
-    BodyMeasurementView *bodyMeasurementView;
-    ShiftView *shiftView;
-    ShiftCalendar *shiftCalendarView;
-    RotationGroupTaskView *rotationGroupTaskView;
-    RotationGroupTaskListView *rotationGroupTaskListView;
-    SettingsView *settingsView;
-
-    DocumentationView *documentationView;
-    WorkProcessMetaDataView *workProcessMetaDataView;
-    AppliedForceView *appliedForceView;
-    BodyPostureView *bodyPostureView;
-    LoadHandlingView *loadHandlingView;
-    ExecutionConditionView *executionConditionView;
-    GantTimerView *gantTimerView;
-
-    TimerViewController *timerViewController;
-
-    EquipmentPopUp *equipmentPopUp;
-    TransporationPopUp *transportationPopUp;
-    SendDatabasePopUp *sendDatabasePopUp;
-    AnalystPopUp *analystPopUp;
-    CreateProductPopUp *createProductPopUp;
-    ActivityPopUp *activityPopUp;
-    LanguagePopUp *languagePopUp;
-    ThemePopUp *themePopUp;
-    WorkplacePopUp *workplacePopUp;
-    ImportDataPopUp *importDataPopUp;
-    ResetPopUp *resetPopUp;
-    EmployeePopUp *employeePopUp;
-    FactorySettingsPopUp *factorySettingsPopUp;
-    LinePopUp *linePopUp;
 
     int analyst_ID;
     int recording_ID;

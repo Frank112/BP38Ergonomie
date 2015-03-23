@@ -2,8 +2,8 @@
 #include <QTranslator>
 #include <QFile>
 #include <QTextStream>
-#include "control/controller.h"
-#include "../settings.h"
+#include "view/navigation/viewcontroller.h"
+#include "settings.h"
 
 QString stringFromResource(const QString &resName)
 {
@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     a.installTranslator(&t);
     a.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
-    Controller c(0, &a);
+    ViewController vc(0);
 
     return a.exec();
 }

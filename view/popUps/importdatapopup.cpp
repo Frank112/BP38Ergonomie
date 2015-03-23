@@ -80,6 +80,7 @@ void ImportDataPopUp::onConfirm(){
     else if(ftpConnectionWidget->getSaved())
         emit editFTPConnection(this, ftpConnectionWidget->getSelectedID());
     emit importData(this);
+    emit closePopUp();
 }
 
 

@@ -15,7 +15,7 @@ public:
     enum MessageDisplayType{PERSISTENT, SHORT, MIDDLE, LONG};
 
 public slots:
-    void showMessage(const QString &message, MessageType msgType = INFORMATION, MessageDisplayType msgDisplayType = MIDDLE);
+    void showMessage(QString message, MessageType msgType = INFORMATION, MessageDisplayType msgDisplayType = MIDDLE);
     void closeMessage();
 
 private:
