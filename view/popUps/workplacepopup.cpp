@@ -1,4 +1,5 @@
 #include "workplacepopup.h"
+#include "../../databaseHandler/dbconstants.h"
 
 WorkplacePopUp::WorkplacePopUp(QWidget *parent) :
     AbstractPopUpWidget(ConfirmMode::ACCEPT, tr("Create Workplace"), parent),
@@ -27,6 +28,14 @@ WorkplacePopUp::WorkplacePopUp(QWidget *parent) :
     txtBxName->setPlaceholderText(tr("name of the workplace"));
     txtBxDescription->setPlaceholderText(tr("description of the workplace"));
     txtBxCode->setPlaceholderText(tr("code of the workplace"));
+
+    timeSetupTime->setTime(QTime(0,0));
+    timeBasicTime->setTime(QTime(0,0));
+    timeRestTime->setTime(QTime(0,0));
+    timeAllowanceTime->setTime(QTime(0,0));
+    timeCycleTime->setTime(QTime(0,0));
+
+    connect(this, SIGNAL(confirm()), this, SLOT(onConfirm()));
 
     QGridLayout *mainLayout = new QGridLayout;
     mainLayout->setAlignment(Qt::AlignTop);
@@ -60,46 +69,19 @@ WorkplacePopUp::~WorkplacePopUp(){
 
 }
 
-// PUBLIC METHODS
-
-QString WorkplacePopUp::getName() const{
-    return txtBxName->text();
-}
-
-QString WorkplacePopUp::getDescription() const{
-    return txtBxDescription->text();
-}
-
-QString WorkplacePopUp::getCode() const{
-    return txtBxCode->text();
-}
-
-int WorkplacePopUp::getWomanPercentage() const{
-    return numBxPercentageWomen->getValue();
-}
-
-QTime WorkplacePopUp::getBasicTime() const{
-    return timeBasicTime->getTime();
-}
-
-QTime WorkplacePopUp::getSetupTime() const{
-    return timeSetupTime->getTime();
-}
-
-QTime WorkplacePopUp::getRestTime() const{
-    return timeRestTime->getTime();
-}
-
-QTime WorkplacePopUp::getAllowanceTime() const{
-    return timeAllowanceTime->getTime();
-}
-
-QTime WorkplacePopUp::getCycleTime() const{
-    return timeCycleTime->getTime();
-}
-
-// PUBLIC SLOTS
-void WorkplacePopUp::onEnter(){
+// PRIVATE SLOTS
+void WorkplacePopUp::onConfirm(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(DBConstants::COL_WORKPLACE_NAME, txtBxName->text());
+    values.insert(DBConstants::COL_WORKPLACE_DESCRIPTION, txtBxDescription->text());
+    values.insert(DBConstants::COL_WORKPLACE_CODE, txtBxCode->text());
+    values.insert(DBConstants::COL_WORKPLACE_PERCENTAGE_WOMAN, numBxPercentageWomen->getValue());
+    values.insert(DBConstants::COL_WORKPLACE_SETUP_TIME, timeSetupTime->getTime());
+    values.insert(DBConstants::COL_WORKPLACE_BASIC_TIME, timeBasicTime->getTime());
+    values.insert(DBConstants::COL_WORKPLACE_REST_TIME, timeRestTime->getTime());
+    values.insert(DBConstants::COL_WORKPLACE_ALLOWANCE_TIME, timeAllowanceTime->getTime());
+    values.insert(DBConstants::COL_WORKPLACE_CYCLE_TIME, timeCycleTime->getTime());
+    emit saveWorkplace(values);
     txtBxName->clear();
     txtBxDescription->clear();
     txtBxCode->clear();
@@ -110,41 +92,5 @@ void WorkplacePopUp::onEnter(){
     timeRestTime->setTime(QTime(0,0));
     timeAllowanceTime->setTime(QTime(0,0));
     timeCycleTime->setTime(QTime(0,0));
+    emit closePopUp();
 }
-
-void WorkplacePopUp::setName(const QString &name){
-    txtBxName->setText(name);
-}
-
-void WorkplacePopUp::setDescription(const QString &description){
-    txtBxDescription->setText(description);
-}
-
-void WorkplacePopUp::setCode(const QString &code){
-    txtBxCode->setText(code);
-}
-
-void WorkplacePopUp::setWomanPercentage(int womenPercentage){
-    numBxPercentageWomen->setValue(womenPercentage);
-}
-
-void WorkplacePopUp::setBasicTime(const QTime &basic){
-    timeBasicTime->setTime(basic);
-}
-
-void WorkplacePopUp::setSetupTime(const QTime &setup){
-    timeSetupTime->setTime(setup);
-}
-
-void WorkplacePopUp::setRestTime(const QTime &rest){
-    timeRestTime->setTime(rest);
-}
-
-void WorkplacePopUp::setAllowanceTime(const QTime &allowance){
-    timeAllowanceTime->setTime(allowance);
-}
-
-void WorkplacePopUp::setCycleTime(const QTime &cycle){
-    timeCycleTime->setTime(cycle);
-}
-

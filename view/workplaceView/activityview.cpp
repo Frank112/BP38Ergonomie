@@ -30,7 +30,6 @@ ActivityView::ActivityView(QWidget *parent) :
     scProducts->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     scProducts->setObjectName("saBordered");
     productListContent->setLayout(productListLayout);
-
     FlickCharm *flickCharmProducts = new FlickCharm(this);
     flickCharmProducts->activateOn(scProducts);
 

@@ -4,42 +4,26 @@
 #include "../navigation/abstractpopupwidget.h"
 #include "../numberlineedit.h"
 #include "../timelineedit.h"
+#include "../interfaces/iworkplace.h"
 
-class WorkplacePopUp : public AbstractPopUpWidget
+class WorkplacePopUp : public AbstractPopUpWidget, IWorkplace
 {
     Q_OBJECT
+    Q_INTERFACES(IWorkplace)
 public:
     explicit WorkplacePopUp(QWidget *parent = 0);
     ~WorkplacePopUp();
 
-    QString getName() const;
-    QString getDescription() const;
-    QString getCode() const;
-    int getWomanPercentage() const;
-
-    QTime getBasicTime() const;
-    QTime getSetupTime() const;
-    QTime getRestTime() const;
-    QTime getAllowanceTime() const;
-    QTime getCycleTime() const;
-
 signals:
+    void saveWorkplace(QHash<QString, QVariant> values);
 
 public slots:
-    void onEnter();
-
-    void setName(const QString &name);
-    void setDescription(const QString &description);
-    void setCode(const QString &code);
-    void setWomanPercentage(int womenPercentage);
-
-    void setBasicTime(const QTime &basic);
-    void setSetupTime(const QTime &setup);
-    void setRestTime(const QTime &rest);
-    void setAllowanceTime(const QTime &allowance);
-    void setCycleTime(const QTime &cycle);
+    void setWorkplace(QHash<QString, QVariant>){}
+    void setSavedLine(QHash<QString, QVariant>){}
+    void setSavedComment(QHash<QString, QVariant>){}
 
 private slots:
+    void onConfirm();
 
 private:
     QLabel *lblName;
