@@ -10,6 +10,7 @@ QuickSelectionControl::QuickSelectionControl(QWidget *parent) :
     mainContent(new QWidget()),
     btnName(new QPushButton()),
     dummyHolder(new QLabel),
+    shown(true),
     key(0)
 {
     dummyHash = QHash<int, QString>();
@@ -350,7 +351,7 @@ QuickSelectionControl::QuickSelectionControl(QWidget *parent) :
     dummyHash.insert(53334,":/icons/QuickBodyPosture/running_arms_overHead_lightBendingBack.png");
     dummyHash.insert(53335,":/icons/QuickBodyPosture/running_arms_overHead_strongBendingBack.png");
 
-    shown = true;
+
 
     btnName->setMaximumWidth(150);
     connect(btnName, SIGNAL(clicked()), this, SLOT(btnNameClicked()));
