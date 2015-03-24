@@ -101,6 +101,7 @@ QPushButton#activityIcon {image: url(:/blue/icons/Buttons/blue/activity.png); wi
 QPushButton#receiveIcon {image: url(:/blue/icons/Buttons/blue/receive.png); width 45px; height 45px; border: none; background-color: transparent;}
 QPushButton#notificationIcon {image: url(:/blue/icons/Buttons/blue/notification.png); width 45px; height 45px; border: none; background-color: transparent;}
 QPushButton#titleIcon {image: url(:/blue/icons/Buttons/blue/title.png); width 45px; height 45px; border: none; background-color: transparent;}
+QPushButton#breakIcon{image: url(:/blue/icons/Buttons/blue/break.png); width 45px; height 45px; border: none; background-color: transparent;}
 QPushButton#switchCameraIcon {image: url(:/blue/icons/Buttons/blue/switchCamera.png); width 70px; height 70px; border: none; background-color: transparent;}
 QPushButton#savePhotoIcon {image: url(:/blue/icons/Buttons/blue/savePhoto.png); width 70px; height 70px; border: none; background-color: transparent;}
 QPushButton#discardIcon {image: url(:/blue/icons/Buttons/blue/discard.png); width 70px; height 70px; border: none; background-color: transparent;}
@@ -142,6 +143,7 @@ QPushButton#informationIcon:pressed {image: url(:/blue/icons/Buttons/blue/inform
 QPushButton#warningIcon:pressed {image: url(:/blue/icons/Buttons/blue/warningPressed.png); width 45px; height 45px; border: none; background-color: transparent;}
 QPushButton#quickRecordingIcon:pressed {image: url(:/blue/icons/Buttons/blue/quickRecordingPressed.png); width 45px; height 45px; border: none; background-color: transparent;}
 QPushButton#receiveIcon:pressed {image: url(:/blue/icons/Buttons/blue/receivePressed.png); width 45px; height 45px; border: none; background-color: transparent;}
+QPushButton#breakIcon:pressed {image: url(:/blue/icons/Buttons/blue/breakPressed.png); width 45px; height 45px; border: none; background-color: transparent;}
 QPushButton#switchCameraIcon:pressed {image: url(:/blue/icons/Buttons/blue/switchCameraPressed.png); width 70px; height 70px; border: none; background-color: transparent;}
 QPushButton#savePhotoIcon:pressed {image: url(:/blue/icons/Buttons/blue/savePhotoPressed.png); width 70px; height 70px; border: none; background-color: transparent;}
 QPushButton#discardIcon:pressed {image: url(:/blue/icons/Buttons/blue/discardPressed.png); width 70px; height 70px; border: none; background-color: transparent;}

@@ -227,6 +227,10 @@
         <file>icons/Buttons/green/quickButton@2x.png</file>
         <file>icons/Buttons/green/quickButtonPressed.png</file>
         <file>icons/Buttons/green/quickButtonPressed@2x.png</file>
+        <file>icons/Buttons/green/break.png</file>
+        <file>icons/Buttons/green/break@2x.png</file>
+        <file>icons/Buttons/green/breakPressed.png</file>
+        <file>icons/Buttons/green/breakPressed@2x.png</file>
     </qresource>
     <qresource prefix="/blue">
         <file>icons/Buttons/blue/accept.png</file>
@@ -458,5 +462,9 @@
         <file>icons/Buttons/blue/quickButton@2x.png</file>
         <file>icons/Buttons/blue/quickButtonPressed.png</file>
         <file>icons/Buttons/blue/quickButtonPressed@2x.png</file>
+        <file>icons/Buttons/blue/break.png</file>
+        <file>icons/Buttons/blue/break@2x.png</file>
+        <file>icons/Buttons/blue/breakPressed.png</file>
+        <file>icons/Buttons/blue/breakPressed@2x.png</file>
     </qresource>
 </RCC>

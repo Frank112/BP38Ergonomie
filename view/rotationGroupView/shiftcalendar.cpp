@@ -215,10 +215,10 @@ void ShiftCalendar::addRotationGroupEntry(QHash<QString, QVariant> values){
 void ShiftCalendar::updateRotationGroupEntry(QHash<QString, QVariant> values){
     QLayoutItem *item;
     int i = 0;
-    int entryID = values.value(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).toInt();
+    int orderID = values.value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
     while((item = calendarEntryLayout->itemAt(i)) != NULL){
         DetailedListItem *dli = qobject_cast<DetailedListItem*>(item->widget());
-        if(dli->getID() == entryID){
+        if(dli->getID() == orderID){
                 dli->setName(values.value(DBConstants::COL_ROTATION_GROUP_TASK_NAME).toString());
                 dli->setFixedSize(350, ((float) HOUR_HEIGHT / 60) * (float) values.value(DBConstants::COL_ROTATION_GROUP_TASK_DURATION).toInt());
             break;
@@ -228,7 +228,7 @@ void ShiftCalendar::updateRotationGroupEntry(QHash<QString, QVariant> values){
 }
 
 void ShiftCalendar::addRotationGroupBreakEntry(QHash<QString, QVariant> values){
-    DetailedListItem *newListItem = new DetailedListItem(this, "btnIcon", tr("Break"), QList<QStringList>(), false, true, false, false, false);
+    DetailedListItem *newListItem = new DetailedListItem(this, "breakIcon", tr("Break"), QList<QStringList>(), false, true, false, false, false);
     int orderNumber = values.value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
     newListItem->setID(orderNumber);
     // TODO HIER HÄNGT DAS PROBLEM!

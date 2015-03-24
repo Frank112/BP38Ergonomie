@@ -33,7 +33,7 @@ WorkplacePopUp::WorkplacePopUp(QWidget *parent) :
     timeBasicTime->setTime(QTime(0,0));
     timeRestTime->setTime(QTime(0,0));
     timeAllowanceTime->setTime(QTime(0,0));
-    timeCycleTime->setTime(QTime(0,0));
+    timeCycleTime->setTime(QTime(1,0));
 
     connect(this, SIGNAL(confirm()), this, SLOT(onConfirm()));
 
