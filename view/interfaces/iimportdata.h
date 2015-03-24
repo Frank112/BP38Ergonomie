@@ -14,6 +14,7 @@ public:
     virtual bool importProducts() const = 0;
     virtual bool importEmployees() const = 0;
     virtual bool importWorkplaces() const = 0;
+    virtual bool importWorkprocessLists() const = 0;
 
 signals:
     virtual void importData(IImportData *widget) = 0;

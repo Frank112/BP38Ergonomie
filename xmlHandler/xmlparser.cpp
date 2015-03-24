@@ -156,6 +156,35 @@ void XMLParser::parseWorkplaces(const QString path){
     }
 }
 
+void XMLParser::parseWorkprocessLists(const QString path){
+    QFile *file = new QFile(path);
+    if(file->exists()){
+        if(file->open(QIODevice::ReadWrite)){
+            QXmlStreamReader xmlReader;
+            xmlReader.setDevice(file);
+
+            while(!xmlReader.atEnd() && !xmlReader.hasError()){
+                QXmlStreamReader::TokenType token = xmlReader.readNext();
+
+                if(token == QXmlStreamReader::StartDocument)
+                    continue;
+
+                if(token == QXmlStreamReader::StartElement){
+                    if(xmlReader.name().compare(XMLConstants::WORKPROCESSLISTS) == 0)
+                        continue;
+
+                    else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST) == 0)
+                        parseWorkprocessList(xmlReader);
+                }
+            }
+
+            xmlReader.clear();
+            file->close();
+            file->remove();
+        }
+    }
+}
+
 //PRIVATE METHODS
 //Transportation parsing
 void XMLParser::parseTransportation(QXmlStreamReader &xmlReader){
@@ -330,7 +359,7 @@ QHash<QString, QVariant> XMLParser::parseActivity(QXmlStreamReader &xmlReader){
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
 
     xmlReader.readNext();
-    while(!(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITY) == 0)){
+    while(!(xmlReader.hasError() && xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITY) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITY_DESCRIPTION) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_ACTIVITY_DESCRIPTION, values);
@@ -338,6 +367,54 @@ QHash<QString, QVariant> XMLParser::parseActivity(QXmlStreamReader &xmlReader){
                 addElementDataToHash(xmlReader, DBConstants::COL_ACTIVITY_REPETITIONS, values);
             else if(xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITY_PRODUCTNAME) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_PRODUCT_NAME, values);
+        }
+        xmlReader.readNext();
+    }
+    return values;
+}
+
+//Parse WorkprocessList
+void XMLParser::parseWorkprocessList(QXmlStreamReader &xmlReader){
+    QString workplaceName = "";
+    QString activityName = "";
+    QList<QHash<QString, QVariant>> values = QList<QHash<QString, QVariant>>();
+    QTime startTime = QTime(0, 0);
+
+    xmlReader.readNext();
+    while(!(xmlReader.hasError() && xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPROCESSLIST) == 0)){
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
+            if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPLACE_NAME) == 0)
+                workplaceName = xmlReader.text().toString();
+            else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_ACTIVITY_NAME) == 0)
+                activityName = xmlReader.text().toString();
+            else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS) == 0){
+                QHash<QString, QVariant> wpValues = parseWorkprocess(xmlReader, startTime);
+                startTime = QTime::fromString(wpValues.value(DBConstants::COL_WORK_PROCESS_END).toString());
+                values.append(wpValues);
+            }
+        }
+        xmlReader.readNext();
+    }
+
+    emit createWorkprocessList(workplaceName, activityName, values);
+}
+
+QHash<QString, QVariant> XMLParser::parseWorkprocess(QXmlStreamReader &xmlReader, QTime startTime){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+
+    xmlReader.readNext();
+    while(!(xmlReader.hasError() && xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS) == 0)){
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
+            if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS_DESCRIPTION) == 0)
+                addElementDataToHash(xmlReader, DBConstants::COL_WORK_PROCESS_DESCRIPTION, values);
+            else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS_MTMCODE) == 0)
+                addElementDataToHash(xmlReader, DBConstants::COL_WORK_PROCESS_MTM_CODE, values);
+            else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS_DURATION) == 0){
+                int duration = xmlReader.text().toInt();
+                values.insert(DBConstants::COL_WORK_PROCESS_BEGIN, startTime.toString());
+                QTime endTime = startTime.addSecs(duration);
+                values.insert(DBConstants::COL_WORK_PROCESS_END, endTime.toString());
+            }
         }
         xmlReader.readNext();
     }
@@ -380,4 +457,7 @@ QString XMLParser::getEmployeeFilename() const{
 }
 QString XMLParser::getWorkplaceFilename() const{
     return XMLConstants::FILENAME_WORKPLACES;
+}
+QString XMLParser::getWorkprocessListFilename() const{
+    return XMLConstants::FILENAME_WORKPROCESSLISTS;
 }

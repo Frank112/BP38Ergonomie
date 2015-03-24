@@ -13,7 +13,8 @@ ImportDataPopUp::ImportDataPopUp(QWidget *parent) :
     chBxEquipment(new QCheckBox()),
     chBxProduct(new QCheckBox()),
     chBxEmployee(new QCheckBox()),
-    chBxWorkplace(new QCheckBox())
+    chBxWorkplace(new QCheckBox()),
+    chBxWorkProcesses(new QCheckBox())
 {
     cmbxImportMethod->addItem(tr("XML"));
 
@@ -22,6 +23,7 @@ ImportDataPopUp::ImportDataPopUp(QWidget *parent) :
     chBxProduct->setText(tr("Products"));
     chBxEmployee->setText(tr("Employees"));
     chBxWorkplace->setText(tr("Workplaces"));
+    chBxWorkProcesses->setText(tr("Workproceses"));
 
     connect(ftpConnectionWidget, SIGNAL(selectedConnectionChanged(int)), this, SLOT(selectedConnectionChanged(int)));
 
@@ -35,6 +37,7 @@ ImportDataPopUp::ImportDataPopUp(QWidget *parent) :
     configLayout->addWidget(chBxProduct);
     configLayout->addWidget(chBxEmployee);
     configLayout->addWidget(chBxWorkplace);
+    configLayout->addWidget(chBxWorkProcesses);
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
     mainLayout->addWidget(ftpConnectionWidget);
@@ -85,29 +88,26 @@ void ImportDataPopUp::onConfirm(){
 
 
 // Getter / Setter
-QString ImportDataPopUp::getImportMode() const
-{
+QString ImportDataPopUp::getImportMode() const{
     return cmbxImportMethod->currentText();
 }
-bool ImportDataPopUp::importTransportations() const
-{
+bool ImportDataPopUp::importTransportations() const{
     return chBxTransportation->isChecked();
 }
-bool ImportDataPopUp::importEquipments() const
-{
+bool ImportDataPopUp::importEquipments() const{
     return chBxEquipment->isChecked();
 }
-bool ImportDataPopUp::importProducts() const
-{
+bool ImportDataPopUp::importProducts() const{
     return chBxProduct->isChecked();
 }
-bool ImportDataPopUp::importEmployees() const
-{
+bool ImportDataPopUp::importEmployees() const{
     return chBxEmployee->isChecked();
 }
-bool ImportDataPopUp::importWorkplaces() const
-{
+bool ImportDataPopUp::importWorkplaces() const{
     return chBxWorkplace->isChecked();
+}
+bool ImportDataPopUp::importWorkprocessLists() const{
+    return chBxWorkProcesses->isChecked();
 }
 
 //GETTER / SETTER

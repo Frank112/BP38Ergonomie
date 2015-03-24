@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QFile>
 #include <QXmlStreamReader>
+#include <QTime>
 #include "../databaseHandler/dbconstants.h"
 #include "xmlconstants.h"
 #include "iimportdataparser.h"
@@ -26,12 +27,14 @@ public:
     QString getProductFilename() const;
     QString getEmployeeFilename() const;
     QString getWorkplaceFilename() const;
+    QString getWorkprocessListFilename() const;
 
     void parseTransportations(const QString path);
     void parseEquipments(const QString path);
     void parseProducts(const QString path);
     void parseEmployees(const QString path);
     void parseWorkplaces(const QString path);
+    void parseWorkprocessLists(const QString path);
 
 signals:
     void createTransportation(QHash<QString, QVariant> values);
@@ -39,6 +42,7 @@ signals:
     void createProduct(QHash<QString, QVariant> values);
     void createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues);
     void createWorkplace(QHash<QString, QVariant> values, QList<QHash<QString, QVariant>> activityValues);
+    void createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocessList);
 
 private:
     void parseTransportation(QXmlStreamReader &xmlReader);
@@ -53,6 +57,9 @@ private:
     void parseWorkplace(QXmlStreamReader &xmlReader);
     QList<QHash<QString, QVariant>> parseActivities(QXmlStreamReader &xmlReader);
     QHash<QString, QVariant> parseActivity(QXmlStreamReader &xmlReader);
+
+    void parseWorkprocessList(QXmlStreamReader &xmlReader);
+    QHash<QString, QVariant> parseWorkprocess(QXmlStreamReader &xmlReader, QTime startTime);
 
     void addElementDataToHash(QXmlStreamReader &xmlReader, const QString &key, QHash<QString, QVariant> &values);
 };

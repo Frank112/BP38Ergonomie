@@ -15,6 +15,7 @@ public:
     virtual QString getProductFilename() const = 0;
     virtual QString getEmployeeFilename() const = 0;
     virtual QString getWorkplaceFilename() const = 0; 
+    virtual QString getWorkprocessListFilename() const = 0;
     virtual QString getSingleFilename() const = 0;
 
     virtual void parseTransportations(const QString path) = 0;
@@ -22,6 +23,7 @@ public:
     virtual void parseProducts(const QString path) = 0;
     virtual void parseEmployees(const QString path) = 0;
     virtual void parseWorkplaces(const QString path) = 0;
+    virtual void parseWorkprocessLists(const QString path) = 0;
 
 signals:
     virtual void createTransportation(QHash<QString, QVariant> values) = 0;
@@ -29,7 +31,7 @@ signals:
     virtual void createProduct(QHash<QString, QVariant> values) = 0;
     virtual void createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues) = 0;
     virtual void createWorkplace(QHash<QString, QVariant> values, QList<QHash<QString, QVariant>> activityValues) = 0;
-
+    virtual void createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocessList) = 0;
 };
 
 #define IImportDataParser_iid "IImportDataParser"

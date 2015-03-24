@@ -244,6 +244,7 @@ public slots:
     //WorkProcessControll
     void initilizeWorkProcesses(bool selectFirst = true);
     void createWorkprocess(QHash<QString, QVariant> values);
+    void createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses);
     void selectNextWorkProcess();
     void selectPreviousWorkProcess();
     void workProcessTypeChanged(AVType type);
@@ -275,7 +276,7 @@ public slots:
 
     //ImportData
     void importData(IImportData *widget);
-    void importDataDownloadFinished(const QString filename);
+    void importDataDownloadFinished(const QString);
     void importDataDownloadError(const QString &error);
 
     //SendData
@@ -340,6 +341,7 @@ private:
     IImportData *importDataWidget;
     IImportDataParser *parser;
     QString downloadDir;
+    int countFileDownload;
 
     void updateRotationGroupTaskDuration();
     QString getWorkplaceNameByID(int id);

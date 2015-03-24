@@ -76,6 +76,19 @@ public:
     static const QString WORKPLACE_ACTIVITY_DESCRIPTION;
     static const QString WORKPLACE_ACTIVITY_REPETITIONS;
     static const QString WORKPLACE_ACTIVITY_PRODUCTNAME;
+
+    //WorkprocessList constants
+    static const QString FILENAME_WORKPROCESSLISTS;
+    static const QString WORKPROCESSLISTS;
+    static const QString WORKPROCESSLIST;
+    static const QString WORKPROCESSLIST_WORKPLACE_NAME;
+    static const QString WORKPROCESSLIST_ACTIVITY_NAME;
+    //WorkprocessList workprocess constants
+    static const QString WORKPROCESSLIST_WORKPROCESS;
+    static const QString WORKPROCESSLIST_WORKPROCESS_DESCRIPTION;
+    static const QString WORKPROCESSLIST_WORKPROCESS_MTMCODE;
+    static const QString WORKPROCESSLIST_WORKPROCESS_DURATION;
+
 };
 
 #endif // XMLCONSTANTS_H

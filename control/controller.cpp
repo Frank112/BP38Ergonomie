@@ -666,6 +666,11 @@ void Controller::createWorkprocess(QHash<QString, QVariant> values){
     }
 }
 
+void Controller::createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses){
+
+}
+
+
 void Controller::selectNextWorkProcess(){
     selectWorkProcess(workprocess_ID + 1, workprocess_Type);
 
@@ -798,6 +803,7 @@ void Controller::importData(IImportData *widget){
         connect(xmlParser, SIGNAL(createEquipment(QHash<QString,QVariant>)), this, SLOT(createEquipment(QHash<QString,QVariant>)));
         connect(xmlParser, SIGNAL(createProduct(QHash<QString,QVariant>)), this, SLOT(createProduct(QHash<QString,QVariant>)));
         connect(xmlParser, SIGNAL(createWorkplace(QHash<QString,QVariant>,QList<QHash<QString,QVariant> >)), this, SLOT(createWorkplace(QHash<QString,QVariant>,QList<QHash<QString,QVariant> >)));
+        connect(xmlParser, SIGNAL(createWorkprocessList(QString,QString,QList<QHash<QString,QVariant> >)), this, SLOT(createWorkprocessList(QString,QString,QList<QHash<QString,QVariant> >)));
         parser = qobject_cast<IImportDataParser*>(xmlParser);
         downloadDir = StandardPaths::xmlDirectoryPath();
     }
@@ -805,6 +811,7 @@ void Controller::importData(IImportData *widget){
         parser = 0;
         downloadDir = "";
     }
+
 
     QDir downloadDirectory = QDir(downloadDir);
     if(!downloadDirectory.exists())
@@ -819,51 +826,59 @@ void Controller::importData(IImportData *widget){
         ftpHandler->setPort(conValues.value(DBConstants::COL_CONNECTION_PORT).toInt());
         ftpHandler->setServer(conValues.value(DBConstants::COL_CONNECTION_SERVER_ADDRESS).toString());
 
+        countFileDownload = 0;
         if(parser->getFileMode() == IImportDataParser::FileMode::MultiFile){
-            if(widget->importTransportations())
+            if(widget->importTransportations()){
                 ftpHandler->downloadFile(parser->getTransportationFilename(), downloadDir);
-            if(widget->importEquipments())
+                countFileDownload++;
+            }
+            if(widget->importEquipments()){
                 ftpHandler->downloadFile(parser->getEquipmentFilename(), downloadDir);
-            if(widget->importProducts())
+                countFileDownload++;
+            }
+            if(widget->importProducts()){
                 ftpHandler->downloadFile(parser->getProductFilename(), downloadDir);
-            if(widget->importEmployees())
+                countFileDownload++;
+            }
+            if(widget->importEmployees()){
                 ftpHandler->downloadFile(parser->getEmployeeFilename(), downloadDir);
-            if(widget->importWorkplaces())
+                countFileDownload++;
+            }
+            if(widget->importWorkplaces()){
                 ftpHandler->downloadFile(parser->getWorkplaceFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importWorkprocessLists()){
+                ftpHandler->downloadFile(parser->getWorkprocessListFilename(), downloadDir);
+                countFileDownload++;
+            }
         }
         else {
             ftpHandler->downloadFile(parser->getSingleFilename(), downloadDir);
+            countFileDownload++;
         }
     }
 }
 
-void Controller::importDataDownloadFinished(const QString filename){
+void Controller::importDataDownloadFinished(const QString ){
+    countFileDownload--;
+    if(countFileDownload != 0)
+        return;
+
     QString path = QString("%1/%2").arg(downloadDir);
-    if(parser != 0 && parser->getFileMode() == IImportDataParser::FileMode::MultiFile){
-        if(filename.compare(parser->getTransportationFilename()) == 0)
-            parser->parseTransportations(path.arg(filename));
-        else if(filename.compare(parser->getEquipmentFilename()) == 0)
-            parser->parseEquipments(path.arg(filename));
-        else if(filename.compare(parser->getProductFilename()) == 0)
-            parser->parseProducts(path.arg(filename));
-        else if(filename.compare(parser->getEmployeeFilename()) == 0)
-            parser->parseEmployees(path.arg(filename));
-        else if(filename.compare(parser->getWorkplaceFilename()) == 0)
-            parser->parseWorkplaces(path.arg(filename));
-    }
-    else {
-        if(filename.compare(parser->getSingleFilename()) == 0){
-            if(importDataWidget->importTransportations())
-                parser->parseTransportations(path.arg(filename));
-            if(importDataWidget->importEquipments())
-                parser->parseEquipments(path.arg(filename));
-            if(importDataWidget->importProducts())
-                parser->parseProducts(path.arg(filename));
-            if(importDataWidget->importEmployees())
-                parser->parseEmployees(path.arg(filename));
-            if(importDataWidget->importWorkplaces())
-                parser->parseWorkplaces(path.arg(filename));
-        }
+    if(parser != 0){
+        if(importDataWidget->importTransportations())
+            parser->parseTransportations(path.arg(parser->getTransportationFilename()));
+        if(importDataWidget->importEquipments())
+            parser->parseEquipments(path.arg(parser->getEquipmentFilename()));
+        if(importDataWidget->importProducts())
+        parser->parseProducts(path.arg(parser->getProductFilename()));
+        if(importDataWidget->importEmployees())
+        parser->parseEmployees(path.arg(parser->getEmployeeFilename()));
+        if(importDataWidget->importWorkplaces())
+        parser->parseWorkplaces(path.arg(parser->getWorkplaceFilename()));
+        if(importDataWidget->importWorkprocessLists())
+        parser->parseWorkprocessLists(path.arg(parser->getWorkprocessListFilename()));
     }
 }
 

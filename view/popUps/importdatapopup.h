@@ -23,6 +23,7 @@ public:
     bool importProducts() const;
     bool importEmployees() const;
     bool importWorkplaces() const;
+    bool importWorkprocessLists() const;
 
 signals:
     void initializeFTPConnections(IFTPConnections *widget);
@@ -50,6 +51,7 @@ private:
     QCheckBox *chBxProduct;
     QCheckBox *chBxEmployee;
     QCheckBox *chBxWorkplace;
+    QCheckBox *chBxWorkProcesses;
 };
 
 #endif // IMPORTDATAPOPUP_H

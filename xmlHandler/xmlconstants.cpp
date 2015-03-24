@@ -70,3 +70,15 @@ const QString XMLConstants::WORKPLACE_ACTIVITY = "activity";
 const QString XMLConstants::WORKPLACE_ACTIVITY_DESCRIPTION = "description";
 const QString XMLConstants::WORKPLACE_ACTIVITY_REPETITIONS = "repetitions";
 const QString XMLConstants::WORKPLACE_ACTIVITY_PRODUCTNAME = "productName";
+
+//WorkprocessList constants
+const QString XMLConstants::FILENAME_WORKPROCESSLISTS = "workprocesslists.xml";
+const QString XMLConstants::WORKPROCESSLISTS = "workprocessLists";
+const QString XMLConstants::WORKPROCESSLIST = "workprocessList";
+const QString XMLConstants::WORKPROCESSLIST_WORKPLACE_NAME = "workplaceName";
+const QString XMLConstants::WORKPROCESSLIST_ACTIVITY_NAME = "activityName";
+//WorkprocessList workprocess constants
+const QString XMLConstants::WORKPROCESSLIST_WORKPROCESS = "workprocess";
+const QString XMLConstants::WORKPROCESSLIST_WORKPROCESS_DESCRIPTION = "description";
+const QString XMLConstants::WORKPROCESSLIST_WORKPROCESS_MTMCODE = "mtmCode";
+const QString XMLConstants::WORKPROCESSLIST_WORKPROCESS_DURATION = "duration";
