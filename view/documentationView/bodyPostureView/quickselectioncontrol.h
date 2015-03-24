@@ -5,9 +5,9 @@
 #include <QStringList>
 #include <QPushButton>
 #include <QString>
-#include "../../verticaloptionselectioncontrol.h"
-#include "../../quickarmposturecontrol.h"
-#include "../../quicklegposturecontrol.h"
+#include "verticaloptionselectioncontrol.h"
+#include "quickarmposturecontrol.h"
+#include "quicklegposturecontrol.h"
 #include <QPixmap>
 #include <QLabel>
 #include <QHash>

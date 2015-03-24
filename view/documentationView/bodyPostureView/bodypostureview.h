@@ -10,9 +10,6 @@
 #include <QLabel>
 #include <QSqlRecord>
 #include "../../../databaseHandler/dbconstants.h"
-#include "../../verticaloptionselectioncontrol.h"
-#include "../../quicklegposturecontrol.h"
-#include "../../quickarmposturecontrol.h"
 #include "quickselectioncontrol.h"
 
 

@@ -9,7 +9,7 @@ HEADERS +=\
     $$PWD/generalViews/mainmenu.h \
     $$PWD/documentationView/loadhandlingview.h \
     $$PWD/optionselectioncontrol.h \
-    $$PWD/verticaloptionselectioncontrol.h \
+    $$PWD/documentationView/bodyPostureView/verticaloptionselectioncontrol.h \
     $$PWD/documentationView/executionconditionview.h \
     $$PWD/flickcharm.h \
     $$PWD/documentationView/documentationview.h \
@@ -72,8 +72,8 @@ HEADERS +=\
     $$PWD/popUps/importdatapopup.h \
     $$PWD/ftpconnectionswidget.h \
     $$PWD/interfaces/iftpconnections.h \
-    $$PWD/quicklegposturecontrol.h \
-    $$PWD/quickarmposturecontrol.h \
+    $$PWD/documentationView/bodyPostureView/quicklegposturecontrol.h \
+    $$PWD/documentationView/bodyPostureView/quickarmposturecontrol.h \
     $$PWD/popUps/workplacepopup.h \
     $$PWD/popUps/resetpopup.h \
     $$PWD/popUps/employeepopup.h \
@@ -132,7 +132,7 @@ SOURCES +=\
     $$PWD/documentationView/loadhandlingview.cpp\
     $$PWD/generalViews/mainmenu.cpp\
     $$PWD/optionselectioncontrol.cpp \
-    $$PWD/verticaloptionselectioncontrol.cpp \
+    $$PWD/documentationView/bodyPostureView/verticaloptionselectioncontrol.cpp \
     $$PWD/documentationView/executionconditionview.cpp \
     $$PWD/flickcharm.cpp \
     $$PWD/documentationView/documentationview.cpp \
@@ -190,8 +190,8 @@ SOURCES +=\
     $$PWD/popUps/themepopup.cpp \
     $$PWD/popUps/importdatapopup.cpp \
     $$PWD/ftpconnectionswidget.cpp \
-    $$PWD/quicklegposturecontrol.cpp \
-    $$PWD/quickarmposturecontrol.cpp \
+    $$PWD/documentationView/bodyPostureView/quicklegposturecontrol.cpp \
+    $$PWD/documentationView/bodyPostureView/quickarmposturecontrol.cpp \
     $$PWD/popUps/workplacepopup.cpp \
     $$PWD/popUps/resetpopup.cpp \
     $$PWD/popUps/employeepopup.cpp \
