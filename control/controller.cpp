@@ -425,7 +425,7 @@ void Controller::initializeActivities(int workplace_ID){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(workplace_ID);
     QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ACTIVITY, filter);
     for(int i = 0; i < rows.count(); ++i)
-        emit createActivity(rows.at(i));
+        emit createdActivity(rows.at(i));
 }
 
 void Controller::createActivity(QHash<QString, QVariant> values){
@@ -687,7 +687,7 @@ void Controller::createWorkprocessList(QString workplaceName, QString activityNa
             }
 
         } else {
-            QString errorMessage = absErrorMessage.arg(tr("activity")).arg(workplaceName);
+            QString errorMessage = absErrorMessage.arg(tr("workplace")).arg(workplaceName);
             ErrorReporter::reportError(errorMessage);
             emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
         }
@@ -897,13 +897,13 @@ void Controller::importDataDownloadFinished(const QString ){
         if(importDataWidget->importEquipments())
             parser->parseEquipments(path.arg(parser->getEquipmentFilename()));
         if(importDataWidget->importProducts())
-        parser->parseProducts(path.arg(parser->getProductFilename()));
+            parser->parseProducts(path.arg(parser->getProductFilename()));
         if(importDataWidget->importEmployees())
-        parser->parseEmployees(path.arg(parser->getEmployeeFilename()));
+            parser->parseEmployees(path.arg(parser->getEmployeeFilename()));
         if(importDataWidget->importWorkplaces())
-        parser->parseWorkplaces(path.arg(parser->getWorkplaceFilename()));
+            parser->parseWorkplaces(path.arg(parser->getWorkplaceFilename()));
         if(importDataWidget->importWorkprocessLists())
-        parser->parseWorkprocessLists(path.arg(parser->getWorkprocessListFilename()));
+            parser->parseWorkprocessLists(path.arg(parser->getWorkprocessListFilename()));
     }
 }
 
@@ -1096,6 +1096,7 @@ void Controller::saveRotationGroupTask(QHash<QString, QVariant> values){
     dbHandler->save(DBConstants::TBL_ROTATION_GROUP_TASK, DBConstants::HASH_ROTATION_GROUP_TASK_TYPES, values, filter, DBConstants::COL_ROTATION_GROUP_TASK_ID);
     emit showMessage(tr("Saved rotation group task"));
     emit updatedRotationGroupTask(values);
+    updateRotationGroupEntry(values.value(DBConstants::COL_ROTATION_GROUP_TASK_ID).toInt());
 }
 
 
@@ -1255,6 +1256,19 @@ void Controller::swapRotationGroupEntries(int order1, int order2){
     dbHandler->update(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values2, absFilter.arg(order2), DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
     values1.insert(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, order2);
     dbHandler->insert(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values1, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+}
+
+void Controller::updateRotationGroupEntry(int entry_ID){
+    QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_IS_TASK).arg(1).arg(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).arg(entry_ID);
+    QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
+    for(int i = 0; i < rgesValues.size(); ++i){
+        QHash<QString, QVariant> rgeValues = rgesValues.at(i);
+        filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(entry_ID);
+        QHash<QString, QVariant> rgtValues = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
+        rgeValues.insert(DBConstants::COL_ROTATION_GROUP_TASK_DURATION, rgtValues.value(DBConstants::COL_ROTATION_GROUP_TASK_DURATION));
+        rgeValues.insert(DBConstants::COL_ROTATION_GROUP_TASK_NAME, rgtValues.value(DBConstants::COL_ROTATION_GROUP_TASK_NAME));
+        emit updatedRotationGroupEntry(rgeValues);
+    }
 }
 
 

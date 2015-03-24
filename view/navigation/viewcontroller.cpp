@@ -362,6 +362,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(controller, SIGNAL(removedRotationGroupTask(int)), shiftCalendarView, SLOT(removeRotationGroupTask(int)));
     connect(controller, SIGNAL(addRotationGroupBreakEntry(QHash<QString,QVariant>)), shiftCalendarView, SLOT(addRotationGroupBreakEntry(QHash<QString,QVariant>)));
     connect(controller, SIGNAL(addRotationGroupEntry(QHash<QString,QVariant>)), shiftCalendarView, SLOT(addRotationGroupEntry(QHash<QString,QVariant>)));
+    connect(controller, SIGNAL(updatedRotationGroupEntry(QHash<QString,QVariant>)), shiftCalendarView, SLOT(updateRotationGroupEntry(QHash<QString,QVariant>)));
     connect(controller, SIGNAL(selectedShift(QHash<QString,QVariant>)), shiftCalendarView, SLOT(setShift(QHash<QString,QVariant>)));
     connect(shiftCalendarView, SIGNAL(createRotationGroupBreakEntry(QHash<QString,QVariant>)), controller, SLOT(createRotationGroupBreakEntry(QHash<QString,QVariant>)));
     connect(shiftCalendarView, SIGNAL(createRotationGroupEntry(QHash<QString,QVariant>)), controller, SLOT(createRotationGroupEntry(QHash<QString,QVariant>)));

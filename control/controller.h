@@ -139,7 +139,7 @@ signals:
     //RotationGroup
     void clearRotationGroup();
     void addRotationGroupEntry(QHash<QString, QVariant> values);
-    void updateRotationGroupEntry(QHash<QString, QVariant> values);
+    void updatedRotationGroupEntry(QHash<QString, QVariant> values);
     void addRotationGroupBreakEntry(QHash<QString, QVariant> values);
 
     //RotationGroupTask
@@ -346,6 +346,7 @@ private:
     void updateRotationGroupTaskDuration();
     QString getWorkplaceNameByID(int id);
     void swapRotationGroupEntries(int order1, int order2);
+    void updateRotationGroupEntry(int entry_ID);
 
     void saveRecordingObservesLine(int line_ID);
     void deleteRecordingObservesLine(int line_ID);

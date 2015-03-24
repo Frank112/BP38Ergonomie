@@ -190,7 +190,7 @@ void XMLParser::parseWorkprocessLists(const QString path){
 void XMLParser::parseTransportation(QXmlStreamReader &xmlReader){
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     xmlReader.readNext();
-    while(!(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::TRANSPORTATION) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::TRANSPORTATION) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::TRANSPORTATION_NAME) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_TRANSPORTATION_NAME, values);
@@ -212,7 +212,7 @@ void XMLParser::parseTransportation(QXmlStreamReader &xmlReader){
 void XMLParser::parseEquipment(QXmlStreamReader &xmlReader){
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     xmlReader.readNext();
-    while(!(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::EQUIPMENT) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::EQUIPMENT) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::EQUIPMENT_NAME) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_EQUIPMENT_NAME, values);
@@ -234,7 +234,7 @@ void XMLParser::parseEquipment(QXmlStreamReader &xmlReader){
 void XMLParser::parseProduct(QXmlStreamReader &xmlReader){
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     xmlReader.readNext();
-    while(!(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::PRODUCT) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::PRODUCT) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::PRODUCT_NAME) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_PRODUCT_NAME, values);
@@ -254,7 +254,7 @@ void XMLParser::parseEmployee(QXmlStreamReader &xmlReader){
     QHash<QString, QVariant> bodyMeasurementValues = QHash<QString, QVariant>();
 
     xmlReader.readNext();
-    while(!(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::EMPLOYEE) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::EMPLOYEE) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::EMPLOYEE_STAFF_NUMBER) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_EMPLOYEE_STAFF_NUMBER, values);
@@ -278,7 +278,7 @@ QHash<QString, QVariant> XMLParser::parseBodyMeasurement(QXmlStreamReader &xmlRe
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
 
     xmlReader.readNext();
-    while(!(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::EMPLOYEE_BODY_MEASUREMENT) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::EMPLOYEE_BODY_MEASUREMENT) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::EMPLOYEE_BODY_MEASUREMENT_FOOT_LENGTH) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_BODY_MEASUREMENT_FOOT_LENGTH, values);
@@ -314,7 +314,7 @@ void XMLParser::parseWorkplace(QXmlStreamReader &xmlReader){
     QList<QHash<QString, QVariant>> activityValues = QList<QHash<QString, QVariant>>();
 
     xmlReader.readNext();
-    while(!(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPLACE) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPLACE) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::WORKPLACE_NAME) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_WORKPLACE_NAME, values);
@@ -346,7 +346,7 @@ QList<QHash<QString, QVariant>> XMLParser::parseActivities(QXmlStreamReader &xml
     QList<QHash<QString, QVariant>> activityValues = QList<QHash<QString, QVariant>>();
 
     xmlReader.readNext();
-    while(!(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITIES) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITIES) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             activityValues.append(parseActivity(xmlReader));
         }
@@ -359,7 +359,7 @@ QHash<QString, QVariant> XMLParser::parseActivity(QXmlStreamReader &xmlReader){
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
 
     xmlReader.readNext();
-    while(!(xmlReader.hasError() && xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITY) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITY) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::WORKPLACE_ACTIVITY_DESCRIPTION) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_ACTIVITY_DESCRIPTION, values);
@@ -381,12 +381,16 @@ void XMLParser::parseWorkprocessList(QXmlStreamReader &xmlReader){
     QTime startTime = QTime(0, 0);
 
     xmlReader.readNext();
-    while(!(xmlReader.hasError() && xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPROCESSLIST) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPROCESSLIST) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
-            if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPLACE_NAME) == 0)
+            if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPLACE_NAME) == 0){
+                xmlReader.readNext();
                 workplaceName = xmlReader.text().toString();
-            else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_ACTIVITY_NAME) == 0)
+            }
+            else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_ACTIVITY_NAME) == 0){
+                xmlReader.readNext();
                 activityName = xmlReader.text().toString();
+            }
             else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS) == 0){
                 QHash<QString, QVariant> wpValues = parseWorkprocess(xmlReader, startTime);
                 startTime = QTime::fromString(wpValues.value(DBConstants::COL_WORK_PROCESS_END).toString());
@@ -403,13 +407,14 @@ QHash<QString, QVariant> XMLParser::parseWorkprocess(QXmlStreamReader &xmlReader
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
 
     xmlReader.readNext();
-    while(!(xmlReader.hasError() && xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS) == 0)){
+    while(!xmlReader.hasError() && !(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS) == 0)){
         if(xmlReader.tokenType() == QXmlStreamReader::StartElement){
             if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS_DESCRIPTION) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_WORK_PROCESS_DESCRIPTION, values);
             else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS_MTMCODE) == 0)
                 addElementDataToHash(xmlReader, DBConstants::COL_WORK_PROCESS_MTM_CODE, values);
             else if(xmlReader.name().compare(XMLConstants::WORKPROCESSLIST_WORKPROCESS_DURATION) == 0){
+                xmlReader.readNext();
                 int duration = xmlReader.text().toInt();
                 values.insert(DBConstants::COL_WORK_PROCESS_BEGIN, startTime.toString());
                 QTime endTime = startTime.addSecs(duration);
