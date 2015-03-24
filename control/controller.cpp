@@ -669,13 +669,22 @@ void Controller::createWorkprocess(QHash<QString, QVariant> values){
 
 void Controller::createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses){
     if(workplaceName != "" && activityName != ""){
-        QString absErrorMessage = QString(tr("Could not create workprocess list because \n the %1 \"%2\" is missing."));
+        QString absErrorMessage = QString(tr("Could not create workprocess list because \n the %1 \"%2\" %3 is missing."));
         QString filter = QString("%1 = '%2'").arg(DBConstants::COL_WORKPLACE_NAME).arg(workplaceName);
         int wp_ID = dbHandler->selectFirst(DBConstants::TBL_WORKPLACE, filter).value(DBConstants::COL_WORKPLACE_ID).toInt();
         if(wp_ID > 0){
             filter = QString("%1 = %2 AND %3 = '%4'").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(wp_ID).arg(DBConstants::COL_ACTIVITY_DESCRIPTION).arg(activityName);
             int ac_ID = dbHandler->selectFirst(DBConstants::TBL_ACTIVITY, filter).value(DBConstants::COL_ACTIVITY_ID).toInt();
             if(ac_ID > 0){
+                filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID);
+
+                if(!dbHandler->isSelectEmpty(DBConstants::TBL_WORK_PROCESS, filter)){
+                    QString errorMessage = QString("The activity \"%1\" in workplace \"%2\" is not empty.").arg(activityName).arg(workplaceName);
+                    ErrorReporter::reportError(errorMessage);
+                    emit showMessage(errorMessage, NotificationMessage::ERROR);
+                    return;
+                }
+
                 for(int i = 0; i < workprocesses.size(); ++i){
                     QHash<QString, QVariant> values = workprocesses.at(i);
                     filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(AVType::BASIC);
@@ -686,13 +695,14 @@ void Controller::createWorkprocessList(QString workplaceName, QString activityNa
                     dbHandler->insert(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, DBConstants::COL_WORK_PROCESS_ID);
                 }
             } else {
-                QString errorMessage = absErrorMessage.arg(tr("activity")).arg(workplaceName);
+                QString addition = QString("with workplace \"%1\"").arg(workplaceName);
+                QString errorMessage = absErrorMessage.arg(tr("activity")).arg(activityName).arg(addition);
                 ErrorReporter::reportError(errorMessage);
                 emit showMessage(errorMessage, NotificationMessage::ERROR);
             }
 
         } else {
-            QString errorMessage = absErrorMessage.arg(tr("workplace")).arg(workplaceName);
+            QString errorMessage = absErrorMessage.arg(tr("workplace")).arg(workplaceName).arg("");
             ErrorReporter::reportError(errorMessage);
             emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
         }

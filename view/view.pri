@@ -13,8 +13,6 @@ HEADERS +=\
     $$PWD/documentationView/executionconditionview.h \
     $$PWD/flickcharm.h \
     $$PWD/documentationView/documentationview.h \
-    $$PWD/subactivitycontrol.h \
-    $$PWD/buttontimelineview.h \
     $$PWD/numberlineedit.h \
     $$PWD/textlineedit.h \
     $$PWD/timerView/graphtimelineview.h \
@@ -138,8 +136,6 @@ SOURCES +=\
     $$PWD/documentationView/executionconditionview.cpp \
     $$PWD/flickcharm.cpp \
     $$PWD/documentationView/documentationview.cpp \
-    $$PWD/subactivitycontrol.cpp \
-    $$PWD/buttontimelineview.cpp \
     $$PWD/numberlineedit.cpp \
     $$PWD/textlineedit.cpp \
     $$PWD/timerView/graphtimelineview.cpp \
