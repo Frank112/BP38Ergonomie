@@ -13,6 +13,11 @@
 #include <QMessageBox>
 #include "dbconstants.h"
 
+/**
+ * @author Frank Loeffler
+ * @brief The DBHandler class
+ *
+ */
 class DBHandler
 {
 
@@ -24,10 +29,10 @@ public:
 
     int getNextID(const QString &tbl, const QString &colName, const QString &filter = "");
 
-    QList<QHash<QString, QVariant>> select(const QString &tbl, const QString &filter, Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
-    QHash<QString, QVariant> selectFirst(const QString &tbl, const QString &filter, Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
-    int selectCount(const QString &tbl, const QString &filter, Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
-    bool isSelectEmpty(const QString &tbl, const QString &filter, Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
+    QList<QHash<QString, QVariant>> select(const QString &tbl, const QString &filter = "", Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
+    QHash<QString, QVariant> selectFirst(const QString &tbl, const QString &filter = "", Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
+    int selectCount(const QString &tbl, const QString &filter = "", Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
+    bool isSelectEmpty(const QString &tbl, const QString &filter = "", Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
 
     int insert(const QString &tbl, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue, const QString &colID = "");
     int save(const QString &tbl, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue, const QString &filter = "", const QString &colID = "");
@@ -43,9 +48,7 @@ private:
     QSqlDatabase database;
     QHash<const QString, QSqlTableModel*> htSqlTableModels;
 
-    QSqlTableModel* getTableModelRef(const QString &tbl);
-
-    bool updateAll(const QString &tbl, const QString &filter, const QSqlRecord &record);
+    QSqlTableModel* getSqlTableModel(const QString &tbl);
 
 };
 

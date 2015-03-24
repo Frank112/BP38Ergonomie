@@ -46,6 +46,11 @@ Controller::Controller(QObject *parent, QApplication *app) :
        }
     }
     dbHandler = new DBHandler(databasePath);
+
+    //Register all tables on the dbHandler
+    QList<QString> tblNames = DBConstants::LIST_TABLE_NAMES;
+    for(int i = 0; i < tblNames.size(); ++i)
+        dbHandler->registerTable(tblNames.at(i));
 }
 
 Controller::~Controller(){

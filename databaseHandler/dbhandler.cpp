@@ -4,17 +4,12 @@
 
 DBHandler::DBHandler(const QString &databasePath)
 {
-
-
     database = QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName(databasePath);
     if(!database.open())
         QMessageBox::critical(0, "Error:", "Could not open database!");
 
     htSqlTableModels = QHash<const QString, QSqlTableModel*>();
-    QList<QString> tblNames = DBConstants::LIST_TABLE_NAMES;
-    for(int i = 0; i < tblNames.size(); ++i)
-        registerTable(tblNames.at(i));
 }
 
 DBHandler::~DBHandler(){
@@ -46,23 +41,22 @@ int DBHandler::insert(const QString &tbl, const QHash<QString, QVariant::Type> &
         record.setValue(key, colMapNameValue.value(key));
     }
 
-    bool success = getTableModelRef(tbl)->insertRecord(-1, record);
+    bool success = getSqlTableModel(tbl)->insertRecord(-1, record);
     return success ? id : -1;
 }
 
 int DBHandler::update(const QString &tbl, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue, const QString &filter, const QString &colID){
     QSqlRecord record;
 
-    foreach(QString colName, colMapNameValue.keys()){
-        record.append(QSqlField(colName, colMapNameType.value(colName)));
-        record.setValue(colName, colMapNameValue.value(colName));
-    }
-
     int id = -1;
     int count = selectCount(tbl, filter);
     if(count > 0) {
+        foreach(QString colName, colMapNameValue.keys()){
+            record.append(QSqlField(colName, colMapNameType.value(colName)));
+            record.setValue(colName, colMapNameValue.value(colName));
+        }
         bool success = true;
-        QSqlTableModel *tblModel = getTableModelRef(tbl);
+        QSqlTableModel *tblModel = getSqlTableModel(tbl);
         for(int i = 0; i < count; ++i)
             success &= tblModel->setRecord(i, record);
         if(success)
@@ -83,7 +77,7 @@ int DBHandler::save(const QString &tbl, const QHash<QString, QVariant::Type> &co
 
 QList<QHash<QString, QVariant>> DBHandler::select(const QString &tbl, const QString &filter, Qt::SortOrder order){
     QList<QHash<QString, QVariant>> selectValues = QList<QHash<QString, QVariant>>();
-    QSqlTableModel *model = getTableModelRef(tbl);
+    QSqlTableModel *model = getSqlTableModel(tbl);
     model->setFilter(filter);
     model->setSort(0, order);
     if(model->select()) {
@@ -107,7 +101,7 @@ QHash<QString, QVariant> DBHandler::selectFirst(const QString &tbl, const QStrin
 }
 
 int DBHandler::selectCount(const QString &tbl, const QString &filter, Qt::SortOrder order){
-    QSqlTableModel *model = getTableModelRef(tbl);
+    QSqlTableModel *model = getSqlTableModel(tbl);
     model->setFilter(filter);
     model->setSort(0, order);
     if(model->select())
@@ -122,7 +116,7 @@ bool DBHandler::isSelectEmpty(const QString &tbl, const QString &filter, Qt::Sor
 
 bool DBHandler::deleteAll(const QString &tbl, const QString &filter){
     bool success = true;
-    QSqlTableModel* tblModel = getTableModelRef(tbl);
+    QSqlTableModel* tblModel = getSqlTableModel(tbl);
     for(int i = selectCount(tbl, filter) - 1; i >= 0; --i)
         success &= tblModel->removeRow(i);
     return success;
@@ -130,10 +124,12 @@ bool DBHandler::deleteAll(const QString &tbl, const QString &filter){
 
 int DBHandler::getNextID(const QString &tbl, const QString &colName, const QString &filter){
     QSqlQuery query;
-    QString fil("");
+    QString _filter("");
     if(!filter.isEmpty())
-        fil = QString("WHERE %1").arg(filter);
-    if (query.prepare(QString("SELECT MAX(%1) AS max_ID FROM %2 %3;").arg(colName).arg(getTableModelRef(tbl)->tableName()).arg(fil))){
+        _filter = QString("WHERE %1").arg(filter);
+    QString strQuery = QString("SELECT MAX(%1) AS max_ID FROM %2 %3;").arg(colName)
+            .arg(getSqlTableModel(tbl)->tableName()).arg(_filter);
+    if (query.prepare(strQuery)){
         if(query.exec()){
            query.next();
            return query.value("max_ID").toInt() + 1;
@@ -143,7 +139,7 @@ int DBHandler::getNextID(const QString &tbl, const QString &colName, const QStri
 }
 
 //PRIVATE METHODS
-QSqlTableModel *DBHandler::getTableModelRef(const QString &tbl){
+QSqlTableModel *DBHandler::getSqlTableModel(const QString &tbl){
     return htSqlTableModels.value(tbl);
 }
 

@@ -808,15 +808,10 @@ void BodyPostureView::vcHeadTwistValueChanged(int value){
 
 
 //GETTER SETTER
-/*QSqlRecord BodyPostureView::getRecord() const{
-    return this->record;
-}*/
+
 
 void BodyPostureView::setBodyPosture(QHash<QString, QVariant> values){
 
-    //quickSelectionLayout->qlpcQuickLegPosture->setSelectedValue();
-    //quickSelectionLayout->voscQuickArmPosture->setSelectedValue();
-    //quickSelectionLayout->voscQuickTrunkPosture->setSelectedValue();
     vcTrunkTilt->setValue(values.value(DBConstants::COL_BODY_POSTURE_TRUNK_TILT).toInt());
     vcTrunkSidewaysTilt->setValue(values.value(DBConstants::COL_BODY_POSTURE_TRUNK_TILT_SIDEWAYS).toInt());
     vcTrunkTwist->setValue(values.value(DBConstants::COL_BODY_POSTURE_TRUNK_TWIST).toInt());
