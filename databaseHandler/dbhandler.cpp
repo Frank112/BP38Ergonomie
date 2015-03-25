@@ -1,5 +1,6 @@
 #include "dbhandler.h"
 #include "standardpaths.h"
+#include "sqlreporter.h"
 
 
 DBHandler::DBHandler(const QString &databasePath)
@@ -11,6 +12,8 @@ DBHandler::DBHandler(const QString &databasePath)
         lastError = "Could not open database!";
 
     htSqlTableModels = QHash<const QString, QSqlTableModel*>();
+
+    SqlReporter::clearSqlLog();
 }
 
 DBHandler::~DBHandler(){
@@ -52,8 +55,14 @@ int DBHandler::insert(const QString &tbl, const QHash<QString, QVariant::Type> &
 
     QSqlTableModel *tblModel = getSqlTableModel(tbl);
     bool success = tblModel->insertRecord(-1, record);
-    if(!success)
+    if(success){
+        SqlReporter::reportInsertQuery(tbl, record);
+        return id;
+    }
+    else{
         lastError = tblModel->lastError().text();
+        return -1;
+    }
     return success ? id : -1;
 }
 
@@ -72,8 +81,10 @@ int DBHandler::update(const QString &tbl, const QHash<QString, QVariant::Type> &
         QSqlTableModel *tblModel = getSqlTableModel(tbl);
         for(int i = 0; i < count; ++i)
             success &= tblModel->setRecord(i, record);
-        if(success)
+        if(success){
             id = tblModel->record(0).value(colID).toInt();
+            SqlReporter::reportUpdateQuery(tbl, record, filter);
+        }
         else
             lastError = tblModel->lastError().text();
     }
@@ -103,6 +114,7 @@ QList<QHash<QString, QVariant>> DBHandler::select(const QString &tbl, const QStr
                 rowValues.insert(record.fieldName(k), record.value(k));
             selectValues.append(rowValues);
         }
+        SqlReporter::reportQuery(model->query().executedQuery());
     }
     else
         lastError = model->lastError().text();
@@ -121,6 +133,7 @@ QHash<QString, QVariant> DBHandler::selectFirst(const QString &tbl, const QStrin
             for(int k = 0; k < record.count(); ++k)
                 rowValues.insert(record.fieldName(k), record.value(k));
         }
+        SqlReporter::reportQuery(model->query().executedQuery());
     }
     else
         lastError = model->lastError().text();
@@ -132,8 +145,10 @@ int DBHandler::selectCount(const QString &tbl, const QString &filter, Qt::SortOr
     QSqlTableModel *model = getSqlTableModel(tbl);
     model->setFilter(filter);
     model->setSort(0, order);
-    if(model->select())
+    if(model->select()){
+        SqlReporter::reportQuery(model->query().executedQuery());
         return model->rowCount();
+    }
     else
         lastError = model->lastError().text();
     return 0;
@@ -150,6 +165,8 @@ bool DBHandler::deleteAll(const QString &tbl, const QString &filter){
         success &= tblModel->removeRow(i);
     if(!success)
         lastError = tblModel->lastError().text();
+    else
+        SqlReporter::reportDeleteQuery(tbl, filter);
     return success;
 }
 
@@ -161,6 +178,7 @@ int DBHandler::getNextID(const QString &tbl, const QString &colName, const QStri
     QString strQuery = QString("SELECT MAX(%1) AS max_ID FROM %2 %3;").arg(colName)
             .arg(getSqlTableModel(tbl)->tableName()).arg(_filter);
     if (query.prepare(strQuery) && query.exec()){
+        SqlReporter::reportQuery(strQuery);
         query.next();
         return query.value("max_ID").toInt() + 1;
     }

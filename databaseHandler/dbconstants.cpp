@@ -9,20 +9,33 @@ const QString DBConstants::COL_ANALYST_LASTNAME = "analyst_last_name";
 const QString DBConstants::COL_ANALYST_FIRSTNAME = "analyst_first_name";
 const QString DBConstants::COL_ANALYST_EXPERIENCE = "analyst_experience";
 const QString DBConstants::COL_ANALYST_EMPLOYER_ID = "employer_ID";
-const QHash<QString, QVariant::Type> DBConstants::HASH_ANALYST_TYPES = QHashBuilder<QString, QVariant::Type>().add(DBConstants::COL_ANALYST_ID, QVariant::Int).add(DBConstants::COL_ANALYST_LASTNAME, QVariant::Int).add(DBConstants::COL_ANALYST_FIRSTNAME, QVariant::Int).add(DBConstants::COL_ANALYST_EXPERIENCE, QVariant::Int).add(DBConstants::COL_ANALYST_EMPLOYER_ID, QVariant::Int).build();
+const QHash<QString, QVariant::Type> DBConstants::HASH_ANALYST_TYPES = QHashBuilder<QString, QVariant::Type>()
+                                                                .add(DBConstants::COL_ANALYST_ID, QVariant::Int)
+                                                                .add(DBConstants::COL_ANALYST_LASTNAME, QVariant::String)
+                                                                .add(DBConstants::COL_ANALYST_FIRSTNAME, QVariant::String)
+                                                                .add(DBConstants::COL_ANALYST_EXPERIENCE, QVariant::String)
+                                                                .add(DBConstants::COL_ANALYST_EMPLOYER_ID, QVariant::Int)
+                                                                .build();
 
 //Employer
 const QString DBConstants::TBL_EMPLOYER = "Employer";
 const QString DBConstants::COL_EMPLOYER_ID = "employer_ID";
 const QString DBConstants::COL_EMPLOYER_NAME = "employer_name";
-const QHash<QString, QVariant::Type> DBConstants::HASH_EMPLOYER_TYPES = QHashBuilder<QString, QVariant::Type>().add(DBConstants::COL_EMPLOYER_ID, QVariant::Int).add(DBConstants::COL_EMPLOYER_NAME, QVariant::Int).build();
+const QHash<QString, QVariant::Type> DBConstants::HASH_EMPLOYER_TYPES = QHashBuilder<QString, QVariant::Type>()
+                                                                .add(DBConstants::COL_EMPLOYER_ID, QVariant::Int)
+                                                                .add(DBConstants::COL_EMPLOYER_NAME, QVariant::String)
+                                                                .build();
 
 //Corporation
 const QString DBConstants::TBL_CORPORATION = "Corporation";
 const QString DBConstants::COL_CORPORATION_ID = "corporation_ID";
 const QString DBConstants::COL_CORPORATION_NAME = "corporation_name";
 const QString DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID = "branch_of_industry_ID";
-const QHash<QString, QVariant::Type> DBConstants::HASH_CORPORATION_TYPES = QHashBuilder<QString, QVariant::Type>().add(DBConstants::COL_CORPORATION_ID, QVariant::Int).add(DBConstants::COL_CORPORATION_NAME, QVariant::Int).add(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID, QVariant::Int).build();
+const QHash<QString, QVariant::Type> DBConstants::HASH_CORPORATION_TYPES = QHashBuilder<QString, QVariant::Type>()
+                                                                .add(DBConstants::COL_CORPORATION_ID, QVariant::Int)
+                                                                .add(DBConstants::COL_CORPORATION_NAME, QVariant::Int)
+                                                                .add(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID, QVariant::Int)
+                                                                .build();
 
 //Branch of Industry
 const QString DBConstants::TBL_BRANCH_OF_INDUSTRY = "Branch_of_Industry";

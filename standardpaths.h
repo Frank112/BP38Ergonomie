@@ -54,6 +54,10 @@ public:
         return QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("error.log");
     }
 
+    static QString sqlLog(){
+        return QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("sql.log");
+    }
+
 };
 
 #endif // STANDARDPATHS_H

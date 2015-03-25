@@ -681,7 +681,7 @@ void Controller::createWorkprocessList(QString workplaceName, QString activityNa
                 if(!dbHandler->isSelectEmpty(DBConstants::TBL_WORK_PROCESS, filter)){
                     QString errorMessage = QString("The activity \"%1\" in workplace \"%2\" is not empty.").arg(activityName).arg(workplaceName);
                     ErrorReporter::reportError(errorMessage);
-                    emit showMessage(errorMessage, NotificationMessage::ERROR);
+                    emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
                     return;
                 }
 
@@ -698,7 +698,7 @@ void Controller::createWorkprocessList(QString workplaceName, QString activityNa
                 QString addition = QString("with workplace \"%1\"").arg(workplaceName);
                 QString errorMessage = absErrorMessage.arg(tr("activity")).arg(activityName).arg(addition);
                 ErrorReporter::reportError(errorMessage);
-                emit showMessage(errorMessage, NotificationMessage::ERROR);
+                emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
             }
 
         } else {
