@@ -1,5 +1,5 @@
 #include "viewcontroller.h"
-
+#include <QDir>
 
 ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     content(new QStackedWidget()),
@@ -9,6 +9,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     popUpTypeToWidget(new QHash<PopUpType, AbstractPopUpWidget*>()),
     btnBack(new QPushButton),
     btnForward(new QPushButton),
+    btnFeedback(new QPushButton),
     lblBackTitle(new QLabel),
     lblForwardTitle(new QLabel),
     lblTitle(new QLabel),
@@ -45,6 +46,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     executionConditionView(new ExecutionConditionView()),
     gantTimerView(new GantTimerView()),
     timerViewController(new TimerViewController()),
+    feedbackPopUp(new FeedbackPopUp()),
     equipmentPopUp(new EquipmentPopUp()),
     transportationPopUp(new TransporationPopUp()),
     sendDatabasePopUp(new SendDatabasePopUp()),
@@ -68,6 +70,10 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     btnForward->setFixedSize(45, 45);
     connect(btnForward, SIGNAL(clicked()), this, SLOT(btnForwardClicked()));
 
+    btnFeedback->setObjectName("btnIcon");
+    btnFeedback->setFixedSize(45, 45);
+    connect(btnFeedback, SIGNAL(clicked()), this, SLOT(btnFeedbackClicked()));
+
     middleNavigationLayout->addWidget(lblTitle);
 
     leftSpacer = new QSpacerItem(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -82,6 +88,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     navigationBarLayout->addSpacerItem(new QSpacerItem(20, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
     navigationBarLayout->addSpacerItem(rightSpacer);
     navigationBarLayout->addLayout(additionalNavigationLayout);
+    navigationBarLayout->addWidget(btnFeedback, 0, Qt::AlignRight);
     navigationBarLayout->addSpacerItem(new QSpacerItem(20, 0, QSizePolicy::Fixed, QSizePolicy::Fixed));
     navigationBarLayout->addWidget(lblForwardTitle, 0, Qt::AlignRight);
     navigationBarLayout->addWidget(btnForward, 0, Qt::AlignRight);
@@ -413,6 +420,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     registerView(documentationView, ViewType::DOCUMENTATION_VIEW);
 
     // Register PopUps on ViewController
+    registerPopUp(feedbackPopUp, PopUpType::FEEDBACK_POPUP);
     registerPopUp(equipmentPopUp, PopUpType::EQUIPMENT_POPUP);
     registerPopUp(sendDatabasePopUp, PopUpType::DB_SEND_POPUP);
     registerPopUp(transportationPopUp, PopUpType::TRANSPORTATION_POPUP);
@@ -501,6 +509,15 @@ void ViewController::goToView(ViewType type, QList<ViewType> *prevTypes){
         previousViews->push(type);
         adaptNavigationBar(type);
     }
+}
+
+void ViewController::btnFeedbackClicked(){
+    QPixmap pixmap(this->size());
+    this->render(&pixmap);
+    if(!QDir(StandardPaths::imageDirectoryPath()).exists())
+        QDir().mkdir(StandardPaths::imageDirectoryPath());
+    pixmap.save(StandardPaths::screenshotPath());
+    showPopUp(PopUpType::FEEDBACK_POPUP);
 }
 
 void ViewController::backToView(ViewType type){

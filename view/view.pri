@@ -121,7 +121,8 @@ HEADERS +=\
     $$PWD/interfaces/icoperation.h \
     $$PWD/interfaces/irotationgroup.h \
     $$PWD/interfaces/iselecteddatabasereset.h \
-    $$PWD/generalViews/errorlogview.h
+    $$PWD/generalViews/errorlogview.h \
+    $$PWD/popUps/feedbackpopup.h
 
 
 SOURCES +=\
@@ -201,5 +202,6 @@ SOURCES +=\
     $$PWD/popUps/createproductpopup.cpp \
     $$PWD/rotationGroupView/rotationgrouptasklistview.cpp \
     $$PWD/rotationGroupView/rotationgrouptaskview.cpp \
-    $$PWD/generalViews/errorlogview.cpp
+    $$PWD/generalViews/errorlogview.cpp \
+    $$PWD/popUps/feedbackpopup.cpp
 

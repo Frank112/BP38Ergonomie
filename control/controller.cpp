@@ -95,7 +95,7 @@ void Controller::createAnalyst(QHash<QString, QVariant> values){
 
 void Controller::deleteAnalyst(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ANALYST_ID).arg(id);
-    dbHandler->deleteAll(DBConstants::TBL_ANALYST, filter);
+    dbHandler->remove(DBConstants::TBL_ANALYST, filter);
     emit showMessage(tr("Deleted analyst"));
     emit removedAnalyst(id);
 }
@@ -268,7 +268,7 @@ void Controller::createWorkplace(QHash<QString, QVariant> values, QList<QHash<QS
 
 void Controller::deleteWorkplace(int id){
     QString tbl = DBConstants::TBL_WORKPLACE;
-    dbHandler->deleteAll(tbl, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(QString::number(id)));
+    dbHandler->remove(tbl, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(QString::number(id)));
 
     deleteRecordingOberservesWorkplace(id);
 
@@ -276,7 +276,7 @@ void Controller::deleteWorkplace(int id){
     for(int i = 0; i < values.count(); ++i)
         deleteActivity(values.at(i).value(DBConstants::COL_ACTIVITY_ID).toInt(), false);
 
-    dbHandler->deleteAll(DBConstants::TBL_COMMENT, QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(id));
+    dbHandler->remove(DBConstants::TBL_COMMENT, QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(id));
 
     emit showMessage(tr("Deleted workplace"));
 
@@ -343,7 +343,7 @@ void Controller::saveLine(QHash<QString, QVariant> values){
 
 void Controller::deleteLine(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(id);
-    dbHandler->deleteAll(DBConstants::TBL_LINE, filter);
+    dbHandler->remove(DBConstants::TBL_LINE, filter);
     deleteRecordingObservesLine(id);
     emit removedLine(id);
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
@@ -387,7 +387,7 @@ void Controller::saveProduct(QHash<QString, QVariant> values){
 
 void Controller::deleteProduct(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_PRODUCT_ID).arg(id);
-    dbHandler->deleteAll(DBConstants::TBL_PRODUCT, filter);
+    dbHandler->remove(DBConstants::TBL_PRODUCT, filter);
     emit removedProduct(id);
     filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_PRODUCT_ID).arg(id);
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
@@ -419,7 +419,7 @@ void Controller::saveEquipment(QHash<QString, QVariant> values){
 
 void Controller::deleteEquipment(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EQUIPMENT_ID).arg(id);
-    dbHandler->deleteAll(DBConstants::TBL_EQUIPMENT, filter);
+    dbHandler->remove(DBConstants::TBL_EQUIPMENT, filter);
     emit removedEquipment(id);
     emit showMessage(tr("Deleted equipment"));
 }
@@ -449,7 +449,7 @@ void Controller::saveActivity(QHash<QString, QVariant> values){
 }
 
 void Controller::deleteActivity(int id, bool showMsg){
-    dbHandler->deleteAll(DBConstants::TBL_ACTIVITY, QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(id));
+    dbHandler->remove(DBConstants::TBL_ACTIVITY, QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(id));
     deleteWorkProcesses(id);
     emit removedActivity(id);
     if(showMsg)
@@ -491,7 +491,7 @@ void Controller::saveTransportation(QHash<QString, QVariant> values){
 
 void Controller::deleteTransportation(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_TRANSPORTATION_ID).arg(id);
-    dbHandler->deleteAll(DBConstants::TBL_TRANSPORTATION, filter);
+    dbHandler->remove(DBConstants::TBL_TRANSPORTATION, filter);
     emit removedTransportation(id);
     emit showMessage(tr("Deleted transportation"));
 }
@@ -601,10 +601,10 @@ void Controller::createEmployee(QHash<QString, QVariant> values, QHash<QString, 
 void Controller::deleteEmployee(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_ID).arg(id);
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE, filter);
-    dbHandler->deleteAll(DBConstants::TBL_EMPLOYEE, filter);
+    dbHandler->remove(DBConstants::TBL_EMPLOYEE, filter);
     emit removedEmployee(id);
     filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID).arg(values.value(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID).toInt());
-    dbHandler->deleteAll(DBConstants::TBL_BODY_MEASUREMENT, filter);
+    dbHandler->remove(DBConstants::TBL_BODY_MEASUREMENT, filter);
     emit showMessage(tr("Deleted employee"));
 }
 
@@ -1045,7 +1045,7 @@ void Controller::createRotationGroupBreakEntry(QHash<QString, QVariant> values){
 
 void Controller::removeRotationGroupEntry(int order){
     QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID).arg(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).arg(order);
-    if(dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP, filter)){
+    if(dbHandler->remove(DBConstants::TBL_ROTATION_GROUP, filter)){
         emit showMessage(tr("Removed entry form calendar"));
         filter = QString("%1 = %2 AND %3 > %4").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID).arg(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).arg(order);
         QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
@@ -1087,7 +1087,7 @@ void Controller::createRotationGroupTask(QHash<QString, QVariant> values){
 
 void Controller::deleteRotationGroupTask(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(id);
-    dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
+    dbHandler->remove(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
     QList<QHash<QString, QVariant>> rgteRows = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(id));
     rotationGroupTask_ID = id;
     for(int i = 0; i < rgteRows.size(); ++i){
@@ -1143,7 +1143,7 @@ void Controller::createRotationGroupTaskEntry(QHash<QString, QVariant> values){
 
 void Controller::deleteRotationGroupTaskEntry(int id, bool showMsg){
     QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_ID).arg(id).arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(rotationGroupTask_ID);
-    dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, filter);
+    dbHandler->remove(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, filter);
     emit removedRotationGroupTaskEntry(id);
     if(showMsg)
         emit showMessage(tr("Deleted rotation group task entry"));
@@ -1156,7 +1156,7 @@ void Controller::resetDatabaseFactory()
     QString emptyFilter = QString("");
     QList<QString> tblNames = DBConstants::LIST_TABLE_NAMES;
     for(int i = 0; i < tblNames.size(); ++i)
-        dbHandler->deleteAll(tblNames.at(i), emptyFilter);
+        dbHandler->remove(tblNames.at(i), emptyFilter);
     emit clearAll();
     emit showMessage(tr("Restored Factory Settings"));
     emit showView(ViewType::ANALYST_SELECTION_VIEW);
@@ -1167,10 +1167,10 @@ void Controller::resetSelectedEntries(ISelectedDatabaseReset *widget){
     QString emptyFilter = QString("");
     if(widget->headDataSelected()){
         factory_ID = 0;
-        dbHandler->deleteAll(DBConstants::TBL_BRANCH_OF_INDUSTRY, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_CORPORATION, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_EMPLOYER, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_FACTORY, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_BRANCH_OF_INDUSTRY, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_CORPORATION, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_EMPLOYER, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_FACTORY, emptyFilter);
     }
     if(widget->workplacesSelected()){
         recording_ID = 1;
@@ -1181,52 +1181,52 @@ void Controller::resetSelectedEntries(ISelectedDatabaseReset *widget){
         loadhandling_ID = 0;
         workprocess_Type = AVType::BASIC;
         workprocess_ID = 0;
-        dbHandler->deleteAll(DBConstants::TBL_ACTIVITY, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_APPLIED_FORCE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_BODY_POSTURE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_COMMENT, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_LINE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_LOAD_HANDLING, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_RECORDING, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_RECORDING_OB_LINE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_RECORDING_OB_WORKPLACE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_WORKPLACE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_WORK_CONDITION, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_WORK_PROCESS, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_ACTIVITY, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_APPLIED_FORCE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_BODY_POSTURE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_COMMENT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_LINE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_LOAD_HANDLING, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_RECORDING, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_RECORDING_OB_LINE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_RECORDING_OB_WORKPLACE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_WORKPLACE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_WORK_CONDITION, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_WORK_PROCESS, emptyFilter);
         emit clearWorkplaces();
     }
     if(widget->equipmentSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_EQUIPMENT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_EQUIPMENT, emptyFilter);
         emit clearEquipments();
     }
     if(widget->productsSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_PRODUCT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_PRODUCT, emptyFilter);
         emit clearProducts();
     }
     if(widget->transportationSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_TRANSPORTATION, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_TRANSPORTATION, emptyFilter);
         emit clearTransportations();
     }
     if(widget->employeeSelected()){
         employee_ID = 1;
         bodyMeasurement_ID = 1;
-        dbHandler->deleteAll(DBConstants::TBL_EMPLOYEE, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_BODY_MEASUREMENT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_EMPLOYEE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_BODY_MEASUREMENT, emptyFilter);
         emit clearEmployees();
     }
     if(widget->shiftDataSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_SHIFT, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_BREAK, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP_TASK, emptyFilter);
-        dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_SHIFT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_BREAK, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_ROTATION_GROUP, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_ROTATION_GROUP_TASK, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, emptyFilter);
         emit clearRotationGroup();
         emit clearRotationGroupTaskEntries();
         emit clearRotationGroupTasks();
     }
     if(widget->ftpConnectionSelected()){
-        dbHandler->deleteAll(DBConstants::TBL_CONNECTION, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_CONNECTION, emptyFilter);
     }
 
     emit showMessage(tr("Reset successful"));
@@ -1265,7 +1265,7 @@ QString Controller::getWorkplaceNameByID(int id){
 void Controller::swapRotationGroupEntries(int order1, int order2){
     QString absFilter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID).arg(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
     QHash<QString, QVariant> values1 = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP, absFilter.arg(order1));
-    dbHandler->deleteAll(DBConstants::TBL_ROTATION_GROUP, absFilter.arg(order1));
+    dbHandler->remove(DBConstants::TBL_ROTATION_GROUP, absFilter.arg(order1));
     QHash<QString, QVariant> values2 = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP, absFilter.arg(order2));
     values2.insert(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, order1);
     dbHandler->update(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values2, absFilter.arg(order2), DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
@@ -1308,7 +1308,7 @@ void Controller::saveRecordingObservesLine(int lineID)
 void Controller::deleteRecordingObservesLine(int lineID)
 {
     QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_OB_LINE_LINE_ID).arg(QString::number(lineID));
-    dbHandler->deleteAll(DBConstants::TBL_RECORDING_OB_LINE, filter);
+    dbHandler->remove(DBConstants::TBL_RECORDING_OB_LINE, filter);
 }
 
 void Controller::saveRecordingObservesWorkplace(int workplaceID)
@@ -1324,7 +1324,7 @@ void Controller::saveRecordingObservesWorkplace(int workplaceID)
 void Controller::deleteRecordingOberservesWorkplace(int wpID)
 {
     QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_OB_WORKPLACE_WORKPLACE_ID).arg(QString::number(wpID));
-    dbHandler->deleteAll(DBConstants::TBL_RECORDING_OB_WORKPLACE, filter);
+    dbHandler->remove(DBConstants::TBL_RECORDING_OB_WORKPLACE, filter);
 }
 
 
@@ -1335,11 +1335,11 @@ void Controller::deleteWorkProcesses(int activity_ID)
     QList<QHash<QString, QVariant>> values = dbHandler->select(tbl, filter);
     for(int i = 0; i < values.count(); ++i){
         QHash<QString, QVariant> row = values.at(i);
-        dbHandler->deleteAll(DBConstants::TBL_BODY_POSTURE, QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_POSTURE_ID).toInt()));
-        dbHandler->deleteAll(DBConstants::TBL_APPLIED_FORCE, QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID).toInt()));
-        dbHandler->deleteAll(DBConstants::TBL_LOAD_HANDLING, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID).toInt()));
-        dbHandler->deleteAll(DBConstants::TBL_WORK_CONDITION, QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_CONDITION_ID).toInt()));
+        dbHandler->remove(DBConstants::TBL_BODY_POSTURE, QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_POSTURE_ID).toInt()));
+        dbHandler->remove(DBConstants::TBL_APPLIED_FORCE, QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID).toInt()));
+        dbHandler->remove(DBConstants::TBL_LOAD_HANDLING, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID).toInt()));
+        dbHandler->remove(DBConstants::TBL_WORK_CONDITION, QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_CONDITION_ID).toInt()));
     }
-    dbHandler->deleteAll(tbl, filter);
+    dbHandler->remove(tbl, filter);
 }
 

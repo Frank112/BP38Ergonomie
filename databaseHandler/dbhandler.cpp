@@ -1,15 +1,18 @@
 #include "dbhandler.h"
 #include "standardpaths.h"
 #include "sqlreporter.h"
+#include "../errorreporter.h"
 
 
 DBHandler::DBHandler(const QString &databasePath)
 {
+    m_hasError = false;
     lastError = "";
     database = QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName(databasePath);
     if(!database.open())
-        lastError = "Could not open database!";
+        reportError("Could not open database!");
+
 
     htSqlTableModels = QHash<const QString, QSqlTableModel*>();
 
@@ -25,21 +28,102 @@ DBHandler::~DBHandler(){
     database.close();
 }
 
-
+//PUBLIC METHODS
 void DBHandler::registerTable(const QString &tblName){
-    QSqlTableModel *tbl = new QSqlTableModel(0, database);
-    tbl->setTable(tblName);
-    tbl->setEditStrategy(QSqlTableModel::OnRowChange);
-    if(tbl->lastError().type() != QSqlError::NoError)
-        lastError = tbl->lastError().text();
+    if(!existsSqlTableModel(tblName)){
+        QSqlTableModel *tblModel = new QSqlTableModel(0, database);
+        tblModel->setTable(tblName);
+        tblModel->setEditStrategy(QSqlTableModel::OnRowChange);
+        if(tblModel->lastError().type() != QSqlError::NoError)
+            reportError(tblModel->lastError().text());
 
-    htSqlTableModels.insert(tblName, tbl);
+        htSqlTableModels.insert(tblName, tblModel);
+    }
 }
 
+int DBHandler::getNextID(const QString &tbl, const QString &colName, const QString &filter){
+    QSqlQuery query;
+    QString _filter = QString("");
+
+    if(!filter.isEmpty())
+        _filter = QString("WHERE %1").arg(filter);
+
+    QString strQuery = QString("SELECT MAX(%1) AS max_ID FROM %2 %3;").arg(colName)
+            .arg(getSqlTableModel(tbl)->tableName()).arg(_filter);
+
+    if (query.prepare(strQuery) && query.exec()){
+        SqlReporter::reportQuery(strQuery);
+        query.next();
+        return query.value("max_ID").toInt() + 1;
+    }
+
+    reportError(query.lastError().text());
+    return -1;
+}
+
+QList<QHash<QString, QVariant>> DBHandler::select(const QString &tbl, const QString &filter, Qt::SortOrder order){
+    QList<QHash<QString, QVariant>> selectValues = QList<QHash<QString, QVariant>>();
+    QSqlTableModel *tblModel = getSqlTableModel(tbl);
+    tblModel->setFilter(filter);
+    tblModel->setSort(0, order);
+    if(tblModel->select()) {
+        for(int i = 0; i < tblModel->rowCount(); ++i){
+            QSqlRecord record = tblModel->record(i);
+            QHash<QString, QVariant> rowValues = QHash<QString, QVariant>();
+            for(int k = 0; k < record.count(); ++k)
+                rowValues.insert(record.fieldName(k), record.value(k));
+            selectValues.append(rowValues);
+        }
+        SqlReporter::reportQuery(tblModel->query().executedQuery());
+    }
+    else
+        reportError(tblModel->lastError().text());
+
+    return selectValues;
+}
+
+QHash<QString, QVariant> DBHandler::selectFirst(const QString &tbl, const QString &filter, Qt::SortOrder order){
+    QSqlTableModel *tblModel = getSqlTableModel(tbl);
+    tblModel->setFilter(filter);
+    tblModel->setSort(0, order);
+    QHash<QString, QVariant> rowValues = QHash<QString, QVariant>();
+
+    if(tblModel->select()) {
+        if(tblModel->rowCount() > 0){
+            QSqlRecord record = tblModel->record(0);
+            for(int k = 0; k < record.count(); ++k)
+                rowValues.insert(record.fieldName(k), record.value(k));
+        }
+        SqlReporter::reportQuery(tblModel->query().executedQuery());
+    }
+    else
+        reportError(tblModel->lastError().text());
+
+    return rowValues;
+}
+
+int DBHandler::selectCount(const QString &tbl, const QString &filter, Qt::SortOrder order){
+    QSqlTableModel *tblModel = getSqlTableModel(tbl);
+    tblModel->setFilter(filter);
+    tblModel->setSort(0, order);
+
+    if(tblModel->select()){
+        SqlReporter::reportQuery(tblModel->query().executedQuery());
+        return tblModel->rowCount();
+    }
+
+    reportError(tblModel->lastError().text());
+    return 0;
+}
+
+bool DBHandler::isSelectEmpty(const QString &tbl, const QString &filter, Qt::SortOrder order){
+    return selectCount(tbl, filter, order) == 0;
+}
 
 int DBHandler::insert(const QString &tbl, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue, const QString &colID){
     QSqlRecord record;
-    int id;
+    int id = -1;
+
     if(colID != "" && !colMapNameValue.contains(colID)){
         id = getNextID(tbl, colID);
         colMapNameValue.insert(colID, id);
@@ -59,11 +143,9 @@ int DBHandler::insert(const QString &tbl, const QHash<QString, QVariant::Type> &
         SqlReporter::reportInsertQuery(tbl, record);
         return id;
     }
-    else{
-        lastError = tblModel->lastError().text();
-        return -1;
-    }
-    return success ? id : -1;
+
+    reportError(tblModel->lastError().text());
+    return -1;
 }
 
 int DBHandler::update(const QString &tbl, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue, const QString &filter, const QString &colID){
@@ -86,7 +168,7 @@ int DBHandler::update(const QString &tbl, const QHash<QString, QVariant::Type> &
             SqlReporter::reportUpdateQuery(tbl, record, filter);
         }
         else
-            lastError = tblModel->lastError().text();
+            reportError(tblModel->lastError().text());
     }
 
     return id;
@@ -101,101 +183,28 @@ int DBHandler::save(const QString &tbl, const QHash<QString, QVariant::Type> &co
     }
 }
 
-QList<QHash<QString, QVariant>> DBHandler::select(const QString &tbl, const QString &filter, Qt::SortOrder order){
-    QList<QHash<QString, QVariant>> selectValues = QList<QHash<QString, QVariant>>();
-    QSqlTableModel *model = getSqlTableModel(tbl);
-    model->setFilter(filter);
-    model->setSort(0, order);
-    if(model->select()) {
-        for(int i = 0; i < model->rowCount(); ++i){
-            QSqlRecord record = model->record(i);
-            QHash<QString, QVariant> rowValues = QHash<QString, QVariant>();
-            for(int k = 0; k < record.count(); ++k)
-                rowValues.insert(record.fieldName(k), record.value(k));
-            selectValues.append(rowValues);
-        }
-        SqlReporter::reportQuery(model->query().executedQuery());
-    }
-    else
-        lastError = model->lastError().text();
 
-    return selectValues;
-}
-
-QHash<QString, QVariant> DBHandler::selectFirst(const QString &tbl, const QString &filter, Qt::SortOrder order){
-    QSqlTableModel *model = getSqlTableModel(tbl);
-    model->setFilter(filter);
-    model->setSort(0, order);
-    QHash<QString, QVariant> rowValues = QHash<QString, QVariant>();
-    if(model->select()) {
-        if(model->rowCount() > 0){
-            QSqlRecord record = model->record(0);
-            for(int k = 0; k < record.count(); ++k)
-                rowValues.insert(record.fieldName(k), record.value(k));
-        }
-        SqlReporter::reportQuery(model->query().executedQuery());
-    }
-    else
-        lastError = model->lastError().text();
-
-    return rowValues;
-}
-
-int DBHandler::selectCount(const QString &tbl, const QString &filter, Qt::SortOrder order){
-    QSqlTableModel *model = getSqlTableModel(tbl);
-    model->setFilter(filter);
-    model->setSort(0, order);
-    if(model->select()){
-        SqlReporter::reportQuery(model->query().executedQuery());
-        return model->rowCount();
-    }
-    else
-        lastError = model->lastError().text();
-    return 0;
-}
-
-bool DBHandler::isSelectEmpty(const QString &tbl, const QString &filter, Qt::SortOrder order){
-    return selectCount(tbl, filter, order) == 0;
-}
-
-bool DBHandler::deleteAll(const QString &tbl, const QString &filter){
+bool DBHandler::remove(const QString &tbl, const QString &filter){
     bool success = true;
     QSqlTableModel* tblModel = getSqlTableModel(tbl);
     for(int i = selectCount(tbl, filter) - 1; i >= 0; --i)
         success &= tblModel->removeRow(i);
     if(!success)
-        lastError = tblModel->lastError().text();
+        reportError(tblModel->lastError().text());
     else
         SqlReporter::reportDeleteQuery(tbl, filter);
     return success;
 }
 
-int DBHandler::getNextID(const QString &tbl, const QString &colName, const QString &filter){
-    QSqlQuery query;
-    QString _filter("");
-    if(!filter.isEmpty())
-        _filter = QString("WHERE %1").arg(filter);
-    QString strQuery = QString("SELECT MAX(%1) AS max_ID FROM %2 %3;").arg(colName)
-            .arg(getSqlTableModel(tbl)->tableName()).arg(_filter);
-    if (query.prepare(strQuery) && query.exec()){
-        SqlReporter::reportQuery(strQuery);
-        query.next();
-        return query.value("max_ID").toInt() + 1;
-    }
-    else
-        lastError = query.lastError().text();
-    return -1;
-}
 
 bool DBHandler::hasError() const {
-    return lastError != "";
+    return m_hasError;
 }
 
-QString DBHandler::getLastError(bool reset) {
-    QString currentError = lastError;
-    if(reset)
-        lastError = "";
-    return currentError;
+QString DBHandler::getLastError(bool resetHasError) {
+    if(resetHasError)
+        m_hasError = false;
+    return lastError;
 }
 
 
@@ -210,4 +219,10 @@ QSqlTableModel *DBHandler::getSqlTableModel(const QString &tblName){
 
 bool DBHandler::existsSqlTableModel(const QString &tblName){
     return htSqlTableModels.contains(tblName);
+}
+
+void DBHandler::reportError(const QString &errorMessage){
+    m_hasError = true;
+    lastError = errorMessage;
+    ErrorReporter::reportError(errorMessage);
 }

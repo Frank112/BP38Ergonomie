@@ -38,8 +38,12 @@ public:
         return QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("ergoAppDB.sqlite");
     }
 
+    static QString imageDirectoryPath(){
+        return QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("images");
+    }
+
     static QString screenshotPath(){
-        return QString("%1/%2/%3").arg(StandardPaths::writeableLocation()).arg("screenshots").arg("screenshot.png");
+        return QString("%1/%2").arg(StandardPaths::imageDirectoryPath()).arg("screenshot.png");
     }
 
     static QString xmlDirectoryPath(){
