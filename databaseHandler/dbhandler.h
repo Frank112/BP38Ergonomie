@@ -1,7 +1,6 @@
 #ifndef DBHANDLER_H
 #define DBHANDLER_H
 
-#include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -39,16 +38,16 @@ public:
     int update(const QString &tbl, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue, const QString &filter = "", const QString &colID = "");
     bool deleteAll(const QString &tbl, const QString &filter);
 
-//signals:
-    void databaseError(QString errorMessage){
-        QMessageBox::critical(0, "Error:", errorMessage);
-    }
+    bool hasError() const;
+    QString getLastError(bool reset = true);
 
 private:
+    QString lastError;
     QSqlDatabase database;
     QHash<const QString, QSqlTableModel*> htSqlTableModels;
 
-    QSqlTableModel* getSqlTableModel(const QString &tbl);
+    QSqlTableModel* getSqlTableModel(const QString &tblName);
+    bool existsSqlTableModel(const QString &tblName);
 
 };
 
