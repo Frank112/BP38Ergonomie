@@ -140,7 +140,7 @@ BodyPostureView::BodyPostureView(QWidget *parent) :
 
     vcHipAngle->setUnit("°");
     vcHipAngle->setText(tr("Hip angle"));
-    vcHipAngle->setValues(-45, 180, HIP_ANGLE_VALUES, QString(tr("hip_angle_icon_path")));
+    vcHipAngle->setValues(45, 180, HIP_ANGLE_VALUES, QString(tr("hip_angle_icon_path")));
     connect(vcHipAngle, SIGNAL(valueChanged(int)), this, SLOT(vcHipAngleValueChanged(int)));
 
     vcHipAngleSideways->setUnit("°");
