@@ -8,6 +8,7 @@ ErrorLogView::ErrorLogView(QWidget *parent) :
 {
     btnClearErrorLog->setObjectName("resetFactoryIcon");
     btnClearErrorLog->setFixedSize(45, 45);
+    connect(btnClearErrorLog, SIGNAL(clicked()), this, SLOT(btnClearErrorLogClicked()));
     txtBxErrors->setReadOnly(true);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
