@@ -153,9 +153,11 @@ void SettingsView::btnSelectThemeClicked(){
 void SettingsView::showNotificationsClicked(){
     bool oldSetting = Settings::value(Settings::SETTING_SHOW_NOTIFICATIONS).toBool();
     Settings::insert(Settings::SETTING_SHOW_NOTIFICATIONS, !oldSetting);
+    Settings::saveSettings(StandardPaths::configFile());
 }
 
 void SettingsView::showTitlesClicked(){
     bool oldSetting = Settings::value(Settings::SETTING_SHOW_NAVIGATION_TITLE).toBool();
     Settings::insert(Settings::SETTING_SHOW_NAVIGATION_TITLE, !oldSetting);
+    Settings::saveSettings(StandardPaths::configFile());
 }

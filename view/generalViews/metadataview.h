@@ -43,6 +43,7 @@ public slots:
     void setCorperation(QHash<QString, QVariant> values);
     void setBranchOfIndustry(QHash<QString, QVariant> values);
 
+
     void onLeaving();
 
 private slots:

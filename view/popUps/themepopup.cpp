@@ -56,5 +56,6 @@ void ThemePopUp::onConfirm(){
         Settings::insert(Settings::SETTING_THEME, Settings::THEME_BLUE);
         emit themeChanged();
     }
+    Settings::saveSettings(StandardPaths::configFile());
     emit closePopUp();
 }

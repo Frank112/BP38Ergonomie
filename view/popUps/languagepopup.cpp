@@ -60,7 +60,7 @@ void LanguagePopUp::onConfirm(){
             emit languageChanged();
         }
     }
-
+    Settings::saveSettings(StandardPaths::configFile());
     emit closePopUp();
 }
 

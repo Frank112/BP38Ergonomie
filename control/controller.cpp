@@ -179,8 +179,7 @@ void Controller::setBranchOfIndustry(int id){
                          NotificationMessage::PERSISTENT);
 
 
-    if(!boiValues.isEmpty())
-        emit settedBranchOfIndustry(boiValues);
+    emit settedBranchOfIndustry(boiValues);
 }
 
 void Controller::saveBranchOfIndustry(QHash<QString, QVariant> values){
@@ -208,12 +207,9 @@ void Controller::setCorperation(int id){
                          NotificationMessage::ERROR,
                          NotificationMessage::PERSISTENT);
 
-    if(!corpValues.isEmpty()){
-        emit settedCorperation(corpValues);
-        int boiID = corpValues.value(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID).toInt();
-        if(boiID > 0)
-            setBranchOfIndustry(boiID);
-    }
+    emit settedCorperation(corpValues);
+    int boiID = corpValues.value(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID).toInt();
+    setBranchOfIndustry(boiID);
 }
 
 void Controller::saveCorperation(QHash<QString, QVariant> values){
@@ -249,14 +245,10 @@ void Controller::setFactory(int id){
                     NotificationMessage::ERROR,
                     NotificationMessage::PERSISTENT);
 
-    if(!factoryValues.isEmpty()){
-        factory_ID = id;
-        emit settedFactory(factoryValues);
-        int corpID = factoryValues.value(DBConstants::COL_FACTORY_CORPORATION_ID).toInt();
-        if(corpID > 0)
-            setCorperation(corpID);
-    }
-
+    factory_ID = id;
+    emit settedFactory(factoryValues);
+    int corpID = factoryValues.value(DBConstants::COL_FACTORY_CORPORATION_ID).toInt();
+    setCorperation(corpID);
 }
 
 void Controller::saveFactory(QHash<QString, QVariant> values){
@@ -293,24 +285,20 @@ void Controller::saveFactory(QHash<QString, QVariant> values){
 void Controller::setRecording(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(id);
     QHash<QString, QVariant> recordValues = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
-    if(!recordValues.isEmpty()){
-        recording_ID = id;
-        emit settedRecording(recordValues);
-        int factoryID = recordValues.value(DBConstants::COL_RECORDING_FACTORY_ID).toInt();
-        if(factoryID > 0)
-            setFactory(factoryID);
-        filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_RECORDING_ID).arg(recording_ID);
-        QHash<QString, QVariant> shiftValues = dbHandler->selectFirst(DBConstants::TBL_SHIFT, filter);
-        int shift_ID = shiftValues.value(DBConstants::COL_SHIFT_ID).toInt();
-        initializeShift(shift_ID);
-    }
+    recording_ID = id;
+    emit settedRecording(recordValues);
+    int factoryID = recordValues.value(DBConstants::COL_RECORDING_FACTORY_ID).toInt();
+    setFactory(factoryID);
+    filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_RECORDING_ID).arg(recording_ID);
+    QHash<QString, QVariant> shiftValues = dbHandler->selectFirst(DBConstants::TBL_SHIFT, filter);
+    int shift_ID = shiftValues.value(DBConstants::COL_SHIFT_ID).toInt();
+    initializeShift(shift_ID);
 }
 
 void Controller::saveRecording(QHash<QString, QVariant> values){
     QString filter = QString("%1 = '%2' AND %3 = '%4'").arg(DBConstants::COL_FACTORY_NAME).arg(values.value(DBConstants::COL_FACTORY_NAME).toString()).arg(DBConstants::COL_FACTORY_STREET).arg(values.value(DBConstants::COL_FACTORY_STREET).toString());
     QHash<QString, QVariant> factoryValues = dbHandler->selectFirst(DBConstants::TBL_FACTORY, filter);
-    if(!factoryValues.isEmpty())
-        values.insert(DBConstants::COL_RECORDING_FACTORY_ID, factoryValues.value(DBConstants::COL_FACTORY_ID));
+    values.insert(DBConstants::COL_RECORDING_FACTORY_ID, factoryValues.value(DBConstants::COL_FACTORY_ID));
     values.remove(DBConstants::COL_FACTORY_NAME);
     values.remove(DBConstants::COL_FACTORY_STREET);
     values.insert(DBConstants::COL_RECORDING_ID, recording_ID);
@@ -1260,9 +1248,15 @@ void Controller::resetSelectedEntries(ISelectedDatabaseReset *widget){
         dbHandler->remove(DBConstants::TBL_CORPORATION, emptyFilter);
         dbHandler->remove(DBConstants::TBL_EMPLOYER, emptyFilter);
         dbHandler->remove(DBConstants::TBL_FACTORY, emptyFilter);
+        QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(recording_ID);
+        QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
+        values.insert(DBConstants::COL_RECORDING_START, "");
+        values.insert(DBConstants::COL_RECORDING_END, "");
+        values.insert(DBConstants::COL_RECORDING_FACTORY_ID, 0);
+        dbHandler->update(DBConstants::TBL_RECORDING, DBConstants::HASH_RECORDING_TYPES, values, filter, DBConstants::COL_RECORDING_ID);
+        setRecording(recording_ID);
     }
     if(widget->workplacesSelected()){
-        recording_ID = 1;
         workplace_ID = 0;
         workcondition_ID = 0;
         activity_ID = 0;
