@@ -119,7 +119,7 @@ void Controller::selectAnalyst(int id){
     }
     analyst_ID = id;
     QString firstName = values.value(DBConstants::COL_ANALYST_FIRSTNAME).toString();
-    emit showMessage(QString("Hello  %1!").arg(firstName),
+    emit showMessage(QString(tr("Hello  %1!")).arg(firstName),
                          NotificationMessage::WELCOME, NotificationMessage::LONG);
     emit selectedAnalyst(values);
     filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ANALYST_ID).arg(analyst_ID);
