@@ -93,7 +93,7 @@ void Controller::createAnalyst(QHash<QString, QVariant> values){
     dbHandler->insert(DBConstants::TBL_ANALYST, DBConstants::HASH_ANALYST_TYPES, values, DBConstants::COL_ANALYST_ID);
     if(dbHandler->hasError()){
         emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
+
     }
     emit showMessage(tr("Created analyst"));
     emit createdAnalyst(values);
@@ -104,7 +104,7 @@ void Controller::deleteAnalyst(int id){
     dbHandler->remove(DBConstants::TBL_ANALYST, filter);
     if(dbHandler->hasError()){
         emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
+
     }
     emit showMessage(tr("Deleted analyst"));
     emit removedAnalyst(id);
@@ -115,7 +115,7 @@ void Controller::selectAnalyst(int id){
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_ANALYST, filter);
     if(dbHandler->hasError()){
         emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
+
     }
     analyst_ID = id;
     QString firstName = values.value(DBConstants::COL_ANALYST_FIRSTNAME).toString();
@@ -143,7 +143,7 @@ void Controller::createBlankRecording(){
 
     if(dbHandler->hasError()){
         emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
+
     }
 
     emit createdWorkplace(values);
@@ -155,7 +155,7 @@ void Controller::createBlankRecording(){
 
     if(dbHandler->hasError()){
         emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
+
     }
 
     QList<ViewType> prevViews = QList<ViewType>();
@@ -759,7 +759,7 @@ void Controller::createWorkprocessList(QString workplaceName, QString activityNa
                     QString errorMessage = QString("The activity \"%1\" in workplace \"%2\" is not empty.").arg(activityName).arg(workplaceName);
                     ErrorReporter::reportError(errorMessage);
                     emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-                    return;
+
                 }
 
                 for(int i = 0; i < workprocesses.size(); ++i){
@@ -846,9 +846,11 @@ void Controller::selectWorkProcess(int id , AVType type){
     emit setAppliedForce(dbHandler->selectFirst(DBConstants::TBL_APPLIED_FORCE, QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(appliedforce_ID)));
     loadhandling_ID = row.value(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID).toInt();
     QHash<QString, QVariant> lhValues = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(loadhandling_ID));
-    QHash<QString, QVariant> lhtValues = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING_TYPE, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_TYPE_ID).arg(lhValues.value(DBConstants::COL_LOAD_HANDLING_LOAD_HANDLING_TYPE_ID).toString()));
+    int lht_ID = lhValues.value(DBConstants::COL_LOAD_HANDLING_LOAD_HANDLING_TYPE_ID).toInt();
+    QHash<QString, QVariant> lhtValues = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING_TYPE, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_TYPE_ID).arg(lht_ID));
     lhValues.insert(DBConstants::COL_LOAD_HANDLING_TYPE_NAME, lhtValues.value(DBConstants::COL_LOAD_HANDLING_TYPE_NAME));
-    QHash<QString, QVariant> togValues = dbHandler->selectFirst(DBConstants::TBL_TYPE_OF_GRASPING, QString("%1 = %2").arg(DBConstants::COL_TYPE_OF_GRASPING_ID).arg(lhValues.value(DBConstants::COL_LOAD_HANDLING_TYPE_OF_GRASPING).toString()));
+    int gt_ID = lhValues.value(DBConstants::COL_LOAD_HANDLING_TYPE_OF_GRASPING).toInt();
+    QHash<QString, QVariant> togValues = dbHandler->selectFirst(DBConstants::TBL_TYPE_OF_GRASPING, QString("%1 = %2").arg(DBConstants::COL_TYPE_OF_GRASPING_ID).arg(gt_ID));
     lhValues.insert(DBConstants::COL_TYPE_OF_GRASPING_NAME, togValues.value(DBConstants::COL_TYPE_OF_GRASPING_NAME));
     emit setLoadHandling(lhValues);
     workcondition_ID = row.value(DBConstants::COL_WORK_PROCESS_CONDITION_ID).toInt();
@@ -1378,7 +1380,7 @@ void Controller::deleteRotationGroupEntries(int groupTask_ID){
     QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
     if(dbHandler->hasError()){
         emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
+
     }
     for(int i = 0; i < rgesValues.size(); ++i){
         int rgeOrder = rgesValues.at(i).value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
