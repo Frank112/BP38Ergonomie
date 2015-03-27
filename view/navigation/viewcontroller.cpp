@@ -58,7 +58,8 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     resetPopUp(new ResetPopUp()),
     employeePopUp(new EmployeePopUp()),
     factorySettingsPopUp(new FactorySettingsPopUp()),
-    linePopUp(new LinePopUp())
+    linePopUp(new LinePopUp()),
+    cameraPopUp(new CameraPopUp())
 {
     btnBack->setObjectName("leftIcon");
     btnBack->setFixedSize(45, 45);
@@ -427,6 +428,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     registerPopUp(employeePopUp,PopUpType::EMPLOYEE_POPUP);
     registerPopUp(factorySettingsPopUp, PopUpType::FACTORYSETTINGS_POPUP);
     registerPopUp(linePopUp, PopUpType::LINE_POPUP);
+    registerPopUp(cameraPopUp, PopUpType::CAMERA_POPUP);
 
     //Initialize data
     controller->initialize();

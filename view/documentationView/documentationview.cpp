@@ -17,8 +17,13 @@ DocumentationView::DocumentationView(QWidget *parent) :
     mainLayout(new QVBoxLayout),
     viewTypeToWidget(new QHash<ViewType, TitledWidget*>()),
     viewTypeToIndex(new QHash<ViewType, int>()),
-    currentView(ViewType::UNKNOWN)
+    currentView(ViewType::UNKNOWN),
+    btnCamera(new QPushButton(this))
 {
+    btnCamera->setFixedSize(45, 45);
+    btnCamera->setObjectName("cameraIcon");
+    connect(btnCamera, SIGNAL(clicked()), this, SLOT(btnCameraClicked()));
+
     views->setMinimumSize(280, 40);
     connect(views, SIGNAL(currentIndexChanged(int)), this, SLOT(changeView(int)));
 
@@ -71,6 +76,12 @@ void DocumentationView::onEnter(){
     showStartView(ViewType::BODY_POSTURE_VIEW);
 }
 
+QList<QAbstractButton*> * DocumentationView::getAdditionalNavigation() const{
+    QList<QAbstractButton*> *additions = new QList<QAbstractButton*>();
+    additions->append(btnCamera);
+    return additions;
+}
+
 
 // PRIVATE SLOTS
 void DocumentationView::showGant(){
@@ -106,4 +117,8 @@ void DocumentationView::changeView(ViewType type){
     if(viewTypeToWidget->contains(type)){
         views->setCurrentIndex(viewTypeToIndex->value(type));
     }
+}
+
+void DocumentationView::btnCameraClicked(){
+    emit showPopUp(PopUpType::CAMERA_POPUP);
 }

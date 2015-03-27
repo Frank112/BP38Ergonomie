@@ -4,6 +4,8 @@
 #include <QTextStream>
 #include "view/navigation/viewcontroller.h"
 #include "settings.h"
+#include <opencv2/core/core.hpp>
+Q_DECLARE_METATYPE(cv::Mat)
 
 QString stringFromResource(const QString &resName)
 {
@@ -19,6 +21,8 @@ extern "C" int qtmn(int argc, char **argv)
 int main(int argc, char *argv[])
 #endif
 {
+    qRegisterMetaType<cv::Mat>();
+
     Settings::loadSettings(StandardPaths::configFile());
 
     QApplication a(argc, argv); 

@@ -31,6 +31,12 @@ public:
         return views;
     }
 
+    bool hasAdditionalNavigation() const{
+        return true;
+    }
+
+    QList<QAbstractButton*> * getAdditionalNavigation() const;
+
     void showStartView(ViewType type);
 
     void registerView(TitledWidget *widget, ViewType type);
@@ -48,6 +54,8 @@ private slots:
     void changeView(int index);
     void changeView(ViewType type);
 
+    void btnCameraClicked();
+
 private:
     int indexBeforeTimeLineView;
     bool registeredTimerViewController;
@@ -61,6 +69,8 @@ private:
     QHash<ViewType, TitledWidget*> *viewTypeToWidget;
     QHash<ViewType, int> *viewTypeToIndex;
     ViewType currentView;
+
+    QPushButton *btnCamera;
 };
 
 #endif // DOCUMENTATIONVIEW_H

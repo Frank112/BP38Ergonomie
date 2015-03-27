@@ -54,6 +54,7 @@
 #include "../popUps/employeepopup.h"
 #include "../popUps/factorysettingspopup.h"
 #include "../popUps/linepopup.h"
+#include "../popUps/camerapopup.h"
 #include "../documentationView/appliedforceview.h"
 #include "../documentationView/loadhandlingview.h"
 #include "../documentationView/executionconditionview.h"
@@ -153,6 +154,7 @@ private:
     EmployeePopUp *employeePopUp;
     FactorySettingsPopUp *factorySettingsPopUp;
     LinePopUp *linePopUp;
+    CameraPopUp *cameraPopUp;
 
 
     void adaptNavigationBar(ViewType type);

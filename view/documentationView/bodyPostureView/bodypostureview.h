@@ -64,6 +64,7 @@ private slots:
     void vcHeadTiltSidewaysValueChanged(int value);
     void vcHeadTwistValueChanged(int value);
 
+
 private:
 
     static const QVector<int> TRUNK_TILT_VALUES;
@@ -133,7 +134,6 @@ private:
     int ankleAngleRight;
     int trunkPosture;
     QHash<QString, QVariant> values;
-
 };
 
 #endif // BODYPOSTUREVIEW_H

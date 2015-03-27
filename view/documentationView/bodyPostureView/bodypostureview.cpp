@@ -913,4 +913,3 @@ void BodyPostureView::setBodyPosture(QHash<QString, QVariant> values){
 void BodyPostureView::onLeaving(){
     emit saveBodyPosture(values);
 }
-
