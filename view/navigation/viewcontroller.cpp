@@ -368,7 +368,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(shiftCalendarView, SIGNAL(createRotationGroupEntry(QHash<QString,QVariant>)), controller, SLOT(createRotationGroupEntry(QHash<QString,QVariant>)));
     connect(shiftCalendarView, SIGNAL(requestMoveEntryDown(int)), controller, SLOT(moveRotationGroupEntryDown(int)));
     connect(shiftCalendarView, SIGNAL(requestMoveEntryUp(int)), controller, SLOT(moveRotationGroupEntryUp(int)));
-    connect(shiftCalendarView, SIGNAL(requestRemoveEntry(int)), controller, SLOT(removeRotationGroupEntry(int)));
+    connect(shiftCalendarView, SIGNAL(requestRemoveEntry(int)), controller, SLOT(deleteRotationGroupEntry(int)));
 
     //WorkplacePopUp signals/slots
     connect(workplacePopUp, SIGNAL(saveWorkplace(QHash<QString, QVariant>)), controller, SLOT(createWorkplace(QHash<QString,QVariant>)));

@@ -293,7 +293,7 @@ public slots:
     void initializeRotationGroup(int id);
     void createRotationGroupEntry(QHash<QString, QVariant> values);
     void createRotationGroupBreakEntry(QHash<QString, QVariant> values);
-    void removeRotationGroupEntry(int order);
+    void deleteRotationGroupEntry(int order);
     void moveRotationGroupEntryUp(int order);
     void moveRotationGroupEntryDown(int order);
 
@@ -347,6 +347,7 @@ private:
     QString getWorkplaceNameByID(int id);
     void swapRotationGroupEntries(int order1, int order2);
     void updateRotationGroupEntry(int entry_ID);
+    void deleteRotationGroupEntries(int groupTask_ID);
 
     void saveRecordingObservesLine(int line_ID);
     void deleteRecordingObservesLine(int line_ID);

@@ -1120,7 +1120,7 @@ void Controller::createRotationGroupBreakEntry(QHash<QString, QVariant> values){
     }
 }
 
-void Controller::removeRotationGroupEntry(int order){
+void Controller::deleteRotationGroupEntry(int order){
     QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID).arg(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).arg(order);
     if(dbHandler->remove(DBConstants::TBL_ROTATION_GROUP, filter)){
         emit showMessage(tr("Removed entry form calendar"));
@@ -1170,6 +1170,7 @@ void Controller::deleteRotationGroupTask(int id){
     for(int i = 0; i < rgteRows.size(); ++i){
         deleteRotationGroupTaskEntry(rgteRows.at(i).value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_ID).toInt(), false);
     }
+    deleteRotationGroupEntries(id);
     emit showMessage(tr("Deleted rotation group task"));
     emit removedRotationGroupTask(id);
 }
@@ -1366,6 +1367,22 @@ void Controller::updateRotationGroupEntry(int entry_ID){
         rgeValues.insert(DBConstants::COL_ROTATION_GROUP_TASK_DURATION, rgtValues.value(DBConstants::COL_ROTATION_GROUP_TASK_DURATION));
         rgeValues.insert(DBConstants::COL_ROTATION_GROUP_TASK_NAME, rgtValues.value(DBConstants::COL_ROTATION_GROUP_TASK_NAME));
         emit updatedRotationGroupEntry(rgeValues);
+    }
+}
+
+void Controller::deleteRotationGroupEntries(int groupTask_ID){
+    QString filter = QString("%1 = %2 AND %3 = %4")
+            .arg(DBConstants::COL_ROTATION_GROUP_IS_TASK).arg(1)
+            .arg(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).arg(groupTask_ID);
+
+    QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+    for(int i = 0; i < rgesValues.size(); ++i){
+        int rgeOrder = rgesValues.at(i).value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
+        deleteRotationGroupEntry(rgeOrder);
     }
 }
 
