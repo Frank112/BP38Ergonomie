@@ -13,34 +13,61 @@
 #include "dbconstants.h"
 
 /**
- * @author Frank Loeffler
- * @brief The DBHandler class is a abstract way to access a database in the local filesystem.
- * Note that the different plattforms have different system paths for locations with writable access
- * permissions and the database have to be located in a folder with permissions to write for the application.
+ * @brief The DBHandler class is a abstract way to access a SQLite database in the local filesystem.
  *
- * If an error is spotted durring the execution the last occured error is always reported and the message of the
- * error can be eingesehen werden mit der Funktionn getLastError() and hasError() signals an unrecognized error.
+ * An instance of DBHandler provides functions that model the basic SQL operations SELECT, INSERT, UPDATE, DELETE on
+ * an SQLite database.
+ *
+ * <b>Note:</b> Different plattforms have different system paths for locations with writable access
+ * permissions thus the database has to be located in a directory with write permissions for the application.
+ *
+ * If an error is occurs getLastError() will return information about it. hasError() signals if
+ * there is an error that has not been retrieved yet.
+ *
+ * <b>Note:</b> You should not try to change this class into a subclass of QObject with a Q_OBJECT macro. This might
+ * lead to a failure while loading the database driver.
+ *
+ * @author Frank Loeffler
  *
  */
 class DBHandler
 {
 
-public:
+public:    
     /**
-     * @brief DBHandler Constructor for a new dbHandler object.
-     * Note that if the specified database does not exsist or can not be access due to a lock of permissions
-     * than a error gets reported and the message can be access via @see getLastError()
-     * @param databasePath absolute path to the database in the local filesystem
+     * @brief DBHandler Creates a DBHandler object with that database stored at the given path.
+     *
+     * <b>Note:</b> The database has to be an SQLite database. For the file representing this database read
+     * and write permissions are required.
+     *
+     * Error information can be retrieved with getLastError().
+     *
+     * @param databasePath The absolute path to the database file in the local filesystem.
+     *
+     * <b>Note:</b> If the specified database does not exsist or can not be accessed due to a lock of permissions,
+     * an error gets reported.
+     *
+     * @see getLastError()
+     * @see hasError()
+     * @see <a href="http://doc.qt.io/qt-5/qsqldatabase.html">QSqlDatabase</a>
      */
     DBHandler(const QString &databasePath);
 
     ~DBHandler();
 
     /**
-     * @brief registerTable registers a exsisting table in the database, for later operations/manipulations.
-     * Note that if a table is already registered nothing happens and if a table does not exsists in the database
-     * there is a error
-     * @param tblName origin table name in the database to register
+     * @brief registerTable Registers an exsisting table from the database at the DBHandler object,
+     * to be able to apply the provided operations on this table.
+     *
+     * If the table does not exist in the database an error is reported. If table has already been registered nothing happens.
+     *
+     * Error information can be retrieved with getLastError().
+     *
+     * <b>Note:</b> Registering a table requires the successful creation of a DBHandler object.
+     *
+     * @param tblName The name of the table to register. It has to be provided as named in the underlying database.
+     *
+     *
      */
     void registerTable(const QString &tblName);
 

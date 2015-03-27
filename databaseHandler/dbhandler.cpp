@@ -12,7 +12,6 @@ DBHandler::DBHandler(const QString &databasePath)
     if(!database.open())
         reportError("Could not open database!");
 
-
     htSqlTableModels = QHash<const QString, QSqlTableModel*>();
 }
 
