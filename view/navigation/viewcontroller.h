@@ -39,7 +39,6 @@
 #include "../ressourceManagementView/employeeview.h"
 #include "../ressourceManagementView/employeelistview.h"
 #include "../generalViews/settingsview.h"
-#include "../popUps/feedbackpopup.h"
 #include "../popUps/equipmentpopup.h"
 #include "../popUps/transporationpopup.h"
 #include "../popUps/senddatabasepopup.h"
@@ -82,7 +81,6 @@ public slots:
 private slots:
     void btnBackClicked();
     void btnForwardClicked();
-    void btnFeedbackClicked();
 
     void goToView(ViewType type, QList<ViewType> *prevTypes = 0);
     void backToView(ViewType type);
@@ -99,7 +97,6 @@ private:
 
     QPushButton *btnBack;
     QPushButton *btnForward;
-    QPushButton *btnFeedback;
     QLabel *lblBackTitle;
     QLabel *lblForwardTitle;
     QLabel *lblTitle;
@@ -142,7 +139,6 @@ private:
 
     TimerViewController *timerViewController;
 
-    FeedbackPopUp *feedbackPopUp;
     EquipmentPopUp *equipmentPopUp;
     TransporationPopUp *transportationPopUp;
     SendDatabasePopUp *sendDatabasePopUp;
