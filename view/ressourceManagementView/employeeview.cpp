@@ -86,6 +86,6 @@ void EmployeeView::onLeaving(){
 
 //PRIVATE SLOTS
 void EmployeeView::btnBodyMeasurementsClicked(){
-    emit showView(ViewType::BODY_MEASUREMENT_VIEW);
+    emit showView(Types::ViewType::BODY_MEASUREMENT_VIEW);
 }
 

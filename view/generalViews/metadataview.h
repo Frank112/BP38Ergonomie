@@ -27,8 +27,8 @@ public:
         return true;
     }
 
-    ViewType getForwardViewType() const{
-        return ViewType::WORKPLACELIST_VIEW;
+    Types::ViewType getForwardViewType() const{
+        return Types::ViewType::WORKPLACELIST_VIEW;
     }
 
 signals:

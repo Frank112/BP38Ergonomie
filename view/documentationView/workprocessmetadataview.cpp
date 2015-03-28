@@ -169,7 +169,7 @@ void WorkProcessMetaDataView::dliEquipmentDeselect(int id){
 }
 
 void WorkProcessMetaDataView::btnCreateEquipmentClicked(){
-    emit showPopUp(PopUpType::EQUIPMENT_POPUP);
+    emit showPopUp(Types::PopUpType::EQUIPMENT_POPUP);
 }
 
 

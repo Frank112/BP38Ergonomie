@@ -320,7 +320,7 @@ void ShiftCalendar::btnAddBreakClicked(){
 }
 
 void ShiftCalendar::btnRotationClicked(){
-    emit showView(ViewType::ROTATION_GROUP_TASK_LIST_VIEW);
+    emit showView(Types::ViewType::ROTATION_GROUP_TASK_LIST_VIEW);
 }
 
 void ShiftCalendar::dliRotationGroupTaskAddClicked(int id){

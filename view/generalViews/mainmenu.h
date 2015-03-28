@@ -33,7 +33,6 @@ private slots:
     void btnRessourceManagementClicked();
     void btnShiftClicked();
     void btnNewRecordingClicked();
-    void btnCameraClicked();
     void btnSendDatabaseClicked();
     void btnImportClicked();
 
@@ -46,7 +45,6 @@ private:
     IconButton *btnShift;
     QPushButton *btnSettings;
     QPushButton *btnNewRecording;
-    //QPushButton *btnCamera;
     QPushButton *btnSendDatabase;
     QPushButton *btnImport;
 

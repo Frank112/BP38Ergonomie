@@ -193,7 +193,7 @@ void ActivityView::clearProducts(){
 // PRIVATE SLOTS
 void ActivityView::editActivityClicked(int id){
     emit editActivity(id);
-    emit showPopUp(PopUpType::ACTIVITY_POPUP);
+    emit showPopUp(Types::PopUpType::ACTIVITY_POPUP);
 }
 
 void ActivityView::btnAddClicked(){
@@ -218,11 +218,11 @@ void ActivityView::deselectProduct(int id){
 }
 
 void ActivityView::btnProductsClicked(){
-    emit showPopUp(PopUpType::CREATE_PRODUCT_POPUP);
+    emit showPopUp(Types::PopUpType::CREATE_PRODUCT_POPUP);
 }
 
 void ActivityView::dliActivityClicked(int id){
     emit selectActivity(id);
-    emit showView(ViewType::DOCUMENTATION_VIEW);
+    emit showView(Types::ViewType::DOCUMENTATION_VIEW);
 }
 

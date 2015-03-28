@@ -8,7 +8,7 @@
 #include "../interfaces/iworkprocesscontroller.h"
 #include "minimizedtimerview.h"
 #include "maximizedtimerview.h"
-#include "ganttimerview.h"
+#include "ganttTimerview.h"
 
 class TimerViewController : public QWidget, IWorkProcessController
 {

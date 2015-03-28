@@ -131,23 +131,23 @@ void SettingsView::onEnter(){
 
 //PRIVATE SLOTS
 void SettingsView::btnRestoreFactoryClicked(){
-    emit showPopUp((PopUpType::FACTORYSETTINGS_POPUP));
+    emit showPopUp((Types::PopUpType::FACTORYSETTINGS_POPUP));
 }
 
 void SettingsView::btnResetRecordingsClicked(){
-    emit showPopUp(PopUpType::RESET_POPUP);
+    emit showPopUp(Types::PopUpType::RESET_POPUP);
 }
 
 void SettingsView::btnErrorLogClicked(){
-    emit showView(ViewType::ERROR_LOG_VIEW);
+    emit showView(Types::ViewType::ERROR_LOG_VIEW);
 }
 
 void SettingsView::btnSelectLanguageClicked(){
-    emit showPopUp(PopUpType::LANGUAGE_POPUP);
+    emit showPopUp(Types::PopUpType::LANGUAGE_POPUP);
 }
 
 void SettingsView::btnSelectThemeClicked(){
-    emit showPopUp(PopUpType::THEME_POPUP);
+    emit showPopUp(Types::PopUpType::THEME_POPUP);
 }
 
 void SettingsView::showNotificationsClicked(){

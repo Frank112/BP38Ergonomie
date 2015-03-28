@@ -95,5 +95,5 @@ void WorkplaceListView::btnPlusClicked(){
 
 void WorkplaceListView::dliWorkplaceClicked(int id){
     emit selectWorkplace(id);
-    emit showView(ViewType::WORKPLACE_VIEW);
+    emit showView(Types::ViewType::WORKPLACE_VIEW);
 }

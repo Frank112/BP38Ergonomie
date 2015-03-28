@@ -89,10 +89,9 @@ QList<QAbstractButton*> * EmployeeListView::getAdditionalNavigation() const{
 //PRIVATE SLOTS
 void EmployeeListView::btnPlusClicked(){
     emit createEmployee(QHash<QString, QVariant>());
-    //emit showView(ViewType::EMPLOYEE_VIEW);
 }
 
 void EmployeeListView::dliEmployeeClicked(int id){
     emit selectEmployee(id);
-    emit showView(ViewType::EMPLOYEE_VIEW);
+    emit showView(Types::ViewType::EMPLOYEE_VIEW);
 }

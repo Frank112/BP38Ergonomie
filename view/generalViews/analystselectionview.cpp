@@ -91,9 +91,9 @@ void AnalystSelectionView::clearAnalysts(){
 //PRIVATE SLOTS
 void AnalystSelectionView::dliPressed(int id){
     emit selectAnalyst(id);
-    emit showView(ViewType::MAIN_MENU_VIEW);
+    emit showView(Types::ViewType::MAIN_MENU_VIEW);
 }
 
 void AnalystSelectionView::btnCreateAnalystClicked(){
-    emit showPopUp(PopUpType::ANALYST_POPUP);
+    emit showPopUp(Types::PopUpType::ANALYST_POPUP);
 }

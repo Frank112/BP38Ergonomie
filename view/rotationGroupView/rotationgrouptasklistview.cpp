@@ -94,5 +94,5 @@ void RotationGroupTaskListView::btnPlusClicked(){
 
 void RotationGroupTaskListView::dliRotationGroupTaskClicked(int id){
     emit selectRotationGroupTask(id);
-    emit showView(ViewType::ROTATION_GROUP_TASK_VIEW);
+    emit showView(Types::ViewType::ROTATION_GROUP_TASK_VIEW);
 }

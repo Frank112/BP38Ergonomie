@@ -15,8 +15,8 @@
  *
  * TitledWidget provides three signals:
  *
- * 1. showView(ViewType type) is emitted when another view should be displayed.
- * 2. showPopUp(PopUpType type) is emitted when a popup should be displayed, overlaying the current widget.
+ * 1. showView(Types::ViewType type) is emitted when another view should be displayed.
+ * 2. showPopUp(Types::PopUpType type) is emitted when a popup should be displayed, overlaying the current widget.
  * 3. showMessage(const QString &message, NotificationMessage::MessageType msgType, NotificationMessage::MessageDisplayType msgDisplayType)
  *    is emitted when a NotificationMessage should be displayed, overlaying the current widget.
  *
@@ -29,7 +29,7 @@ public:
 
     /**
      * @brief TitledWidget Constructs an abstract widget with a <i>title</i> and a <i>parent</i>.
-     * @param title The <i>title</i> of the widget as a <a href="http://doc.qt.io/qt-5/QString.html">QString</a>.
+     * @param title The <i>title</i> of the widget.
      * @param parent The <i>parent</i> widget of the abstract widget.
      *
      * <b>Note:</b> The title set in the constructor cannot be modified after the initialization.
@@ -54,30 +54,25 @@ public:
 
 signals:
     /**
-     * @brief showView A signal that can be emitted to notify the ViewController to show the provided view
-     * that has been registered with the ViewType::ViewType <i>type</i>.
-     * @param type The ViewType that is requested to be shown.
-     *
-     * @see ViewController::showView(ViewType type, QList<ViewType> *prevTypes)
-     * @see ViewController::registerView(NavigateableWidget *widget, ViewType type)
+     * @brief showView A signal that can be emitted to signal that the view
+     * with the Types::ViewType::ViewType <i>type</i> should be shown.
+     * @param type The view type of the widget that is requested to be shown.
      */
-    void showView(ViewType type);
+    void showView(Types::ViewType type);
 
     /**
-     * @brief showPopUp A signal that can be emitted to notify the ViewController to show the provided popup
-     * that has been registered with the PopUpType <i>type</i>.
-     * @param type The ViewType::PopUpType that is requested to be shown.
-     *
-     * @see ViewController::registerPopUp(AbstractPopUpWidget *popUp, PopUpType type)
+     * @brief showPopUp A signal that can be emitted to signal that a popup with the
+     * Types::PopUpType <i>type</i> should be shown.
+     * @param type The type of the popup that is requested to be shown.
      */
-    void showPopUp(PopUpType type);
+    void showPopUp(Types::PopUpType type);
 
     /**
-     * @brief showMessage A signal that can be emitted to notify the ViewController to show a NotificationMessage
-     * with the provided message text to be displayed, the NotificationMessage::MessageType
-     * @param message The message as a <a href="http://doc.qt.io/qt-5/QString.html">QString</a> requested to be displayed.
-     * @param msgType The NotificationMessage::MessageType of the message to be displayed.
-     * @param msgDisplayType The NotificationMessage::MessageDisplayType of the message to be displayed.
+     * @brief showMessage A signal that can be emitted to signal that a NotificationMessage should be shown
+     * with a provided message text, a NotificationMessage::MessageType, and a NotificationMessage::MessageDisplayType.
+     * @param message The message requested to be displayed.
+     * @param msgType The message type of the message to be displayed.
+     * @param msgDisplayType The message display type of the message to be displayed.
      *
      * @see NotificationMessage::showMessage(QString message, MessageType msgType, MessageDisplayType msgDisplayType)
      * @see NotificationMessage::MessageType
@@ -88,14 +83,14 @@ signals:
 public slots:
 
     /**
-     * @brief onLeaving A slot that is called by the ViewController every time another view is about to be displayed,
+     * @brief onLeaving A slot that should be called every time another view is about to be displayed,
      * such that this widget is being <i>left</i>.
      */
     virtual void onLeaving(){
     }
 
     /**
-     * @brief onEnter A slot that is called by the ViewController every time this widget is about to be displayed, ergo <i>entered</i>.
+     * @brief onEnter A slot that should be called every time this widget is about to be displayed, ergo <i>entered</i>.
      */
     virtual void onEnter(){
     }

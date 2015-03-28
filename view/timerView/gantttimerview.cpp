@@ -1,9 +1,9 @@
-#include "ganttimerview.h"
+#include "ganttTimerview.h"
 #include "../flickcharm.h"
 #include <QVBoxLayout>
 #include <QScrollArea>
 
-GantTimerView::GantTimerView(QWidget *parent) :
+GanttTimerView::GanttTimerView(QWidget *parent) :
     TitledWidget(tr("Gant diagram"), parent),
     secPixel(100),
     selWP_ID(0),
@@ -72,13 +72,13 @@ GantTimerView::GantTimerView(QWidget *parent) :
     setLayout(mainLayout);
 }
 
-GantTimerView::~GantTimerView()
+GanttTimerView::~GanttTimerView()
 {
 
 }
 
 //PUBLIC SLOTS
-void GantTimerView::initiliazeWorkProcesses(QList<QHash<QString, QVariant> > values){
+void GanttTimerView::initiliazeWorkProcesses(QList<QHash<QString, QVariant> > values){
     leftWorkProcesses = new QVector<QVariant>();
     rightWorkProcesses = new QVector<QVariant>();
     basicWorkProcesses = new QVector<QVariant>();
@@ -97,7 +97,7 @@ void GantTimerView::initiliazeWorkProcesses(QList<QHash<QString, QVariant> > val
     update();
 }
 
-void GantTimerView::addWorkProcess(QHash<QString, QVariant> values){
+void GanttTimerView::addWorkProcess(QHash<QString, QVariant> values){
     AVType type = (AVType) values.value(DBConstants::COL_WORK_PROCESS_TYPE).toInt();
     int id = values.value(DBConstants::COL_WORK_PROCESS_ID).toInt();
     QTime start = values.value(DBConstants::COL_WORK_PROCESS_BEGIN).toTime();
@@ -110,73 +110,73 @@ void GantTimerView::addWorkProcess(QHash<QString, QVariant> values){
     update();
 }
 
-void GantTimerView::setSelectedWorkProcess(QHash<QString, QVariant> values){
+void GanttTimerView::setSelectedWorkProcess(QHash<QString, QVariant> values){
     selWP_ID = values.value(DBConstants::COL_WORK_PROCESS_ID).toInt();
     selWP_Type = (AVType) values.value(DBConstants::COL_WORK_PROCESS_TYPE).toInt();
     numBxFrequenz->setValue(values.value(DBConstants::COL_WORK_PROCESS_FREQUENCY).toInt());
     update();
 }
 
-void GantTimerView::resetWorkProcesses(){
+void GanttTimerView::resetWorkProcesses(){
     leftWorkProcesses->clear();
     rightWorkProcesses->clear();
     basicWorkProcesses->clear();
     resizeClear();
 }
 
-void GantTimerView::onEnter(){
+void GanttTimerView::onEnter(){
     update();
     emit entered();
 }
 
-void GantTimerView::onLeaving(){
+void GanttTimerView::onLeaving(){
     emit saveWorkProcessFrequence(numBxFrequenz->getValue());
     emit left();
 }
 
 //PRIVATE SLOTS
-void GantTimerView::btnZoomInClicked(){
+void GanttTimerView::btnZoomInClicked(){
     secPixel += 10;
     update();
 }
 
-void GantTimerView::btnZoomOutClicked(){
+void GanttTimerView::btnZoomOutClicked(){
     if(secPixel > 10){
         secPixel -= 10;
         update();
     }
 }
 
-void GantTimerView::btnPlus(){
+void GanttTimerView::btnPlus(){
     numBxFrequenz->setValue(numBxFrequenz->getValue() + 1);
 }
 
-void GantTimerView::btnMinus(){
+void GanttTimerView::btnMinus(){
     if(numBxFrequenz->getValue() > 1)
         numBxFrequenz->setValue(numBxFrequenz->getValue() - 1);
 }
 
-void GantTimerView::btnWPLeftClicked(int id){
+void GanttTimerView::btnWPLeftClicked(int id){
     workProcessClicked(id, AVType::LEFT);
 }
 
-void GantTimerView::btnWPRightClicked(int id){
+void GanttTimerView::btnWPRightClicked(int id){
     workProcessClicked(id, AVType::RIGHT);
 }
 
-void GantTimerView::btnWPBasicClicked(int id){
+void GanttTimerView::btnWPBasicClicked(int id){
     workProcessClicked(id, AVType::BASIC);
 }
 
 
 //PRIVATE METHODS
-void GantTimerView::workProcessClicked(int id, AVType type){
+void GanttTimerView::workProcessClicked(int id, AVType type){
     emit saveWorkProcessFrequence(numBxFrequenz->getValue());
     emit selectWorkProcess(id, type);
-    emit showView(ViewType::BODY_POSTURE_VIEW);
+    emit showView(Types::ViewType::BODY_POSTURE_VIEW);
 }
 
-QHBoxLayout* GantTimerView::getLayout(int type){
+QHBoxLayout* GanttTimerView::getLayout(int type){
     switch(type){
         case 1: return leftWP; break;
         case 2: return rightWP; break;
@@ -185,7 +185,7 @@ QHBoxLayout* GantTimerView::getLayout(int type){
     }
 }
 
-void GantTimerView::resizeClear(){
+void GanttTimerView::resizeClear(){
     QLayoutItem *item;
     while((item = leftWP->takeAt(0)) != NULL){
         delete item->widget();
@@ -201,7 +201,7 @@ void GantTimerView::resizeClear(){
     }
 }
 
-void GantTimerView::update(){
+void GanttTimerView::update(){
     resizeClear();
     QTime lastEnd = QTime(0,0);
     for(int i = 0; i < leftWorkProcesses->count(); i = i + 3){

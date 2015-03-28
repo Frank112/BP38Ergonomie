@@ -135,19 +135,19 @@ void ShiftView::updateShiftTimes(int type){
 
 
 void ShiftView::btnEmployeeClicked(){
-    emit showView(ViewType::EMPLOYEE_LIST_VIEW);
+    emit showView(Types::ViewType::EMPLOYEE_LIST_VIEW);
 }
 
 void ShiftView::btnCalendarClicked(){
-    emit showView(ViewType::SHIFT_CALENDAR_VIEW);
+    emit showView(Types::ViewType::SHIFT_CALENDAR_VIEW);
 }
 
 void ShiftView::btnRotationClicked(){
-    emit showView(ViewType::ROTATION_GROUP_TASK_LIST_VIEW);
+    emit showView(Types::ViewType::ROTATION_GROUP_TASK_LIST_VIEW);
 }
 
 void ShiftView::dliEmployeeSelectionClicked(){
-    emit showPopUp(PopUpType::EMPLOYEE_POPUP);
+    emit showPopUp(Types::PopUpType::EMPLOYEE_POPUP);
 }
 
 // PRIVATE

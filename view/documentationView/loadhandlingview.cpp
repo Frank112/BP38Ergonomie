@@ -195,5 +195,5 @@ void LoadHandlingView::typeChanged(QString newType){
 }
 
 void LoadHandlingView::btnAddTransportationClicked(){
-    emit showPopUp(PopUpType::TRANSPORTATION_POPUP);
+    emit showPopUp(Types::PopUpType::TRANSPORTATION_POPUP);
 }

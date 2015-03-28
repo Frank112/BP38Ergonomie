@@ -3,10 +3,10 @@
 
 ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     content(new QStackedWidget()),
-    previousViews(new QStack<ViewType>()),
-    viewTypeToIndex(new QHash<ViewType, int>()),
-    viewTypeToWidget(new QHash<ViewType, NavigateableWidget*>()),
-    popUpTypeToWidget(new QHash<PopUpType, AbstractPopUpWidget*>()),
+    previousViews(new QStack<Types::ViewType>()),
+    viewTypeToIndex(new QHash<Types::ViewType, int>()),
+    viewTypeToWidget(new QHash<Types::ViewType, NavigateableWidget*>()),
+    popUpTypeToWidget(new QHash<Types::PopUpType, AbstractPopUpWidget*>()),
     btnBack(new QPushButton),
     btnForward(new QPushButton),
     lblBackTitle(new QLabel),
@@ -43,7 +43,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     bodyPostureView(new BodyPostureView()),
     loadHandlingView(new LoadHandlingView()),
     executionConditionView(new ExecutionConditionView()),
-    gantTimerView(new GantTimerView()),
+    ganttTimerView(new GanttTimerView()),
     timerViewController(new TimerViewController()),
     equipmentPopUp(new EquipmentPopUp()),
     transportationPopUp(new TransporationPopUp()),
@@ -101,7 +101,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     //Initialize Controller
     Controller *controller = new Controller(this);
     connect(controller, SIGNAL(showMessage(QString,NotificationMessage::MessageType,NotificationMessage::MessageDisplayType)), this, SLOT(showMessage(QString,NotificationMessage::MessageType,NotificationMessage::MessageDisplayType)));
-    connect(controller, SIGNAL(showView(ViewType,QList<ViewType>*)), this, SLOT(goToView(ViewType,QList<ViewType>*)));
+    connect(controller, SIGNAL(showView(Types::ViewType,QList<Types::ViewType>*)), this, SLOT(goToView(Types::ViewType,QList<Types::ViewType>*)));
 
     //Connection of the Views
     //MainMenuView signals/slots
@@ -285,15 +285,15 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(controller, SIGNAL(setBodyPosture(QHash<QString,QVariant>)), bodyPostureView, SLOT(setBodyPosture(QHash<QString,QVariant>)));
 
     //GanttTimer View signals/slots
-    connect(gantTimerView, SIGNAL(selectWorkProcess(int, AVType)), controller, SLOT(selectWorkProcess(int, AVType)));
-    connect(gantTimerView, SIGNAL(saveWorkProcessFrequence(int)), controller, SLOT(saveWorkProcessFrequence(int)));
-    connect(controller, SIGNAL(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)), gantTimerView, SLOT(initiliazeWorkProcesses(QList<QHash<QString,QVariant> >)));
-    connect(controller, SIGNAL(setSelectedWorkProcess(QHash<QString,QVariant>)), gantTimerView, SLOT(setSelectedWorkProcess(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(createdWorkProcess(QHash<QString, QVariant>)), gantTimerView, SLOT(addWorkProcess(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(resettedWorkProcesses()), gantTimerView, SLOT(resetWorkProcesses()));
+    connect(ganttTimerView, SIGNAL(selectWorkProcess(int, AVType)), controller, SLOT(selectWorkProcess(int, AVType)));
+    connect(ganttTimerView, SIGNAL(saveWorkProcessFrequence(int)), controller, SLOT(saveWorkProcessFrequence(int)));
+    connect(controller, SIGNAL(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)), ganttTimerView, SLOT(initiliazeWorkProcesses(QList<QHash<QString,QVariant> >)));
+    connect(controller, SIGNAL(setSelectedWorkProcess(QHash<QString,QVariant>)), ganttTimerView, SLOT(setSelectedWorkProcess(QHash<QString,QVariant>)));
+    connect(controller, SIGNAL(createdWorkProcess(QHash<QString, QVariant>)), ganttTimerView, SLOT(addWorkProcess(QHash<QString,QVariant>)));
+    connect(controller, SIGNAL(resettedWorkProcesses()), ganttTimerView, SLOT(resetWorkProcesses()));
 
-    connect(gantTimerView, SIGNAL(entered()), timerViewController, SLOT(gantViewShown()));
-    connect(gantTimerView, SIGNAL(left()), timerViewController, SLOT(gantViewHidden()));
+    connect(ganttTimerView, SIGNAL(entered()), timerViewController, SLOT(gantViewShown()));
+    connect(ganttTimerView, SIGNAL(left()), timerViewController, SLOT(gantViewHidden()));
 
     //WorkProcessControll
     connect(controller, SIGNAL(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)), timerViewController, SLOT(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)));
@@ -380,60 +380,60 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(factorySettingsPopUp, SIGNAL(confirm()), controller, SLOT(resetDatabaseFactory()));
 
     // Register Documentation Views
-    documentationView->registerView(workProcessMetaDataView, ViewType::WORK_PROCESS_META_DATA_VIEW);
-    documentationView->registerView(bodyPostureView, ViewType::BODY_POSTURE_VIEW);
-    documentationView->registerView(loadHandlingView, ViewType::LOAD_HANDLING_VIEW);
-    documentationView->registerView(appliedForceView, ViewType::APPLIED_FORCE_VIEW);
-    documentationView->registerView(executionConditionView, ViewType::WORKING_CONDITION_VIEW);
-    documentationView->registerView(gantTimerView, ViewType::GANT_VIEW);
+    documentationView->registerView(workProcessMetaDataView, Types::ViewType::WORK_PROCESS_META_DATA_VIEW);
+    documentationView->registerView(bodyPostureView, Types::ViewType::BODY_POSTURE_VIEW);
+    documentationView->registerView(loadHandlingView, Types::ViewType::LOAD_HANDLING_VIEW);
+    documentationView->registerView(appliedForceView, Types::ViewType::APPLIED_FORCE_VIEW);
+    documentationView->registerView(executionConditionView, Types::ViewType::WORKING_CONDITION_VIEW);
+    documentationView->registerView(ganttTimerView, Types::ViewType::GANTT_VIEW);
     documentationView->setTimerViewController(timerViewController);
 
     // Register ViewContoller Views
-    registerView(analystSelectionView, ViewType::ANALYST_SELECTION_VIEW);
-    registerView(mainMenuView, ViewType::MAIN_MENU_VIEW);
-    registerView(metaDataView, ViewType::METADATA_VIEW);
-    registerView(workplaceListView, ViewType::WORKPLACELIST_VIEW);
-    registerView(settingsView, ViewType::SETTINGS_VIEW);
-    registerView(errorLogView, ViewType::ERROR_LOG_VIEW);
-    registerView(activityView, ViewType::ACTIVITY_VIEW);
-    registerView(commentView, ViewType::COMMENT_VIEW);
-    registerView(lineView, ViewType::LINE_VIEW);
-    registerView(workplaceView, ViewType::WORKPLACE_VIEW);
-    registerView(transportationView, ViewType::TRANSPORTATION_VIEW);
-    registerView(ressourceManagementView, ViewType::RESSOURCE_MANAGMENT_VIEW);
-    registerView(productView, ViewType::PRODUCT_VIEW);
-    registerView(equipmentView, ViewType::EQUIPMENT_VIEW);
-    registerView(shiftView, ViewType::SHIFT_VIEW);
-    registerView(shiftCalendarView, ViewType::SHIFT_CALENDAR_VIEW);
-    registerView(rotationGroupTaskView, ViewType::ROTATION_GROUP_TASK_VIEW);
-    registerView(rotationGroupTaskListView, ViewType::ROTATION_GROUP_TASK_LIST_VIEW);
-    registerView(employeeView, ViewType::EMPLOYEE_VIEW);
-    registerView(employeeListView, ViewType::EMPLOYEE_LIST_VIEW);
-    registerView(bodyMeasurementView, ViewType::BODY_MEASUREMENT_VIEW);
-    registerView(documentationView, ViewType::DOCUMENTATION_VIEW);
+    registerView(analystSelectionView, Types::ViewType::ANALYST_SELECTION_VIEW);
+    registerView(mainMenuView, Types::ViewType::MAIN_MENU_VIEW);
+    registerView(metaDataView, Types::ViewType::METADATA_VIEW);
+    registerView(workplaceListView, Types::ViewType::WORKPLACELIST_VIEW);
+    registerView(settingsView, Types::ViewType::SETTINGS_VIEW);
+    registerView(errorLogView, Types::ViewType::ERROR_LOG_VIEW);
+    registerView(activityView, Types::ViewType::ACTIVITY_VIEW);
+    registerView(commentView, Types::ViewType::COMMENT_VIEW);
+    registerView(lineView, Types::ViewType::LINE_VIEW);
+    registerView(workplaceView, Types::ViewType::WORKPLACE_VIEW);
+    registerView(transportationView, Types::ViewType::TRANSPORTATION_VIEW);
+    registerView(ressourceManagementView, Types::ViewType::RESSOURCE_MANAGMENT_VIEW);
+    registerView(productView, Types::ViewType::PRODUCT_VIEW);
+    registerView(equipmentView, Types::ViewType::EQUIPMENT_VIEW);
+    registerView(shiftView, Types::ViewType::SHIFT_VIEW);
+    registerView(shiftCalendarView, Types::ViewType::SHIFT_CALENDAR_VIEW);
+    registerView(rotationGroupTaskView, Types::ViewType::ROTATION_GROUP_TASK_VIEW);
+    registerView(rotationGroupTaskListView, Types::ViewType::ROTATION_GROUP_TASK_LIST_VIEW);
+    registerView(employeeView, Types::ViewType::EMPLOYEE_VIEW);
+    registerView(employeeListView, Types::ViewType::EMPLOYEE_LIST_VIEW);
+    registerView(bodyMeasurementView, Types::ViewType::BODY_MEASUREMENT_VIEW);
+    registerView(documentationView, Types::ViewType::DOCUMENTATION_VIEW);
 
     // Register PopUps on ViewController
-    registerPopUp(equipmentPopUp, PopUpType::EQUIPMENT_POPUP);
-    registerPopUp(sendDatabasePopUp, PopUpType::DB_SEND_POPUP);
-    registerPopUp(transportationPopUp, PopUpType::TRANSPORTATION_POPUP);
-    registerPopUp(createProductPopUp, PopUpType::CREATE_PRODUCT_POPUP);
-    registerPopUp(analystPopUp, PopUpType::ANALYST_POPUP);
-    registerPopUp(activityPopUp, PopUpType::ACTIVITY_POPUP);
-    registerPopUp(languagePopUp, PopUpType::LANGUAGE_POPUP);
-    registerPopUp(themePopUp, PopUpType::THEME_POPUP);
-    registerPopUp(workplacePopUp, PopUpType::WORKPLACE_POPUP);
-    registerPopUp(importDataPopUp, PopUpType::IMPORT_DATA_POPUP);
-    registerPopUp(resetPopUp, PopUpType::RESET_POPUP);
-    registerPopUp(employeePopUp,PopUpType::EMPLOYEE_POPUP);
-    registerPopUp(factorySettingsPopUp, PopUpType::FACTORYSETTINGS_POPUP);
-    registerPopUp(linePopUp, PopUpType::LINE_POPUP);
+    registerPopUp(equipmentPopUp, Types::PopUpType::EQUIPMENT_POPUP);
+    registerPopUp(sendDatabasePopUp, Types::PopUpType::DB_SEND_POPUP);
+    registerPopUp(transportationPopUp, Types::PopUpType::TRANSPORTATION_POPUP);
+    registerPopUp(createProductPopUp, Types::PopUpType::CREATE_PRODUCT_POPUP);
+    registerPopUp(analystPopUp, Types::PopUpType::ANALYST_POPUP);
+    registerPopUp(activityPopUp, Types::PopUpType::ACTIVITY_POPUP);
+    registerPopUp(languagePopUp, Types::PopUpType::LANGUAGE_POPUP);
+    registerPopUp(themePopUp, Types::PopUpType::THEME_POPUP);
+    registerPopUp(workplacePopUp, Types::PopUpType::WORKPLACE_POPUP);
+    registerPopUp(importDataPopUp, Types::PopUpType::IMPORT_DATA_POPUP);
+    registerPopUp(resetPopUp, Types::PopUpType::RESET_POPUP);
+    registerPopUp(employeePopUp, Types::PopUpType::EMPLOYEE_POPUP);
+    registerPopUp(factorySettingsPopUp, Types::PopUpType::FACTORYSETTINGS_POPUP);
+    registerPopUp(linePopUp, Types::PopUpType::LINE_POPUP);
 
     //Initialize data
     controller->initialize();
 
     //Set the start views
-    documentationView->showStartView(ViewType::BODY_POSTURE_VIEW);
-    showStartView(ViewType::ANALYST_SELECTION_VIEW);
+    documentationView->showStartView(Types::ViewType::BODY_POSTURE_VIEW);
+    showStartView(Types::ViewType::ANALYST_SELECTION_VIEW);
 }
 
 ViewController::~ViewController()
@@ -442,7 +442,7 @@ ViewController::~ViewController()
 }
 
 //PUBLIC METHODS
-void ViewController::showStartView(ViewType type){
+void ViewController::showStartView(Types::ViewType type){
     if(viewTypeToIndex->contains(type)){
         previousViews->push(type);
         content->setCurrentIndex(viewTypeToIndex->value(type));
@@ -451,18 +451,18 @@ void ViewController::showStartView(ViewType type){
     }
 }
 
-void ViewController::registerView(NavigateableWidget *widget, ViewType type){
+void ViewController::registerView(NavigateableWidget *widget, Types::ViewType type){
     if(!viewTypeToIndex->contains(type) && widget != 0){
         viewTypeToIndex->insert(type, content->addWidget(widget));
         viewTypeToWidget->insert(type, widget);
-        connect(widget, SIGNAL(showPopUp(PopUpType)), this, SLOT(showPopUp(PopUpType)));
-        connect(widget, SIGNAL(showView(ViewType)), this, SLOT(goToView(ViewType)));
+        connect(widget, SIGNAL(showPopUp(Types::PopUpType)), this, SLOT(showPopUp(Types::PopUpType)));
+        connect(widget, SIGNAL(showView(Types::ViewType)), this, SLOT(goToView(Types::ViewType)));
         connect(widget, SIGNAL(showMessage(QString,NotificationMessage::MessageType,NotificationMessage::MessageDisplayType)), this, SLOT(showMessage(QString,NotificationMessage::MessageType,NotificationMessage::MessageDisplayType)));
         NotificationWidget::resize(widget->sizeHint());
     }
 }
 
-void ViewController::registerPopUp(AbstractPopUpWidget *popUp, PopUpType type){
+void ViewController::registerPopUp(AbstractPopUpWidget *popUp, Types::PopUpType type){
     if(!popUpTypeToWidget->contains(type) && popUp != 0){
         popUpTypeToWidget->insert(type, popUp);
         popUp->hide();
@@ -471,26 +471,26 @@ void ViewController::registerPopUp(AbstractPopUpWidget *popUp, PopUpType type){
     }
 }
 
-void ViewController::showView(ViewType type, QList<ViewType> *prevTypes){
+void ViewController::showView(Types::ViewType type, QList<Types::ViewType> *prevTypes){
     goToView(type, prevTypes);
 }
 
 //PRIVATE SLOTS
 void ViewController::btnBackClicked(){
-    ViewType currentType = previousViews->top();
+    Types::ViewType currentType = previousViews->top();
     NavigateableWidget *currentView = viewTypeToWidget->value(currentType);
     backToView(currentView->getBackViewType());
 }
 
 void ViewController::btnForwardClicked(){
-    ViewType currentType = previousViews->top();
+    Types::ViewType currentType = previousViews->top();
     NavigateableWidget *currentView = viewTypeToWidget->value(currentType);
     goToView(currentView->getForwardViewType());
 }
 
-void ViewController::goToView(ViewType type, QList<ViewType> *prevTypes){
+void ViewController::goToView(Types::ViewType type, QList<Types::ViewType> *prevTypes){
     if(viewTypeToIndex->contains(type)){
-        ViewType currentView = previousViews->top();
+        Types::ViewType currentView = previousViews->top();
         viewTypeToWidget->value(currentView)->onLeaving();
         if(prevTypes != 0){
             for(int i = 0; i < prevTypes->count(); ++i)
@@ -503,24 +503,24 @@ void ViewController::goToView(ViewType type, QList<ViewType> *prevTypes){
     }
 }
 
-void ViewController::backToView(ViewType type){
-    if((viewTypeToIndex->contains(type) && previousViews->contains(type)) || type == ViewType::UNKNOWN){
+void ViewController::backToView(Types::ViewType type){
+    if((viewTypeToIndex->contains(type) && previousViews->contains(type)) || type == Types::ViewType::UNKNOWN){
         viewTypeToWidget->value(previousViews->top())->onLeaving();
-        if(type == ViewType::UNKNOWN){
+        if(type == Types::ViewType::UNKNOWN){
             previousViews->pop();
         }
         else {
             while(previousViews->top() != type)
                 previousViews->pop();
         }
-        ViewType nextType = previousViews->top();
+        Types::ViewType nextType = previousViews->top();
         viewTypeToWidget->value(nextType)->onEnter();
         content->setCurrentIndex(viewTypeToIndex->value(nextType));
         adaptNavigationBar(nextType);
     }
 }
 
-void ViewController::showPopUp(PopUpType type){
+void ViewController::showPopUp(Types::PopUpType type){
     if(popUpTypeToWidget->contains(type)){
         AbstractPopUpWidget *popUp = popUpTypeToWidget->value(type);
         popUp->onEnter();
@@ -535,15 +535,15 @@ void ViewController::closePopUp(){
 
 
 //PRIVATE METHODS
-void ViewController::adaptNavigationBar(ViewType type){
+void ViewController::adaptNavigationBar(Types::ViewType type){
     NavigateableWidget *currentWidget = viewTypeToWidget->value(type);
     int leftWidth = 0;
     int rightWidth = 0;
 
     if(currentWidget->canGoBack()){
         btnBack->show();
-        ViewType backType = currentWidget->getBackViewType();
-        if(backType == UNKNOWN){
+        Types::ViewType backType = currentWidget->getBackViewType();
+        if(backType == Types::ViewType::UNKNOWN){
             backType = previousViews->at(previousViews->count() - 2);
         }
         if(Settings::value(Settings::SETTING_SHOW_NAVIGATION_TITLE).toBool())

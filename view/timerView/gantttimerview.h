@@ -1,5 +1,5 @@
-#ifndef GANTTIMERVIEW_H
-#define GANTTIMERVIEW_H
+#ifndef GANTTTIMERVIEW_H
+#define GANTTTIMERVIEW_H
 
 #include "../navigation/titledwidget.h"
 #include <QPushButton>
@@ -12,13 +12,13 @@
 #include "../interfaces/igantt.h"
 #include "../../databaseHandler/dbconstants.h"
 
-class GantTimerView : public TitledWidget, IGantt
+class GanttTimerView : public TitledWidget, IGantt
 {
     Q_OBJECT
     Q_INTERFACES(IGantt)
 public:
-    explicit GantTimerView(QWidget *parent = 0);
-    ~GantTimerView();
+    explicit GanttTimerView(QWidget *parent = 0);
+    ~GanttTimerView();
 
 signals:
     void saveWorkProcessFrequence(int frequence);
@@ -71,4 +71,4 @@ private:
     void update();
 };
 
-#endif // GANTTIMERVIEW_H
+#endif // GANTTTIMERVIEW_H

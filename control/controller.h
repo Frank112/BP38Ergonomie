@@ -29,7 +29,7 @@ public:
 
 signals:
     void showMessage(QString message, NotificationMessage::MessageType msgType = NotificationMessage::ACCEPT, NotificationMessage::MessageDisplayType msgDisplayType = NotificationMessage::MIDDLE);
-    void showView(ViewType view, QList<ViewType> *previousViews = 0);
+    void showView(Types::ViewType view, QList<Types::ViewType> *previousViews = 0);
 
     void clearAll();
 

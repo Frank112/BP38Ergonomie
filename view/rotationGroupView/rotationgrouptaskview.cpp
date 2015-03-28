@@ -231,5 +231,5 @@ void RotationGroupTaskView::btnAddClicked(){
 }
 
 void RotationGroupTaskView::btnAddWorkplaceClicked(){
-    showPopUp(PopUpType::WORKPLACE_POPUP);
+    showPopUp(Types::PopUpType::WORKPLACE_POPUP);
 }

@@ -38,7 +38,7 @@ public:
     /**
      * @brief AbstractPopUpWidget Constructs an abstract widget with a <i>confirm mode<i>, a <i>title</i> and a <i>parent</i>.
      * @param mode The <i>confirm mode</i> of the widget.
-     * @param title The <i>title</i> of the widget as a <a href="http://doc.qt.io/qt-5/QString.html">QString</a>.
+     * @param title The <i>title</i> of the widget.
      * @param parent The <i>parent</i> widget of the abstract widget.
      */
     explicit AbstractPopUpWidget(ConfirmMode mode, const QString &title, QWidget *parent = 0);
@@ -54,8 +54,8 @@ public:
 
 signals:
     /**
-     * @brief closePopUp A signal that is emitted when the either the cancel or the confirm button is clicked.
-     * It signals the ViewController to close the popup.
+     * @brief closePopUp A signal that is emitted when the cancel button is clicked.
+     * It signals that the popup should be closed.
      */
     void closePopUp();
 

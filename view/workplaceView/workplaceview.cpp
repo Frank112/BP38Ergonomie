@@ -166,22 +166,22 @@ QList<QAbstractButton*> * WorkplaceView::getAdditionalNavigation() const{
 
 //private slots
 void WorkplaceView::showEmployeeView(){
-    emit showView(ViewType::EMPLOYEE_LIST_VIEW);
+    emit showView(Types::ViewType::EMPLOYEE_LIST_VIEW);
 }
 
 void WorkplaceView::btnLineClicked(){
-    emit showView(ViewType::LINE_VIEW);
+    emit showView(Types::ViewType::LINE_VIEW);
 }
 
 void WorkplaceView::btnActivityClicked(){
-    emit showView(ViewType::ACTIVITY_VIEW);
+    emit showView(Types::ViewType::ACTIVITY_VIEW);
 }
 
 void WorkplaceView::btnCommentClicked(){
-    emit showView(ViewType::COMMENT_VIEW);
+    emit showView(Types::ViewType::COMMENT_VIEW);
 }
 
 void WorkplaceView::btnEmployeeClicked(){
-    emit showPopUp(PopUpType::EMPLOYEE_POPUP);
+    emit showPopUp(Types::PopUpType::EMPLOYEE_POPUP);
 }
 

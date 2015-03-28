@@ -30,7 +30,6 @@ HEADERS +=\
     $$PWD/timerView/workprocessselector.h \
     $$PWD/timerView/maximizedtimerview.h \
     $$PWD/timerView/timepicker.h \
-    $$PWD/timerView/ganttimerview.h \
     $$PWD/timerView/workprocessbutton.h \
     $$PWD/timerView/timerviewcontroller.h \
     $$PWD/ressourceManagementView/ressourcemanagementview.h \
@@ -121,7 +120,8 @@ HEADERS +=\
     $$PWD/interfaces/icoperation.h \
     $$PWD/interfaces/irotationgroup.h \
     $$PWD/interfaces/iselecteddatabasereset.h \
-    $$PWD/generalViews/errorlogview.h
+    $$PWD/generalViews/errorlogview.h \
+    $$PWD/timerView/gantttimerview.h
 
 
 SOURCES +=\
@@ -153,7 +153,7 @@ SOURCES +=\
     $$PWD/timerView/workprocessselector.cpp \
     $$PWD/timerView/maximizedtimerview.cpp \
     $$PWD/timerView/timepicker.cpp \
-    $$PWD/timerView/ganttimerview.cpp \
+    $$PWD/timerView/gantttimerview.cpp \
     $$PWD/timerView/workprocessbutton.cpp \
     $$PWD/timerView/timerviewcontroller.cpp \
     $$PWD/ressourceManagementView/ressourcemanagementview.cpp \

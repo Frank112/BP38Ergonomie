@@ -12,9 +12,6 @@ MainMenu::MainMenu(QWidget *parent) :
     btnShift(new IconButton(this, "calendarIcon", tr("Shift Data"))),
     btnSettings(new QPushButton(this)),
     btnNewRecording(new QPushButton(this)),
-    #if defined(Q_OS_IOS) || defined(Q_OS_ANDROID)
-    //btnCamera(new QPushButton(this)),
-    #endif
     btnSendDatabase(new QPushButton(this)),
     btnImport(new QPushButton(this))
 {
@@ -37,11 +34,6 @@ MainMenu::MainMenu(QWidget *parent) :
     btnNewRecording->setObjectName("quickRecordingIcon");
     btnNewRecording->setFixedSize(45, 45);
 
-    #if defined(Q_OS_IOS) || defined(Q_OS_ANDROID)
-    //btnCamera->setObjectName("cameraIcon");
-    //btnCamera->setFixedSize(45, 45);
-    #endif
-
     connect(btnMetaDataView, SIGNAL(clicked()), this, SLOT(btnMetaDataViewClicked()));
     connect(btnWorkplaceList, SIGNAL(clicked()), this, SLOT(btnWorkplaceListClicked()));
     connect(btnRessourceManagement, SIGNAL(clicked()), this, SLOT(btnRessourceManagementClicked()));
@@ -50,9 +42,6 @@ MainMenu::MainMenu(QWidget *parent) :
     connect(btnSettings, SIGNAL(clicked()), this, SLOT(btnSettingsClicked()));
     connect(btnImport, SIGNAL(clicked()), this, SLOT(btnImportClicked()));
     connect(btnSendDatabase, SIGNAL(clicked()), this, SLOT(btnSendDatabaseClicked()));
-    #if defined(Q_OS_IOS) || defined(Q_OS_ANDROID)
-    //connect(btnCamera, SIGNAL(clicked()), this, SLOT(btnCameraClicked()));
-    #endif
 
     lblViewName->setObjectName("lblHeader");
 
@@ -77,30 +66,27 @@ QList<QAbstractButton*> * MainMenu::getAdditionalNavigation() const{
     additions->append(btnImport);
     additions->append(btnSendDatabase);
     additions->append(btnSettings);
-    #if defined(Q_OS_IOS) || defined(Q_OS_ANDROID)
-    //additions->append(btnCamera);
-    #endif
     return additions;
 }
 
 //PRIVATE SLOTS
 void MainMenu::btnMetaDataViewClicked(){
-    emit showView(ViewType::METADATA_VIEW);
+    emit showView(Types::ViewType::METADATA_VIEW);
 }
 void MainMenu::btnSettingsClicked(){
-    emit showView(ViewType::SETTINGS_VIEW);
+    emit showView(Types::ViewType::SETTINGS_VIEW);
 }
 
 void MainMenu::btnWorkplaceListClicked(){
-    emit showView(ViewType::WORKPLACELIST_VIEW);
+    emit showView(Types::ViewType::WORKPLACELIST_VIEW);
 }
 
 void MainMenu::btnRessourceManagementClicked(){
-    emit showView(ViewType::RESSOURCE_MANAGMENT_VIEW);
+    emit showView(Types::ViewType::RESSOURCE_MANAGMENT_VIEW);
 }
 
 void MainMenu::btnShiftClicked(){
-    emit showView(ViewType::SHIFT_VIEW);
+    emit showView(Types::ViewType::SHIFT_VIEW);
 }
 
 void MainMenu::btnNewRecordingClicked(){
@@ -108,16 +94,9 @@ void MainMenu::btnNewRecordingClicked(){
 }
 
 void MainMenu::btnSendDatabaseClicked(){
-    emit showPopUp(PopUpType::DB_SEND_POPUP);
+    emit showPopUp(Types::PopUpType::DB_SEND_POPUP);
 }
 
 void MainMenu::btnImportClicked(){
-    emit showPopUp(PopUpType::IMPORT_DATA_POPUP);
+    emit showPopUp(Types::PopUpType::IMPORT_DATA_POPUP);
 }
-
-void MainMenu::btnCameraClicked(){
-#if defined(Q_OS_IOS) || defined(Q_OS_ANDROID)
-    emit showPopUp(PopUpType::CAMERA_POPUP);
-#endif
-}
-

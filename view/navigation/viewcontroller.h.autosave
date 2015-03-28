@@ -98,8 +98,9 @@ public:
     ~ViewController();
 
     /**
-     * @brief showStartView A method that is called to display the provided view. The Types::ViewType of this view
-     * is pushed onto the stack, the content is set to this widget and the navigation bar adapted to the view's
+     * @brief showStartView A method that is called to display the provided view. If the view has been registered
+     * with a Types::ViewType, this type is pushed onto the stack , the content is set to this widget and the navigation
+     * bar adapted to the view's
      * @param type
      */
     void showStartView(Types::ViewType type);

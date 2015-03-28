@@ -31,9 +31,9 @@ public:
         return views;
     }
 
-    void showStartView(ViewType type);
+    void showStartView(Types::ViewType type);
 
-    void registerView(TitledWidget *widget, ViewType type);
+    void registerView(TitledWidget *widget, Types::ViewType type);
     void setTimerViewController(TimerViewController *timerViewController);
 
 public slots:
@@ -46,7 +46,7 @@ private slots:
 
     void saveCurrentView();
     void changeView(int index);
-    void changeView(ViewType type);
+    void changeView(Types::ViewType type);
 
 private:
     int indexBeforeTimeLineView;
@@ -58,9 +58,9 @@ private:
 
     TimerViewController *timerViewController;
 
-    QHash<ViewType, TitledWidget*> *viewTypeToWidget;
-    QHash<ViewType, int> *viewTypeToIndex;
-    ViewType currentView;
+    QHash<Types::ViewType, TitledWidget*> *viewTypeToWidget;
+    QHash<Types::ViewType, int> *viewTypeToIndex;
+    Types::ViewType currentView;
 };
 
 #endif // DOCUMENTATIONVIEW_H

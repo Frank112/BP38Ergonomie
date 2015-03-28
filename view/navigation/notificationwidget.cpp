@@ -33,13 +33,6 @@ void NotificationWidget::setMainWidget(QWidget *widget){
     notifiMessage = new NotificationMessage(this);
 }
 
-QSize NotificationWidget::sizeHint() const{
-    if(mainWidget != 0)
-        return mainWidget->sizeHint();
-    else
-        return QWidget::sizeHint();
-}
-
 //PUBLIC SLOTS
 void NotificationWidget::closePopUp(){
     currentPopUp->hide();

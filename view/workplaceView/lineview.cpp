@@ -150,6 +150,6 @@ void LineView::btnAddClicked(){
 }
 
 void LineView::editLineClicked(int id){
-    emit showPopUp(PopUpType::LINE_POPUP);
+    emit showPopUp(Types::PopUpType::LINE_POPUP);
     emit editLine(id);
 }

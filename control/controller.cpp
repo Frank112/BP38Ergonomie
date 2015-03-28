@@ -158,13 +158,13 @@ void Controller::createBlankRecording(){
 
     }
 
-    QList<ViewType> prevViews = QList<ViewType>();
-    prevViews.append(ViewType::WORKPLACE_VIEW);
-    prevViews.append(ViewType::ACTIVITY_VIEW);
+    QList<Types::ViewType> prevViews = QList<Types::ViewType>();
+    prevViews.append(Types::ViewType::WORKPLACE_VIEW);
+    prevViews.append(Types::ViewType::ACTIVITY_VIEW);
 
     selectWorkplace(workplace_ID);
     selectActivity(activity_ID);
-    emit showView(ViewType::DOCUMENTATION_VIEW, &prevViews);
+    emit showView(Types::ViewType::DOCUMENTATION_VIEW, &prevViews);
 }
 
 
@@ -1239,7 +1239,7 @@ void Controller::resetDatabaseFactory()
         dbHandler->remove(tblNames.at(i), emptyFilter);
     emit clearAll();
     emit showMessage(tr("Restored Factory Settings"));
-    emit showView(ViewType::ANALYST_SELECTION_VIEW);
+    emit showView(Types::ViewType::ANALYST_SELECTION_VIEW);
 }
 
 //Database selected reset
