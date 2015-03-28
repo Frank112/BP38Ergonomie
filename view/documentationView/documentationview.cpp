@@ -90,7 +90,7 @@ void DocumentationView::saveCurrentView(){
 void DocumentationView::changeView(int index){
     if(viewTypeToIndex->contains(currentView)){
         viewTypeToWidget->value(currentView)->onLeaving();
-        if(currentView == GANT_VIEW)
+        if(currentView == ViewType::GANT_VIEW)
             timerViewController->gantViewHidden();
     }
     ViewType nextView = (ViewType) views->currentData().toInt();

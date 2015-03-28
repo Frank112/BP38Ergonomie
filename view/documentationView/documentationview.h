@@ -23,7 +23,7 @@ class DocumentationView : public SimpleNavigateableWidget
 public:
     explicit DocumentationView(QWidget *parent = 0);
 
-    bool hasInteralNavigation() const{
+    bool hasInternalNavigation() const{
         return true;
     }
 

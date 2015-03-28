@@ -60,22 +60,59 @@
 #include "../documentationView/workprocessmetadataview.h"
 #include "../documentationView/bodyPostureView/bodypostureview.h"
 
+/**
+ * @brief The ViewController class provides functionality to manage the display of all views and popups.
+ *
+ *
+ *
+ * <b>Note:</b> All views and popups have to be registered with registerView(NavigateableWidget *widget, ViewType type)
+ * and registerPopUp(AbstractPopUpWidget *popUp, PopUpType type) respectively.
+ *
+ * @author Frank Loeffler
+ */
 class ViewController : public NotificationWidget
 {
     Q_OBJECT
 public:
+
+    /**
+     * @brief ViewController
+     * @param parent
+     */
     explicit ViewController(QWidget *parent = 0);
     ~ViewController();
 
+    /**
+     * @brief showStartView
+     * @param type
+     */
     void showStartView(ViewType type);
 
+    /**
+     * @brief registerView
+     * @param widget
+     * @param type
+     */
     void registerView(NavigateableWidget *widget, ViewType type);
 
+    /**
+     * @brief registerPopUp
+     * @param popUp
+     * @param type
+     */
     void registerPopUp(AbstractPopUpWidget *popUp, PopUpType type);
 
+    /**
+     * @brief showView
+     * @param type
+     * @param prevTypes
+     */
     void showView(ViewType type, QList<ViewType> *prevTypes = 0);
 
 public slots:
+    /**
+     * @brief closePopUp
+     */
     void closePopUp();
 
 private slots:
@@ -83,6 +120,7 @@ private slots:
     void btnForwardClicked();
 
     void goToView(ViewType type, QList<ViewType> *prevTypes = 0);
+
     void backToView(ViewType type);
 
     void showPopUp(PopUpType type);

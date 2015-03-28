@@ -594,7 +594,7 @@ void ViewController::adaptNavigationBar(ViewType type){
 
     if(internalNavigation != 0)
         internalNavigation->hide();
-    if(currentWidget->hasInteralNavigation()){
+    if(currentWidget->hasInternalNavigation()){
         lblTitle->hide();
         internalNavigation = currentWidget->getInternalNavigation();
         internalNavigation->show();
