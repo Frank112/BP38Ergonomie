@@ -1,77 +1,105 @@
 #include "timelineedit.h"
-#include <QDebug>
-#include <QRegularExpression>
 #include <QRegularExpressionValidator>
+
+const QRegularExpression TimeLineEdit::regExMS = QRegularExpression("^([0-5]?[0-9]:[0-5]?[0-9])?$");
+const QRegularExpression TimeLineEdit::regExHM = QRegularExpression("^((0?[0-9]|1[0-9]|2[0-3]):[0-5]?[0-9])?$");
+const QRegularExpression TimeLineEdit::regExHMS = QRegularExpression("^((0?[0-9]|1[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9])?$");
+
 TimeLineEdit::TimeLineEdit(QWidget *parent, TimeLineType type) :
     TextLineEdit(parent),
     type(type)
 {
     QRegularExpression regEx;
-    QString inputMask;
     switch(this->type){
     case(TimeLineType::MINUTE_SECOND):
-        regEx = QRegularExpression("^([0-5][0-9]:[0-5][0-9])$");
-        inputMask="dd:dd";
+        regEx = regExMS;
         break;
     case(TimeLineType::HOUR_MINUTE):
-        regEx = QRegularExpression("^((0[0-9]|1[0-9]|2[0-3]):[0-5][0-9])$");
-        inputMask="dd:dd";
+        regEx = regExHM;
         break;
     case(TimeLineType::HOUR_MINUTE_SECOND):
-        regEx = QRegularExpression("^((0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9])$");
-        inputMask="dd:dd:dd";
+        regEx = regExHMS;
         break;
     }
     this->setValidator(new QRegularExpressionValidator(regEx));
-    //this->setInputMask(inputMask);
     this->setInputMethodHints(Qt::ImhDialableCharactersOnly);
+
+    connect(this, SIGNAL(editingFinished()), this, SLOT(updateTime()));
 }
 
-QTime TimeLineEdit::getValue(){
-    normalizeText();
-    switch(this->type){
-    case(TimeLineType::HOUR_MINUTE):
-        return QTime(this->text().left(2).toInt(), this->text().right(2).toInt());
-        break;
-    case(TimeLineType::MINUTE_SECOND):
-        return QTime(0,this->text().left(2).toInt(),this->text().right(2).toInt(),0);
-        break;
-    case(TimeLineType::HOUR_MINUTE_SECOND):
-        return QTime(this->text().left(2).toInt(), this->text().right(4).left(2).toInt(), this->text().right(2).toInt(), 0);
-        break;
-    }
+QTime TimeLineEdit::getTime() const{
+    return this->currentTime;
 }
 
-void TimeLineEdit::setValue(const QTime &value){
-    switch(this->type){
-    case(TimeLineType::MINUTE_SECOND):
-        setText(value.toString("mm:ss"));
-        qDebug() << this->text();
-        break;
-    case(TimeLineType::HOUR_MINUTE):
-        setText(value.toString("HH:mm"));
-        qDebug() << this->text();
-        break;
-    case(TimeLineType::HOUR_MINUTE_SECOND):
-        setText(value.toString("HH:mm:ss"));
-        break;
-    }
+void TimeLineEdit::setTime(const QTime &time){
+    if(time.isValid())
+        currentTime = time;
+    else
+        currentTime = QTime::currentTime();
+    updateText();
 }
 
-void TimeLineEdit::normalizeText(){
-    int inputLength = 0;
+void TimeLineEdit::increaseHour(){
+    QTime oldTime = currentTime;
+    currentTime = currentTime.addSecs(3600);
+    if(currentTime == QTime(0,0) || currentTime < oldTime)
+        emit dayIncreased();
+    updateText();
+}
+
+void TimeLineEdit::increaseMinute(){
+    QTime oldTime = currentTime;
+    currentTime = currentTime.addSecs(60);
+    if(currentTime == QTime(0,0) || currentTime < oldTime)
+        emit dayIncreased();
+    updateText();
+}
+
+void TimeLineEdit::decreaseHour(){
+    QTime oldTime = currentTime;
+    currentTime = currentTime.addSecs(-3600);
+    if(currentTime == QTime(0,0) || currentTime > oldTime)
+        emit dayDecreased();
+    updateText();
+}
+
+void TimeLineEdit::decreaseMinute(){
+    QTime oldTime = currentTime;
+    if(currentTime == QTime(0,0) || currentTime > oldTime)
+        emit dayDecreased();
+    currentTime = currentTime.addSecs(-60);
+    updateText();
+}
+
+void TimeLineEdit::updateText(){
     switch(this->type){
     case(TimeLineType::MINUTE_SECOND):
-        inputLength = 4;
+        setText(currentTime.toString("mm:ss"));
         break;
     case(TimeLineType::HOUR_MINUTE):
-        inputLength = 4;
+        setText(currentTime.toString("HH:mm"));
         break;
     case(TimeLineType::HOUR_MINUTE_SECOND):
-        inputLength = 6;
+        setText(currentTime.toString("HH:mm:ss"));
         break;
     }
-    while(this->text().size() < inputLength){
-        setText(this->text().append(QString::number(0)));
+    emit timeChanged();
+}
+
+void TimeLineEdit::updateTime(){
+    QStringList hms = this->text().split(":");
+    switch(this->type){
+    case(TimeLineType::MINUTE_SECOND):
+        if(hms.length() == 2)
+            currentTime = QTime(0, hms.at(0).toInt(), hms.at(1).toInt());
+        break;
+    case(TimeLineType::HOUR_MINUTE):
+        if(hms.length() == 2)
+            currentTime = QTime(hms.at(0).toInt(), hms.at(1).toInt());
+        break;
+    case(TimeLineType::HOUR_MINUTE_SECOND):
+        if(hms.length() == 3)
+            currentTime = QTime(hms.at(0).toInt(), hms.at(1).toInt(), hms.at(2).toInt(), 0);
+        break;
     }
 }

@@ -1,35 +1,39 @@
 #ifndef GANTTIMERVIEW_H
 #define GANTTIMERVIEW_H
 
-#include <QWidget>
+#include "../navigation/titledwidget.h"
 #include <QPushButton>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QStringList>
 #include "workprocessbutton.h"
-#include "numberlineedit.h"
-#include "iconconstants.h"
+#include "../numberlineedit.h"
 #include "spaceritemtimer.h"
-#include "../enum.h"
+#include "../interfaces/igantt.h"
+#include "../../databaseHandler/dbconstants.h"
 
-class GantTimerView : public QWidget
+class GantTimerView : public TitledWidget, IGantt
 {
     Q_OBJECT
+    Q_INTERFACES(IGantt)
 public:
     explicit GantTimerView(QWidget *parent = 0);
     ~GantTimerView();
 
-    int getFrequenz() const;
-
 signals:
-    void workProcessSelected(int id, AVType type);
-    void saveFrequenz();
+    void saveWorkProcessFrequence(int frequence);
+    void selectWorkProcess(int id, AVType type);
+    void left();
+    void entered();
 
 public slots:
-    void add(int id, AVType type, const QTime &start, const QTime &end);
-    void setWorkProcessLists(QVector<QVariant> *leftWorkProcesses, QVector<QVariant> *rightWorkProcesses, QVector<QVariant> *basicWorkProcesses);
-    void clear();
-    void setSelectedWorkProcess(int id, AVType type, int frequenz);
+    void initiliazeWorkProcesses(QList<QHash<QString, QVariant>> values);
+    void setSelectedWorkProcess(QHash<QString, QVariant> values);
+    void addWorkProcess(QHash<QString, QVariant> values);
+    void resetWorkProcesses();
+
+    void onEnter();
+    void onLeaving();
 
 private slots:
     void btnZoomInClicked();
@@ -62,6 +66,7 @@ private:
 
     QHBoxLayout* getLayout(int type);
 
+    void workProcessClicked(int id, AVType type);
     void resizeClear();
     void update();
 };

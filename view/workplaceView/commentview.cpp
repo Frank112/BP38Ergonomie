@@ -1,10 +1,9 @@
 #include "commentview.h"
 #include <QGridLayout>
 #include <QVBoxLayout>
-#include "separator.h"
+#include "../separator.h"
 
-CommentView::CommentView(QWidget *parent) : QWidget(parent),
-    lblViewName(new QLabel(tr("remarks"))),
+CommentView::CommentView(QWidget *parent) : SimpleNavigateableWidget(tr("Remarks"), parent),
     lblProblem(new QLabel(tr("problems"))),
     lblProblemName(new QLabel(tr("label:"))),
     lblProblemDescription(new QLabel(tr("description:"))),
@@ -17,27 +16,14 @@ CommentView::CommentView(QWidget *parent) : QWidget(parent),
     txtBxProblemDescription(new TextEdit()),
     txtBxMeasureName(new TextLineEdit()),
     txtBxMeasureDescription(new TextEdit()),
-    txtBxPerceptionDescription(new TextEdit()),
-    btnBack(new QPushButton())
+    txtBxPerceptionDescription(new TextEdit())
 {
-    btnBack->setObjectName("leftIcon");
-    btnBack->setFixedSize(45, 45);
-    connect(btnBack, SIGNAL(clicked()), this, SLOT(btnBackClicked()));
-
     lblProblem->setObjectName("lblHeader");
     lblMeasure->setObjectName("lblHeader");
     lblWorkerPerception->setObjectName("lblHeader");
 
     txtBxProblemName->setPlaceholderText(tr("name of the problem"));
-    txtBxProblemDescription->setPlaceholderText(tr("description of the problem"));
     txtBxMeasureName->setPlaceholderText(tr("name of the measure"));
-    txtBxMeasureDescription->setPlaceholderText(tr("description of the mesaure"));
-    txtBxPerceptionDescription->setPlaceholderText(tr("the workers annotation"));
-
-    QGridLayout *navigationBarLayout = new QGridLayout;
-    navigationBarLayout->addWidget(btnBack, 0, 0, 1, 1, Qt::AlignLeft);
-    navigationBarLayout->addWidget(lblViewName, 0, 1, 1, 1, Qt::AlignCenter);
-    navigationBarLayout->addWidget(new QLabel(), 0, 2, 1, 1, Qt::AlignRight);
 
     QGridLayout *commentLayout = new QGridLayout;
     commentLayout->addWidget(lblProblem, 0, 0, 1, 2, 0);
@@ -57,8 +43,6 @@ CommentView::CommentView(QWidget *parent) : QWidget(parent),
     commentLayout->addWidget(txtBxPerceptionDescription, 9, 1, 1, 1, 0);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->addLayout(navigationBarLayout);
-    mainLayout->addWidget(new Separator(Qt::Horizontal, 3, this));
     mainLayout->addLayout(commentLayout);
 
     setLayout(mainLayout);
@@ -70,35 +54,21 @@ CommentView::~CommentView()
 }
 
 //PUBLIC SLOTS
-void CommentView::setComment(const QString &problemName, const QString &problemDesc, const QString &measureName, const QString &measureDesc, const QString &workerPerception){
-    txtBxProblemName->setText(problemName);
-    txtBxProblemDescription->setText(problemDesc);
-    txtBxMeasureName->setText(measureName);
-    txtBxMeasureDescription->setText(measureDesc);
-    txtBxPerceptionDescription->setText(workerPerception);
+void CommentView::setComment(QHash<QString, QVariant> values){
+    txtBxProblemName->setText(values.value(DBConstants::COL_COMMENT_PROBLEM_NAME).toString());
+    txtBxProblemDescription->setText(values.value(DBConstants::COL_COMMENT_PROBLEM_DESCRIPTION).toString());
+    txtBxMeasureName->setText(values.value(DBConstants::COL_COMMENT_MEASURE_NAME).toString());
+    txtBxMeasureDescription->setText(values.value(DBConstants::COL_COMMENT_MEASURE_DESCRIPTION).toString());
+    txtBxPerceptionDescription->setText(values.value(DBConstants::COL_COMMENT_WORKER_PERCEPTION).toString());
 }
 
-
-//PRIVATE SLOTS
-void CommentView::btnBackClicked(){
-    emit save();
-    emit back();
+void CommentView::onLeaving(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(DBConstants::COL_COMMENT_PROBLEM_NAME, txtBxProblemName->text());
+    values.insert(DBConstants::COL_COMMENT_PROBLEM_DESCRIPTION, txtBxProblemDescription->toPlainText());
+    values.insert(DBConstants::COL_COMMENT_MEASURE_NAME, txtBxMeasureName->text());
+    values.insert(DBConstants::COL_COMMENT_MEASURE_DESCRIPTION, txtBxMeasureDescription->toPlainText());
+    values.insert(DBConstants::COL_COMMENT_WORKER_PERCEPTION, txtBxPerceptionDescription->toPlainText());
+    emit saveComment(values);
 }
 
-
-//GETTER
-QString CommentView::getProblemName() const{
-    return txtBxProblemName->text();
-}
-QString CommentView::getProblemDescription() const{
-    return txtBxProblemDescription->toPlainText();
-}
-QString CommentView::getMeasureName() const{
-    return txtBxMeasureName->text();
-}
-QString CommentView::getMeasureDescription() const{
-    return txtBxMeasureDescription->toPlainText();
-}
-QString CommentView::getWorkerPerception() const{
-    return txtBxPerceptionDescription->toPlainText();
-}

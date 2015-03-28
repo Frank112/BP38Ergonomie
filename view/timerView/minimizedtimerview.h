@@ -8,8 +8,7 @@
 #include <QTime>
 #include "workprocesstypepicker.h"
 #include "workprocessselector.h"
-#include "../enum.h"
-
+#include "../../enum.h"
 
 class MinimizedTimerView : public QWidget
 {
@@ -34,6 +33,9 @@ public slots:
     void setState(TimerState state);
     void setTime(const QTime &time);
     void setSelectedAV(int id);
+    void setSelectedAVNone();
+    void setHasPreviousAV(bool hasPrevious);
+    void setHasNextAV(bool hasNext);
     void setWorkProcessType(AVType type, const QString &prefix);
 
 private slots:

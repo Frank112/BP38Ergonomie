@@ -3,13 +3,12 @@
 
 #include <QWidget>
 #include <QTime>
-#include "../enum.h"
-
+#include "enum.h"
 #include "workprocessselector.h"
-#include "optionselectioncontrol.h"
+#include "../optionselectioncontrol.h"
 #include "graphtimelineview.h"
 #include "timepicker.h"
-#include "selectablevaluebutton.h"
+#include "../selectablevaluebutton.h"
 #include "workprocesstypepicker.h"
 
 class MaximizedTimerView : public QWidget
@@ -32,7 +31,6 @@ signals:
     void durationDecreased();
     void minimize();
     void maximize();
-    void showGantView();
     void play();
     void pause();
     void stop();
@@ -50,6 +48,9 @@ public slots:
     void setTime(const QTime &time);
     void setSelectedAV(int id, const QTime &duration);
     void setWorkProcessType(AVType type, const QString &prefix);
+    void setSelectedAVNone();
+    void setHasPreviousAV(bool hasPrevious);
+    void setHasNextAV(bool hasNext);
 
     void leftStarted(const QTime &startTime);
     void leftEnded(const QTime &endTime);

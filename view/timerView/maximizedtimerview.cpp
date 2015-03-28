@@ -1,7 +1,7 @@
 #include "maximizedtimerview.h"
 #include <QGridLayout>
 #include <QVBoxLayout>
-#include "separator.h"
+#include "../separator.h"
 #include <QIcon>
 #include <QStyle>
 
@@ -127,6 +127,8 @@ void MaximizedTimerView::setState(TimerState state){
             btnStopReset->style()->unpolish(btnStopReset);
             btnStopReset->style()->polish(btnStopReset);
             btnStopReset->setEnabled(false);
+
+            timePicker->setEnabled(false);
             break;
     case TimerState::STARTED:
             btnSetAV->setEnabled(true);
@@ -175,6 +177,8 @@ void MaximizedTimerView::setState(TimerState state){
             btnStopReset->style()->unpolish(btnStopReset);
             btnStopReset->style()->polish(btnStopReset);
             btnStopReset->setEnabled(true);
+
+            timePicker->setEnabled(true);
             break;
     }
 }
@@ -191,6 +195,19 @@ void MaximizedTimerView::setSelectedAV(int id, const QTime &duration){
 void MaximizedTimerView::setWorkProcessType(AVType type, const QString &prefix){
     wpTypePicker->setSelectedType(type);
     wpSelector->setAVPrefix(prefix);
+}
+
+void MaximizedTimerView::setSelectedAVNone(){
+    wpSelector->setSelectedAVNone();
+    timePicker->setTime(QTime(0,0));
+}
+
+void MaximizedTimerView::setHasPreviousAV(bool hasPrevious){
+    wpSelector->setHasPreviousAV(hasPrevious);
+}
+
+void MaximizedTimerView::setHasNextAV(bool hasNext){
+    wpSelector->setHasNextAV(hasNext);
 }
 
 void MaximizedTimerView::leftStarted(const QTime &startTime){

@@ -1,7 +1,6 @@
 #include "workprocessselector.h"
 #include <QHBoxLayout>
 #include <QIcon>
-#include "iconconstants.h"
 
 WorkProcessSelector::WorkProcessSelector(QWidget *parent) : QWidget(parent),
     btnRight(new QPushButton()),
@@ -41,6 +40,18 @@ void WorkProcessSelector::setSelectedAV(int avNum){
 
 void WorkProcessSelector::setAVPrefix(const QString &pref){
     prefix = pref;
+}
+
+void WorkProcessSelector::setSelectedAVNone(){
+    lblSelectedAV->setText(tr("empty"));
+}
+
+void WorkProcessSelector::setHasPreviousAV(bool hasPrevious){
+    btnLeft->setEnabled(hasPrevious);
+}
+
+void WorkProcessSelector::setHasNextAV(bool hasNext){
+    btnRight->setEnabled(hasNext);
 }
 
 

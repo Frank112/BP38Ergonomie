@@ -5,7 +5,10 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QDateTime>
-#include "numberlineedit.h"
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
+#include "timelineedit.h"
+#include "datelineedit.h"
 
 class DateTimeSpinner : public QWidget
 {
@@ -17,36 +20,13 @@ public:
     void setDateTime(const QDateTime &time);
 
 signals:
-
-public slots:
-
-private slots:
-
-    void increaseDay();
-    void decreaseDay();
-    void increaseMonth();
-    void decreaseMonth();
-    void increaseYear();
-    void decreaseYear();
-    void increaseHour();
-    void decreaseHour();
-    void increaseMinute();
-    void decreaseMinute();
-
-    void setDay();
-    void setMonth();
-    void setYear();
-    void setHour();
-    void setMinute();
+    void dateTimechanged();
 
 private:
     QGridLayout *spinnerLayout;
 
-    NumberLineEdit *numBxDay;
-    NumberLineEdit *numBxMonth;
-    NumberLineEdit *numBxYear;
-    NumberLineEdit *numBxHour;
-    NumberLineEdit *numBxMinute;
+    DateLineEdit *dateBxDate;
+    TimeLineEdit *timeBxTime;
 
     QPushButton *btnDayInc;
     QPushButton *btnDayDec;
@@ -58,10 +38,6 @@ private:
     QPushButton *btnHourDec;
     QPushButton *btnMinuteInc;
     QPushButton *btnMinuteDec;
-
-    QDateTime currentTime;
-
-    void update();
 };
 
 #endif // DATETIMESPINNER_H

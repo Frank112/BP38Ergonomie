@@ -1,56 +1,49 @@
 #ifndef WORKPLACEVIEW_H
 #define WORKPLACEVIEW_H
 
-#include <QWidget>
 #include <QLabel>
 #include <QPushButton>
-#include <QList>
-#include "timelineedit.h"
-#include "detailedlistitem.h"
-#include "numberlineedit.h"
+#include "../timelineedit.h"
+#include "../detailedlistitem.h"
+#include "../numberlineedit.h"
+#include "../navigation/simplenavigateablewidget.h"
+#include "../interfaces/iworkplace.h"
+#include "../../databaseHandler/dbconstants.h"
 
-class WorkplaceView : public QWidget
+class WorkplaceView : public SimpleNavigateableWidget, IWorkplace
 {
     Q_OBJECT
+    Q_INTERFACES(IWorkplace)
 public:
     explicit WorkplaceView(QWidget *parent = 0);
-    explicit WorkplaceView(int id, QWidget *parent = 0);
 
-    QString getName() const;
-    QString getDescription() const;
-    QString getCode() const;
-    int getWomanPercentage() const;
+    bool hasAdditionalNavigation() const{
+        return true;
+    }
 
-    QTime getBasicTime() const;
-    QTime getSetupTime() const;
-    QTime getRestTime() const;
-    QTime getAllowanceTime() const;
-    QTime getCycleTime() const;
+    QList<QAbstractButton*> * getAdditionalNavigation() const;
 
 signals:
-    void save();
-    void back();
 
-    void showLineView();
-    void showActivityView();
-    void showCommentView();
+    void saveWorkplace(QHash<QString, QVariant> values);
+
 
 public slots:
-    void setWorkplaceMetaData(const QString &name, const QString &description, const QString &code, int percentageWoman);
-    void setLine(const QString &name, const QString &description);
-    void setComment(const QString &problemName, const QString &measureName);
-    void setWorkplaceTimes(const QTime &basicTime, const QTime &setupTime, const QTime &restTime, const QTime &allowanceTime, const QTime &cycleTime);
+    void setWorkplace(QHash<QString, QVariant> values);
+    void setSavedLine(QHash<QString, QVariant> values);
+    void setSavedComment(QHash<QString, QVariant> values);
+    void onLeaving();
 
 private slots:
-    void btnBackClicked();
+    void showEmployeeView();
     void btnLineClicked();
     void btnActivityClicked();
     void btnCommentClicked();
+    void btnEmployeeClicked();
 
 private:
-    int id;
+    QPushButton *btnEmployees;
 
-    QLabel *lblViewDescription;
     QLabel *lblName;
     QLabel *lblDescription;
     QLabel *lblCode;
@@ -61,7 +54,7 @@ private:
     TextLineEdit *txtBxCode;
     NumberLineEdit *numBxWomanPercentage;
 
-    QLabel* lblAllowedTime;
+    QLabel* lblGuidelineTimes;
     QLabel* lblSetupTime;
     QLabel* lblBasicTime;
     QLabel* lblRestTime;
@@ -74,14 +67,10 @@ private:
     TimeLineEdit* timeAllowanceTime;
     TimeLineEdit* timeCycleTime;
 
-    QPushButton *btnBack;
-    QPushButton *btnCancel;
-
     DetailedListItem *line;
     DetailedListItem *activity;
     DetailedListItem *comment;
-
-    QList<DetailedListItem*> *additions;
+    DetailedListItem *employee;
 };
 
 #endif // WORKPLACEVIEW_H

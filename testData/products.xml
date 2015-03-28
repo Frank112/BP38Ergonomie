@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+	<product>
+		<name>Product 1</name>
+		<number>12CLB456</number>
+		<totalPercentage>40</totalPercentage>
+	</product>
+	<product>
+		<name>Product 2</name>
+		<number>987654321</number>
+		<totalPercentage>5</totalPercentage>
+	</product>
+		<product>
+		<name>Product 3</name>
+	</product>
+</products>

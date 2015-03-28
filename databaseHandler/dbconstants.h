@@ -2,16 +2,10 @@
 #define DBCONSTANTS_H
 
 #include <QString>
-#include <QStringList>
 #include <QList>
 #include <QVariant>
 #include <QHash>
 
-enum DB_TABLES {ANALYST, EMPLOYER, CORPORATION, BRANCH_OF_INDUSTRY, FACTORY, RECORDING,
-                RECORDING_OBSERVES_LINE, RECORDING_OBSERVES_WORKPLACE, LINE, WORKPLACE,
-                COMMENT, EMPLOYEE, EMPLOYEE_WORKS_SHIFT, PRODUCT, SHIFT, BREAK,
-               ACTIVITY, BODY_POSTURE, WORK_PROCESS, LOAD_HANDLING_TYPE, LOAD_HANDLING,
-               APPLIED_FORCE, TRANSPORTATION, TYPE_OF_GRASPING, EQUIPMENT, WORK_CONDITION};
 
 class DBConstants
 {
@@ -97,6 +91,7 @@ public:
     static const QString COL_WORKPLACE_DESCRIPTION;
     static const QString COL_WORKPLACE_PERCENTAGE_WOMAN;
     static const QString COL_WORKPLACE_LINE_ID;
+    static const QString COL_WORKPLACE_EMPLOYEE_ID;
     static const QString COL_WORKPLACE_CODE;
     static const QString COL_WORKPLACE_CYCLE_TIME;
     static const QString COL_WORKPLACE_SETUP_TIME;
@@ -127,11 +122,21 @@ public:
     static const QString COL_EMPLOYEE_BODY_MEASUREMENT_ID;
     static const QHash<QString, QVariant::Type> HASH_EMPLOYEE_TYPES;
 
-    //Employee_works_Shift
-    static const QString TBL_EMPLOYEE_WORKS_SHIFT;
-    static const QString COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID;
-    static const QString COL_EMPLOYEE_WORKS_SHIFT_SHIFT_ID;
-    static const QHash<QString, QVariant::Type> HASH_EMPLOYEE_WORKS_SHIFT_TYPES;
+    //Body Measurement
+    static const QString TBL_BODY_MEASUREMENT;
+    static const QString COL_BODY_MEASUREMENT_ID;
+    static const QString COL_BODY_MEASUREMENT_HEAD_NECK_HEIGHT;
+    static const QString COL_BODY_MEASUREMENT_SHOULDER_WIDTH;
+    static const QString COL_BODY_MEASUREMENT_SHOULDER_WIDTH_BIACROMIAL;
+    static const QString COL_BODY_MEASUREMENT_SHOULDER_WIDTH_BIDELTOID;
+    static const QString COL_BODY_MEASUREMENT_UPPER_ARM_LENGTH;
+    static const QString COL_BODY_MEASUREMENT_FOREARM_LENGTH;
+    static const QString COL_BODY_MEASUREMENT_HAND_LENGTH_GRIP_AXIS;
+    static const QString COL_BODY_MEASUREMENT_TORSO_HEIGHT;
+    static const QString COL_BODY_MEASUREMENT_THIGH_LENGTH;
+    static const QString COL_BODY_MEASUREMENT_TIBIAL_HEIGHT;
+    static const QString COL_BODY_MEASUREMENT_FOOT_LENGTH;
+    static const QHash<QString, QVariant::Type> HASH_BODY_MEASUREMENT_TYPES;
 
     //Product
     static const QString TBL_PRODUCT;
@@ -140,24 +145,6 @@ public:
     static const QString COL_PRODUCT_NAME;
     static const QString COL_PRODUCT_TOTAL_PERCENTAGE;
     static const QHash<QString, QVariant::Type> HASH_PRODUCT_TYPES;
-
-    //Shift
-    static const QString TBL_SHIFT;
-    static const QString COL_SHIFT_ID;
-    static const QString COL_SHIFT_ROTATION_SHIFT_ID;
-    static const QString COL_SHIFT_TYPE;
-    static const QString COL_SHIFT_START;
-    static const QString COL_SHIFT_END;
-    static const QHash<QString, QVariant::Type> HASH_SHIFT_TYPES;
-
-    //Break
-    static const QString TBL_BREAK;
-    static const QString COL_BREAK_ID;
-    static const QString COL_BREAK_START;
-    static const QString COL_BREAK_END;
-    static const QString COL_BREAK_SHIFT_ID;
-    static const QString COL_BREAK_EMPLOYEE_ID;
-    static const QHash<QString, QVariant::Type> HASH_BREAK_TYPES;
 
     //Activity
     static const QString TBL_ACTIVITY;
@@ -309,7 +296,65 @@ public:
     static const QString COL_WORK_CONDITION_LEFT_LOWER_LEG_SUPPORTED;
     static const QHash<QString, QVariant::Type> HASH_WORK_CONDITION_TYPES;
 
+    //Connection
+    static const QString TBL_CONNECTION;
+    static const QString COL_CONNECTION_ID;
+    static const QString COL_CONNECTION_NAME;
+    static const QString COL_CONNECTION_USERNAME;
+    static const QString COL_CONNECTION_PASSWORD;
+    static const QString COL_CONNECTION_SERVER_ADDRESS;
+    static const QString COL_CONNECTION_PORT;
+    static const QString COL_CONNECTION_DEFAULT;
+    static const QString COL_CONNECTION_ANALYST_ID;
+    static const QHash<QString, QVariant::Type> HASH_CONNECTION_TYPES;
 
+    //Shift
+    static const QString TBL_SHIFT;
+    static const QString COL_SHIFT_ID;
+    static const QString COL_SHIFT_RECORDING_ID;
+    static const QString COL_SHIFT_TYPE;
+    static const QString COL_SHIFT_START;
+    static const QString COL_SHIFT_END;
+    static const QString COL_SHIFT_ROTATION_GROUP_ID;
+    static const QHash<QString, QVariant::Type> HASH_SHIFT_TYPES;
+
+    //Employee_works_Shift
+    static const QString TBL_EMPLOYEE_WORKS_SHIFT;
+    static const QString COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID;
+    static const QString COL_EMPLOYEE_WORKS_SHIFT_SHIFT_ID;
+    static const QHash<QString, QVariant::Type> HASH_EMPLOYEE_WORKS_SHIFT_TYPES;
+
+    //Break
+    static const QString TBL_BREAK;
+    static const QString COL_BREAK_ID;
+    static const QString COL_BREAK_DURATION;
+    static const QHash<QString, QVariant::Type> HASH_BREAK_TYPES;
+
+    // Rotation Group
+    static const QString TBL_ROTATION_GROUP;
+    static const QString COL_ROTATION_GROUP_ID;
+    static const QString COL_ROTATION_GROUP_ORDER_NUMBER;
+    static const QString COL_ROTATION_GROUP_IS_TASK;
+    static const QString COL_ROTATION_GROUP_ENTRY_ID;
+    static const QHash<QString, QVariant::Type> HASH_ROTATION_GROUP_TYPES;
+
+    // Rotation Group Task
+    static const QString TBL_ROTATION_GROUP_TASK;
+    static const QString COL_ROTATION_GROUP_TASK_ID;
+    static const QString COL_ROTATION_GROUP_TASK_NAME;
+    static const QString COL_ROTATION_GROUP_TASK_DURATION;
+    static const QHash<QString, QVariant::Type> HASH_ROTATION_GROUP_TASK_TYPES;
+
+    // Rotation Group Task Entry
+    static const QString TBL_ROTATION_GROUP_TASK_ENTRY;
+    static const QString COL_ROTATION_GROUP_TASK_ENTRY_ID;
+    static const QString COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID;
+    static const QString COL_ROTATION_GROUP_TASK_ENTRY_WORKPLACE_ID;
+    static const QString COL_ROTATION_GROUP_TASK_ENTRY_DURATION;
+    static const QHash<QString, QVariant::Type> HASH_ROTATION_GROUP_TASK_ENTRY_TYPES;
+
+    //Table list
+    static const QList<QString> LIST_TABLE_NAMES;
 };
 
 #endif // DBCONSTANTS_H

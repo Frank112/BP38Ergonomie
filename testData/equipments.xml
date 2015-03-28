@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<equipments>
+	<equipment>
+		<name>Equipment 1</name>
+		<recoilCount>100</recoilCount>
+		<recoilIntensity>10</recoilIntensity>
+		<vibrationCount>200</vibrationCount>
+		<vibrationIntensity>20</vibrationIntensity>
+	</equipment>
+		<equipment>
+		<name>Equipment 2</name>
+		<recoilCount>10</recoilCount>
+		<recoilIntensity>100</recoilIntensity>
+		<vibrationCount>20</vibrationCount>
+		<vibrationIntensity>200</vibrationIntensity>
+	</equipment>
+		<equipment>
+		<name>Equipment 3</name>
+	</equipment>
+</equipments>

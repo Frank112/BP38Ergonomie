@@ -6,31 +6,31 @@
 #include <QScrollArea>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include "textlineedit.h"
-#include "numberlineedit.h"
+#include "../numberlineedit.h"
+#include "../navigation/simplenavigateablewidget.h"
+#include "../interfaces/iequipmentlist.h"
+#include "../../databaseHandler/dbconstants.h"
 
-class EquipmentView : public QWidget
+class EquipmentView : public SimpleNavigateableWidget, IEquipmentList
 {
     Q_OBJECT
+    Q_INTERFACES(IEquipmentList)
 public:
     explicit EquipmentView(QWidget *parent = 0);
     ~EquipmentView();
 
-    QString getName() const;
-    int getRecoilCount() const;
-    int getRecoilIntensity() const;
-    int getVibrationCount() const;
-    int getVibrationIntensity() const;
-
 signals:
-    void back();
-    void saveEquipment();
+    void createEquipment(QHash<QString, QVariant> values);
     void deleteEquipment(int id);
+    void selectEquipment(int id);
+
 
 public slots:
-    void setEquipment(const QString &name, int recoilCount, int recoilIntensity, int vibrationCount, int vibrationIntensity);
-    void addEquipment(int id, const QString &name, int recoilCount, int recoilIntensity, int vibrationCount, int vibrationIntensity);
-    void clear();
+    void addEquipment(QHash<QString, QVariant> values);
+    void removeEquipment(int id);
+    void updateEquipment(QHash<QString, QVariant> values);
+    void clearEquipments();
+
 
 private slots:
     void btnAddClicked();
@@ -40,7 +40,6 @@ private:
 
     QScrollArea *scEquipment;
     QLabel *lblAddEquipment;
-    QLabel *lblViewName;
     QLabel *lblName;
     QLabel *lblRecoilCount;
     QLabel *lblRecoilIntensity;
@@ -53,7 +52,6 @@ private:
     NumberLineEdit *numBxVibrationCount;
     NumberLineEdit *numBxVibrationIntensity;
 
-    QPushButton *btnBack;
     QPushButton *btnAdd;
 
     QVBoxLayout *equipmentListLayout;

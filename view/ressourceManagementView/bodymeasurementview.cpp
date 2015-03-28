@@ -1,91 +1,129 @@
 #include "bodymeasurementview.h"
-#include "separator.h"
+#include "../separator.h"
+#include <QScrollArea>
+#include "../flickcharm.h"
+#include "../../databaseHandler/dbconstants.h"
 
-BodyMeasurementView::BodyMeasurementView(QWidget *parent) :
+BodyMeasurementView::BodyMeasurementView(QWidget *parent) : SimpleNavigateableWidget(tr("Body Measurements"), parent),
     vcHeadNeck(new ValueControl(VALUE)),
     vcThighLength(new ValueControl(VALUE)),
     vcTibialHeight(new ValueControl(VALUE)),
     vcFootLength(new ValueControl(VALUE)),
-
-    lblUpperBody(new QLabel(tr("Upper part of the body"))),
-    lblLowerBody(new QLabel(tr("Lower part of the body"))),
-    lblShoulderWidth(new QLabel(tr("Shoulder width:"))),
-    lblShoulderBiacromial(new QLabel(tr("Shoulder width biacromial:"))),
-    lblShoulderBideltoid(new QLabel(tr("Shoulder width bideltoid:"))),
-    lblUpperArmLength(new QLabel(tr("Upper arme lenght:"))),
-    lblForearmLength(new QLabel(tr("Forearm length:"))),
-    lblHandLength(new QLabel(tr("Hand length:"))),
-    lblTorsoHeight(new QLabel(tr("Torso height:"))),
-
+    vcShoulderWidth(new ValueControl(VALUE)),
+    vcShoulderBiacromial(new ValueControl(VALUE)),
+    vcShoulderBideltoid(new ValueControl(VALUE)),
+    vcUpperArmLength(new ValueControl(VALUE)),
+    vcForearmLength(new ValueControl(VALUE)),
+    vcHandLength(new ValueControl(VALUE)),
+    vcTorsoHeight(new ValueControl(VALUE)),
+    lblHeadNeck(new QLabel(tr("Head and neck:"))),
+    lblUpperBody(new QLabel(tr("Upper part of the body:"))),
+    lblArmsHands(new QLabel(tr("Arms and hands:"))),
+    lblLowerBody(new QLabel(tr("Lower part of the body:"))),
+    lblSelectBodyPart(new QLabel(tr("Tap to select body part:"))),
     head(new QWidget()),
     torso(new QWidget()),
+    arms(new QWidget()),
     legs(new QWidget()),
-    btnHead(new SelectableValueButton(0, 0, this)),
-    btnTorso(new SelectableValueButton(1, 1, this)),
-    btnLegs(new SelectableValueButton(2, 2, this)),
-    btnBack(new QPushButton()),
-    lblViewName(new QLabel(tr("Body Measurement"))),
-    btnFeedback(new QPushButton())
+    btnHead(new QPushButton(this)),
+    btnTorso(new QPushButton(this)),
+    btnArmLeft(new QPushButton(this)),
+    btnArmRight(new QPushButton(this)),
+    btnLegs(new QPushButton(this))
 {
+    lblHeadNeck->setObjectName("lblHeader");
     lblUpperBody->setObjectName("lblHeader");
+    lblArmsHands->setObjectName("lblHeader");
     lblLowerBody->setObjectName("lblHeader");
+    lblSelectBodyPart->setObjectName("lblHeader");
 
-    btnBack->setFixedSize(45, 45);
-    btnBack->setObjectName("leftIcon");
-
-    btnFeedback->setFixedSize(45, 45);
-    btnFeedback->setObjectName("feedbackIcon");
-
-
-    btnHead->setFixedSize(300, 100);
-    btnHead->setStyleSheet("SelectableValueButton {border : none}");
+    btnHead->setFixedSize(200, 80);
     btnHead->setObjectName("headIcon");
-    btnHead->setText("Head");
-    btnTorso->setFixedSize(300, 300);
-    btnTorso->setStyleSheet("SelectableValueButton {border : none}");
-    btnTorso->setObjectName("torsoIcon");
-    btnTorso->setText("Torso");
-    btnLegs->setFixedSize(300, 300);
-    btnLegs->setStyleSheet("SelectableValueButton {border : none}");
-    btnLegs->setObjectName("legsIcon");
-    btnLegs->setText("Legs");
+    btnHead->setCheckable(true);
 
-    connect(btnBack, SIGNAL(clicked()), this, SIGNAL(back()));
+    btnArmLeft->setFixedSize(40, 240);
+    btnArmLeft->setObjectName("armLeftIcon");
+    btnArmLeft->setCheckable(true);
+
+    btnArmRight->setFixedSize(40, 240);
+    btnArmRight->setObjectName("armRightIcon");
+    btnArmRight->setCheckable(true);
+
+    btnTorso->setFixedSize(120, 240);
+    btnTorso->setObjectName("torsoIcon");
+    btnTorso->setCheckable(true);
+
+    btnLegs->setFixedSize(200, 240);
+    btnLegs->setObjectName("legsIcon");
+    btnLegs->setCheckable(true);
+
     connect(btnHead, SIGNAL(clicked()), this, SLOT(btnHeadClicked()));
     connect(btnTorso, SIGNAL(clicked()), this, SLOT(btnTorsoClicked()));
+    connect(btnArmLeft, SIGNAL(clicked()), this, SLOT(btnArmClicked()));
+    connect(btnArmRight, SIGNAL(clicked()), this, SLOT(btnArmClicked()));
     connect(btnLegs, SIGNAL(clicked()), this, SLOT(btnLegsClicked()));
 
-    vcHeadNeck->setText(tr("Head neck height"));
-    vcHeadNeck->setValues(20, 50, QVector<int>()<<30<<40, QString(""));
-    vcHeadNeck->setValue(30);
+    vcHeadNeck->setText(tr("Head neck height [mm]"));
+    vcHeadNeck->setValues(200, 500, QVector<int>()<<250<<300<<350<<400<<450, QString(""));
+    vcHeadNeck->setValue(300);
 
-    vcThighLength->setText(tr("Thigh Length"));
-    vcThighLength->setValues(30, 60, QVector<int>()<<40<<50, QString(""));
-    vcThighLength->setValue(45);
+    vcShoulderWidth->setText(tr("Shoulder width [mm]"));
+    vcShoulderWidth->setValues(350, 550, QVector<int>()<<400<<420<<440<<460<<480, QString(""));
+    vcShoulderWidth->setValue(442);
+    vcShoulderBiacromial->setText(tr("Shoulder biacromial [mm]"));
+    vcShoulderBiacromial->setValues(300, 500, QVector<int>()<<350<<375<<400<<425<<450, QString(""));
+    vcShoulderBiacromial->setValue(405);
+    vcShoulderBideltoid->setText(tr("Shoulder bideltoid [mm]"));
+    vcShoulderBideltoid->setValues(400, 600, QVector<int>()<<450<<475<<500<<525<<550, QString(""));
+    vcShoulderBideltoid->setValue(480);
+    vcTorsoHeight->setText(tr("Torso Height [mm]"));
+    vcTorsoHeight->setValues(500, 800, QVector<int>()<<550<<600<<650<<700<<750, QString(""));
+    vcTorsoHeight->setValue(620);
 
-    vcTibialHeight->setText(tr("Tibial height"));
-    vcTibialHeight->setValues(30, 60, QVector<int>()<<40<<50, QString(""));
-    vcTibialHeight->setValue(45);
+    vcUpperArmLength->setText(tr("Upper arm length [mm]"));
+    vcUpperArmLength->setValues(200, 500, QVector<int>()<<250<<300<<350<<400<<450, QString(""));
+    vcUpperArmLength->setValue(365);
+    vcForearmLength->setText(tr("Forearm length [mm]"));
+    vcForearmLength->setValues(200, 500, QVector<int>()<<250<<300<<350<<400<<450, QString(""));
+    vcForearmLength->setValue(286);
+    vcHandLength->setText(tr("Hand length [mm]"));
+    vcHandLength->setValues(50, 80, QVector<int>()<<55<<60<<65<<70<<75, QString(""));
+    vcHandLength->setValue(64);
 
-    vcFootLength->setText(tr("Foot Length"));
-    vcFootLength->setValues(15, 35, QVector<int>()<<20<<30, QString(""));
-    vcFootLength->setValue(25);
+    vcThighLength->setText(tr("Thigh Length [mm]"));
+    vcThighLength->setValues(300, 600, QVector<int>()<<350<<400<<450<<500<<550, QString(""));
+    vcThighLength->setValue(460);
+    vcTibialHeight->setText(tr("Tibial height [mm]"));
+    vcTibialHeight->setValues(300, 600, QVector<int>()<<350<<400<<450<<500<<550, QString(""));
+    vcTibialHeight->setValue(460);
+    vcFootLength->setText(tr("Foot Length [mm]"));
+    vcFootLength->setValues(150, 350, QVector<int>()<<150<<200<<250<<300<<350, QString(""));
+    vcFootLength->setValue(265);
 
 
     QGridLayout *headLayout = new QGridLayout;
-    headLayout->addWidget(vcHeadNeck, 0, 0, 1, 1, Qt::AlignLeft);
+    headLayout->addWidget(lblHeadNeck, 0, 0, 1, 1, Qt::AlignLeft);
+    headLayout->addWidget(vcHeadNeck, 1, 0, 1, 1, Qt::AlignLeft);
     head->setLayout(headLayout);
-    head->hide();
+
+    btnHead->setChecked(true);
 
     QGridLayout *torsoLayout = new QGridLayout;
     torsoLayout->addWidget(lblUpperBody, 0, 0, 1, 1, Qt::AlignLeft);
-    torsoLayout->addWidget(lblShoulderWidth, 1, 0, 1, 1, Qt::AlignLeft);
-    torsoLayout->addWidget(lblShoulderBiacromial, 2, 0, 1, 1, Qt::AlignLeft);
-    torsoLayout->addWidget(lblUpperArmLength, 3, 0, 1, 1, Qt::AlignLeft);
-    torsoLayout->addWidget(lblForearmLength, 4, 0, 1, 1, Qt::AlignLeft);
-    torsoLayout->addWidget(lblHandLength, 5, 0, 1, 1, Qt::AlignLeft);
+    torsoLayout->addWidget(vcShoulderWidth, 1, 0, 1, 1, Qt::AlignLeft);
+    torsoLayout->addWidget(vcShoulderBiacromial, 2, 0, 1, 1, Qt::AlignLeft);
+    torsoLayout->addWidget(vcShoulderBideltoid, 3, 0, 1, 1, Qt::AlignLeft);
+    torsoLayout->addWidget(vcTorsoHeight, 4, 0, 1, 1, Qt::AlignLeft);
     torso->setLayout(torsoLayout);
     torso->hide();
+
+    QGridLayout *armsLayout = new QGridLayout;
+    armsLayout->addWidget(lblArmsHands, 0, 0, 1, 1, Qt::AlignLeft);
+    armsLayout->addWidget(vcUpperArmLength, 1, 0, 1, 1, Qt::AlignLeft);
+    armsLayout->addWidget(vcForearmLength, 2, 0, 1, 1, Qt::AlignLeft);
+    armsLayout->addWidget(vcHandLength, 3, 0, 1, 1, Qt::AlignLeft);
+    arms->setLayout(armsLayout);
+    arms->hide();
 
     QGridLayout *legsLayout = new QGridLayout;
     legsLayout->addWidget(lblLowerBody, 0, 0, 1, 1, Qt::AlignLeft);
@@ -95,24 +133,35 @@ BodyMeasurementView::BodyMeasurementView(QWidget *parent) :
     legs->setLayout(legsLayout);
     legs->hide();
 
-
-    QGridLayout *navigationBarLayout = new QGridLayout;
-    navigationBarLayout->addWidget(btnBack, 0, 0, 1, 1, Qt::AlignLeft);
-    navigationBarLayout->addWidget(lblViewName, 0, 1, 1, 1, Qt::AlignCenter);
-    navigationBarLayout->addWidget(btnFeedback, 0, 2, 1, 1, Qt::AlignRight);
-
     QGridLayout *rightLayout = new QGridLayout;
-    rightLayout->setContentsMargins(0,0,0,0);
+    rightLayout->setContentsMargins(0, 0, 0, 0);
     rightLayout->addWidget(head, 0, 0, 1, 2, 0);
     rightLayout->addWidget(torso, 1, 0, 1, 2, 0);
-    rightLayout->addWidget(legs, 2, 0, 1, 2, 0);
-    rightLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding), 3, 0, 1, 2, 0);
+    rightLayout->addWidget(arms, 2, 0, 1, 2, 0);
+    rightLayout->addWidget(legs, 3, 0, 1, 2, 0);
+    rightLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding), 4, 0, 1, 2, 0);
 
-    QVBoxLayout *leftLayout = new QVBoxLayout;
-    leftLayout->addWidget(btnHead);
-    leftLayout->addWidget(btnTorso);
-    leftLayout->addWidget(btnLegs);
+    QWidget *rightContent = new QWidget();
+    rightContent->setLayout(rightLayout);
+
+    QScrollArea *saRightLayout = new QScrollArea();
+    saRightLayout->setMinimumWidth(620);
+    saRightLayout->setWidget(rightContent);
+    saRightLayout->setWidgetResizable(true);
+    FlickCharm *flick = new FlickCharm();
+    flick->activateOn(saRightLayout);
+
+    QGridLayout *leftLayout = new QGridLayout;
     leftLayout->setSpacing(0);
+    leftLayout->setContentsMargins(0, 0, 0, 0);
+    leftLayout->addWidget(lblSelectBodyPart, 0, 0, 1, 3, Qt::AlignLeft);
+    leftLayout->addItem(new QSpacerItem(0, 30, QSizePolicy::Fixed, QSizePolicy::Fixed), 1, 0, 1, 3, 0);
+    leftLayout->addWidget(btnHead, 2, 0, 1, 3, Qt::AlignBottom);
+    leftLayout->addWidget(btnArmLeft, 3, 0, 1, 1, 0);
+    leftLayout->addWidget(btnTorso, 3, 1, 1, 1, 0);
+    leftLayout->addWidget(btnArmRight, 3, 2, 1, 1, 0);
+    leftLayout->addWidget(btnLegs, 4, 0, 1, 3, Qt::AlignTop);
+    leftLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding), 5, 0, 1, 3, 0);
 
     QHBoxLayout *splitLayout = new QHBoxLayout;
     splitLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
@@ -120,41 +169,87 @@ BodyMeasurementView::BodyMeasurementView(QWidget *parent) :
     splitLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
     splitLayout->addWidget(new Separator(Qt::Vertical, 3, 0));
     splitLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
-    splitLayout->addLayout(rightLayout);
+    splitLayout->addWidget(saRightLayout);
     splitLayout->addSpacerItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Fixed));
 
+    setLayout(splitLayout);
+}
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->addLayout(navigationBarLayout);
-    mainLayout->addWidget(new Separator(Qt::Horizontal, 3, 0));
-    mainLayout->addLayout(splitLayout);
+//PUBLIC SLOTS
+void BodyMeasurementView::setBodyMeasurement(QHash<QString, QVariant> values){
+    vcHeadNeck->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_HEAD_NECK_HEIGHT).toInt());
+    vcThighLength->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_THIGH_LENGTH).toInt());
+    vcTibialHeight->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_TIBIAL_HEIGHT).toInt());
+    vcFootLength->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_FOOT_LENGTH).toInt());
+    vcShoulderWidth->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_SHOULDER_WIDTH).toInt());
+    vcShoulderBiacromial->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_SHOULDER_WIDTH_BIACROMIAL).toInt());
+    vcShoulderBideltoid->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_SHOULDER_WIDTH_BIDELTOID).toInt());
+    vcUpperArmLength->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_UPPER_ARM_LENGTH).toInt());
+    vcForearmLength->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_FOREARM_LENGTH).toInt());
+    vcHandLength->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_HAND_LENGTH_GRIP_AXIS).toInt());
+    vcTorsoHeight->setValue(values.value(DBConstants::COL_BODY_MEASUREMENT_TORSO_HEIGHT).toInt());
+}
 
-    setLayout(mainLayout);
+void BodyMeasurementView::onLeaving(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_HEAD_NECK_HEIGHT, vcHeadNeck->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_THIGH_LENGTH, vcThighLength->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_TIBIAL_HEIGHT, vcTibialHeight->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_FOOT_LENGTH, vcFootLength->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_SHOULDER_WIDTH, vcShoulderWidth->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_SHOULDER_WIDTH_BIACROMIAL, vcShoulderBiacromial->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_SHOULDER_WIDTH_BIDELTOID, vcShoulderBideltoid->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_UPPER_ARM_LENGTH, vcUpperArmLength->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_FOREARM_LENGTH, vcForearmLength->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_HAND_LENGTH_GRIP_AXIS, vcHandLength->getValue());
+    values.insert(DBConstants::COL_BODY_MEASUREMENT_TORSO_HEIGHT, vcTorsoHeight->getValue());
+    emit saveBodyMeasurement(values);
 }
 
 void BodyMeasurementView::btnHeadClicked(){
-    head->show();
     torso->hide();
+    arms->hide();
     legs->hide();
-    btnHead->setSelected(true);
-    btnTorso->setSelected(false);
-    btnLegs->setSelected(false);
+    head->show();
+    btnHead->setChecked(true);
+    btnArmLeft->setChecked(false);
+    btnArmRight->setChecked(false);
+    btnTorso->setChecked(false);
+    btnLegs->setChecked(false);
 }
 
 void BodyMeasurementView::btnTorsoClicked(){
     head->hide();
-    torso->show();
+    arms->hide();
     legs->hide();
-    btnHead->setSelected(false);
-    btnTorso->setSelected(true);
-    btnLegs->setSelected(false);
+    torso->show();
+    btnHead->setChecked(false);
+    btnArmLeft->setChecked(false);
+    btnArmRight->setChecked(false);
+    btnTorso->setChecked(true);
+    btnLegs->setChecked(false);
 }
 
 void BodyMeasurementView::btnLegsClicked(){
     head->hide();
     torso->hide();
+    arms->hide();
     legs->show();
-    btnHead->setSelected(false);
-    btnTorso->setSelected(false);
-    btnLegs->setSelected(true);
+    btnHead->setChecked(false);
+    btnTorso->setChecked(false);
+    btnArmLeft->setChecked(false);
+    btnArmRight->setChecked(false);
+    btnLegs->setChecked(true);
+}
+
+void BodyMeasurementView::btnArmClicked(){
+    head->hide();
+    torso->hide();
+    legs->hide();
+    arms->show();
+    btnHead->setChecked(false);
+    btnTorso->setChecked(false);
+    btnLegs->setChecked(false);
+    btnArmLeft->setChecked(true);
+    btnArmRight->setChecked(true);
 }

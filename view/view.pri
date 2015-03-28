@@ -2,23 +2,21 @@ INCLUDEPATH +=$$PWD
 DEPENDPATH += $$PWD
 
 HEADERS +=\
-    $$PWD/bodyPostureView/variantspecification.h\
-    $$PWD/selectablevaluebutton.h\
-    $$PWD/valuecontrol.h\
-    $$PWD/separator.h\
-    $$PWD/mainmenu.h\
-    $$PWD/loadhandlingview.h\
-    $$PWD/viewcontroller.h\
+    $$PWD/documentationView/bodyPostureView/variantspecification.h \
+    $$PWD/selectablevaluebutton.h \
+    $$PWD/valuecontrol.h \
+    $$PWD/separator.h \
+    $$PWD/generalViews/mainmenu.h \
+    $$PWD/documentationView/loadhandlingview.h \
     $$PWD/optionselectioncontrol.h \
-    $$PWD/executionconditionview.h \
+    $$PWD/documentationView/bodyPostureView/verticaloptionselectioncontrol.h \
+    $$PWD/documentationView/executionconditionview.h \
     $$PWD/flickcharm.h \
-    $$PWD/documentationview.h \
-    $$PWD/subactivitycontrol.h \
-    $$PWD/buttontimelineview.h \
+    $$PWD/documentationView/documentationview.h \
     $$PWD/numberlineedit.h \
     $$PWD/textlineedit.h \
-    $$PWD/graphtimelineview.h \
-    $$PWD/metadataview.h \
+    $$PWD/timerView/graphtimelineview.h \
+    $$PWD/generalViews/metadataview.h \
     $$PWD/workplaceView/workplaceview.h \
     $$PWD/workplaceView/lineview.h \
     $$PWD/textedit.h \
@@ -35,45 +33,113 @@ HEADERS +=\
     $$PWD/timerView/ganttimerview.h \
     $$PWD/timerView/workprocessbutton.h \
     $$PWD/timerView/timerviewcontroller.h \
-    $$PWD/iconconstants.h \
     $$PWD/ressourceManagementView/ressourcemanagementview.h \
     $$PWD/ressourceManagementView/equipmentview.h \
     $$PWD/ressourceManagementView/transportationview.h \
     $$PWD/workplaceView/activityview.h \
-    $$PWD/workprocessmetadataview.h \
+    $$PWD/documentationView/workprocessmetadataview.h \
     $$PWD/slidercontrol.h \
-    $$PWD/appliedforceview.h \
-    $$PWD/settingsview.h \
-    $$PWD/bodyPostureView/bodypostureview.h \
-    $$PWD/bodyPostureView/variantcontrol.h \
-    $$PWD/analystselectionview.h \
+    $$PWD/documentationView/appliedforceview.h \
+    $$PWD/generalViews/settingsview.h \
+    $$PWD/documentationView/bodyPostureView/bodypostureview.h \
+    $$PWD/documentationView/bodyPostureView/variantcontrol.h \
+    $$PWD/generalViews/analystselectionview.h \
     $$PWD/timerView/spaceritemtimer.h \
     $$PWD/timerView/workprocesstypepicker.h \
     $$PWD/rotationGroupView/shiftview.h \
     $$PWD/timespinner.h \
     $$PWD/rotationGroupView/shiftcalendar.h \
+    $$PWD/navigation/viewcontroller.h \
+    $$PWD/navigation/navigateablewidget.h \
+    $$PWD/navigation/simplenavigateablewidget.h \
+    $$PWD/navigation/viewtype.h \
     $$PWD/ressourceManagementView/bodymeasurementview.h \
-    $$PWD/ressourceManagementView/employeeview.h
+    $$PWD/ressourceManagementView/employeeview.h \
+    $$PWD/ressourceManagementView/employeelistview.h \
+    $$PWD/datelineedit.h \
+    $$PWD/navigation/abstractpopupwidget.h \
+    $$PWD/navigation/titledwidget.h \
+    $$PWD/navigation/notificationwidget.h \
+    $$PWD/navigation/notificationmessage.h \
+    $$PWD/popUps/senddatabasepopup.h \
+    $$PWD/popUps/equipmentpopup.h \
+    $$PWD/popUps/transporationpopup.h \
+    $$PWD/popUps/analystpopup.h \
+    $$PWD/popUps/activitypopup.h \
+    $$PWD/popUps/languagepopup.h \
+    $$PWD/iconbutton.h \
+    $$PWD/popUps/themepopup.h \
+    $$PWD/popUps/importdatapopup.h \
+    $$PWD/ftpconnectionswidget.h \
+    $$PWD/interfaces/iftpconnections.h \
+    $$PWD/documentationView/bodyPostureView/quicklegposturecontrol.h \
+    $$PWD/documentationView/bodyPostureView/quickarmposturecontrol.h \
+    $$PWD/popUps/workplacepopup.h \
+    $$PWD/popUps/resetpopup.h \
+    $$PWD/popUps/employeepopup.h \
+    $$PWD/documentationView/bodyPostureView/quickselectioncontrol.h \
+    $$PWD/interfaces/iemployeelist.h \
+    $$PWD/interfaces/iemployee.h \
+    $$PWD/interfaces/iworkplacelist.h \
+    $$PWD/interfaces/ibodymeasurement.h \
+    $$PWD/interfaces/iworkplace.h \
+    $$PWD/interfaces/icomment.h \
+    $$PWD/popUps/factorysettingspopup.h \
+    $$PWD/interfaces/iemployeeselect.h \
+    $$PWD/interfaces/ilinelist.h \
+    $$PWD/popUps/linepopup.h \
+    $$PWD/interfaces/iline.h \
+    $$PWD/interfaces/iproductlist.h \
+    $$PWD/interfaces/iproduct.h \
+    $$PWD/popUps/createproductpopup.h \
+    $$PWD/interfaces/iactivitylist.h \
+    $$PWD/interfaces/iactivity.h \
+    $$PWD/interfaces/iloadhandling.h \
+    $$PWD/interfaces/iexecutioncondition.h \
+    $$PWD/interfaces/iappliedforce.h \
+    $$PWD/interfaces/iworkprocess.h \
+    $$PWD/interfaces/iworkprocesscontroller.h \
+    $$PWD/interfaces/itransportationlist.h \
+    $$PWD/interfaces/iequipmentlist.h \
+    $$PWD/interfaces/iequipment.h \
+    $$PWD/interfaces/itransportation.h \
+    $$PWD/interfaces/ibodyposture.h \
+    $$PWD/interfaces/igantt.h \
+    $$PWD/interfaces/ianalyst.h \
+    $$PWD/interfaces/ianalystlist.h \
+    $$PWD/interfaces/iimportdata.h \
+    $$PWD/interfaces/isenddata.h \
+    $$PWD/interfaces/irotationgrouptaskentrylist.h \
+    $$PWD/interfaces/irotationgrouptasklist.h \
+    $$PWD/interfaces/irotationgrouptask.h \
+    $$PWD/rotationGroupView/rotationgrouptaskview.h \
+    $$PWD/rotationGroupView/rotationgrouptasklistview.h \
+    $$PWD/interfaces/ishift.h \
+    $$PWD/interfaces/ibranchofindustry.h \
+    $$PWD/interfaces/ifactory.h \
+    $$PWD/interfaces/irecording.h \
+    $$PWD/interfaces/icoperation.h \
+    $$PWD/interfaces/irotationgroup.h \
+    $$PWD/interfaces/iselecteddatabasereset.h \
+    $$PWD/generalViews/errorlogview.h
 
 
 SOURCES +=\
-    $$PWD/bodyPostureView/variantspecification.cpp\
+    $$PWD/documentationView/bodyPostureView/variantspecification.cpp\
     $$PWD/selectablevaluebutton.cpp\
     $$PWD/valuecontrol.cpp\
     $$PWD/separator.cpp\
-    $$PWD/loadhandlingview.cpp\
-    $$PWD/viewcontroller.cpp\
-    $$PWD/mainmenu.cpp\
+    $$PWD/documentationView/loadhandlingview.cpp\
+    $$PWD/generalViews/mainmenu.cpp\
     $$PWD/optionselectioncontrol.cpp \
-    $$PWD/executionconditionview.cpp \
+    $$PWD/documentationView/bodyPostureView/verticaloptionselectioncontrol.cpp \
+    $$PWD/documentationView/executionconditionview.cpp \
     $$PWD/flickcharm.cpp \
-    $$PWD/documentationview.cpp \
-    $$PWD/subactivitycontrol.cpp \
-    $$PWD/buttontimelineview.cpp \
+    $$PWD/documentationView/documentationview.cpp \
     $$PWD/numberlineedit.cpp \
     $$PWD/textlineedit.cpp \
-    $$PWD/graphtimelineview.cpp \
-    $$PWD/metadataview.cpp \
+    $$PWD/timerView/graphtimelineview.cpp \
+    $$PWD/generalViews/metadataview.cpp \
     $$PWD/workplaceView/workplacelistview.cpp \
     $$PWD/workplaceView/workplaceview.cpp \
     $$PWD/workplaceView/lineview.cpp \
@@ -90,24 +156,50 @@ SOURCES +=\
     $$PWD/timerView/ganttimerview.cpp \
     $$PWD/timerView/workprocessbutton.cpp \
     $$PWD/timerView/timerviewcontroller.cpp \
-    $$PWD/iconconstants.cpp \
     $$PWD/ressourceManagementView/ressourcemanagementview.cpp \
     $$PWD/ressourceManagementView/equipmentview.cpp \
     $$PWD/ressourceManagementView/transportationview.cpp \
     $$PWD/workplaceView/activityview.cpp \
-    $$PWD/workprocessmetadataview.cpp \
+    $$PWD/documentationView/workprocessmetadataview.cpp \
     $$PWD/slidercontrol.cpp \
-    $$PWD/appliedforceview.cpp \
-    $$PWD/settingsview.cpp \
-    $$PWD/bodyPostureView/bodypostureview.cpp \
-    $$PWD/bodyPostureView/variantcontrol.cpp \
-    $$PWD/analystselectionview.cpp \
+    $$PWD/documentationView/appliedforceview.cpp \
+    $$PWD/generalViews/settingsview.cpp \
+    $$PWD/documentationView/bodyPostureView/bodypostureview.cpp \
+    $$PWD/documentationView/bodyPostureView/variantcontrol.cpp \
+    $$PWD/generalViews/analystselectionview.cpp \
     $$PWD/timerView/spaceritemtimer.cpp \
     $$PWD/timerView/workprocesstypepicker.cpp \
     $$PWD/rotationGroupView/shiftview.cpp \
     $$PWD/timespinner.cpp \
     $$PWD/rotationGroupView/shiftcalendar.cpp \
+    $$PWD/navigation/viewcontroller.cpp \
     $$PWD/ressourceManagementView/bodymeasurementview.cpp \
-    $$PWD/ressourceManagementView/employeeview.cpp
-
+    $$PWD/ressourceManagementView/employeeview.cpp \
+    $$PWD/ressourceManagementView/employeelistview.cpp \
+    $$PWD/datelineedit.cpp \
+    $$PWD/navigation/abstractpopupwidget.cpp \
+    $$PWD/navigation/notificationwidget.cpp \
+    $$PWD/navigation/notificationmessage.cpp \
+    $$PWD/popUps/senddatabasepopup.cpp \
+    $$PWD/popUps/equipmentpopup.cpp \
+    $$PWD/popUps/transporationpopup.cpp \
+    $$PWD/popUps/analystpopup.cpp \
+    $$PWD/popUps/activitypopup.cpp \
+    $$PWD/popUps/languagepopup.cpp \
+    $$PWD/iconbutton.cpp \
+    $$PWD/popUps/themepopup.cpp \
+    $$PWD/popUps/importdatapopup.cpp \
+    $$PWD/ftpconnectionswidget.cpp \
+    $$PWD/documentationView/bodyPostureView/quicklegposturecontrol.cpp \
+    $$PWD/documentationView/bodyPostureView/quickarmposturecontrol.cpp \
+    $$PWD/popUps/workplacepopup.cpp \
+    $$PWD/popUps/resetpopup.cpp \
+    $$PWD/popUps/employeepopup.cpp \
+    $$PWD/documentationView/bodyPostureView/quickselectioncontrol.cpp \
+    $$PWD/popUps/factorysettingspopup.cpp \
+    $$PWD/popUps/linepopup.cpp \
+    $$PWD/popUps/createproductpopup.cpp \
+    $$PWD/rotationGroupView/rotationgrouptasklistview.cpp \
+    $$PWD/rotationGroupView/rotationgrouptaskview.cpp \
+    $$PWD/generalViews/errorlogview.cpp
 

@@ -30,12 +30,12 @@ ValueControl::ValueControl(ValueControlType controlType, QWidget *parent) :
         connect(txtBxValue, SIGNAL(editingFinished()), this, SLOT(txtBxValueHasChanged()));
 
         btnPlus = new QPushButton (this);
-        btnPlus->setText("+");
+        btnPlus->setObjectName("plusIcon");
         btnPlus->setFixedSize(txtBxValue->height(), txtBxValue->height());
         connect(btnPlus, SIGNAL(pressed()), this, SLOT(btnPlusClicked()));
 
         btnMinus = new QPushButton (this);
-        btnMinus->setText("-");
+        btnMinus->setObjectName("minusIcon");
         btnMinus->setFixedSize(txtBxValue->height(),txtBxValue->height());
         connect(btnMinus, SIGNAL(pressed()), this, SLOT(btnMinusClicked()));
 
@@ -46,6 +46,7 @@ ValueControl::ValueControl(ValueControlType controlType, QWidget *parent) :
     }
     else{
         txtBxValue = new TextLineEdit(this);
+        txtBxValue->setObjectName("notEditableTextBox");
         txtBxValue->setAlignment(Qt::AlignCenter);
         txtBxValue->setEnabled(false);
         txtBxValue->setMinimumSize(300, 40);
@@ -122,6 +123,8 @@ void ValueControl::setValue(const QString &text){
 
 //Public functions
 void ValueControl::setValues(int min, int max, const QVector<int> &btnValues, const QString &iconSetPath){
+    this->min = min;
+    this->max = max;
     btnRanges = new QVector<int>();
     btnRanges->append(min);
     for(int i = 0; i < btnValues.length() - 1; ++i)
@@ -197,11 +200,19 @@ void ValueControl::txtBxValueHasChanged(){
 void ValueControl::sldrValueHasChanged(){
     txtBxValue->setText(QString().number(sldrValue->value()));
     btnHighlight(sldrValue->value());
-    if(emitChangeValue){
+    //if(emitChangeValue){
         emit valueChanged(sldrValue->value());
         emit valueChanged(QVariant(sldrValue->value()));
-    }
+    //}
     emitChangeValue = true;
+    if(sldrValue->value() == min)
+        btnMinus->setEnabled(false);
+    else
+        btnMinus->setEnabled(true);
+    if(sldrValue->value() == max)
+        btnPlus->setEnabled(false);
+    else
+        btnPlus->setEnabled(true);
 }
 
 void ValueControl::btnValueHasClicked(int id){

@@ -4,39 +4,47 @@
 #include <QWidget>
 #include <QTime>
 #include <QList>
-#include "../enum.h"
+#include "../../enum.h"
+#include "../interfaces/iworkprocesscontroller.h"
 #include "minimizedtimerview.h"
 #include "maximizedtimerview.h"
 #include "ganttimerview.h"
 
-class TimerViewController : public QWidget
+class TimerViewController : public QWidget, IWorkProcessController
 {
-
     Q_OBJECT
+    Q_INTERFACES(IWorkProcessController)
 public:
     explicit TimerViewController(QWidget *parent = 0);
 
 signals:
-    void showGantView();
-    void hideGantView();
-
-    void nextWorkProcess();
-    void previousWorkProcess();
+    void selectNextWorkProcess();
+    void selectPreviousWorkProcess();
     void workProcessTypeChanged(AVType type);
-    void durationChanged(const QTime &duration);
-    void createWorkProcess(AVType type, const QTime &startTime, const QTime &endTime);
+    void workProcessDurationChanged(QTime duration);
+    void createWorkProcess(QHash<QString, QVariant> values);
     void resetWorkProcesses();
 
+    void showGantView();
+    void hideGantView();
+    void changingWorkProcess();
+
 public slots:
-    void setSelectedAV(int id, const QTime &duration);
-    void setSelectedType(AVType type);
-    void setWorkProcessLists(QVector<QVariant> *leftWPs, QVector<QVariant> *rightWPs, QVector<QVariant> *basicWPs);
+    void setSelectedWorkProcess(QHash<QString, QVariant> values);
+    void setHasPreviousWorkProcess(bool hasPrevious);
+    void setHasNextWorkProcess(bool hasNext);
+    void setSelectedWorkProcessType(AVType type);
+    void initiliazedWorkProcesses(QList<QHash<QString, QVariant>> values);
+
     void closeTimerView();
+    void gantViewShown();
+    void gantViewHidden();
 
 protected:
-    void timerEvent(QTimerEvent *event);
+    void timerEvent(QTimerEvent *);
 
 private slots:
+    void setSelectedWorkprocessNone();
 
     void minimizeView();
     void maximizeView();
@@ -51,6 +59,10 @@ private slots:
     void createRightWorkProcessRequested();
     void createBasicWorkProcessRequested();
 
+    void selectPreviousWorkProcessClicked();
+    void selectNextWorkProcessClicked();
+    void changingWorkProcessTypeClicked(AVType type);
+
     void changeLeft(bool b);
     void changeRight(bool b);
 
@@ -58,6 +70,8 @@ private:
     bool isLeftSet;
     bool isRightSet;
     bool isBasicSet;
+
+    bool isGantShown;
 
     int timerID;
 
@@ -79,3 +93,4 @@ private:
 };
 
 #endif // TIMERVIEWCONTROLLER_H
+

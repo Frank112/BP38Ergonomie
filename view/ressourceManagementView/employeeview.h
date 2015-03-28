@@ -5,37 +5,40 @@
 #include <QLabel>
 #include <QVector>
 #include <QPushButton>
-#include "optionselectioncontrol.h"
-#include "textedit.h"
-#include "textlineedit.h"
-#include "valuecontrol.h"
+#include "../optionselectioncontrol.h"
+#include "../textedit.h"
+#include "../textlineedit.h"
+#include "../valuecontrol.h"
+#include "../navigation/simplenavigateablewidget.h"
+#include "../interfaces/iemployee.h"
+#include "../databaseHandler/dbconstants.h"
 
-class EmployeeView : public QWidget
+class EmployeeView : public SimpleNavigateableWidget, IEmployee
 {
     Q_OBJECT
+    Q_INTERFACES(IEmployee)
 public:
     explicit EmployeeView(QWidget *parent = 0);
     ~EmployeeView();
 
-    int getGender() const;
-    int getAge() const;
-    int getHeight() const;
-    QString getStaffNumber() const;
-    QString getNote() const;
+    bool hasAdditionalNavigation() const{
+        return true;
+    }
+
+    QList<QAbstractButton*> * getAdditionalNavigation() const;
 
 signals:
-    void back();
-    void save();
-    void showBodyMeasurementView();
+    void saveEmployee(QHash<QString, QVariant> values);
+
 
 public slots:
-    void setEmployee(int gender, int age, int height, const QString &staffNumber, const QString &note);
+    void setEmployee(QHash<QString, QVariant> values);
+    void onLeaving();
 
 private slots:
-    void btnBackClicked();
+    void btnBodyMeasurementsClicked();
 
 private:
-    QLabel *lblViewName;
     QLabel *lblGender;
     QLabel *lblStaffNumber;
     QLabel *lblNote;
@@ -47,9 +50,6 @@ private:
     TextEdit *txtBxNote;
 
     QPushButton *btnBodyMeasurements;
-
-    QPushButton *btnBack;
-    QPushButton *btnFeedback;
 
     const QStringList genderTextValues = QStringList()<<tr("male")<<tr("female");
     const QVector<int> heightValues = QVector<int>()<<150<<160<<170<<180<<190;

@@ -4,34 +4,28 @@
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
-#include "textlineedit.h"
-#include "textedit.h"
+#include "../textlineedit.h"
+#include "../textedit.h"
+#include "../navigation/simplenavigateablewidget.h"
+#include "../interfaces/icomment.h"
+#include "../../databaseHandler/dbconstants.h"
 
-class CommentView : public QWidget
+class CommentView : public SimpleNavigateableWidget, IComment
 {
     Q_OBJECT
+    Q_INTERFACES(IComment)
 public:
     explicit CommentView(QWidget *parent = 0);
     ~CommentView();
 
-    QString getProblemName() const;
-    QString getProblemDescription() const;
-    QString getMeasureName() const;
-    QString getMeasureDescription() const;
-    QString getWorkerPerception() const;
-
 signals:
-    void back();
-    void save();
+    void saveComment(QHash<QString, QVariant> values);
 
 public slots:
-    void setComment(const QString &problemName, const QString &problemDesc, const QString &measureName, const QString &measureDesc, const QString &workerPerception);
-
-private slots:
-    void btnBackClicked();
+    void setComment(QHash<QString, QVariant> values);
+    void onLeaving();
 
 private:
-    QLabel *lblViewName;
     QLabel *lblProblem;
     QLabel *lblProblemName;
     QLabel *lblProblemDescription;
@@ -46,8 +40,6 @@ private:
     TextLineEdit *txtBxMeasureName;
     TextEdit *txtBxMeasureDescription;
     TextEdit *txtBxPerceptionDescription;
-
-    QPushButton *btnBack;
 };
 
 #endif // COMMENTVIEW_H

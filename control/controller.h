@@ -2,144 +2,323 @@
 #define CONTROLLER_H
 
 #include <QObject>
-#if defined(Q_OS_IOS)
-    #include "dbhandler.h"
-    #include "viewcontroller.h"
-    #include "mainmenu.h"
-    #include "metadataview.h"
-    #include "workplaceView/activityview.h"
-    #include "rotationGroupView/shiftview.h"
-#else
-    #include "../databaseHandler/dbhandler.h"
-    #include "../view/viewcontroller.h"
-    #include "../view/mainmenu.h"
-    #include "../view/metadataview.h"
-    #include "../view/workplaceView/activityview.h"
-    #include "../view/workplaceView/commentview.h"
-    #include "../view/workplaceView/lineview.h"
-    #include "../view/workplaceView/workplacelistview.h"
-    #include "../view/workplaceView/workplaceview.h"
-    #include "../view/documentationview.h"
-    #include "../view/analystselectionview.h"
-    #include "../view/timerView/ganttimerview.h"
-    #include "../view/rotationGroupView/shiftview.h"
-#endif
-#include <QSqlField>
 #include <QHash>
+#include <QApplication>
+#include <QDir>
+#include "../view/navigation/notificationmessage.h"
+#include "../databaseHandler/dbhandler.h"
+#include "../xmlHandler/xmlparser.h"
+#include "../standardpaths.h"
+#include "../enum.h"
+#include "../view/interfaces/iimportdata.h"
+#include "../view/interfaces/isenddata.h"
+#include "../view/interfaces/iselecteddatabasereset.h"
+#include "../ftpHandler/ftphandler.h"
+#include "../errorreporter.h"
+#include "../settings.h"
+#include "../view/navigation/viewtype.h"
 
-class Controller : QObject
+class Controller : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-    explicit Controller(QObject *parent = 0);
+    explicit Controller(QObject *parent = 0, QApplication *app = 0);
+    ~Controller();
+
+    void initialize();
 
 signals:
+    void showMessage(QString message, NotificationMessage::MessageType msgType = NotificationMessage::ACCEPT, NotificationMessage::MessageDisplayType msgDisplayType = NotificationMessage::MIDDLE);
+    void showView(ViewType view, QList<ViewType> *previousViews = 0);
+
+    void clearAll();
+
+    //Analyst
+    void clearAnalysts();
+    void createdAnalyst(QHash<QString, QVariant> values);
+    void selectedAnalyst(QHash<QString, QVariant> values);
+    void updatedAnalyst(QHash<QString, QVariant> values);
+    void removedAnalyst(int id);
+
+    //Branch of Industry
+    void settedBranchOfIndustry(QHash<QString, QVariant> values);
+
+    //Corperation
+    void settedCorperation(QHash<QString, QVariant> values);
+
+    //Factory
+    void settedFactory(QHash<QString, QVariant> values);
+
+    //Recording
+    void settedRecording(QHash<QString, QVariant> values);
+
+    //Workplace
+    void clearWorkplaces();
+    void createdWorkplace(QHash<QString, QVariant> values);
+    void selectedWorkplace(QHash<QString, QVariant> values);
+    void updatedWorkplace(QHash<QString, QVariant> values);
+    void removedWorkplace(int id);
+
+    //Workplace comment
+    void selectedComment(QHash<QString, QVariant> values);
+    void updatedComment(QHash<QString, QVariant> values);
+
+    //Line
+    void createdLine(QHash<QString, QVariant> values);
+    void updatedLine(QHash<QString, QVariant> values);
+    void editLine(QHash<QString, QVariant> values);
+    void removedLine(int id);
+    void selectedLine(QHash<QString, QVariant> values);
+    void clearLines();
+
+    //Employee
+    void clearEmployees();
+    void createdEmployee(QHash<QString, QVariant> values);
+    void selectedEmployee(QHash<QString, QVariant> values);
+    void updatedEmployee(QHash<QString, QVariant> values);
+    void removedEmployee(int id);
+
+    //EmployeeSelectList
+    void employeeSelected(int id);
+
+    //BodyMeasurement
+    void selectedBodyMeasurement(QHash<QString, QVariant> values);
+
+    //Product
+    void clearProducts();
+    void createdProduct(QHash<QString, QVariant> values);
+    void updatedProduct(QHash<QString, QVariant> values);
+    void removedProduct(int id);
+
+    //Activity
+    void clearActivities();
+    void createdActivity(QHash<QString, QVariant> values);
+    void updatedActivity(QHash<QString, QVariant> values);
+    void removedActivity(int id);
+    void editActivity(QHash<QString, QVariant> values);
+
+    //Equipment
+    void clearEquipments();
+    void createdEquipment(QHash<QString, QVariant> values);
+    void updatedEquipment(QHash<QString, QVariant> values);
+    void removedEquipment(int id);
+
+    //Transportation
+    void clearTransportations();
+    void createdTransportation(QHash<QString, QVariant> values);
+    void updatedTransportation(QHash<QString, QVariant> values);
+    void removedTransportation(int id);
+
+    //LoadHandling
+    void setLoadHandling(QHash<QString, QVariant> values);
+
+    //BodyPosture
+    void setBodyPosture(QHash<QString, QVariant> values);
+
+    //AppliedForce
+    void setAppliedForce(QHash<QString, QVariant> values);
+
+    //WorkProcess
+    void setWorkProcess(QHash<QString, QVariant> values);
+
+    //ExecutionCondition
+    void setExecutionCondition(QHash<QString, QVariant> values);
+
+    //WorkProcessControll
+    void createdWorkProcess(QHash<QString, QVariant> values);
+    void setSelectedWorkProcess(QHash<QString, QVariant> values);
+    void setHasPreviousWorkProcess(bool hasPrevious);
+    void setHasNextWorkProcess(bool hasNext);
+    void setSelectedWorkProcessType(AVType type);
+    void initiliazedWorkProcesses(QList<QHash<QString, QVariant>> values);
+    void resettedWorkProcesses();
+
+    //Shift
+    void selectedShift(QHash<QString, QVariant> values);
+
+    //RotationGroup
+    void clearRotationGroup();
+    void addRotationGroupEntry(QHash<QString, QVariant> values);
+    void updatedRotationGroupEntry(QHash<QString, QVariant> values);
+    void addRotationGroupBreakEntry(QHash<QString, QVariant> values);
+
+    //RotationGroupTask
+    void clearRotationGroupTasks();
+    void createdRotationGroupTask(QHash<QString, QVariant> values);
+    void updatedRotationGroupTask(QHash<QString, QVariant> values);
+    void removedRotationGroupTask(int id);
+    void selectedRotationGroupTask(QHash<QString, QVariant> values);
+    void updatedRotationGroupTaskDuration(int duration);
+
+    //RotationGroupTaskEntry
+    void clearRotationGroupTaskEntries();
+    void createdRotationGroupTaskEntry(QHash<QString, QVariant> values);
+    void removedRotationGroupTaskEntry(int id);
 
 public slots:
-
-private slots:
-    void updateAnalystSelectionView();
-    void createAnalyst();
-    void removeAnalyst(int id);
+    //Analyst
+    void initializeAnalysts();
+    void createAnalyst(QHash<QString, QVariant> values);
+    void deleteAnalyst(int id);
     void selectAnalyst(int id);
 
-    void updateMetaDataView();
-    void saveMetaDataView();
+    //MainMenuView
+    void createBlankRecording();
 
-    void updateWorkplacesView();
+    //BranchOfIndustry
+    void setBranchOfIndustry(int id);
+    void saveBranchOfIndustry(QHash<QString, QVariant> values);
 
-    void updateWorkplaceView(int id);
-    void updateWorkplaceView();
-    int createWorkplace();
-    void saveWorkplaceView();
+    //Corperation
+    void setCorperation(int id);
+    void saveCorperation(QHash<QString, QVariant> values);
+
+    //Factory
+    void setFactory(int id);
+    void saveFactory(QHash<QString, QVariant> values);
+
+    //Recording
+    void setRecording(int id);
+    void saveRecording(QHash<QString, QVariant> values);
+
+    //Workplace
+    void initializeWorkplaces();
+    void createWorkplace(QHash<QString, QVariant> values);
+    void createWorkplace(QHash<QString, QVariant> values, QList<QHash<QString, QVariant>> activityValues);
     void deleteWorkplace(int id);
+    void selectWorkplace(int id);
+    void saveWorkplace(QHash<QString, QVariant> values);
 
-    void updateLineView();
-    int saveSelectedLine(int id);
-    int saveLine();
+    //Comment
+    void saveComment(QHash<QString, QVariant> values);
+
+    //Line
+    void initializeLines();
+    void createLine(QHash<QString, QVariant> values);
+    void editLine(int id);
+    void saveLine(QHash<QString, QVariant> values);
     void deleteLine(int id);
+    void selectLine(int id);
 
-    void updateComment();
-    int saveComment();
+    //Product
+    void initializeProducts();
+    void createProduct(QHash<QString, QVariant> values);
+    void saveProduct(QHash<QString, QVariant> values);
+    void deleteProduct(int id);
 
+    //Activity
+    void initializeActivities(int workplace_ID);
+    void createActivity(QHash<QString, QVariant> values);
+    void saveActivity(QHash<QString, QVariant> values);
+    void deleteActivity(int id, bool showMsg = true);
+    void selectActivity(int id);
+    void editActivity(int id);
 
-    int createWorkprocess(AVType type, const QTime &start, const QTime &end);
-    void setSelectedWorkProcess(int, AVType);
+    //Equipment
+    void initializeEquipments();
+    void createEquipment(QHash<QString, QVariant> values);
+    void saveEquipment(QHash<QString, QVariant> values);
+    void deleteEquipment(int id);
+
+    //Transportation
+    void initializeTansportations();
+    void createTransportation(QHash<QString, QVariant> values);
+    void saveTransportation(QHash<QString, QVariant> values);
+    void deleteTransportation(int id);
+
+    //LoadHandling
+    void saveLoadHandling(QHash<QString, QVariant> values);
+
+    //BodyPosture
+    void saveBodyPosture(QHash<QString, QVariant> values);
+
+    //AppliedForce
+    void saveAppliedForce(QHash<QString, QVariant> values);
+
+    //WorkProcess
+    void saveWorkProcess(QHash<QString, QVariant> values);
+
+    //ExecutionCondition
+    void saveExecutionCondition(QHash<QString, QVariant> values);
+
+    //WorkProcessControll
+    void initilizeWorkProcesses(bool selectFirst = true);
+    void createWorkprocess(QHash<QString, QVariant> values);
+    void createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses);
     void selectNextWorkProcess();
     void selectPreviousWorkProcess();
     void workProcessTypeChanged(AVType type);
     void resetWorkProcesses();
-    void saveCurrentWorkProcess();
+    void workProcessDurationChanged(QTime time);
+    void selectWorkProcess(int id, AVType type);
 
-    void updateGantView();
+    //Gantt
+    void saveWorkProcessFrequence(int frequence);
 
-    void updateProductView();
-    void createProduct();
-    void deleteProduct(int id);
+    //Employee
+    void initializeEmployees();
+    void createEmployee(QHash<QString, QVariant> values);
+    void createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues);
+    void deleteEmployee(int id);
+    void selectEmployee(int id);
+    void saveEmployee(QHash<QString, QVariant> values);
+    void setSelectedEmployee(int id);
+    void resetEmployeeSelection();
 
-    void updateEquipmentView();
-    void createEquipment();
-    void deleteEquipment(int id);
+    //BodyMeasurement
+    void saveBodyMeasurement(QHash<QString, QVariant> values);
 
-    void updateTransportationView();
-    void createTransportation();
-    void deleteTransportation(int id);
+    //Connection
+    void initializeFTPConnections(IFTPConnections *widget);
+    void createFTPConnection(IFTPConnections *widget);
+    void editFTPConnection(IFTPConnections *widget, int id);
+    void selectFTPConnection(IFTPConnections *widget, int id);
 
-    void updateActivityView();
-    void createActivity();
-    void deleteActivity(int id);
-    void selectActivity(int id);
+    //ImportData
+    void importData(IImportData *widget);
+    void importDataDownloadFinished(const QString);
+    void importDataDownloadError(const QString &error);
 
-    void saveBodyPostureView();
-    void updateBodyPostureView();
+    //SendData
+    void sendData(ISendData *widget);
+    void sendDataUploadStarted();
+    void sendDataUploadFinished(const QString filename);
+    void sendDataUploadError(const QString &error);
 
-    void updateExecutionConditionView();
-    void saveExecutionConditionView();
+    //Shift
+    void initializeShift(int id);
+    void saveShift(QHash<QString, QVariant> values);
 
-    void updateAppliedForceView();
-    void saveAppliedForceView();
+    //RotationGroup
+    void initializeRotationGroup(int id);
+    void createRotationGroupEntry(QHash<QString, QVariant> values);
+    void createRotationGroupBreakEntry(QHash<QString, QVariant> values);
+    void deleteRotationGroupEntry(int order);
+    void moveRotationGroupEntryUp(int order);
+    void moveRotationGroupEntryDown(int order);
 
-    void updateLoadHandlingView();
-    void saveLoadHandlingView();
-    void updateLoadHandlingTransportations();
+    //RotationGroupTask
+    void initializeRotationGroupTasks();
+    void createRotationGroupTask(QHash<QString, QVariant> values);
+    void deleteRotationGroupTask(int id);
+    void selectRotationGroupTask(int id);
+    void saveRotationGroupTask(QHash<QString, QVariant> values);
 
-    void updateWorkProcessMetaDataView();
-    void updateWorkProcessMetaDataEquipment();
+    //RotationGroupTaskEntry
+    void initializeRotationGroupTaskEntries(int id);
+    void createRotationGroupTaskEntry(QHash<QString, QVariant> values);
+    void deleteRotationGroupTaskEntry(int id, bool showMsg = true);
 
-    void updateDocumentationViewRessources();
+    //Reset
+    void resetDatabaseFactory();
+    void resetSelectedEntries(ISelectedDatabaseReset *widget);
 
-    void resetDatabase();
+    //Theme
+    void changeTheme();
 
 private:
+    QApplication *application;
     DBHandler *dbHandler;
-    ViewController *viewCon;
-
-    AnalystSelectionView *analystSelectionView;
-    MainMenu *mainMenuView;
-    MetaDataView *metaDataView;
-    WorkplaceListView *workplaceListView;
-    WorkplaceView *workplaceView;
-    LineView *lineView;
-    ActivityView *activityView;
-    CommentView *commentView;
-    RessourceManagementView *ressourceManagementView;
-    ProductView *productView;
-    EquipmentView *equipmentView;
-    TransportationView *transportationView;
-    EmployeeView *employeeView;
-    BodyMeasurementView *bodyMeasurementView;
-    ShiftView *shiftView;
-    SettingsView *settingsView;
-
-    DocumentationView *documentationView;
-    WorkProcessMetaDataView *workProcessMetaDataView;
-    AppliedForceView *appliedForceView;
-    BodyPostureView *bodyPostureView;
-    LoadHandlingView *loadHandlingView;
-    ExecutionConditionView *executionConditionView;
-    GantTimerView *gantTimerView;
-
-    TimerViewController *timerViewController;
 
     int analyst_ID;
     int recording_ID;
@@ -152,26 +331,33 @@ private:
     int appliedforce_ID;
     int loadhandling_ID;
     int bodyPosture_ID;
+    int employee_ID;
+    int bodyMeasurement_ID;
+    int selectedEmployee_ID;
+    int shift_ID;
+    int rotationGroup_ID;
+    int rotationGroupTask_ID;
 
-    int insert(DB_TABLES tbl, const QString &colID, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue);
+    IImportData *importDataWidget;
+    IImportDataParser *parser;
+    QString downloadDir;
+    int countFileDownload;
 
-    int save(DB_TABLES tbl, const QString &filter, const QString &colID, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue);
+    void updateRotationGroupTaskDuration();
+    QString getWorkplaceNameByID(int id);
+    void swapRotationGroupEntries(int order1, int order2);
+    void updateRotationGroupEntry(int entry_ID);
+    void deleteRotationGroupEntries(int groupTask_ID);
 
-    void save(DB_TABLES tbl, const QString &filter, const QHash<QString, QVariant::Type> &colMapNameType, const QHash<QString, QVariant> &colMapNameValue);
+    void saveRecordingObservesLine(int line_ID);
+    void deleteRecordingObservesLine(int line_ID);
 
-    int saveWorkplace(int id);
-    int qTimeToSeconds(const QTime &time);
-
-    void saveRecordingObservesLine(int lineID);
-    void deleteRecordingObservesLine(int lineID);
-
-    void saveRecordingObservesWorkplace(int workplaceID);
-    void deleteRecordingOberservesWorkplace(int wpID);
-
-    void updateActivityViewActivities();
+    void saveRecordingObservesWorkplace(int workplace_ID);
+    void deleteRecordingOberservesWorkplace(int workplace_ID);
 
     void deleteWorkProcesses(int activity_ID);
-    void saveWorkProcessEvaluationID(const QString &colName, const int id);
+
+    QString stringFromResource(const QString &resName);
 };
 
 #endif // CONTROLLER_H

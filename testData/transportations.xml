@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transportations>
+	<transportation>
+		<name>Transportation 1</name>
+		<fixedRoller>0</fixedRoller>
+		<brakes>1</brakes>
+		<emptyWeight>10</emptyWeight>
+		<maxLoad>400</maxLoad>
+	</transportation>
+	<transportation>
+		<name>Transportation 2</name>
+		<fixedRoller>1</fixedRoller>
+		<brakes>1</brakes>
+		<emptyWeight>30</emptyWeight>
+		<maxLoad>500</maxLoad>
+	</transportation>
+	<transportation>
+		<name>Transportation 3</name>
+	</transportation>
+</transportations>

@@ -3,43 +3,42 @@
 #include <QWidget>
 #include <QSpacerItem>
 #include <QDebug>
+#include <QStylePainter>
+#include <QStyleOption>
 
-DetailedListItem::DetailedListItem(QWidget *parent, const QString &iconPath, const QString &name, const QList<QStringList> &scheme, bool isDeletable, bool isCheckable, bool hasForwardLabel) :
+DetailedListItem::DetailedListItem(QWidget *parent, const QString &objectName, const QString &name, const QList<QStringList> &scheme, bool isDeletable, bool isCheckable, bool hasForwardButton, bool canBeAdded, bool isEditable) :
     QAbstractButton(parent),
     isCheckable(isCheckable),
-    isDeletable(isDeletable),
     layout(new QGridLayout),
     lblIcon(new QPushButton()),
-    icon(QIcon(iconPath)),
     lblName(new QLabel(name)),
     btnDelete(new QPushButton()),
+    btnAdd(new QPushButton()),
+    btnEdit(new QPushButton()),
     checkBox(new QCheckBox()),
-    lblForward(new QLabel(">")),
+    btnForward(new QPushButton),
     listLblValues(QList<QList<QLabel*>>())
 {
-
-    QWidget *groupBox = new QWidget;
-    groupBox->setMinimumHeight(50);
-    groupBox->setObjectName("detailedListItemWidget");
-
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-
     // SETTINGS FOR GENERAL ELEMENTS
     lblName->setObjectName("lblHeader");
-    lblIcon->setObjectName("btnIcon");
+    if(objectName != "")
+        lblIcon->setObjectName(objectName);
+    else
+        lblIcon->setObjectName("transparent");
     lblIcon->setFixedSize(45, 45);
     connect(lblIcon, SIGNAL(clicked()), this, SIGNAL(clicked()));
-    if(!icon.isNull()){
-        lblIcon->setIconSize(QSize(45, 45));
-        lblIcon->setIcon(icon);
-    }
     checkBox->setChecked(false);
-    checkBox->setFixedSize(45, 45);
-    checkBox->setDisabled(true);
+    checkBox->setEnabled(false);
     btnDelete->setFixedSize(45, 45);
     btnDelete->setObjectName("resetIcon");
-    lblForward->setFixedSize(45, 45);
+    btnAdd->setFixedSize(45, 45);
+    btnAdd->setObjectName("plusIcon");
+    btnEdit->setFixedSize(45, 45);
+    btnEdit->setObjectName("editIcon");
+    btnForward->setFixedSize(45, 45);
+    btnForward->setObjectName("rightIcon");
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(deleteItem()));
+    connect(btnForward, SIGNAL(clicked()), this, SIGNAL(clicked()));
 
     // ADD SCHEME (DESCRIPTIONS)
     for(int i = 0; i < scheme.count(); ++i){
@@ -69,31 +68,33 @@ DetailedListItem::DetailedListItem(QWidget *parent, const QString &iconPath, con
     if(isDeletable){
         layout->addWidget(btnDelete, 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
     }
-    else {
-        layout->addItem(new QSpacerItem(50, 0), 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
+    if(canBeAdded){
+        layout->addWidget(btnAdd, 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
+        connect(btnAdd, SIGNAL(clicked()), this, SLOT(addItem()));
+    }
+    if(isEditable){
+        layout->addWidget(btnEdit, 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
+        connect(btnEdit, SIGNAL(clicked()), this, SLOT(editItem()));
     }
     if(isCheckable){
         layout->addWidget(checkBox, 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
         connect(this, SIGNAL(clicked()), this, SLOT(changeSelection()));
     }
-    else {
-        layout->addItem(new QSpacerItem(50, 0), 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
-    }
-    if(hasForwardLabel){
-        layout->addWidget(lblForward, 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
+    if(hasForwardButton){
+        layout->addWidget(btnForward, 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
     }
     else {
-        layout->addItem(new QSpacerItem(50, 0), 0, layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
+        layout->addItem(new QSpacerItem(50, 0, QSizePolicy::Fixed, QSizePolicy::Fixed), layout->columnCount(), layout->rowCount(), 1, Qt::AlignRight);
     }
-    groupBox->setLayout(layout);
-    mainLayout->addWidget(groupBox);
-    setLayout(mainLayout);
-
-    connect(this, SIGNAL(pressed()), this, SLOT(itemPressed()));
+    setLayout(layout);    
+    connect(this, SIGNAL(clicked()), this, SLOT(itemPressed()));
 }
 
-void DetailedListItem::paintEvent(QPaintEvent *e){
-    QWidget::paintEvent(e);
+void DetailedListItem::paintEvent(QPaintEvent*){
+    QStylePainter p(this);
+    QStyleOption opt;
+    opt.initFrom(this);
+    p.drawPrimitive(QStyle::PE_Widget, opt);
 }
 
 // PRIVATE SLOTS
@@ -101,22 +102,29 @@ void DetailedListItem::deleteItem(){
     emit deleteItem(id);
 }
 
+void DetailedListItem::addItem(){
+    emit addItem(id);
+}
+
+void DetailedListItem::editItem(){
+    emit editItem(id);
+}
+
 void DetailedListItem::itemPressed(){
     emit pressed(id);
 }
 
 // PUBLIC SLOTS
-void DetailedListItem::
-checkState(int id){
-    qDebug() << "State: " << id;
-}
-
 void DetailedListItem::setValues(const QList<QStringList> &values){
     for(int i = 0; i < values.count(); ++i){
         for(int j = 0; j < values.at(i).count(); ++j){
             listLblValues.at(i).at(j)->setText(values.at(i).at(j));
         }
     }
+}
+
+void DetailedListItem::setName(const QString &name){
+    lblName->setText(name);
 }
 
 void DetailedListItem::changeSelection(){
@@ -152,6 +160,10 @@ void DetailedListItem::deselect(){
     }
 }
 
+bool DetailedListItem::isSelected(){
+    return checkBox->isChecked();
+}
+
 void DetailedListItem::selectExclusiveWithID(int id){
     if(this->id != id)
         deselect();
@@ -165,4 +177,8 @@ int DetailedListItem::getID() const{
 }
 void DetailedListItem::setID(int id){
     this->id = id;
+}
+
+QString DetailedListItem::getName() const{
+    return this->lblName->text();
 }

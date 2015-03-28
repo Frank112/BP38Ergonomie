@@ -1,18 +1,17 @@
 #include <QGridLayout>
 #include "transportationview.h"
-#include "../enum.h"
-#include "flickcharm.h"
-#include "separator.h"
-#include "detailedlistitem.h"
-#include "iconconstants.h"
+#include "../../enum.h"
+#include "../flickcharm.h"
+#include "../separator.h"
+#include "../detailedlistitem.h"
+#include "../../databaseHandler/dbconstants.h"
 
 const QVector<QVariant> TransportationView::YES_NO_VALUE = QVector<QVariant>()<<true<<false;
 
 TransportationView::TransportationView(QWidget *parent) :
-    QWidget(parent),
+    SimpleNavigateableWidget(tr("Transportations"), parent),
     scTransportation(new QScrollArea),
     lblAddTransportation(new QLabel(tr("Add Transportation"))),
-    lblViewName(new QLabel(tr("Transportations"))),
     lblName(new QLabel(tr("Name:"))),
     lblWeight(new QLabel(tr("Empty weight [kg]:"))),
     lblMaxLoad(new QLabel(tr("Max. load [kg]:"))),
@@ -23,15 +22,11 @@ TransportationView::TransportationView(QWidget *parent) :
     numBxMaxLoad(new NumberLineEdit()),
     oscFixedRoller(new OptionSelectionControl()),
     oscBrakes(new OptionSelectionControl()),
-    btnBack(new QPushButton()),
     btnAdd(new QPushButton()),
     transportationListLayout(new QVBoxLayout())
 {
-    btnBack->setObjectName("leftIcon");
-    btnBack->setFixedSize(45, 45);
     btnAdd->setObjectName("plusIcon");
     btnAdd->setFixedSize(45, 45);
-    connect(btnBack, SIGNAL(clicked()), this, SIGNAL(back()));
     connect(btnAdd, SIGNAL(clicked()), this, SLOT(btnAddClicked()));
 
     lblAddTransportation->setObjectName("lblHeader");
@@ -42,11 +37,6 @@ TransportationView::TransportationView(QWidget *parent) :
     oscBrakes->setValues(YES_NO_TEXTS, YES_NO_VALUE);
     oscFixedRoller->setSelectedValue(1);
     oscBrakes->setSelectedValue(1);
-
-    QGridLayout *navigationBarLayout = new QGridLayout;
-    navigationBarLayout->addWidget(btnBack, 0, 0, 1, 1, Qt::AlignLeft);
-    navigationBarLayout->addWidget(lblViewName, 0, 1, 1, 1, Qt::AlignCenter);
-    navigationBarLayout->addWidget(new QLabel(), 0, 2, 1, 1, Qt::AlignRight);
 
     QWidget *listContent = new QWidget;
     listContent->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -72,8 +62,6 @@ TransportationView::TransportationView(QWidget *parent) :
     transportationDataLayout->addWidget(btnAdd, 6, 0, 1, 2, Qt::AlignCenter);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->addLayout(navigationBarLayout);
-    mainLayout->addWidget(new Separator(Qt::Horizontal, 3, 0));
     mainLayout->addLayout(transportationDataLayout);
     mainLayout->addWidget(new Separator(Qt::Horizontal, 3, 0));
     mainLayout->addWidget(scTransportation);
@@ -85,57 +73,53 @@ TransportationView::TransportationView(QWidget *parent) :
 
 TransportationView::~TransportationView(){}
 
-// PUBLIC
-
-QString TransportationView::getName() const {
-    return txtBxName->text();
-}
-
-int TransportationView::getWeight() const{
-    return numBxWeight->getValue();
-}
-
-int TransportationView::getMaxLoad() const{
-    return numBxMaxLoad->getValue();
-}
-
-bool TransportationView::hasFixedRoller() const{
-    return oscFixedRoller->getSelectedValue().toBool();
-}
-
-bool TransportationView::hasBrakes() const{
-    return oscBrakes->getSelectedValue().toBool();
-}
-
 // PUBLIC SLOTS
-void TransportationView::addTransportation(int id, const QString &name, int weight, int maxLoad, bool fixedRollers, bool brakes){
-    DetailedListItem *newListItem = new DetailedListItem(0, IconConstants::ICON_TRANSPORTATION, name, transportationItemScheme, true, false, false);
-    newListItem->setID(id);
-    QString strHasBrakes = brakes ? tr("yes") : tr("no");
-    QString strHasFixedRoller = fixedRollers ? tr("yes") : tr("no");
-    QList<QStringList> values = QList<QStringList>() << (QStringList() << QString::number(weight) << QString::number(maxLoad)) << (QStringList() << strHasFixedRoller << strHasBrakes);
-    newListItem->setValues(values);
+
+void TransportationView::addTransportation(QHash<QString, QVariant> values){
+    QString fixedRollers = values.value(DBConstants::COL_TRANSPORTATION_FIXED_ROLLER).toBool() ? tr("Yes") : tr("No");
+    QString brakes = values.value(DBConstants::COL_TRANSPORTATION_BRAKES).toBool() ? tr("Yes") : tr("No");
+    QList<QStringList> dliValues = QList<QStringList>() << (QStringList() << values.value(DBConstants::COL_TRANSPORTATION_EMPTY_WEIGHT).toString() << values.value(DBConstants::COL_TRANSPORTATION_MAX_LOAD).toString()) << (QStringList() << fixedRollers << brakes);
+    DetailedListItem *newListItem = new DetailedListItem(this, "transportationIcon", values.value(DBConstants::COL_TRANSPORTATION_NAME).toString(), transportationItemScheme, true, false, false, false, false);
+    newListItem->setValues(dliValues);
+    newListItem->setID(values.value(DBConstants::COL_TRANSPORTATION_ID).toInt());
     connect(newListItem, SIGNAL(deleteItem(int)), this, SIGNAL(deleteTransportation(int)));
     transportationListLayout->addWidget(newListItem);
 }
 
-void TransportationView::setWeight(int weight){
-    numBxWeight->setValue(weight);
+void TransportationView::removeTransportation(int id){
+    QLayoutItem *item;
+    int i = 0;
+    while((item = transportationListLayout->itemAt(i)) != NULL){
+        DetailedListItem *dli = qobject_cast<DetailedListItem*>(item->widget());
+        if(dli->getID() == id){
+            transportationListLayout->removeItem(item);
+            delete item->widget();
+            delete item;
+            break;
+        }
+        i++;
+    }
 }
 
-void TransportationView::setMaxLoad(int maxLoad){
-    numBxMaxLoad->setValue(maxLoad);
+void TransportationView::updateTransportation(QHash<QString, QVariant> values){
+    QLayoutItem *item;
+    int id = values.value(DBConstants::COL_TRANSPORTATION_ID).toInt();
+    int i = 0;
+    while((item = transportationListLayout->itemAt(i)) != NULL){
+        DetailedListItem *dli = qobject_cast<DetailedListItem*>(item->widget());
+        if(dli->getID() == id){
+            QString fixedRollers = values.value(DBConstants::COL_TRANSPORTATION_FIXED_ROLLER).toBool() ? tr("Yes") : tr("No");
+            QString brakes = values.value(DBConstants::COL_TRANSPORTATION_BRAKES).toBool() ? tr("Yes") : tr("No");
+            QList<QStringList> dliValues = QList<QStringList>() << (QStringList() << values.value(DBConstants::COL_TRANSPORTATION_EMPTY_WEIGHT).toString() << values.value(DBConstants::COL_TRANSPORTATION_MAX_LOAD).toString()) << (QStringList() << fixedRollers << brakes);
+            dli->setName(values.value(DBConstants::COL_TRANSPORTATION_NAME).toString());
+            dli->setValues(dliValues);
+            break;
+        }
+        i++;
+    }
 }
 
-void TransportationView::setFixedRoller(QVariant value){
-    oscFixedRoller->setSelectedByValue(value.toInt());
-}
-
-void TransportationView::setBrakes(QVariant value){
-    oscBrakes->setSelectedByValue(value.toInt());
-}
-
-void TransportationView::clear(){
+void TransportationView::clearTransportations(){
     QLayoutItem *item;
     while((item = transportationListLayout->takeAt(0)) != NULL){
         delete item->widget();
@@ -143,9 +127,16 @@ void TransportationView::clear(){
     }
 }
 
+
 // PRIVATE SLOTS
 void TransportationView::btnAddClicked(){
-    emit saveTransportation();
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(DBConstants::COL_TRANSPORTATION_NAME, txtBxName->text());
+    values.insert(DBConstants::COL_TRANSPORTATION_EMPTY_WEIGHT, numBxWeight->getValue());
+    values.insert(DBConstants::COL_TRANSPORTATION_MAX_LOAD, numBxMaxLoad->getValue());
+    values.insert(DBConstants::COL_TRANSPORTATION_FIXED_ROLLER, oscFixedRoller->getSelectedValue().toInt());
+    values.insert(DBConstants::COL_TRANSPORTATION_BRAKES, oscBrakes->getSelectedValue().toInt());
+    emit createTransportation(values);
     txtBxName->clear();
     numBxWeight->clear();
     numBxMaxLoad->clear();

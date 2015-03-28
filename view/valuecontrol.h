@@ -8,6 +8,7 @@
 #include <QString>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QPushButton>
 #include "selectablevaluebutton.h"
 #include "../enum.h"
 
@@ -108,6 +109,8 @@ private:
     QString unit;
     int currentSelectedBtnID;
     int emitChangeValue;
+    int min;
+    int max;
     ValueControlType conType;
 
     QLineEdit *txtBxValue;

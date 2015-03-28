@@ -1,1065 +1,1447 @@
 #include "controller.h"
-#include <QDebug>
-#include <QTime>
-Controller::Controller(QObject *parent) :
+
+Controller::Controller(QObject *parent, QApplication *app) :
     QObject(parent),
-    analystSelectionView(new AnalystSelectionView()),
-    mainMenuView(new MainMenu()),
-    metaDataView(new MetaDataView()),
-    workplaceListView(new WorkplaceListView()),
-    workplaceView(new WorkplaceView()),
-    lineView(new LineView()),
-    activityView(new ActivityView()),
-    commentView(new CommentView()),
-    ressourceManagementView(new RessourceManagementView()),
-    productView(new ProductView()),
-    equipmentView(new EquipmentView()),
-    transportationView(new TransportationView()),
-    employeeView(new EmployeeView()),
-    bodyMeasurementView(new BodyMeasurementView()),
-    shiftView(new ShiftView()),
-    settingsView(new SettingsView()),
-    documentationView(new DocumentationView()),
-    workProcessMetaDataView(new WorkProcessMetaDataView()),
-    appliedForceView(new AppliedForceView()),
-    bodyPostureView(new BodyPostureView()),
-    loadHandlingView(new LoadHandlingView()),
-    executionConditionView(new ExecutionConditionView()),
-    gantTimerView(new GantTimerView()),
-    timerViewController(new TimerViewController())
+    application(app),
+    analyst_ID(0),
+    recording_ID(0),
+    factory_ID(0),
+    workplace_ID(0),
+    workcondition_ID(0),
+    workprocess_ID(0),
+    workprocess_Type(AVType::BASIC),
+    activity_ID(0),
+    appliedforce_ID(0),
+    loadhandling_ID(0),
+    bodyPosture_ID(0),
+    employee_ID(0),
+    bodyMeasurement_ID(0),
+    selectedEmployee_ID(0),
+    shift_ID(0),
+    rotationGroup_ID(0),
+    rotationGroupTask_ID(0)
+
 {
-    dbHandler = new DBHandler();
+    //Initialisation of the database
+    QFileInfo databaseFileInfo = QFileInfo(StandardPaths::databasePath());
+    QString databaseOriginPath = StandardPaths::originDatabasePath();
+    QString databasePath = databaseFileInfo.absoluteFilePath();
 
-    analyst_ID = 0;
-    recording_ID = 1;
-    workplace_ID = 0;
-    workcondition_ID = 0;
-    factory_ID = 0;
-    activity_ID = 0;
-    appliedforce_ID = 0;
-    loadhandling_ID = 0;
-    workprocess_Type = AVType::BASIC;
-    workprocess_ID = 0;
+    //Copy database from the readOnly location to the writeable location,
+    //if the database does not exsist yet.
+    if ( !databaseFileInfo.exists() ){
+       bool copySuccess = QFile::copy( databaseOriginPath, databasePath );
+       if ( !copySuccess ){
+           QString errorMessage = QString("Could not copy database from \n %1 to \n %2").arg(databaseOriginPath).arg(databasePath);
+           ErrorReporter::reportError(errorMessage);
+           emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+           databasePath.clear();
+       }
+       else{
+            if(!QFile::setPermissions(databasePath,QFile::WriteOwner | QFile::ReadOwner)){
+                QString errorMessage = QString("Could not set read/write permissions on %1").arg(databasePath);
+                ErrorReporter::reportError(errorMessage);
+                emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+            }
+       }
+    }
+    dbHandler = new DBHandler(databasePath);
 
-    documentationView->setWorkprocessMetaDataView(workProcessMetaDataView);
-    documentationView->setBodyPostureView(bodyPostureView);
-    documentationView->setAppliedForceView(appliedForceView);
-    documentationView->setExecutionConditionView(executionConditionView);
-    documentationView->setLoadHandlingView(loadHandlingView);
-    documentationView->setTimerViewController(timerViewController);
-    documentationView->setGantTimerView(gantTimerView);
-
-    viewCon = new ViewController();
-    viewCon->setAnalystSelectionView(analystSelectionView);
-    viewCon->setMainMenuView(mainMenuView);
-    viewCon->setMetaDataView(metaDataView);
-    viewCon->setWorkplaceListView(workplaceListView);
-    viewCon->setWorkplaceView(workplaceView);
-    viewCon->setLineView(lineView);
-    viewCon->setActivityView(activityView);
-    viewCon->setCommentView(commentView);
-    viewCon->setDocumentationView(documentationView);
-    viewCon->setRessourceManagementView(ressourceManagementView);
-    viewCon->setProductView(productView);
-    viewCon->setEquipmentView(equipmentView);
-    viewCon->setTransportationView(transportationView);
-    viewCon->setEmployeeView(employeeView);
-    viewCon->setBodyMeasurementView(bodyMeasurementView);
-    viewCon->setShiftView(shiftView);
-    viewCon->setSettingsView(settingsView);
-
-
-    connect(viewCon, SIGNAL(updateAnalystSelectionView()), this, SLOT(updateAnalystSelectionView()));
-    connect(analystSelectionView, SIGNAL(remove(int)), this, SLOT(removeAnalyst(int)));
-    connect(analystSelectionView, SIGNAL(create()), this, SLOT(createAnalyst()));
-    connect(analystSelectionView, SIGNAL(select(int)), this, SLOT(selectAnalyst(int)));
-
-    connect(viewCon, SIGNAL(updateMetaData()), this, SLOT(updateMetaDataView()));
-    connect(metaDataView, SIGNAL(save()), this, SLOT(saveMetaDataView()));
-
-    connect(viewCon, SIGNAL(updateWorkplaceList()), this, SLOT(updateWorkplacesView()));
-
-    connect(workplaceListView, SIGNAL(deleteWorkplace(int)), this, SLOT(deleteWorkplace(int)));
-    connect(viewCon, SIGNAL(createWorkplace()), this, SLOT(createWorkplace()));
-    connect(workplaceListView, SIGNAL(showWorkplace(int)), this, SLOT(updateWorkplaceView(int)));
-    connect(viewCon, SIGNAL(updateWorkplace()), this, SLOT(updateWorkplaceView()));
-    connect(workplaceView, SIGNAL(save()), this, SLOT(saveWorkplaceView()));
-
-    connect(viewCon, SIGNAL(updateCommentView()), this, SLOT(updateComment()));
-    connect(commentView, SIGNAL(save()), this, SLOT(saveComment()));
-
-    connect(viewCon, SIGNAL(updateLineView()), this, SLOT(updateLineView()));
-    connect(lineView, SIGNAL(saveLine()), this, SLOT(saveLine()));
-    connect(lineView, SIGNAL(saveSelectedLine(int)), SLOT(saveSelectedLine(int)));
-    connect(lineView, SIGNAL(deleteLine(int)), SLOT(deleteLine(int)));
-
-    connect(viewCon, SIGNAL(updateProductView()), this, SLOT(updateProductView()));
-    connect(productView, SIGNAL(saveProduct()), this, SLOT(createProduct()));
-    connect(productView, SIGNAL(deleteProduct(int)), this, SLOT(deleteProduct(int)));
-
-    connect(viewCon, SIGNAL(updateEquipmentView()), this, SLOT(updateEquipmentView()));
-    connect(equipmentView, SIGNAL(saveEquipment()), this, SLOT(createEquipment()));
-    connect(equipmentView, SIGNAL(deleteEquipment(int)), this, SLOT(deleteEquipment(int)));
-
-    connect(viewCon, SIGNAL(updateTransportationView()), this, SLOT(updateTransportationView()));
-    connect(transportationView, SIGNAL(saveTransportation()), this, SLOT(createTransportation()));
-    connect(transportationView, SIGNAL(deleteTransportation(int)), this, SLOT(deleteTransportation(int)));
-
-    connect(viewCon, SIGNAL(updateActivityView()), this, SLOT(updateActivityView()));
-    connect(activityView, SIGNAL(createActivity()), this, SLOT(createActivity()));
-    connect(activityView, SIGNAL(selectActivity(int)), this, SLOT(selectActivity(int)));
-    connect(activityView, SIGNAL(deleteActivity(int)), this, SLOT(deleteActivity(int)));
-
-    /*connect(documentationView, SIGNAL(updateBodyPostureView()), this, SLOT(updateBodyPostureView()));
-    connect(documentationView, SIGNAL(updateAppliedForceView()), this, SLOT(updateAppliedForceView()));
-    connect(documentationView, SIGNAL(updateLoadHandlingView()), this, SLOT(updateLoadHandlingView()));
-    connect(documentationView, SIGNAL(updateExecutionConditionView()), this, SLOT(updateExecutionConditionView()));
-    connect(documentationView, SIGNAL(updateWorkProcessMetaDataView()), this, SLOT(updateWorkProcessMetaDataView()));*/
-    connect(viewCon, SIGNAL(saveCurrentWorkProcess()), this, SLOT(saveCurrentWorkProcess()));
-    connect(viewCon, SIGNAL(updateDocumentationViewRessources()), this, SLOT(updateDocumentationViewRessources()));
-
-    //connect(documentationView, SIGNAL(updateGantView()), this, SLOT(updateGantView()));
-    //connect(documentationView, SIGNAL(saveFrequenz()), this, SLOT(saveWorkProcessFrequenz()));
-    connect(documentationView, SIGNAL(updateGantView()), this, SLOT(updateGantView()));
-
-    connect(gantTimerView, SIGNAL(workProcessSelected(int,AVType)), this, SLOT(setSelectedWorkProcess(int, AVType)));
-
-    connect(timerViewController, SIGNAL(createWorkProcess(AVType,QTime,QTime)), this, SLOT(createWorkprocess(AVType,QTime,QTime)));
-    connect(timerViewController, SIGNAL(nextWorkProcess()), this, SLOT(selectNextWorkProcess()));
-    connect(timerViewController, SIGNAL(previousWorkProcess()), this, SLOT(selectPreviousWorkProcess()));
-    connect(timerViewController, SIGNAL(workProcessTypeChanged(AVType)), this, SLOT(workProcessTypeChanged(AVType)));
-    connect(timerViewController, SIGNAL(resetWorkProcesses()), this, SLOT(resetWorkProcesses()));
-
-    connect(settingsView, SIGNAL(resetDatabase()), this, SLOT(resetDatabase()));
-
-    documentationView->setupViews();
-
-    viewCon->registerViews();
-    viewCon->show();
+    //Register all tables on the dbHandler
+    QList<QString> tblNames = DBConstants::LIST_TABLE_NAMES;
+    for(int i = 0; i < tblNames.size(); ++i)
+        dbHandler->registerTable(tblNames.at(i));
 }
+
+Controller::~Controller(){
+    Settings::saveSettings(StandardPaths::configFile());
+}
+
+void Controller::initialize(){
+    //Initialize the data that is available by default
+    initializeAnalysts();
+    initializeProducts();
+    initializeTansportations();
+    initializeEquipments();
+    initializeEmployees();
+    initializeLines();
+    initializeWorkplaces();
+    initializeRotationGroupTasks();
+}
+
 //PRIVATE SLOTS
 
-//AnalystSelectionView
-void Controller::updateAnalystSelectionView(){
-    analystSelectionView->clear();
-    DB_TABLES tbl = DB_TABLES::ANALYST;
-    dbHandler->select(tbl, QString(""));
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        analystSelectionView->add(record.value(DBConstants::COL_ANALYST_ID).toInt(),
-                                  record.value(DBConstants::COL_ANALYST_LASTNAME).toString(),
-                                  record.value(DBConstants::COL_ANALYST_FIRSTNAME).toString());
-    }
+//Analyst
+void Controller::initializeAnalysts(){
+    emit clearAnalysts();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ANALYST, QString(""));
+    for(int i = 0; i < rows.size(); ++i)
+        emit createdAnalyst(rows.at(i));
 }
 
-void Controller::createAnalyst(){
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYER_NAME).arg(analystSelectionView->getAnalystEmployer());
+void Controller::createAnalyst(QHash<QString, QVariant> values){
+    QString empName = values.value(DBConstants::COL_EMPLOYER_NAME).toString();
+    QString filter = QString("%1 = '%2'").arg(DBConstants::COL_EMPLOYER_NAME).arg(empName);
     QHash<QString, QVariant> valuesEmployer = QHash<QString, QVariant>();
-    valuesEmployer.insert(DBConstants::COL_EMPLOYER_NAME, analystSelectionView->getAnalystEmployer());
-    int emp_ID = save(DB_TABLES::EMPLOYER, filter, DBConstants::COL_EMPLOYER_ID, DBConstants::HASH_EMPLOYER_TYPES, valuesEmployer);
+    valuesEmployer.insert(DBConstants::COL_EMPLOYER_NAME, empName);
+    int emp_ID = dbHandler->save(DBConstants::TBL_EMPLOYER, DBConstants::HASH_EMPLOYER_TYPES, valuesEmployer, filter, DBConstants::COL_EMPLOYER_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+    }
+    values.remove(DBConstants::COL_EMPLOYER_NAME);
+    values.insert(DBConstants::COL_ANALYST_EMPLOYER_ID, emp_ID);
+    dbHandler->insert(DBConstants::TBL_ANALYST, DBConstants::HASH_ANALYST_TYPES, values, DBConstants::COL_ANALYST_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 
-    QHash<QString, QVariant> valuesAnalyst = QHash<QString, QVariant>();
-    valuesAnalyst.insert(DBConstants::COL_ANALYST_LASTNAME, analystSelectionView->getAnalystLastName());
-    valuesAnalyst.insert(DBConstants::COL_ANALYST_FIRSTNAME, analystSelectionView->getAnalystFirstName());
-    valuesAnalyst.insert(DBConstants::COL_ANALYST_EMPLOYER_ID, emp_ID);
-    valuesAnalyst.insert(DBConstants::COL_ANALYST_EXPERIENCE, analystSelectionView->getAnalystExperience());
-    insert(DB_TABLES::ANALYST, DBConstants::COL_ANALYST_ID, DBConstants::HASH_ANALYST_TYPES, valuesAnalyst);
-    updateAnalystSelectionView();
+    }
+    emit showMessage(tr("Created analyst"));
+    emit createdAnalyst(values);
 }
 
-void Controller::removeAnalyst(int id){
-    dbHandler->deleteAll(DB_TABLES::ANALYST, QString("%1 = %2").arg(DBConstants::COL_ANALYST_ID).arg(id));
-    updateAnalystSelectionView();
+void Controller::deleteAnalyst(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ANALYST_ID).arg(id);
+    dbHandler->remove(DBConstants::TBL_ANALYST, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    }
+    emit showMessage(tr("Deleted analyst"));
+    emit removedAnalyst(id);
 }
 
 void Controller::selectAnalyst(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ANALYST_ID).arg(id);
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_ANALYST, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    }
     analyst_ID = id;
+    QString firstName = values.value(DBConstants::COL_ANALYST_FIRSTNAME).toString();
+    emit showMessage(QString(tr("Hello  %1!")).arg(firstName),
+                         NotificationMessage::WELCOME, NotificationMessage::LONG);
+    emit selectedAnalyst(values);
+    filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ANALYST_ID).arg(analyst_ID);
+    QHash<QString, QVariant> recValues = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
+    int recID = 0;
+    if(recValues.isEmpty()){
+        recValues.insert(DBConstants::COL_RECORDING_ANALYST_ID, analyst_ID);
+        recID = dbHandler->insert(DBConstants::TBL_RECORDING, DBConstants::HASH_RECORDING_TYPES, recValues, DBConstants::COL_RECORDING_ID);
+    }
+    else
+        recID = recValues.value(DBConstants::COL_RECORDING_ID).toInt();
+    setRecording(recID);
 }
 
 
-//MetaDataView
-void Controller::updateMetaDataView(){
-    if(recording_ID <= 0){
-        metaDataView->setRecordTime(QDateTime::currentDateTime(), QDateTime::currentDateTime());
-    }
-    else{
-        dbHandler->select(DB_TABLES::RECORDING, QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(QString::number(recording_ID)));
-        QSqlRecord record = dbHandler->record(DB_TABLES::RECORDING, 0);
-        metaDataView->setRecordTime(record.value(DBConstants::COL_RECORDING_START).toDateTime(),
-                                record.value(DBConstants::COL_RECORDING_END).toDateTime());
-
-        factory_ID = record.value(DBConstants::COL_RECORDING_FACTORY_ID).toInt();
-        dbHandler->select(DB_TABLES::FACTORY, QString("%1 = %2").arg(DBConstants::COL_FACTORY_ID).arg(QString::number(factory_ID)));
-        record = dbHandler->record(DB_TABLES::FACTORY, 0);
-        metaDataView->setFactory(record.value(DBConstants::COL_FACTORY_NAME).toString(),
-                            record.value(DBConstants::COL_FACTORY_STREET).toString(),
-                            record.value(DBConstants::COL_FACTORY_ZIP).toInt(),
-                            record.value(DBConstants::COL_FACTORY_CITY).toString(),
-                            record.value(DBConstants::COL_FACTORY_COUNTRY).toString(),
-                            record.value(DBConstants::COL_FACTORY_CONTACT_PERSON).toString(),
-                            record.value(DBConstants::COL_FACTORY_HEADCOUNT).toInt());
-
-        int corp_ID = record.value(DBConstants::COL_FACTORY_CORPORATION_ID).toInt();
-        dbHandler->select(DB_TABLES::CORPORATION, QString("%1 = %2").arg(DBConstants::COL_CORPORATION_ID).arg(QString::number(corp_ID)));
-        record = dbHandler->record(DB_TABLES::CORPORATION, 0);
-        metaDataView->setCorporation(record.value(DBConstants::COL_CORPORATION_NAME).toString());
-
-        int boi_ID = record.value(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID).toInt();
-        dbHandler->select(DB_TABLES::BRANCH_OF_INDUSTRY, QString("%1 = %2").arg(DBConstants::COL_BRANCH_OF_INDUSTRY_ID).arg(boi_ID));
-        record = dbHandler->record(DB_TABLES::BRANCH_OF_INDUSTRY, 0);
-        metaDataView->setBranchOfIndustry(record.value(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME).toString(),
-                                          record.value(DBConstants::COL_BRANCH_OF_INDUSTRY_DESCRIPTION).toString());
-    }
-}
-
-void Controller::saveMetaDataView(){
-    QString filter = QString("%1 = '%2'").arg(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME).arg(metaDataView->getBranchOfIndustryName());
+//MainMenuView
+void Controller::createBlankRecording(){
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME, metaDataView->getBranchOfIndustryName());
-    values.insert(DBConstants::COL_BRANCH_OF_INDUSTRY_DESCRIPTION, metaDataView->getBranchOfIndustryDescription());
-    int boi_ID = save(DB_TABLES::BRANCH_OF_INDUSTRY, filter, DBConstants::COL_BRANCH_OF_INDUSTRY_ID, DBConstants::HASH_BRANCH_OF_INDUSTRY_TYPES, values);
+    values.insert(DBConstants::COL_WORKPLACE_NAME, tr("Autogenerated workplace"));
+    workplace_ID = dbHandler->insert(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, DBConstants::COL_WORKPLACE_ID);
 
-    filter = QString("%1 = '%2'").arg(DBConstants::COL_CORPORATION_NAME).arg(metaDataView->getCorporationName());
+    if(dbHandler->hasError()){
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    }
+
+    emit createdWorkplace(values);
+
     values.clear();
-    values.insert(DBConstants::COL_CORPORATION_NAME, metaDataView->getCorporationName());
-    values.insert(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID, boi_ID);
-    int corp_ID = save(DB_TABLES::CORPORATION, filter, DBConstants::COL_CORPORATION_ID, DBConstants::HASH_CORPORATION_TYPES, values);
+    values.insert(DBConstants::COL_ACTIVITY_DESCRIPTION, tr("Autogenerated activity"));
+    values.insert(DBConstants::COL_ACTIVITY_WORKPLACE_ID, workplace_ID);
+    activity_ID = dbHandler->insert(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, values, DBConstants::COL_ACTIVITY_ID);
 
-    filter = QString("%1 = '%2' AND %3 = '%4'").arg(DBConstants::COL_FACTORY_NAME).arg(metaDataView->getFactoryName()).arg(DBConstants::COL_FACTORY_STREET).arg(metaDataView->getFactoryStreet());
-    values.clear();
-    values.insert(DBConstants::COL_FACTORY_NAME, metaDataView->getFactoryName());
-    values.insert(DBConstants::COL_FACTORY_STREET, metaDataView->getFactoryStreet());
-    values.insert(DBConstants::COL_FACTORY_ZIP, metaDataView->getFactoryZip());
-    values.insert(DBConstants::COL_FACTORY_CITY, metaDataView->getFactoryCity());
-    values.insert(DBConstants::COL_FACTORY_COUNTRY, metaDataView->getFactoryCountry());
-    values.insert(DBConstants::COL_FACTORY_CONTACT_PERSON, metaDataView->getFactoryContact());
-    values.insert(DBConstants::COL_FACTORY_HEADCOUNT, metaDataView->getFactoryEmployeeCount());
-    values.insert(DBConstants::COL_FACTORY_CORPORATION_ID, corp_ID);
-    factory_ID = save(DB_TABLES::FACTORY, filter, DBConstants::COL_FACTORY_ID, DBConstants::HASH_FACTORY_TYPES, values);
+    if(dbHandler->hasError()){
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 
+    }
 
-    filter = QString("");
-    QString dtFormat = "dd.MM.yyyy hh:mm";
-    values.clear();
-    values.insert(DBConstants::COL_RECORDING_START, metaDataView->getRecordTimeBegin().toString(dtFormat));
-    values.insert(DBConstants::COL_RECORDING_END, metaDataView->getRecordTimeEnd().toString(dtFormat));
-    values.insert(DBConstants::COL_RECORDING_FACTORY_ID, factory_ID);
-    values.insert(DBConstants::COL_RECORDING_ANALYST_ID, analyst_ID);
-    recording_ID = save(DB_TABLES::RECORDING, filter, DBConstants::COL_RECORDING_ID, DBConstants::HASH_RECORDING_TYPES, values);
+    QList<ViewType> prevViews = QList<ViewType>();
+    prevViews.append(ViewType::WORKPLACE_VIEW);
+    prevViews.append(ViewType::ACTIVITY_VIEW);
+
+    selectWorkplace(workplace_ID);
+    selectActivity(activity_ID);
+    emit showView(ViewType::DOCUMENTATION_VIEW, &prevViews);
 }
 
-//WorkplacesView
-void Controller::updateWorkplacesView(){
-    workplaceListView->clear();
-    DB_TABLES tbl = DB_TABLES::WORKPLACE;
-    dbHandler->select(tbl, QString(""));
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        workplaceListView->addWorkplace(record.value(DBConstants::COL_WORKPLACE_ID).toInt(), record.value(DBConstants::COL_WORKPLACE_NAME).toString(), record.value(DBConstants::COL_WORKPLACE_DESCRIPTION).toString(), record.value(DBConstants::COL_WORKPLACE_CODE).toString());
-    }
+
+//BranchOfIndustry
+void Controller::setBranchOfIndustry(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_BRANCH_OF_INDUSTRY_ID).arg(id);
+    QHash<QString, QVariant> boiValues = dbHandler->selectFirst(DBConstants::TBL_BRANCH_OF_INDUSTRY, filter);
+
+    if(dbHandler->hasError())
+        emit showMessage(dbHandler->getLastError(),
+                         NotificationMessage::ERROR,
+                         NotificationMessage::PERSISTENT);
+
+
+    emit settedBranchOfIndustry(boiValues);
+}
+
+void Controller::saveBranchOfIndustry(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = '%2'")
+            .arg(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME)
+            .arg(values.value(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME).toString());
+
+    dbHandler->save(DBConstants::TBL_BRANCH_OF_INDUSTRY, DBConstants::HASH_BRANCH_OF_INDUSTRY_TYPES,
+                    values, filter, DBConstants::COL_BRANCH_OF_INDUSTRY_ID);
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not save branch of industry : \n%1")).arg(dbHandler->getLastError()),
+                         NotificationMessage::ERROR,
+                         NotificationMessage::PERSISTENT);
+}
+
+//Corperation
+void Controller::setCorperation(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_CORPORATION_ID).arg(id);
+
+    QHash<QString, QVariant> corpValues = dbHandler->selectFirst(DBConstants::TBL_CORPORATION, filter);
+
+    if(dbHandler->hasError())
+        emit showMessage(dbHandler->getLastError(),
+                         NotificationMessage::ERROR,
+                         NotificationMessage::PERSISTENT);
+
+    emit settedCorperation(corpValues);
+    int boiID = corpValues.value(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID).toInt();
+    setBranchOfIndustry(boiID);
+}
+
+void Controller::saveCorperation(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = '%2'")
+            .arg(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME)
+            .arg(values.value(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME).toString());
+
+    QHash<QString, QVariant> boiValues = dbHandler->selectFirst(DBConstants::TBL_BRANCH_OF_INDUSTRY, filter);
+    values.insert(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID,
+                  boiValues.value(DBConstants::COL_BRANCH_OF_INDUSTRY_ID));
+    values.remove(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME);
+
+    filter = QString("%1 = '%2'")
+            .arg(DBConstants::COL_CORPORATION_NAME)
+            .arg(values.value(DBConstants::COL_CORPORATION_NAME).toString());
+
+    dbHandler->save(DBConstants::TBL_CORPORATION, DBConstants::HASH_CORPORATION_TYPES,
+                    values, filter, DBConstants::COL_CORPORATION_ID);
+
+    if(dbHandler->hasError())
+        showMessage(QString(tr("Could not save corperation: \n%1")).arg(dbHandler->getLastError()),
+                    NotificationMessage::ERROR,
+                    NotificationMessage::PERSISTENT);
+}
+
+//Factory
+void Controller::setFactory(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_FACTORY_ID).arg(id);
+    QHash<QString, QVariant> factoryValues = dbHandler->selectFirst(DBConstants::TBL_FACTORY, filter);
+
+    if(dbHandler->hasError())
+        showMessage(QString(tr("Could not save corperation: \n%1")).arg(dbHandler->getLastError()),
+                    NotificationMessage::ERROR,
+                    NotificationMessage::PERSISTENT);
+
+    factory_ID = id;
+    emit settedFactory(factoryValues);
+    int corpID = factoryValues.value(DBConstants::COL_FACTORY_CORPORATION_ID).toInt();
+    setCorperation(corpID);
+}
+
+void Controller::saveFactory(QHash<QString, QVariant> values){
+    QString filter = QString("%3 = '%4'")
+            .arg(DBConstants::COL_CORPORATION_NAME)
+            .arg(values.value(DBConstants::COL_CORPORATION_NAME).toString());
+
+    QHash<QString, QVariant> corpValues = dbHandler->selectFirst(DBConstants::TBL_CORPORATION, filter);
+
+    if(dbHandler->hasError())
+        showMessage(dbHandler->getLastError(),
+                    NotificationMessage::ERROR,
+                    NotificationMessage::PERSISTENT);
+
+    values.insert(DBConstants::COL_FACTORY_CORPORATION_ID,
+                  corpValues.value(DBConstants::COL_CORPORATION_ID));
+    values.remove(DBConstants::COL_CORPORATION_NAME);
+
+    filter = QString("%1 = '%2' AND %3 = '%4'")
+            .arg(DBConstants::COL_FACTORY_NAME)
+            .arg(values.value(DBConstants::COL_FACTORY_NAME).toString())
+            .arg(DBConstants::COL_FACTORY_STREET)
+            .arg(values.value(DBConstants::COL_FACTORY_STREET).toString());
+
+    dbHandler->save(DBConstants::TBL_FACTORY, DBConstants::HASH_FACTORY_TYPES, values, filter, DBConstants::COL_FACTORY_ID);
+
+    if(dbHandler->hasError())
+        showMessage(QString(tr("Could not save factory: \n%1")).arg(dbHandler->getLastError()),
+                    NotificationMessage::ERROR,
+                    NotificationMessage::PERSISTENT);
+}
+
+//Recording
+void Controller::setRecording(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(id);
+    QHash<QString, QVariant> recordValues = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
+    recording_ID = id;
+    emit settedRecording(recordValues);
+    int factoryID = recordValues.value(DBConstants::COL_RECORDING_FACTORY_ID).toInt();
+    setFactory(factoryID);
+    filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_RECORDING_ID).arg(recording_ID);
+    QHash<QString, QVariant> shiftValues = dbHandler->selectFirst(DBConstants::TBL_SHIFT, filter);
+    int shift_ID = shiftValues.value(DBConstants::COL_SHIFT_ID).toInt();
+    initializeShift(shift_ID);
+}
+
+void Controller::saveRecording(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = '%2' AND %3 = '%4'").arg(DBConstants::COL_FACTORY_NAME).arg(values.value(DBConstants::COL_FACTORY_NAME).toString()).arg(DBConstants::COL_FACTORY_STREET).arg(values.value(DBConstants::COL_FACTORY_STREET).toString());
+    QHash<QString, QVariant> factoryValues = dbHandler->selectFirst(DBConstants::TBL_FACTORY, filter);
+    values.insert(DBConstants::COL_RECORDING_FACTORY_ID, factoryValues.value(DBConstants::COL_FACTORY_ID));
+    values.remove(DBConstants::COL_FACTORY_NAME);
+    values.remove(DBConstants::COL_FACTORY_STREET);
+    values.insert(DBConstants::COL_RECORDING_ID, recording_ID);
+    values.insert(DBConstants::COL_RECORDING_ANALYST_ID, analyst_ID);
+    filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(recording_ID);
+    dbHandler->save(DBConstants::TBL_RECORDING, DBConstants::HASH_RECORDING_TYPES, values, filter, DBConstants::COL_RECORDING_ID);
+    emit showMessage(tr("Saved meta data"));
 }
 
 //WorkplaceView
-void Controller::updateWorkplaceView(int id){
-    workplace_ID = id;
-    DB_TABLES tbl = DB_TABLES::WORKPLACE;
-    dbHandler->select(tbl, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(QString::number(id)));
-    QSqlRecord record = dbHandler->record(tbl, 0);
-    workplaceView->setWorkplaceMetaData(record.value(DBConstants::COL_WORKPLACE_NAME).toString(),
-                                  record.value(DBConstants::COL_WORKPLACE_DESCRIPTION).toString(),
-                                  record.value(DBConstants::COL_WORKPLACE_CODE).toString(),
-                                  record.value(DBConstants::COL_WORKPLACE_PERCENTAGE_WOMAN).toInt());
+void Controller::initializeWorkplaces(){
+    emit clearWorkplaces();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_WORKPLACE, QString(""));
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdWorkplace(rows.at(i));
+}
 
-    QTime basicTime = QTime(0, 0);
-    basicTime = basicTime.addSecs(record.value(DBConstants::COL_WORKPLACE_BASIC_TIME).toInt());
-    QTime setupTime = QTime(0, 0);
-    setupTime = setupTime.addSecs(record.value(DBConstants::COL_WORKPLACE_SETUP_TIME).toInt());
-    QTime restTime = QTime(0, 0);
-    restTime = restTime.addSecs(record.value(DBConstants::COL_WORKPLACE_REST_TIME).toInt());
-    QTime allowanceTime = QTime(0, 0);
-    allowanceTime = allowanceTime.addSecs(record.value(DBConstants::COL_WORKPLACE_ALLOWANCE_TIME).toInt());
-    QTime cycleTime = QTime(0, 0);
-    cycleTime = cycleTime.addSecs(record.value(DBConstants::COL_WORKPLACE_CYCLE_TIME).toInt());
+void Controller::createWorkplace(QHash<QString, QVariant> values){
+    int wp_ID = dbHandler->insert(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, DBConstants::COL_WORKPLACE_ID);
+    values.insert(DBConstants::COL_WORKPLACE_ID, wp_ID);
+    emit createdWorkplace(values);
+    saveRecordingObservesWorkplace(wp_ID);
+    emit showMessage(tr("Created new workplace"));
+}
 
-    workplaceView->setWorkplaceTimes(basicTime, setupTime, restTime, allowanceTime, cycleTime);
-
-    tbl = DB_TABLES::LINE;
-    dbHandler->select(tbl, QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(record.value(DBConstants::COL_WORKPLACE_LINE_ID).toString()));
-    if(dbHandler->rowCount(tbl) > 0){
-        QSqlRecord line = dbHandler->record(tbl, 0);
-        workplaceView->setLine(line.value(DBConstants::COL_LINE_NAME).toString(),
-                                  line.value(DBConstants::COL_LINE_DESCRIPTION).toString());
+void Controller::createWorkplace(QHash<QString, QVariant> values, QList<QHash<QString, QVariant>> activityValues){
+    int workplace_ID = dbHandler->insert(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values,DBConstants::COL_WORKPLACE_ID);
+    values.insert(DBConstants::COL_WORKPLACE_ID, workplace_ID);
+    emit createdWorkplace(values);
+    for(int i = 0; i < activityValues.size(); ++i){
+        QHash<QString, QVariant> curValues = activityValues.at(i);
+        if(curValues.contains(DBConstants::COL_PRODUCT_NAME)){
+            QString filter = QString("%1 = '%2'").arg(DBConstants::COL_PRODUCT_NAME).arg(curValues.value(DBConstants::COL_PRODUCT_NAME).toString());
+            QHash<QString, QVariant> productValues = dbHandler->selectFirst(DBConstants::TBL_PRODUCT, filter);
+            if(!productValues.isEmpty()){
+                curValues.insert(DBConstants::COL_ACTIVITY_PRODUCT_ID, productValues.value(DBConstants::COL_PRODUCT_ID));
+            }
+            curValues.remove(DBConstants::COL_PRODUCT_NAME);
+        }
+        curValues.insert(DBConstants::COL_ACTIVITY_WORKPLACE_ID, workplace_ID);
+        dbHandler->insert(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, curValues, DBConstants::COL_ACTIVITY_ID);
     }
-    else
-        workplaceView->setLine("","");
-
-    tbl = DB_TABLES::COMMENT;
-    dbHandler->select(tbl, QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(workplace_ID));
-    if(dbHandler->rowCount(tbl) > 0){
-        QSqlRecord comment = dbHandler->record(tbl, 0);
-        workplaceView->setComment(comment.value(DBConstants::COL_COMMENT_PROBLEM_NAME).toString(),
-                                     comment.value(DBConstants::COL_COMMENT_MEASURE_NAME).toString());
-    }
-    else
-        workplaceView->setComment("","");
-
-}
-
-void Controller::updateWorkplaceView(){
-    updateWorkplaceView(workplace_ID);
-}
-
-int Controller::createWorkplace(){
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(QString::number(0));
-
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    int id = save(DB_TABLES::WORKPLACE, filter, DBConstants::COL_WORKPLACE_ID, DBConstants::HASH_WORKPLACE_TYPES, values);
-    updateWorkplaceView(id);
-    return id;
-}
-
-void Controller::saveWorkplaceView(){
-   saveWorkplace(workplace_ID);
 }
 
 void Controller::deleteWorkplace(int id){
-    DB_TABLES tbl = DB_TABLES::WORKPLACE;
-    dbHandler->select(tbl, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(QString::number(id)));
-    dbHandler->deleteRow(tbl, 0);
-    updateWorkplacesView();
+    QString tbl = DBConstants::TBL_WORKPLACE;
+    dbHandler->remove(tbl, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(QString::number(id)));
+
+    deleteRecordingOberservesWorkplace(id);
+
+    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_ACTIVITY, QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(id));
+    for(int i = 0; i < values.count(); ++i)
+        deleteActivity(values.at(i).value(DBConstants::COL_ACTIVITY_ID).toInt(), false);
+
+    dbHandler->remove(DBConstants::TBL_COMMENT, QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(id));
+
+    emit showMessage(tr("Deleted workplace"));
+
+    emit removedWorkplace(id);
 }
 
+void Controller::selectWorkplace(int id){
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_WORKPLACE, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(id));
+    workplace_ID = id;
+    emit selectedWorkplace(values);
+    selectedEmployee_ID = values.value(DBConstants::COL_WORKPLACE_EMPLOYEE_ID).toInt();
+    emit employeeSelected(selectedEmployee_ID);
+    values = dbHandler->selectFirst(DBConstants::TBL_LINE, QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(values.value(DBConstants::COL_WORKPLACE_LINE_ID).toInt()));
+    emit selectedLine(values);
+    values = dbHandler->selectFirst(DBConstants::TBL_COMMENT, QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(workplace_ID));
+    emit selectedComment(values);
+    initializeActivities(id);
+}
+
+void Controller::saveWorkplace(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(workplace_ID);
+    values.insert(DBConstants::COL_WORKPLACE_ID, workplace_ID);
+    values.insert(DBConstants::COL_WORKPLACE_EMPLOYEE_ID, selectedEmployee_ID);
+    dbHandler->update(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, filter);
+    emit updatedWorkplace(values);
+}
+
+//Comment
+void Controller::saveComment(QHash<QString, QVariant> values){
+    values.insert(DBConstants::COL_COMMENT_WORKPLACE_ID, workplace_ID);
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(workplace_ID);
+    dbHandler->save(DBConstants::TBL_COMMENT, DBConstants::HASH_COMMENT_TYPES, values, filter, DBConstants::COL_COMMENT_ID);
+    emit updatedComment(values);
+}
 
 //Line
-
-void Controller::updateLineView(){
-    lineView->clear();
-    DB_TABLES tbl = DB_TABLES::LINE;
-    dbHandler->select(tbl, QString(""));
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        lineView->addLine(record.value(DBConstants::COL_LINE_ID).toInt(), record.value(DBConstants::COL_LINE_NAME).toString());
-    }
-
-    dbHandler->select(DB_TABLES::WORKPLACE, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(workplace_ID));
-    lineView->setSelectedLine(dbHandler->record(DB_TABLES::WORKPLACE, 0).value(DBConstants::COL_WORKPLACE_LINE_ID).toInt());
+void Controller::initializeLines(){
+    emit clearLines();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_LINE, QString(""));
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdLine(rows.at(i));
 }
 
-int Controller::saveSelectedLine(int id){
-    DB_TABLES tbl = DB_TABLES::WORKPLACE;
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(workplace_ID);
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_WORKPLACE_LINE_ID, id);
-    return save(tbl, filter, DBConstants::COL_WORKPLACE_ID, DBConstants::HASH_WORKPLACE_TYPES, values);
-}
 
-int Controller::saveLine(){
-    DB_TABLES tbl = DB_TABLES::LINE;
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(QString::number(0));
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_LINE_NAME, lineView->getName());
-    values.insert(DBConstants::COL_LINE_DESCRIPTION, lineView->getDescription());
-    values.insert(DBConstants::COL_LINE_NUMBER_OF_WORKPLACES, lineView->getWorkplaceCount());
+void Controller::createLine(QHash<QString, QVariant> values){
     values.insert(DBConstants::COL_LINE_FACTORY_ID, factory_ID);
-    int lineID = save(tbl, filter, DBConstants::COL_LINE_ID, DBConstants::HASH_LINE_TYPES, values);
-    saveRecordingObservesLine(lineID);
-    updateLineView();
-    return lineID;
+    int line_ID = dbHandler->insert(DBConstants::TBL_LINE, DBConstants::HASH_LINE_TYPES, values, DBConstants::COL_LINE_ID);
+    values.insert(DBConstants::COL_LINE_ID, line_ID);
+    saveRecordingObservesLine(line_ID);
+    emit createdLine(values);
+    emit showMessage(tr("Created new line"));
+}
+
+void Controller::editLine(int id){
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_LINE, QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(id));
+    emit editLine(values);
+}
+
+void Controller::saveLine(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(values.value(DBConstants::COL_LINE_ID).toInt());
+    dbHandler->update(DBConstants::TBL_LINE, DBConstants::HASH_LINE_TYPES, values, filter);
+    emit updatedLine(values);
 }
 
 void Controller::deleteLine(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(id);
+    dbHandler->remove(DBConstants::TBL_LINE, filter);
     deleteRecordingObservesLine(id);
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(QString::number(id));
-    dbHandler->deleteAll(DB_TABLES::LINE, filter);
-    filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_LINE_ID).arg(QString::number(id));
-    QSqlRecord record;
-    record.append(QSqlField(DBConstants::COL_WORKPLACE_LINE_ID, DBConstants::HASH_WORKPLACE_TYPES.value(DBConstants::COL_WORKPLACE_LINE_ID)));
-    record.setNull(DBConstants::COL_WORKPLACE_LINE_ID);
-    dbHandler->updateAll(DB_TABLES::WORKPLACE, filter, record);
-    updateLineView();
+    emit removedLine(id);
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(DBConstants::COL_WORKPLACE_LINE_ID, 0);
+    filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_LINE_ID).arg(id);
+    dbHandler->update(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, filter);
+    emit showMessage(tr("Deleted line"));
+}
+
+void Controller::selectLine(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(id);
+    QHash<QString, QVariant> lineValues = dbHandler->selectFirst(DBConstants::TBL_LINE, filter);
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(DBConstants::COL_WORKPLACE_LINE_ID, id);
+    filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(workplace_ID);
+    dbHandler->update(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, filter);
+    selectedLine(lineValues);
 }
 
 //Product
-void Controller::updateProductView(){
-    productView->clear();
-    DB_TABLES tbl = DB_TABLES::PRODUCT;
-    dbHandler->select(tbl, QString(""));
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        productView->addProduct(record.value(DBConstants::COL_PRODUCT_ID).toInt(),
-                            record.value(DBConstants::COL_PRODUCT_NAME).toString(),
-                            record.value(DBConstants::COL_PRODUCT_NUMBER).toString(),
-                            record.value(DBConstants::COL_PRODUCT_TOTAL_PERCENTAGE).toInt());
-    }
+void Controller::initializeProducts(){
+    emit clearProducts();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_PRODUCT, QString(""));
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdProduct(rows.at(i));
 }
 
-void Controller::createProduct(){
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_PRODUCT_NAME, productView->getName());
-    values.insert(DBConstants::COL_PRODUCT_NUMBER, productView->getNumber());
-    values.insert(DBConstants::COL_PRODUCT_TOTAL_PERCENTAGE, productView->getTotalPercentage());
-    insert(DB_TABLES::PRODUCT, DBConstants::COL_PRODUCT_ID, DBConstants::HASH_PRODUCT_TYPES, values);
-    updateProductView();
+void Controller::createProduct(QHash<QString, QVariant> values){
+    int prod_ID = dbHandler->insert(DBConstants::TBL_PRODUCT, DBConstants::HASH_PRODUCT_TYPES, values, DBConstants::COL_PRODUCT_ID);
+    values.insert(DBConstants::COL_PRODUCT_ID, prod_ID);
+    emit createdProduct(values);
+    emit showMessage(tr("Created new product"));
 }
+
+void Controller::saveProduct(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_PRODUCT_ID).arg(values.value(DBConstants::COL_PRODUCT_ID).toInt());
+    dbHandler->update(DBConstants::TBL_PRODUCT, DBConstants::HASH_PRODUCT_TYPES, values, filter);
+    emit updatedProduct(values);
+}
+
 
 void Controller::deleteProduct(int id){
-    dbHandler->deleteAll(DB_TABLES::PRODUCT, QString("%1 = %2").arg(DBConstants::COL_PRODUCT_ID).arg(QString::number(id)));
-    updateProductView();
-}
-
-//Equipment View
-void Controller::updateEquipmentView(){
-    equipmentView->clear();
-    DB_TABLES tbl = DB_TABLES::EQUIPMENT;
-    dbHandler->select(tbl, QString(""));
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        equipmentView->addEquipment(record.value(DBConstants::COL_EQUIPMENT_ID).toInt(),
-                                    record.value(DBConstants::COL_EQUIPMENT_NAME).toString(),
-                                    record.value(DBConstants::COL_EQUIPMENT_RECOIL_COUNT).toInt(),
-                                    record.value(DBConstants::COL_EQUIPMENT_RECOIL_INTENSITY).toInt(),
-                                    record.value(DBConstants::COL_EQUIPMENT_VIBRATION_COUNT).toInt(),
-                                    record.value(DBConstants::COL_EQUIPMENT_VIBRATION_INTENSITY).toInt());
-    }
-}
-
-void Controller::createEquipment(){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_PRODUCT_ID).arg(id);
+    dbHandler->remove(DBConstants::TBL_PRODUCT, filter);
+    emit removedProduct(id);
+    filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_PRODUCT_ID).arg(id);
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_EQUIPMENT_NAME, equipmentView->getName());
-    values.insert(DBConstants::COL_EQUIPMENT_RECOIL_COUNT, equipmentView->getRecoilCount());
-    values.insert(DBConstants::COL_EQUIPMENT_RECOIL_INTENSITY, equipmentView->getRecoilIntensity());
-    values.insert(DBConstants::COL_EQUIPMENT_VIBRATION_COUNT, equipmentView->getVibrationCount());
-    values.insert(DBConstants::COL_EQUIPMENT_VIBRATION_INTENSITY, equipmentView->getVibrationIntensity());
-    insert(DB_TABLES::EQUIPMENT, DBConstants::COL_EQUIPMENT_ID, DBConstants::HASH_EQUIPMENT_TYPES, values);
-    updateEquipmentView();
+    values.insert(DBConstants::COL_ACTIVITY_PRODUCT_ID, 0);
+    dbHandler->update(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, values, filter);
+    emit showMessage(tr("Deleted product"));
+}
+
+//Equipment
+void Controller::initializeEquipments(){
+    emit clearEquipments();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_EQUIPMENT, QString(""));
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdEquipment(rows.at(i));
+}
+
+void Controller::createEquipment(QHash<QString, QVariant> values){
+    int eq_ID = dbHandler->insert(DBConstants::TBL_EQUIPMENT, DBConstants::HASH_EQUIPMENT_TYPES, values, DBConstants::COL_EQUIPMENT_ID);
+    values.insert(DBConstants::COL_EQUIPMENT_ID, eq_ID);
+    emit createdEquipment(values);
+    emit showMessage(tr("Created new equipment"));
+}
+
+void Controller::saveEquipment(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_EQUIPMENT_ID).arg(values.value(DBConstants::COL_EQUIPMENT_ID).toString());
+    dbHandler->update(DBConstants::TBL_EQUIPMENT, DBConstants::HASH_EQUIPMENT_TYPES, values, filter);
+    emit updatedEquipment(values);
 }
 
 void Controller::deleteEquipment(int id){
-    dbHandler->deleteAll(DB_TABLES::EQUIPMENT, QString("%1 = %2").arg(DBConstants::COL_EQUIPMENT_ID).arg(id));
-    updateEquipmentView();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_EQUIPMENT_ID).arg(id);
+    dbHandler->remove(DBConstants::TBL_EQUIPMENT, filter);
+    emit removedEquipment(id);
+    emit showMessage(tr("Deleted equipment"));
 }
 
-
-//ActivityView
-void Controller::updateActivityView(){
-    activityView->clearProducts();
-    DB_TABLES tbl = DB_TABLES::PRODUCT;
-    dbHandler->select(tbl, QString(""));
-
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        activityView->addProduct(record.value(DBConstants::COL_PRODUCT_ID).toInt(),
-                                 record.value(DBConstants::COL_PRODUCT_NAME).toString(),
-                                 record.value(DBConstants::COL_PRODUCT_NUMBER).toString());
-    }
-    updateActivityViewActivities();
+//Activity
+void Controller::initializeActivities(int workplace_ID){
+    emit clearActivities();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(workplace_ID);
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ACTIVITY, filter);
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdActivity(rows.at(i));
 }
 
-void Controller::updateActivityViewActivities(){
-    activityView->clearActivities();
-    DB_TABLES tbl = DB_TABLES::ACTIVITY;
-    dbHandler->select(tbl, QString(""));
-
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        activityView->addActivity(record.value(DBConstants::COL_ACTIVITY_ID).toInt(),
-                                  record.value(DBConstants::COL_ACTIVITY_DESCRIPTION).toString(),
-                                  record.value(DBConstants::COL_ACTIVITY_REPETITIONS).toInt());
-    }
+void Controller::createActivity(QHash<QString, QVariant> values){
+   values.insert(DBConstants::COL_ACTIVITY_WORKPLACE_ID, workplace_ID);
+   int ac_ID = dbHandler->insert(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, values, DBConstants::COL_ACTIVITY_ID);
+   values.insert(DBConstants::COL_ACTIVITY_ID, ac_ID);
+   emit createdActivity(values);
+   emit showMessage(tr("Created new activity"));
 }
 
-
-void Controller::createActivity(){
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_ACTIVITY_DESCRIPTION, activityView->getDescription());
-    values.insert(DBConstants::COL_ACTIVITY_PRODUCT_ID, activityView->getSelectedProduct());
-    values.insert(DBConstants::COL_ACTIVITY_REPETITIONS, activityView->getRepetitions());
+void Controller::saveActivity(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(values.value(DBConstants::COL_ACTIVITY_ID).toInt());
     values.insert(DBConstants::COL_ACTIVITY_WORKPLACE_ID, workplace_ID);
-    insert(DB_TABLES::ACTIVITY, DBConstants::COL_ACTIVITY_ID, DBConstants::HASH_ACTIVITY_TYPES, values);
-    updateActivityViewActivities();
+    dbHandler->update(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, values, filter);
+    emit updatedActivity(values);
 }
 
-void Controller::deleteActivity(int id){
-    dbHandler->deleteAll(DB_TABLES::ACTIVITY, QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(id));
+void Controller::deleteActivity(int id, bool showMsg){
+    dbHandler->remove(DBConstants::TBL_ACTIVITY, QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(id));
     deleteWorkProcesses(id);
-    updateActivityViewActivities();
+    emit removedActivity(id);
+    if(showMsg)
+        emit showMessage(tr("Deleted activity"));
 }
 
 void Controller::selectActivity(int id){
     activity_ID = id;
-    workProcessTypeChanged(AVType::BASIC);
-    updateGantView();
+    initilizeWorkProcesses();
 }
 
-//CommentView
-void Controller::updateComment(){
-    DB_TABLES tbl = DB_TABLES::COMMENT;
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(workplace_ID);
-    dbHandler->select(tbl, filter);
-    QSqlRecord record = dbHandler->record(tbl, 0);
-    commentView->setComment(record.value(DBConstants::COL_COMMENT_PROBLEM_NAME).toString(),
-                        record.value(DBConstants::COL_COMMENT_PROBLEM_DESCRIPTION).toString(),
-                        record.value(DBConstants::COL_COMMENT_MEASURE_NAME).toString(),
-                        record.value(DBConstants::COL_COMMENT_MEASURE_DESCRIPTION).toString(),
-                        record.value(DBConstants::COL_COMMENT_WORKER_PERCEPTION).toString());
+void Controller::editActivity(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(id);
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_ACTIVITY, filter);
+    emit editActivity(values);
 }
 
-int Controller::saveComment(){
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(workplace_ID);
 
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_COMMENT_PROBLEM_NAME, commentView->getProblemName());
-    values.insert(DBConstants::COL_COMMENT_PROBLEM_DESCRIPTION, commentView->getProblemDescription());
-    values.insert(DBConstants::COL_COMMENT_MEASURE_NAME, commentView->getMeasureName());
-    values.insert(DBConstants::COL_COMMENT_MEASURE_DESCRIPTION, commentView->getMeasureDescription());
-    values.insert(DBConstants::COL_COMMENT_WORKER_PERCEPTION, commentView->getWorkerPerception());
-    values.insert(DBConstants::COL_COMMENT_WORKPLACE_ID, workplace_ID);
-    return save(DB_TABLES::COMMENT, filter, DBConstants::COL_COMMENT_ID, DBConstants::HASH_COMMENT_TYPES, values);
+//Transportation
+void Controller::initializeTansportations(){
+    emit clearTransportations();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_TRANSPORTATION, QString(""));
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdTransportation(rows.at(i));
 }
 
-//TransportationView
-void Controller::updateTransportationView(){
-    transportationView->clear();
-    DB_TABLES tbl = DB_TABLES::TRANSPORTATION;
-    dbHandler->select(tbl, QString(""));
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        transportationView->addTransportation(record.value(DBConstants::COL_TRANSPORTATION_ID).toInt(),
-                                              record.value(DBConstants::COL_TRANSPORTATION_NAME).toString(),
-                                              record.value(DBConstants::COL_TRANSPORTATION_EMPTY_WEIGHT).toInt(),
-                                              record.value(DBConstants::COL_TRANSPORTATION_MAX_LOAD).toInt(),
-                                              record.value(DBConstants::COL_TRANSPORTATION_FIXED_ROLLER).toBool(),
-                                              record.value(DBConstants::COL_TRANSPORTATION_BRAKES).toBool());
-    }
+void Controller::createTransportation(QHash<QString, QVariant> values){
+    int trans_ID = dbHandler->insert(DBConstants::TBL_TRANSPORTATION, DBConstants::HASH_TRANSPORTATION_TYPES, values, DBConstants::COL_TRANSPORTATION_ID);
+    values.insert(DBConstants::COL_TRANSPORTATION_ID, trans_ID);
+    emit createdTransportation(values);
+    emit showMessage(tr("Created new transportation"));
 }
 
-void Controller::createTransportation(){
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_TRANSPORTATION_NAME, transportationView->getName());
-    values.insert(DBConstants::COL_TRANSPORTATION_EMPTY_WEIGHT, transportationView->getWeight());
-    values.insert(DBConstants::COL_TRANSPORTATION_MAX_LOAD, transportationView->getMaxLoad());
-    values.insert(DBConstants::COL_TRANSPORTATION_BRAKES, transportationView->hasBrakes());
-    values.insert(DBConstants::COL_TRANSPORTATION_FIXED_ROLLER, transportationView->hasFixedRoller());
-    insert(DB_TABLES::TRANSPORTATION, DBConstants::COL_TRANSPORTATION_ID, DBConstants::HASH_TRANSPORTATION_TYPES, values);
-    updateTransportationView();
+void Controller::saveTransportation(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_TRANSPORTATION_ID).arg(values.value(DBConstants::COL_TRANSPORTATION_ID).toString());
+    dbHandler->update(DBConstants::TBL_TRANSPORTATION, DBConstants::HASH_TRANSPORTATION_TYPES, values, filter);
+    emit updatedTransportation(values);
 }
 
 void Controller::deleteTransportation(int id){
-    dbHandler->deleteAll(DB_TABLES::TRANSPORTATION, QString("%1 = %2").arg(DBConstants::COL_TRANSPORTATION_ID).arg(id));
-    updateTransportationView();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_TRANSPORTATION_ID).arg(id);
+    dbHandler->remove(DBConstants::TBL_TRANSPORTATION, filter);
+    emit removedTransportation(id);
+    emit showMessage(tr("Deleted transportation"));
 }
 
-//WORKPROCESS
-int Controller::createWorkprocess(AVType type, const QTime &start, const QTime &end){
+//LoadHandling
+void Controller::saveLoadHandling(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = '%2'").arg(DBConstants::COL_LOAD_HANDLING_TYPE_NAME).arg(values.value(DBConstants::COL_LOAD_HANDLING_TYPE_NAME).toString());
+    QHash<QString, QVariant> loadType = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING_TYPE, filter);
+    if(loadType.isEmpty()){
+        loadType.insert(DBConstants::COL_LOAD_HANDLING_TYPE_NAME, values.value(DBConstants::COL_LOAD_HANDLING_TYPE_NAME).toString());
+        int lt_ID = dbHandler->insert(DBConstants::TBL_LOAD_HANDLING_TYPE, DBConstants::HASH_LOAD_HANDLING_TYPE_TYPES, loadType, DBConstants::COL_LOAD_HANDLING_TYPE_ID);
+        loadType.insert(DBConstants::COL_LOAD_HANDLING_TYPE_ID, lt_ID);
+    }
+    values.insert(DBConstants::COL_LOAD_HANDLING_LOAD_HANDLING_TYPE_ID, loadType.value(DBConstants::COL_LOAD_HANDLING_TYPE_ID));
+    values.remove(DBConstants::COL_LOAD_HANDLING_TYPE_NAME);
+
+    filter = QString("%1 = '%2'").arg(DBConstants::COL_TYPE_OF_GRASPING_NAME).arg(values.value(DBConstants::COL_TYPE_OF_GRASPING_NAME).toString());
+    QHash<QString, QVariant> graspType = dbHandler->selectFirst(DBConstants::TBL_TYPE_OF_GRASPING, filter);
+    if(graspType.isEmpty()){
+        graspType.insert(DBConstants::COL_TYPE_OF_GRASPING_NAME, values.value(DBConstants::COL_TYPE_OF_GRASPING_NAME).toString());
+        int gt_ID = dbHandler->insert(DBConstants::TBL_TYPE_OF_GRASPING, DBConstants::HASH_TYPE_OF_GRASPING_TYPES, graspType, DBConstants::COL_TYPE_OF_GRASPING_ID);
+        graspType.insert(DBConstants::COL_TYPE_OF_GRASPING_ID, gt_ID);
+    }
+    values.insert(DBConstants::COL_LOAD_HANDLING_TYPE_OF_GRASPING, graspType.value(DBConstants::COL_TYPE_OF_GRASPING_ID));
+    values.remove(DBConstants::COL_TYPE_OF_GRASPING_NAME);
+
+    filter = QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(loadhandling_ID);
+    int l_ID = dbHandler->save(DBConstants::TBL_LOAD_HANDLING, DBConstants::HASH_LOAD_HANDLING_TYPES, values, filter, DBConstants::COL_LOAD_HANDLING_ID);
+    if(l_ID > 0)
+        loadhandling_ID = l_ID;
+    values.insert(DBConstants::COL_LOAD_HANDLING_ID, loadhandling_ID);
+    emit setLoadHandling(values);
+    saveWorkProcess(QHash<QString, QVariant>());
+}
+
+//BodyPosture
+void Controller::saveBodyPosture(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(bodyPosture_ID);
+    int bp_ID = dbHandler->save(DBConstants::TBL_BODY_POSTURE, DBConstants::HASH_BODY_POSTURE_TYPES, values, filter, DBConstants::COL_BODY_POSTURE_ID);
+    if(bp_ID > 0)
+        bodyPosture_ID = bp_ID;
+    values.insert(DBConstants::COL_BODY_POSTURE_ID, bodyPosture_ID);
+    saveWorkProcess(QHash<QString, QVariant>());
+}
+
+//AppliedForce
+void Controller::saveAppliedForce(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(appliedforce_ID);
+    int af_ID = dbHandler->save(DBConstants::TBL_APPLIED_FORCE, DBConstants::HASH_APPLIED_FORCE_TYPES, values, filter, DBConstants::COL_APPLIED_FORCE_ID);
+    if(af_ID > 0)
+        appliedforce_ID = af_ID;
+    values.insert(DBConstants::COL_APPLIED_FORCE_ID, appliedforce_ID);
+    emit setAppliedForce(values);
+    saveWorkProcess(QHash<QString, QVariant>());
+}
+
+//WorkProcess
+void Controller::saveWorkProcess(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2 AND %3 = %4 AND %5 = %6").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_ID).arg(workprocess_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(workprocess_Type);
+    values.insert(DBConstants::COL_WORK_PROCESS_ID, workprocess_ID);
+    values.insert(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID, activity_ID);
+    values.insert(DBConstants::COL_WORK_PROCESS_TYPE, workprocess_Type);
+    values.insert(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID, appliedforce_ID);
+    values.insert(DBConstants::COL_WORK_PROCESS_CONDITION_ID, workcondition_ID);
+    values.insert(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID, loadhandling_ID);
+    values.insert(DBConstants::COL_WORK_PROCESS_POSTURE_ID, bodyPosture_ID);
+    dbHandler->update(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, filter);
+    emit setWorkProcess(values);
+}
+
+//ExecutionCondition
+void Controller::saveExecutionCondition(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(workcondition_ID);
+    int wc_ID = dbHandler->save(DBConstants::TBL_WORK_CONDITION, DBConstants::HASH_WORK_CONDITION_TYPES, values, filter, DBConstants::COL_WORK_CONDITION_ID);
+    if(wc_ID > 0)
+        workcondition_ID = wc_ID;
+    values.insert(DBConstants::COL_WORK_CONDITION_ID, workcondition_ID);
+    emit setExecutionCondition(values);
+    saveWorkProcess(QHash<QString, QVariant>());
+}
+
+//Employee
+void Controller::initializeEmployees(){
+    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_EMPLOYEE, QString(""));
+    for(int i = 0; i < values.count(); ++i)
+        emit createdEmployee(values.at(i));
+}
+
+void Controller::createEmployee(QHash<QString, QVariant> values){
+    QHash<QString, QVariant> bmValues = QHash<QString, QVariant>();
+    int bmID = dbHandler->insert(DBConstants::TBL_BODY_MEASUREMENT, DBConstants::HASH_BODY_MEASUREMENT_TYPES, bmValues, DBConstants::COL_BODY_MEASUREMENT_ID);
+    values.insert(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID, bmID);
+    int id = dbHandler->insert(DBConstants::TBL_EMPLOYEE, DBConstants::HASH_EMPLOYEE_TYPES, values, DBConstants::COL_EMPLOYEE_ID);
+    values.insert(DBConstants::COL_EMPLOYEE_ID, id);
+    emit createdEmployee(values);
+    emit showMessage(tr("Created new employee"));
+}
+
+void Controller::createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues){
+    int bmID = dbHandler->insert(DBConstants::TBL_BODY_MEASUREMENT, DBConstants::HASH_BODY_MEASUREMENT_TYPES, bodyMeasurementValues, DBConstants::COL_BODY_MEASUREMENT_ID);
+    values.insert(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID, bmID);
+    int empID = dbHandler->insert(DBConstants::TBL_EMPLOYEE, DBConstants::HASH_EMPLOYEE_TYPES, values, DBConstants::COL_EMPLOYEE_ID);
+    values.insert(DBConstants::COL_EMPLOYEE_ID, empID);
+    emit createdEmployee(values);
+}
+
+void Controller::deleteEmployee(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_ID).arg(id);
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE, filter);
+    dbHandler->remove(DBConstants::TBL_EMPLOYEE, filter);
+    emit removedEmployee(id);
+    filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID).arg(values.value(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID).toInt());
+    dbHandler->remove(DBConstants::TBL_BODY_MEASUREMENT, filter);
+    emit showMessage(tr("Deleted employee"));
+}
+
+void Controller::selectEmployee(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_ID).arg(id);
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE, filter);
+    employee_ID = id;
+    bodyMeasurement_ID = values.value(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID).toInt();
+    emit selectedEmployee(values);
+    filter = QString("%1 = %2").arg(DBConstants::COL_BODY_MEASUREMENT_ID).arg(bodyMeasurement_ID);
+    values = dbHandler->selectFirst(DBConstants::TBL_BODY_MEASUREMENT, filter);
+    emit selectedBodyMeasurement(values);
+}
+
+void Controller::saveEmployee(QHash<QString, QVariant> values){
+    values.insert(DBConstants::COL_EMPLOYEE_ID, employee_ID);
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_ID, employee_ID).arg(employee_ID);
+    dbHandler->save(DBConstants::TBL_EMPLOYEE, DBConstants::HASH_EMPLOYEE_TYPES, values, filter, DBConstants::COL_EMPLOYEE_ID);
+    emit updatedEmployee(values);
+}
+
+void Controller::setSelectedEmployee(int id){
+    selectedEmployee_ID = id;
+}
+
+void Controller::resetEmployeeSelection(){
+    emit employeeSelected(selectedEmployee_ID);
+}
+
+//BodyMeasurement
+void Controller::saveBodyMeasurement(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_BODY_MEASUREMENT_ID).arg(bodyMeasurement_ID);
+    dbHandler->save(DBConstants::TBL_BODY_MEASUREMENT, DBConstants::HASH_BODY_MEASUREMENT_TYPES, values, filter, DBConstants::COL_BODY_MEASUREMENT_ID);
+}
+
+
+//WorkProcessControll
+void Controller::initilizeWorkProcesses(bool selectFirst){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID);
+    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_WORK_PROCESS, filter);
+    emit initiliazedWorkProcesses(values);
+    if(selectFirst)
+        selectWorkProcess(1, AVType::BASIC);
+}
+
+void Controller::createWorkprocess(QHash<QString, QVariant> values){
+    AVType type = (AVType) values.value(DBConstants::COL_WORK_PROCESS_TYPE).toInt();
     QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(type);
 
-    int id = dbHandler->getNextID(DB_TABLES::WORK_PROCESS, DBConstants::COL_WORK_PROCESS_ID, filter);
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    int id = dbHandler->getNextID(DBConstants::TBL_WORK_PROCESS, DBConstants::COL_WORK_PROCESS_ID, filter);
     values.insert(DBConstants::COL_WORK_PROCESS_ID, id);
     values.insert(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID, activity_ID);
     values.insert(DBConstants::COL_WORK_PROCESS_TYPE, type);
-    values.insert(DBConstants::COL_WORK_PROCESS_BEGIN, start.toString());
-    values.insert(DBConstants::COL_WORK_PROCESS_END, end.toString());
-    insert(DB_TABLES::WORK_PROCESS, DBConstants::COL_WORK_PROCESS_ID, DBConstants::HASH_WORK_PROCESS_TYPES, values);
-    gantTimerView->add(id, type, start, end);
-    return id;
-}
-
-
-void Controller::setSelectedWorkProcess(int id , AVType type){
-    saveCurrentWorkProcess();
-    QString filter = QString("%1 = %2 AND %3 = %4 AND %5 = %6").arg(DBConstants::COL_WORK_PROCESS_ID).arg(id).arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(type);
-
-    DB_TABLES tbl = DB_TABLES::WORK_PROCESS;
-    dbHandler->select(tbl, filter);
-    if(dbHandler->rowCount(tbl) > 0){
-        QSqlRecord record = dbHandler->record(tbl, 0);
-        bodyPosture_ID = record.value(DBConstants::COL_WORK_PROCESS_POSTURE_ID).toInt();
-        appliedforce_ID = record.value(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID).toInt();
-        loadhandling_ID = record.value(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID).toInt();
-        workcondition_ID = record.value(DBConstants::COL_WORK_PROCESS_CONDITION_ID).toInt();
-        QTime duration = QTime(0,0).addSecs(record.value(DBConstants::COL_WORK_PROCESS_BEGIN).toTime().secsTo(record.value(DBConstants::COL_WORK_PROCESS_END).toTime()));
-        workprocess_ID = id;
-        workprocess_Type = type;
-        timerViewController->setSelectedType(type);
-        timerViewController->setSelectedAV(id, duration);
-        updateBodyPostureView();
-        updateAppliedForceView();
-        updateLoadHandlingView();
-        updateExecutionConditionView();
-        updateWorkProcessMetaDataView();
-        gantTimerView->setSelectedWorkProcess(id, type, record.value(DBConstants::COL_WORK_PROCESS_FREQUENCY).toInt());
-        updateGantView();
-    }
-    else{
-        timerViewController->setSelectedType(AVType::BASIC);
-        timerViewController->setSelectedAV(0, QTime(0,0));
+    dbHandler->insert(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, DBConstants::COL_WORK_PROCESS_ID);
+    if(type == workprocess_Type && id == workprocess_ID + 1 )
+        emit setHasNextWorkProcess(true);
+    emit createdWorkProcess(values);
+    if(type == workprocess_Type && id == 1){
+        selectWorkProcess(1, type);
     }
 }
+
+void Controller::createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses){
+    if(workplaceName != "" && activityName != ""){
+        QString absErrorMessage = QString(tr("Could not create workprocess list because \n the %1 \"%2\" %3 is missing."));
+        QString filter = QString("%1 = '%2'").arg(DBConstants::COL_WORKPLACE_NAME).arg(workplaceName);
+        int wp_ID = dbHandler->selectFirst(DBConstants::TBL_WORKPLACE, filter).value(DBConstants::COL_WORKPLACE_ID).toInt();
+        if(wp_ID > 0){
+            filter = QString("%1 = %2 AND %3 = '%4'").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(wp_ID).arg(DBConstants::COL_ACTIVITY_DESCRIPTION).arg(activityName);
+            int ac_ID = dbHandler->selectFirst(DBConstants::TBL_ACTIVITY, filter).value(DBConstants::COL_ACTIVITY_ID).toInt();
+            if(ac_ID > 0){
+                filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID);
+
+                if(!dbHandler->isSelectEmpty(DBConstants::TBL_WORK_PROCESS, filter)){
+                    QString errorMessage = QString("The activity \"%1\" in workplace \"%2\" is not empty.").arg(activityName).arg(workplaceName);
+                    ErrorReporter::reportError(errorMessage);
+                    emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+                }
+
+                for(int i = 0; i < workprocesses.size(); ++i){
+                    QHash<QString, QVariant> values = workprocesses.at(i);
+                    filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(AVType::BASIC);
+                    int id = dbHandler->getNextID(DBConstants::TBL_WORK_PROCESS, DBConstants::COL_WORK_PROCESS_ID, filter);
+                    values.insert(DBConstants::COL_WORK_PROCESS_TYPE, AVType::BASIC);
+                    values.insert(DBConstants::COL_WORK_PROCESS_ID, id);
+                    values.insert(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID, ac_ID);
+                    dbHandler->insert(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, DBConstants::COL_WORK_PROCESS_ID);
+                }
+            } else {
+                QString addition = QString("with workplace \"%1\"").arg(workplaceName);
+                QString errorMessage = absErrorMessage.arg(tr("activity")).arg(activityName).arg(addition);
+                ErrorReporter::reportError(errorMessage);
+                emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+            }
+
+        } else {
+            QString errorMessage = absErrorMessage.arg(tr("workplace")).arg(workplaceName).arg("");
+            ErrorReporter::reportError(errorMessage);
+            emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        }
+
+    }
+}
+
 
 void Controller::selectNextWorkProcess(){
-    setSelectedWorkProcess(workprocess_ID + 1, workprocess_Type);
+    selectWorkProcess(workprocess_ID + 1, workprocess_Type);
+
 }
 
 void Controller::selectPreviousWorkProcess(){
-    setSelectedWorkProcess(workprocess_ID - 1, workprocess_Type);
+    selectWorkProcess(workprocess_ID - 1, workprocess_Type);
 }
 
 void Controller::workProcessTypeChanged(AVType type){
-    setSelectedWorkProcess(1, type);
+    selectWorkProcess(1, type);
+
 }
 
 void Controller::resetWorkProcesses(){
     deleteWorkProcesses(activity_ID);
-    updateGantView();
+    initilizeWorkProcesses();
 }
 
-void Controller::saveCurrentWorkProcess(){
-    saveBodyPostureView();
-    saveLoadHandlingView();
-    saveAppliedForceView();
-    saveExecutionConditionView();
-    QString filter = QString("%1 = %2 AND %3 = %4 AND %5 = %6").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_ID).arg(workprocess_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(workprocess_Type);
+void Controller::workProcessDurationChanged(QTime time){
+    QString tbl = DBConstants::TBL_WORK_PROCESS;
+    QString filter = QString("%1 = %2 AND %3 = %4 AND %5 >= %6").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(workprocess_Type).arg(DBConstants::COL_WORK_PROCESS_ID).arg(workprocess_ID);
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(tbl, filter);
+    if(!rows.isEmpty())
+        {
+            QHash<QString, QVariant> row = rows.at(0);
+            filter = QString("%1 = %2 AND %3 = %4 AND %5 = %6").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(workprocess_Type).arg(DBConstants::COL_WORK_PROCESS_ID);
+            QTime begin = row.value(DBConstants::COL_WORK_PROCESS_BEGIN).toTime();
+            QTime end = row.value(DBConstants::COL_WORK_PROCESS_END).toTime();
+            int diff = QTime(0, 0).addSecs(begin.secsTo(end)).secsTo(time);
+            row.insert(DBConstants::COL_WORK_PROCESS_END, end.addSecs(diff));
+            dbHandler->update(tbl, DBConstants::HASH_WORK_PROCESS_TYPES, row, filter.arg(workprocess_ID));
+            for(int i = 1; i < rows.count(); ++i)
+                {
+                    row = rows.at(i);
+                    begin = row.value(DBConstants::COL_WORK_PROCESS_BEGIN).toTime();
+                    end = row.value(DBConstants::COL_WORK_PROCESS_END).toTime();
+                    row.insert(DBConstants::COL_WORK_PROCESS_BEGIN, begin.addSecs(diff));
+                    row.insert(DBConstants::COL_WORK_PROCESS_END, end.addSecs(diff));
+                    dbHandler->update(tbl, DBConstants::HASH_WORK_PROCESS_TYPES, row, filter.arg(row.value(DBConstants::COL_WORK_PROCESS_ID).toInt()));
+                }
+            initilizeWorkProcesses(false);
+        }
+}
 
+
+void Controller::selectWorkProcess(int id , AVType type){
+    QString absFilter = QString("%1 = %2 AND %3 = %4 AND %5 = %6").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(type).arg(DBConstants::COL_WORK_PROCESS_ID);
+    QString filter = absFilter.arg(id);
+
+    QString tbl = DBConstants::TBL_WORK_PROCESS;
+    QHash<QString, QVariant> row = dbHandler->selectFirst(tbl, filter);
+    bodyPosture_ID = row.value(DBConstants::COL_WORK_PROCESS_POSTURE_ID).toInt();
+    emit setBodyPosture(dbHandler->selectFirst(DBConstants::TBL_BODY_POSTURE, QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(bodyPosture_ID)));
+    appliedforce_ID = row.value(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID).toInt();
+    emit setAppliedForce(dbHandler->selectFirst(DBConstants::TBL_APPLIED_FORCE, QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(appliedforce_ID)));
+    loadhandling_ID = row.value(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID).toInt();
+    QHash<QString, QVariant> lhValues = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(loadhandling_ID));
+    int lht_ID = lhValues.value(DBConstants::COL_LOAD_HANDLING_LOAD_HANDLING_TYPE_ID).toInt();
+    QHash<QString, QVariant> lhtValues = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING_TYPE, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_TYPE_ID).arg(lht_ID));
+    lhValues.insert(DBConstants::COL_LOAD_HANDLING_TYPE_NAME, lhtValues.value(DBConstants::COL_LOAD_HANDLING_TYPE_NAME));
+    int gt_ID = lhValues.value(DBConstants::COL_LOAD_HANDLING_TYPE_OF_GRASPING).toInt();
+    QHash<QString, QVariant> togValues = dbHandler->selectFirst(DBConstants::TBL_TYPE_OF_GRASPING, QString("%1 = %2").arg(DBConstants::COL_TYPE_OF_GRASPING_ID).arg(gt_ID));
+    lhValues.insert(DBConstants::COL_TYPE_OF_GRASPING_NAME, togValues.value(DBConstants::COL_TYPE_OF_GRASPING_NAME));
+    emit setLoadHandling(lhValues);
+    workcondition_ID = row.value(DBConstants::COL_WORK_PROCESS_CONDITION_ID).toInt();
+    emit setExecutionCondition(dbHandler->selectFirst(DBConstants::TBL_WORK_CONDITION, QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(workcondition_ID)));
+    emit setWorkProcess(row);
+
+    workprocess_ID = id;
+    workprocess_Type = type;
+    emit setSelectedWorkProcessType(type);
+    emit setSelectedWorkProcess(row);
+    bool hasPrevious = !dbHandler->isSelectEmpty(tbl, absFilter.arg(id - 1));
+    bool hasNext = !dbHandler->isSelectEmpty(tbl, absFilter.arg(id + 1));
+    emit setHasPreviousWorkProcess(hasPrevious);
+    emit setHasNextWorkProcess(hasNext);
+}
+
+//Gantt
+void Controller::saveWorkProcessFrequence(int frequence){
+    QString filter = QString("%1 = %2 AND %3 = %4 AND %5 = %6").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(workprocess_Type).arg(DBConstants::COL_WORK_PROCESS_ID).arg(workprocess_ID);
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_WORK_PROCESS_DESCRIPTION, workProcessMetaDataView->getDescription());
-    values.insert(DBConstants::COL_WORK_PROCESS_FREQUENCY, gantTimerView->getFrequenz());
-    values.insert(DBConstants::COL_WORK_PROCESS_MTM_CODE, workProcessMetaDataView->getMTMCode());
-    values.insert(DBConstants::COL_WORK_PROCESS_WORKING_HEIGHT, workProcessMetaDataView->getWorkingHeight());
-    values.insert(DBConstants::COL_WORK_PROCESS_DISTANCE, workProcessMetaDataView->getDistance());
-    values.insert(DBConstants::COL_WORK_PROCESS_IMPULSE_COUNT, workProcessMetaDataView->getImpulseCount());
-    values.insert(DBConstants::COL_WORK_PROCESS_IMPULSE_INTENSITY, workProcessMetaDataView->getImpulseIntensity());
-    values.insert(DBConstants::COL_WORK_PROCESS_EQUIPMENT_ID, workProcessMetaDataView->getSelectedEquipment());
-    values.insert(DBConstants::COL_WORK_PROCESS_POSTURE_ID, bodyPosture_ID);
-    values.insert(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID, loadhandling_ID);
-    values.insert(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID, appliedforce_ID);
-    values.insert(DBConstants::COL_WORK_PROCESS_CONDITION_ID, workcondition_ID);
-    save(DB_TABLES::WORK_PROCESS, filter, DBConstants::HASH_WORK_PROCESS_TYPES, values);
+    values.insert(DBConstants::COL_WORK_PROCESS_FREQUENCY, frequence);
+    dbHandler->update(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, filter);
+
 }
 
-void Controller::updateGantView(){
-    gantTimerView->clear();
-    QVector<QVariant> *leftWorkProcesses = new QVector<QVariant>();
-    QVector<QVariant> *rightWorkProcesses = new QVector<QVariant>();
-    QVector<QVariant> *basicWorkProcesses = new QVector<QVariant>();
-    dbHandler->select(DB_TABLES::WORK_PROCESS, QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID));
-    for(int i = 0; i < dbHandler->rowCount(DB_TABLES::WORK_PROCESS); ++i){
-        QSqlRecord record = dbHandler->record(DB_TABLES::WORK_PROCESS, i);
-        int type = record.value(DBConstants::COL_WORK_PROCESS_TYPE).toInt();
-        QVariant id = record.value(DBConstants::COL_WORK_PROCESS_ID);
-        QVariant start = record.value(DBConstants::COL_WORK_PROCESS_BEGIN);
-        QVariant end = record.value(DBConstants::COL_WORK_PROCESS_END);
-        if(type == 1){
-            leftWorkProcesses->append(id);
-            leftWorkProcesses->append(start);
-            leftWorkProcesses->append(end);
-        }
-        else if(type == 2){
-            rightWorkProcesses->append(id);
-            rightWorkProcesses->append(start);
-            rightWorkProcesses->append(end);
-        }
-        else {
-            basicWorkProcesses->append(id);
-            basicWorkProcesses->append(start);
-            basicWorkProcesses->append(end);
-        }
-
+//Connection
+void Controller::initializeFTPConnections(IFTPConnections *widget){
+    widget->clearFTPConnections();
+    int defaultConnection_ID = 0;
+    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_CONNECTION, QString("%1 = %2").arg(DBConstants::COL_CONNECTION_ANALYST_ID).arg(analyst_ID));
+    for(int i = 0; i < values.count(); ++i){
+        QHash<QString, QVariant> row = values.at(i);
+        widget->addFTPConnection(row);
+        if(row.value(DBConstants::COL_CONNECTION_DEFAULT).toBool())
+            defaultConnection_ID = row.value(DBConstants::COL_CONNECTION_ID).toInt();
     }
-    gantTimerView->setWorkProcessLists(leftWorkProcesses, rightWorkProcesses, basicWorkProcesses);
-    timerViewController->setWorkProcessLists(leftWorkProcesses, rightWorkProcesses, basicWorkProcesses);
+    widget->selectedFTPConnection(defaultConnection_ID);
 }
 
-
-// BodyPostureView
-void Controller::updateBodyPostureView(){
-    DB_TABLES tbl = DB_TABLES::BODY_POSTURE;
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(bodyPosture_ID);
-    dbHandler->select(tbl, filter);
-    QSqlRecord record = dbHandler->record(tbl, 0);
-    if(dbHandler->rowCount(tbl) == 0 && record.count() == 0){
-        foreach(QString key, DBConstants::HASH_BODY_POSTURE_TYPES.keys())
-            record.append(QSqlField(key, DBConstants::HASH_BODY_POSTURE_TYPES.value(key)));
+void Controller::selectFTPConnection(IFTPConnections *widget, int id){
+    QHash<QString, QVariant> row = dbHandler->selectFirst(DBConstants::TBL_CONNECTION, QString("%1 = %2").arg(DBConstants::COL_CONNECTION_ID).arg(id));
+    if(!row.isEmpty()){
+        widget->setFTPConnection(row);
     }
-    bodyPostureView->setRecord(record);
 }
 
-void Controller::saveBodyPostureView(){
-    DB_TABLES tbl = DB_TABLES::BODY_POSTURE;
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(bodyPosture_ID);
-    dbHandler->select(tbl, filter);
-    QSqlRecord record = bodyPostureView->getRecord();
-    if(dbHandler->rowCount(tbl) == 0){
-        int id = dbHandler->getNextID(tbl, DBConstants::COL_BODY_POSTURE_ID);
-        record.setValue(DBConstants::COL_BODY_POSTURE_ID, id);
-        dbHandler->insertRow(tbl, record);
-        bodyPosture_ID = id;
+void Controller::createFTPConnection(IFTPConnections *widget)
+{
+    QHash<QString, QVariant> values = widget->getFTPConnection();
+    values.insert(DBConstants::COL_CONNECTION_ANALYST_ID, analyst_ID);
+    dbHandler->insert(DBConstants::TBL_CONNECTION, DBConstants::HASH_CONNECTION_TYPES, values, DBConstants::COL_CONNECTION_ID);
+}
+
+void Controller::editFTPConnection(IFTPConnections *widget, int id)
+{
+    QHash<QString, QVariant> values = widget->getFTPConnection();
+    values.insert(DBConstants::COL_CONNECTION_ANALYST_ID, analyst_ID);
+    dbHandler->update(DBConstants::TBL_CONNECTION, DBConstants::HASH_CONNECTION_TYPES, values, QString("%1 = %2").arg(DBConstants::COL_CONNECTION_ID).arg(id));
+}
+
+//ImportData
+void Controller::importData(IImportData *widget){
+    emit showMessage(tr("Start parsing"));
+    importDataWidget = widget;
+    if(widget->getImportMode().compare("XML") == 0){
+        XMLParser *xmlParser = new XMLParser(this);
+        connect(xmlParser, SIGNAL(createTransportation(QHash<QString,QVariant>)), this, SLOT(createTransportation(QHash<QString, QVariant>)));
+        connect(xmlParser, SIGNAL(createEmployee(QHash<QString,QVariant>,QHash<QString,QVariant>)), this, SLOT(createEmployee(QHash<QString,QVariant>,QHash<QString,QVariant>)));
+        connect(xmlParser, SIGNAL(createEquipment(QHash<QString,QVariant>)), this, SLOT(createEquipment(QHash<QString,QVariant>)));
+        connect(xmlParser, SIGNAL(createProduct(QHash<QString,QVariant>)), this, SLOT(createProduct(QHash<QString,QVariant>)));
+        connect(xmlParser, SIGNAL(createWorkplace(QHash<QString,QVariant>,QList<QHash<QString,QVariant> >)), this, SLOT(createWorkplace(QHash<QString,QVariant>,QList<QHash<QString,QVariant> >)));
+        connect(xmlParser, SIGNAL(createWorkprocessList(QString,QString,QList<QHash<QString,QVariant> >)), this, SLOT(createWorkprocessList(QString,QString,QList<QHash<QString,QVariant> >)));
+        parser = qobject_cast<IImportDataParser*>(xmlParser);
+        downloadDir = StandardPaths::xmlDirectoryPath();
     }
     else {
-        dbHandler->updateRow(tbl, 0, record);
+        parser = 0;
+        downloadDir = "";
     }
-    bodyPosture_ID = record.value(DBConstants::COL_BODY_POSTURE_ID).toInt();
-}
 
-// ExecutionConditionView
-void Controller::updateExecutionConditionView(){
-    DB_TABLES tbl = DB_TABLES::WORK_CONDITION;
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(workcondition_ID);
-    dbHandler->select(tbl, filter);
-    QSqlRecord record = dbHandler->record(tbl, 0);
-    executionConditionView->setArmSupports(record.value(DBConstants::COL_WORK_CONDITION_RIGHT_UPPER_ARM_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_LEFT_UPPER_ARM_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_RIGHT_FOREARM_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_LEFT_FOREARM_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_RIGHT_HAND_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_LEFT_HAND_SUPPORTED).toInt());
-    executionConditionView->setBodySupports(record.value(DBConstants::COL_WORK_CONDITION_HEAD_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_TRUNK_SUPPORT).toInt());
-    executionConditionView->setLegSupports(record.value(DBConstants::COL_WORK_CONDITION_RIGHT_THIGH_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_LEFT_THIGH_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_RIGHT_LOWER_LEG_SUPPORTED).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_LEFT_LOWER_LEG_SUPPORTED).toInt());
-    executionConditionView->setResultingConstraints((DBConstants::COL_WORK_CONDITION_GRIP_CONDITION).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_ACCESSIBILITY).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_GROUND).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_LIGHTING).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_CLIMATE).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_WIND).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_CLOTHING).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_ROOM_TO_MOVE).toInt());
-    executionConditionView->setConditionAttributes((DBConstants::COL_WORK_CONDITION_PRECISION).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_VELOCITY).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_ACCELERATION).toInt(),
-                        record.value(DBConstants::COL_WORK_CONDITION_VIBRATION).toInt());
-}
 
-void Controller::saveExecutionConditionView(){
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(workcondition_ID);
+    QDir downloadDirectory = QDir(downloadDir);
+    if(!downloadDirectory.exists())
+        downloadDirectory.mkpath(downloadDir);
 
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_WORK_CONDITION_ACCELERATION, executionConditionView->getAcceleration());
-    values.insert(DBConstants::COL_WORK_CONDITION_ACCESSIBILITY, executionConditionView->getAccessibility());
-    values.insert(DBConstants::COL_WORK_CONDITION_CLIMATE, executionConditionView->getClimate());
-    values.insert(DBConstants::COL_WORK_CONDITION_CLOTHING, executionConditionView->getClothing());
-    values.insert(DBConstants::COL_WORK_CONDITION_GRIP_CONDITION, executionConditionView->getGraspingType());
-    values.insert(DBConstants::COL_WORK_CONDITION_GROUND, executionConditionView->getGround());
-    values.insert(DBConstants::COL_WORK_CONDITION_HEAD_SUPPORTED, executionConditionView->getHeadSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_LEFT_FOREARM_SUPPORTED, executionConditionView->getLeftForearmSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_LEFT_HAND_SUPPORTED, executionConditionView->getLeftHandSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_LEFT_LOWER_LEG_SUPPORTED, executionConditionView->getLeftLowerLegSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_LEFT_THIGH_SUPPORTED, executionConditionView->getLeftThighSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_LEFT_UPPER_ARM_SUPPORTED, executionConditionView->getLeftUpperArmSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_LIGHTING, executionConditionView->getLighting());
-    values.insert(DBConstants::COL_WORK_CONDITION_PRECISION, executionConditionView->getPrecision());
-    values.insert(DBConstants::COL_WORK_CONDITION_RIGHT_FOREARM_SUPPORTED, executionConditionView->getRightForearmSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_RIGHT_HAND_SUPPORTED, executionConditionView->getRightHandSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_RIGHT_LOWER_LEG_SUPPORTED, executionConditionView->getRightLowerLegSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_RIGHT_THIGH_SUPPORTED, executionConditionView->getRightThighSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_RIGHT_UPPER_ARM_SUPPORTED, executionConditionView->getRightUpperArmSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_ROOM_TO_MOVE, executionConditionView->getRoomToMove());
-    values.insert(DBConstants::COL_WORK_CONDITION_TRUNK_SUPPORT, executionConditionView->getTrunkSupport());
-    values.insert(DBConstants::COL_WORK_CONDITION_VELOCITY, executionConditionView->getVelocity());
-    values.insert(DBConstants::COL_WORK_CONDITION_VIBRATION, executionConditionView->getVibration());
-    values.insert(DBConstants::COL_WORK_CONDITION_WIND, executionConditionView->getWind());
-    values.insert(DBConstants::COL_WORK_CONDITION_ID, workcondition_ID);
-    workcondition_ID = save(DB_TABLES::WORK_CONDITION, filter, DBConstants::COL_WORK_CONDITION_ID, DBConstants::HASH_COMMENT_TYPES, values);
-}
+    if(parser){
+        FtpHandler *ftpHandler = new FtpHandler();
+        connect(ftpHandler, SIGNAL(error(QString)), this, SLOT(importDataDownloadError(QString)));
+        connect(ftpHandler, SIGNAL(finished(QString)), this, SLOT(importDataDownloadFinished(QString)));
+        QHash<QString, QVariant> conValues = widget->getFTPConnection();
+        ftpHandler->setUser(conValues.value(DBConstants::COL_CONNECTION_USERNAME).toString(), conValues.value(DBConstants::COL_CONNECTION_PASSWORD).toString());
+        ftpHandler->setPort(conValues.value(DBConstants::COL_CONNECTION_PORT).toInt());
+        ftpHandler->setServer(conValues.value(DBConstants::COL_CONNECTION_SERVER_ADDRESS).toString());
 
-// AppliedForceView
-void Controller::updateAppliedForceView(){
-    DB_TABLES tbl = DB_TABLES::APPLIED_FORCE;
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(appliedforce_ID);
-    dbHandler->select(tbl, filter);
-    QSqlRecord record = dbHandler->record(tbl, 0);
-    appliedForceView->setOrgan(record.value(DBConstants::COL_APPLIED_FORCE_ORGAN).toString());
-    appliedForceView->setDirection(record.value(DBConstants::COL_APPLIED_FORCE_DIRECTION).toString());
-    appliedForceView->setIntensity(record.value(DBConstants::COL_APPLIED_FORCE_INTENSITY).toInt());
-}
-
-void Controller::saveAppliedForceView(){
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(appliedforce_ID);
-
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_APPLIED_FORCE_ORGAN, appliedForceView->getOrgan());
-    values.insert(DBConstants::COL_APPLIED_FORCE_DIRECTION, appliedForceView->getDirection());
-    values.insert(DBConstants::COL_APPLIED_FORCE_INTENSITY, appliedForceView->getIntensity());
-    values.insert(DBConstants::COL_APPLIED_FORCE_ID, appliedforce_ID);
-    appliedforce_ID = save(DB_TABLES::APPLIED_FORCE, filter, DBConstants::COL_APPLIED_FORCE_ID, DBConstants::HASH_COMMENT_TYPES, values);
-}
-
-// LoadHandlingView
-void Controller::updateLoadHandlingView(){
-    DB_TABLES tbl = DB_TABLES::LOAD_HANDLING;
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(loadhandling_ID);
-    dbHandler->select(tbl, filter);
-    QSqlRecord record = dbHandler->record(tbl, 0);
-    loadHandlingView->setGraspType(record.value(DBConstants::COL_LOAD_HANDLING_TYPE_OF_GRASPING).toString());
-    loadHandlingView->setWeight(record.value(DBConstants::COL_LOAD_HANDLING_LOAD).toInt());
-    loadHandlingView->setDistance(record.value(DBConstants::COL_LOAD_HANDLING_DISTANCE).toInt());
-    int grasp_ID = record.value(DBConstants::COL_TYPE_OF_GRASPING_ID).toInt();
-    int handlingType_ID = record.value(DBConstants::COL_LOAD_HANDLING_LOAD_HANDLING_TYPE_ID).toInt();
-    int trans_ID = record.value(DBConstants::COL_LOAD_HANDLING_TRANSPORTATION_ID).toInt();
-
-    tbl = DB_TABLES::LOAD_HANDLING_TYPE;
-    dbHandler->select(tbl, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_TYPE_ID).arg(handlingType_ID));
-    record = dbHandler->record(tbl, 0);
-    loadHandlingView->setHandlingType(record.value(DBConstants::COL_LOAD_HANDLING_TYPE_NAME).toString());
-
-    tbl = DB_TABLES::TYPE_OF_GRASPING;
-    dbHandler->select(tbl, QString("%1 = %2").arg(DBConstants::COL_TYPE_OF_GRASPING_ID).arg(grasp_ID));
-    record = dbHandler->record(tbl, 0);
-    loadHandlingView->setGraspType(record.value(DBConstants::COL_TYPE_OF_GRASPING_NAME).toString());
-    updateLoadHandlingTransportations();
-    loadHandlingView->setSelectedTransportation(trans_ID);
-}
-
-void Controller::saveLoadHandlingView(){
-    QString filter = QString("%1 = '%2'").arg(DBConstants::COL_TYPE_OF_GRASPING_NAME).arg(loadHandlingView->getGraspType());
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_TYPE_OF_GRASPING_NAME, loadHandlingView->getGraspType());
-    int grasp_ID = save(DB_TABLES::TYPE_OF_GRASPING, filter, DBConstants::COL_TYPE_OF_GRASPING_ID, DBConstants::HASH_TYPE_OF_GRASPING_TYPES, values);
-
-    filter = QString("%1 = '%2'").arg(DBConstants::COL_LOAD_HANDLING_TYPE_NAME).arg(loadHandlingView->getHandlingType());
-    values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_LOAD_HANDLING_TYPE_NAME, loadHandlingView->getHandlingType());
-    int loadHandlingType_ID = save(DB_TABLES::LOAD_HANDLING_TYPE, filter, DBConstants::COL_LOAD_HANDLING_TYPE_ID, DBConstants::HASH_LOAD_HANDLING_TYPE_TYPES, values);
-
-    filter = QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(loadhandling_ID);
-    values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_LOAD_HANDLING_TYPE_OF_GRASPING, grasp_ID);
-    values.insert(DBConstants::COL_LOAD_HANDLING_LOAD_HANDLING_TYPE_ID, loadHandlingType_ID);
-    values.insert(DBConstants::COL_LOAD_HANDLING_TRANSPORTATION_ID, loadHandlingView->getSelectedTransportation());
-    values.insert(DBConstants::COL_LOAD_HANDLING_LOAD, loadHandlingView->getWeight());
-    values.insert(DBConstants::COL_LOAD_HANDLING_DISTANCE, loadHandlingView->getDistance());
-    loadhandling_ID = save(DB_TABLES::LOAD_HANDLING, filter, DBConstants::COL_LOAD_HANDLING_ID, DBConstants::HASH_LOAD_HANDLING_TYPES, values);
-}
-
-void Controller::updateLoadHandlingTransportations(){
-    loadHandlingView->clearTransportation();
-    DB_TABLES tbl = DB_TABLES::TRANSPORTATION;
-    dbHandler->select(tbl, "");
-    QSqlRecord record;
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        record = dbHandler->record(tbl, i);
-        loadHandlingView->addTransportation(record.value(DBConstants::COL_TRANSPORTATION_ID).toInt(),
-                                            record.value(DBConstants::COL_TRANSPORTATION_NAME).toString(),
-                                            record.value(DBConstants::COL_TRANSPORTATION_EMPTY_WEIGHT).toInt(),
-                                            record.value(DBConstants::COL_TRANSPORTATION_MAX_LOAD).toInt(),
-                                            record.value(DBConstants::COL_TRANSPORTATION_BRAKES).toBool(),
-                                            record.value(DBConstants::COL_TRANSPORTATION_FIXED_ROLLER).toBool());
+        countFileDownload = 0;
+        if(parser->getFileMode() == IImportDataParser::FileMode::MultiFile){
+            if(widget->importTransportations()){
+                ftpHandler->downloadFile(parser->getTransportationFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importEquipments()){
+                ftpHandler->downloadFile(parser->getEquipmentFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importProducts()){
+                ftpHandler->downloadFile(parser->getProductFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importEmployees()){
+                ftpHandler->downloadFile(parser->getEmployeeFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importWorkplaces()){
+                ftpHandler->downloadFile(parser->getWorkplaceFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importWorkprocessLists()){
+                ftpHandler->downloadFile(parser->getWorkprocessListFilename(), downloadDir);
+                countFileDownload++;
+            }
+        }
+        else {
+            ftpHandler->downloadFile(parser->getSingleFilename(), downloadDir);
+            countFileDownload++;
+        }
     }
 }
 
-//WorkProcessMetaDataView
-void Controller::updateWorkProcessMetaDataView(){
-    DB_TABLES tbl = DB_TABLES::WORK_PROCESS;
-    QString filter = QString("%1 = %2 AND %3 = %4 AND %5 = %6").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_POSTURE_ID).arg(workprocess_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(workprocess_Type);
-    dbHandler->select(tbl, filter);
-    QSqlRecord record = dbHandler->record(tbl, 0);
-    workProcessMetaDataView->setWorkProcessMetaData(record.value(DBConstants::COL_WORK_PROCESS_DESCRIPTION).toString(),
-                                                    record.value(DBConstants::COL_WORK_PROCESS_MTM_CODE).toString(),
-                                                    record.value(DBConstants::COL_WORK_PROCESS_WORKING_HEIGHT).toInt(),
-                                                    record.value(DBConstants::COL_WORK_PROCESS_DISTANCE).toInt(),
-                                                    record.value(DBConstants::COL_WORK_PROCESS_IMPULSE_INTENSITY).toInt(),
-                                                    record.value(DBConstants::COL_WORK_PROCESS_IMPULSE_COUNT).toInt());
-    updateWorkProcessMetaDataEquipment();
-    workProcessMetaDataView->setSelectedEquipment(record.value(DBConstants::COL_WORK_PROCESS_EQUIPMENT_ID).toInt());
-}
+void Controller::importDataDownloadFinished(const QString ){
+    countFileDownload--;
+    if(countFileDownload != 0)
+        return;
 
-void Controller::updateWorkProcessMetaDataEquipment(){
-    workProcessMetaDataView->clearEquipment();
-    DB_TABLES tbl = DB_TABLES::EQUIPMENT;
-    dbHandler->select(tbl, QString(""));
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        workProcessMetaDataView->addEquipment(record.value(DBConstants::COL_EQUIPMENT_ID).toInt(),
-                                              record.value(DBConstants::COL_EQUIPMENT_NAME).toString(),
-                                              record.value(DBConstants::COL_EQUIPMENT_RECOIL_COUNT).toInt(),
-                                              record.value(DBConstants::COL_EQUIPMENT_RECOIL_INTENSITY).toInt(),
-                                              record.value(DBConstants::COL_EQUIPMENT_VIBRATION_COUNT).toInt(),
-                                              record.value(DBConstants::COL_EQUIPMENT_VIBRATION_INTENSITY).toInt());
+    QString path = QString("%1/%2").arg(downloadDir);
+    if(parser != 0){
+        if(importDataWidget->importTransportations())
+            parser->parseTransportations(path.arg(parser->getTransportationFilename()));
+        if(importDataWidget->importEquipments())
+            parser->parseEquipments(path.arg(parser->getEquipmentFilename()));
+        if(importDataWidget->importProducts())
+            parser->parseProducts(path.arg(parser->getProductFilename()));
+        if(importDataWidget->importEmployees())
+            parser->parseEmployees(path.arg(parser->getEmployeeFilename()));
+        if(importDataWidget->importWorkplaces())
+            parser->parseWorkplaces(path.arg(parser->getWorkplaceFilename()));
+        if(importDataWidget->importWorkprocessLists())
+            parser->parseWorkprocessLists(path.arg(parser->getWorkprocessListFilename()));
     }
 }
 
-// Documentation View Ressource Lists
-void Controller::updateDocumentationViewRessources(){
-    updateLoadHandlingTransportations();
-    updateWorkProcessMetaDataEquipment();
+void Controller::importDataDownloadError(const QString &error){
+    emit showMessage(error, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+}
+
+//SendData
+void Controller::sendData(ISendData *widget){
+    FtpHandler *ftpHandler = new FtpHandler();
+    connect(ftpHandler, SIGNAL(started()), this, SLOT(sendDataUploadStarted()));
+    connect(ftpHandler, SIGNAL(finished(QString)), this, SLOT(sendDataUploadFinished(QString)));
+    connect(ftpHandler, SIGNAL(error(QString)), this, SLOT(sendDataUploadError(QString)));
+    QHash<QString, QVariant> conValues = widget->getFTPConnection();
+    ftpHandler->setUser(conValues.value(DBConstants::COL_CONNECTION_USERNAME).toString(), conValues.value(DBConstants::COL_CONNECTION_PASSWORD).toString());
+    ftpHandler->setPort(conValues.value(DBConstants::COL_CONNECTION_PORT).toInt());
+    ftpHandler->setServer(conValues.value(DBConstants::COL_CONNECTION_SERVER_ADDRESS).toString());
+    ftpHandler->uploadFile(StandardPaths::databasePath());
+}
+
+void Controller::sendDataUploadStarted(){
+    emit showMessage(tr("Started Upload"), NotificationMessage::INFORMATION, NotificationMessage::MIDDLE);
+}
+
+void Controller::sendDataUploadFinished(const QString filename){
+    emit showMessage(QString(tr("Finished Upload: ")).append(filename));
+}
+
+void Controller::sendDataUploadError(const QString &error){
+    emit showMessage(error, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+}
+
+//Shift
+void Controller::initializeShift(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_ID).arg(id);
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_SHIFT, filter);
+    if(!values.isEmpty()){
+        shift_ID = values.value(DBConstants::COL_SHIFT_ID).toInt();
+        filter = QString ("%1 = %2").arg(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_SHIFT_ID).arg(shift_ID);
+        selectedEmployee_ID = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, filter).value(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID).toInt();
+        emit employeeSelected(selectedEmployee_ID);
+        emit selectedShift(values);
+        initializeRotationGroup(values.value(DBConstants::COL_SHIFT_ROTATION_GROUP_ID).toInt());
+    }
+}
+
+void Controller::saveShift(QHash<QString, QVariant> values){
+    QHash<QString, QVariant> ewsValues = QHash<QString, QVariant>();
+    ewsValues.insert(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID, selectedEmployee_ID);
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_SHIFT_ID).arg(shift_ID);
+    dbHandler->update(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, DBConstants::HASH_EMPLOYEE_WORKS_SHIFT_TYPES, ewsValues, filter, DBConstants::COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID);
+    filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_ID).arg(shift_ID);
+    values.insert(DBConstants::COL_SHIFT_RECORDING_ID, recording_ID);
+    values.insert(DBConstants::COL_SHIFT_ROTATION_GROUP_ID, rotationGroup_ID);
+    values.insert(DBConstants::COL_SHIFT_ID, shift_ID);
+    dbHandler->save(DBConstants::TBL_SHIFT, DBConstants::HASH_SHIFT_TYPES, values, filter, DBConstants::COL_SHIFT_ID);
+    emit selectedShift(values);
+}
+
+//RotationGroup
+void Controller::initializeRotationGroup(int id){
+    rotationGroup_ID = id;
+    emit clearRotationGroup();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(id);
+    QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
+    for(int i = 0; i < rgesValues.size(); ++i){
+        QHash<QString, QVariant> rgeValues = rgesValues.at(i);
+        int entry_ID = rgeValues.value(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).toInt();
+        bool isTask = rgeValues.value(DBConstants::COL_ROTATION_GROUP_IS_TASK).toBool();
+        QHash<QString, QVariant> additionalValues;
+        QString tblName = isTask ? DBConstants::TBL_ROTATION_GROUP_TASK : DBConstants::TBL_BREAK;
+        QString colIDName = isTask ? DBConstants::COL_ROTATION_GROUP_TASK_ID : DBConstants::COL_BREAK_ID;
+        filter = QString("%1 = %2").arg(colIDName).arg(entry_ID);
+        additionalValues = dbHandler->selectFirst(tblName, filter);
+        foreach(QString key , additionalValues.keys())
+            rgeValues.insert(key, additionalValues.value(key));
+        if(isTask)
+            emit addRotationGroupEntry(rgeValues);
+        else
+            emit addRotationGroupBreakEntry(rgeValues);
+    }
+
+}
+
+void Controller::createRotationGroupEntry(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID);
+    int order = dbHandler->getNextID(DBConstants::TBL_ROTATION_GROUP, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, filter);
+    values.insert(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, order);
+    values.insert(DBConstants::COL_ROTATION_GROUP_IS_TASK, true);
+    values.insert(DBConstants::COL_ROTATION_GROUP_ID, rotationGroup_ID);
+    int success = dbHandler->insert(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+    if(success > 0) {
+        filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(values.value(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).toString());
+        QHash<QString, QVariant> additionalValues = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
+        values.insert(DBConstants::COL_ROTATION_GROUP_TASK_NAME, additionalValues.value(DBConstants::COL_ROTATION_GROUP_TASK_NAME));
+        values.insert(DBConstants::COL_ROTATION_GROUP_TASK_DURATION, additionalValues.value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_DURATION));
+        emit addRotationGroupEntry(values);
+        emit showMessage(tr("Added rotation group task to calendar"));
+    }
+}
+
+void Controller::createRotationGroupBreakEntry(QHash<QString, QVariant> values){
+    int duration = values.value(DBConstants::COL_BREAK_DURATION).toInt();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_BREAK_DURATION).arg(duration);
+    QHash<QString, QVariant> breakValues = QHash<QString, QVariant>();
+    breakValues.insert(DBConstants::COL_BREAK_DURATION, duration);
+    values.remove(DBConstants::COL_BREAK_DURATION);
+    int break_ID = dbHandler->save(DBConstants::TBL_BREAK, DBConstants::HASH_BREAK_TYPES, breakValues, filter, DBConstants::COL_BREAK_ID);
+    if(break_ID > 0) {
+        values.insert(DBConstants::COL_ROTATION_GROUP_ENTRY_ID, break_ID);
+        filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID);
+        int order = dbHandler->getNextID(DBConstants::TBL_ROTATION_GROUP, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, filter);
+        values.insert(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, order);
+        values.insert(DBConstants::COL_ROTATION_GROUP_IS_TASK, false);
+        values.insert(DBConstants::COL_ROTATION_GROUP_ID, rotationGroup_ID);
+        int success = dbHandler->insert(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+        if(success > 0) {
+            values.insert(DBConstants::COL_BREAK_DURATION, duration);
+            emit addRotationGroupBreakEntry(values);
+            emit showMessage(tr("Added break to calendar"));
+        }
+    }
+}
+
+void Controller::deleteRotationGroupEntry(int order){
+    QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID).arg(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).arg(order);
+    if(dbHandler->remove(DBConstants::TBL_ROTATION_GROUP, filter)){
+        emit showMessage(tr("Removed entry form calendar"));
+        filter = QString("%1 = %2 AND %3 > %4").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID).arg(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).arg(order);
+        QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
+        QString absFilter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID).arg(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+        for(int i = 0; i < rgesValues.size(); ++i){
+            QHash<QString, QVariant> rgeValues = rgesValues.at(i);
+            int order = rgeValues.value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
+            rgeValues.insert(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, order - 1);
+            dbHandler->update(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, rgeValues, absFilter.arg(order), DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+        }
+        initializeRotationGroup(rotationGroup_ID);
+    }
+}
+
+void Controller::moveRotationGroupEntryUp(int order){
+    swapRotationGroupEntries(order, order-1);
+    initializeRotationGroup(rotationGroup_ID);
+}
+
+void Controller::moveRotationGroupEntryDown(int order){
+    swapRotationGroupEntries(order, order+1);
+    initializeRotationGroup(rotationGroup_ID);
 }
 
 
+//RotationGroupTask
+void Controller::initializeRotationGroupTasks(){
+    emit clearRotationGroupTasks();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK, QString(""));
+    for(int i = 0; i < rows.size(); ++i)
+        emit createdRotationGroupTask(rows.value(i));
+}
 
-void Controller::resetDatabase(){
-    analyst_ID = 0;
-    recording_ID = 1;
-    workplace_ID = 0;
-    workcondition_ID = 0;
-    factory_ID = 0;
-    activity_ID = 0;
-    appliedforce_ID = 0;
-    loadhandling_ID = 0;
-    workprocess_Type = AVType::BASIC;
-    workprocess_ID = 0;
+void Controller::createRotationGroupTask(QHash<QString, QVariant> values){
+    dbHandler->insert(DBConstants::TBL_ROTATION_GROUP_TASK, DBConstants::HASH_ROTATION_GROUP_TASK_TYPES, values, DBConstants::COL_ROTATION_GROUP_TASK_ID);
+    emit showMessage(tr("Created rotation group task"));
+    emit createdRotationGroupTask(values);
+}
+
+void Controller::deleteRotationGroupTask(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(id);
+    dbHandler->remove(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
+    QList<QHash<QString, QVariant>> rgteRows = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(id));
+    rotationGroupTask_ID = id;
+    for(int i = 0; i < rgteRows.size(); ++i){
+        deleteRotationGroupTaskEntry(rgteRows.at(i).value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_ID).toInt(), false);
+    }
+    deleteRotationGroupEntries(id);
+    emit showMessage(tr("Deleted rotation group task"));
+    emit removedRotationGroupTask(id);
+}
+
+void Controller::selectRotationGroupTask(int id){
+    rotationGroupTask_ID = id;
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(id);
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
+    emit selectedRotationGroupTask(values);
+    initializeRotationGroupTaskEntries(id);
+}
+
+void Controller::saveRotationGroupTask(QHash<QString, QVariant> values){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(rotationGroupTask_ID);
+    values.insert(DBConstants::COL_ROTATION_GROUP_TASK_ID, rotationGroupTask_ID);
+    dbHandler->save(DBConstants::TBL_ROTATION_GROUP_TASK, DBConstants::HASH_ROTATION_GROUP_TASK_TYPES, values, filter, DBConstants::COL_ROTATION_GROUP_TASK_ID);
+    emit showMessage(tr("Saved rotation group task"));
+    emit updatedRotationGroupTask(values);
+    updateRotationGroupEntry(values.value(DBConstants::COL_ROTATION_GROUP_TASK_ID).toInt());
+}
+
+
+//RotationGroupTaskEntry
+void Controller::initializeRotationGroupTaskEntries(int id){
+    emit clearRotationGroupTaskEntries();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(id);
+    QList<QHash<QString, QVariant>> rgtesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, filter);
+    for(int i = 0; i < rgtesValues.size(); ++i){
+        QHash<QString, QVariant> rgteValues = rgtesValues.at(i);
+        rgteValues.insert(DBConstants::COL_WORKPLACE_NAME, getWorkplaceNameByID(rgteValues.value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_WORKPLACE_ID).toInt()));
+        emit createdRotationGroupTaskEntry(rgteValues);
+    }
+    updateRotationGroupTaskDuration();
+
+}
+
+void Controller::createRotationGroupTaskEntry(QHash<QString, QVariant> values){
+    values.insert(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID, rotationGroupTask_ID);
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(rotationGroupTask_ID);
+    int rgte_ID = dbHandler->getNextID(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_ID, filter);
+    values.insert(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_ID, rgte_ID);
+    dbHandler->insert(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, DBConstants::HASH_ROTATION_GROUP_TASK_ENTRY_TYPES, values, DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_ID);
+    values.insert(DBConstants::COL_WORKPLACE_NAME, getWorkplaceNameByID(values.value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_WORKPLACE_ID).toInt()));
+    emit createdRotationGroupTaskEntry(values);
+    emit showMessage(tr("Created rotation group task entry"));
+    updateRotationGroupTaskDuration();
+}
+
+void Controller::deleteRotationGroupTaskEntry(int id, bool showMsg){
+    QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_ID).arg(id).arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(rotationGroupTask_ID);
+    dbHandler->remove(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, filter);
+    emit removedRotationGroupTaskEntry(id);
+    if(showMsg)
+        emit showMessage(tr("Deleted rotation group task entry"));
+    updateRotationGroupTaskDuration();
+}
+
+//Database Factory Reset
+void Controller::resetDatabaseFactory()
+{
     QString emptyFilter = QString("");
-    dbHandler->deleteAll(DB_TABLES::ACTIVITY, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::ANALYST, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::APPLIED_FORCE, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::BODY_POSTURE, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::BRANCH_OF_INDUSTRY, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::BREAK, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::COMMENT, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::CORPORATION, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::EMPLOYEE, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::EMPLOYEE_WORKS_SHIFT, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::EMPLOYER, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::EQUIPMENT, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::FACTORY, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::LINE, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::LOAD_HANDLING, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::LOAD_HANDLING_TYPE, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::PRODUCT, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::RECORDING, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::RECORDING_OBSERVES_LINE, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::RECORDING_OBSERVES_WORKPLACE, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::SHIFT, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::TRANSPORTATION, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::TYPE_OF_GRASPING, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::WORKPLACE, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::WORK_CONDITION, emptyFilter);
-    dbHandler->deleteAll(DB_TABLES::WORK_PROCESS, emptyFilter);
+    QList<QString> tblNames = DBConstants::LIST_TABLE_NAMES;
+    for(int i = 0; i < tblNames.size(); ++i)
+        dbHandler->remove(tblNames.at(i), emptyFilter);
+    emit clearAll();
+    emit showMessage(tr("Restored Factory Settings"));
+    emit showView(ViewType::ANALYST_SELECTION_VIEW);
+}
+
+//Database selected reset
+void Controller::resetSelectedEntries(ISelectedDatabaseReset *widget){
+    QString emptyFilter = QString("");
+    if(widget->headDataSelected()){
+        factory_ID = 0;
+        dbHandler->remove(DBConstants::TBL_BRANCH_OF_INDUSTRY, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_CORPORATION, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_EMPLOYER, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_FACTORY, emptyFilter);
+        QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(recording_ID);
+        QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
+        values.insert(DBConstants::COL_RECORDING_START, "");
+        values.insert(DBConstants::COL_RECORDING_END, "");
+        values.insert(DBConstants::COL_RECORDING_FACTORY_ID, 0);
+        dbHandler->update(DBConstants::TBL_RECORDING, DBConstants::HASH_RECORDING_TYPES, values, filter, DBConstants::COL_RECORDING_ID);
+        setRecording(recording_ID);
+    }
+    if(widget->workplacesSelected()){
+        workplace_ID = 0;
+        workcondition_ID = 0;
+        activity_ID = 0;
+        appliedforce_ID = 0;
+        loadhandling_ID = 0;
+        workprocess_Type = AVType::BASIC;
+        workprocess_ID = 0;
+        dbHandler->remove(DBConstants::TBL_ACTIVITY, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_APPLIED_FORCE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_BODY_POSTURE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_COMMENT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_LINE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_LOAD_HANDLING, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_RECORDING, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_RECORDING_OB_LINE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_RECORDING_OB_WORKPLACE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_WORKPLACE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_WORK_CONDITION, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_WORK_PROCESS, emptyFilter);
+        emit clearWorkplaces();
+    }
+    if(widget->equipmentSelected()){
+        dbHandler->remove(DBConstants::TBL_EQUIPMENT, emptyFilter);
+        emit clearEquipments();
+    }
+    if(widget->productsSelected()){
+        dbHandler->remove(DBConstants::TBL_PRODUCT, emptyFilter);
+        emit clearProducts();
+    }
+    if(widget->transportationSelected()){
+        dbHandler->remove(DBConstants::TBL_TRANSPORTATION, emptyFilter);
+        emit clearTransportations();
+    }
+    if(widget->employeeSelected()){
+        employee_ID = 1;
+        bodyMeasurement_ID = 1;
+        dbHandler->remove(DBConstants::TBL_EMPLOYEE, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_BODY_MEASUREMENT, emptyFilter);
+        emit clearEmployees();
+    }
+    if(widget->shiftDataSelected()){
+        dbHandler->remove(DBConstants::TBL_SHIFT, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_BREAK, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_ROTATION_GROUP, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_ROTATION_GROUP_TASK, emptyFilter);
+        dbHandler->remove(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, emptyFilter);
+        emit clearRotationGroup();
+        emit clearRotationGroupTaskEntries();
+        emit clearRotationGroupTasks();
+    }
+    if(widget->ftpConnectionSelected()){
+        dbHandler->remove(DBConstants::TBL_CONNECTION, emptyFilter);
+    }
+
+    emit showMessage(tr("Reset successful"));
+}
+
+
+
+// Changing of the application theme/stylesheet
+void Controller::changeTheme(){
+    if(Settings::value(Settings::SETTING_THEME) == Settings::THEME_GREEN){
+        application->setStyleSheet(stringFromResource(":/assets/stylesheetGreen.qss"));
+    }
+    else {
+        application->setStyleSheet(stringFromResource(":/assets/stylesheet.qss"));
+    }
+
+    emit showMessage(tr("Theme changed"));
 }
 
 //PRIVATE METHODS
-int Controller::insert(DB_TABLES tbl, const QString &colID, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue){
-    QSqlRecord record;
-    int id;
-    if(!colMapNameValue.contains(colID)){
-        id = dbHandler->getNextID(tbl, colID);
-        colMapNameValue.insert(colID, id);
+void Controller::updateRotationGroupTaskDuration(){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(rotationGroupTask_ID);
+    QList<QHash<QString, QVariant>> rgtesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, filter);
+    int duration = 0;
+    for(int i = 0; i < rgtesValues.size(); ++i){
+        duration += rgtesValues.at(i).value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_DURATION).toInt();
     }
-    else
-        id = colMapNameValue.value(colID).toInt();
-
-    foreach(QString key, colMapNameValue.keys()){
-        record.append(QSqlField(key, colMapNameType.value(key)));
-        record.setValue(key, colMapNameValue.value(key));
-    }
-
-    dbHandler->insertRow(tbl, record);
-    return id;
+    emit updatedRotationGroupTaskDuration(duration);
 }
 
-int Controller::save(DB_TABLES tbl, const QString &filter, const QString &colID, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue){
-    dbHandler->select(tbl, filter);
-    int id;
-    QSqlRecord record;
-    bool toInsert = false;
-    if(dbHandler->rowCount(tbl) == 0){
-        toInsert = true;
-        id = dbHandler->getNextID(tbl, colID);
-        colMapNameValue.insert(colID, id);
-        foreach(QString key, colMapNameValue.keys())
-            record.append(QSqlField(key, colMapNameType.value(key)));
-    }
-    else {
-        record = dbHandler->record(tbl, 0);
-        id = record.value(colID).toInt();
-        colMapNameValue.insert(colID, id);
-    }
-
-    foreach(QString colName, colMapNameValue.keys())
-        record.setValue(colName, colMapNameValue.value(colName));
-
-    if(toInsert)
-        dbHandler->insertRow(tbl, record);
-    else
-        dbHandler->updateRow(tbl, 0, record);
-    return id;
+QString Controller::getWorkplaceNameByID(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(id);
+    return dbHandler->selectFirst(DBConstants::TBL_WORKPLACE, filter).value(DBConstants::COL_WORKPLACE_NAME).toString();
 }
 
-void Controller::save(DB_TABLES tbl, const QString &filter, const QHash<QString, QVariant::Type> &colMapNameType, const QHash<QString, QVariant> &colMapNameValue){
-    dbHandler->select(tbl, filter);
-    QSqlRecord record;
-    bool toInsert = false;
-    if(dbHandler->rowCount(tbl) == 0){
-        toInsert = true;
-        foreach(QString key, colMapNameValue.keys())
-            record.append(QSqlField(key, colMapNameType.value(key)));
-    }
-    else {
-        record = dbHandler->record(tbl, 0);
-    }
+void Controller::swapRotationGroupEntries(int order1, int order2){
+    QString absFilter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID).arg(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+    QHash<QString, QVariant> values1 = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP, absFilter.arg(order1));
+    dbHandler->remove(DBConstants::TBL_ROTATION_GROUP, absFilter.arg(order1));
+    QHash<QString, QVariant> values2 = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP, absFilter.arg(order2));
+    values2.insert(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, order1);
+    dbHandler->update(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values2, absFilter.arg(order2), DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+    values1.insert(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, order2);
+    dbHandler->insert(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values1, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+}
 
-    foreach(QString colName, colMapNameValue.keys())
-        record.setValue(colName, colMapNameValue.value(colName));
+void Controller::updateRotationGroupEntry(int entry_ID){
+    QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_ROTATION_GROUP_IS_TASK).arg(1).arg(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).arg(entry_ID);
+    QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
+    for(int i = 0; i < rgesValues.size(); ++i){
+        QHash<QString, QVariant> rgeValues = rgesValues.at(i);
+        filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(entry_ID);
+        QHash<QString, QVariant> rgtValues = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
+        rgeValues.insert(DBConstants::COL_ROTATION_GROUP_TASK_DURATION, rgtValues.value(DBConstants::COL_ROTATION_GROUP_TASK_DURATION));
+        rgeValues.insert(DBConstants::COL_ROTATION_GROUP_TASK_NAME, rgtValues.value(DBConstants::COL_ROTATION_GROUP_TASK_NAME));
+        emit updatedRotationGroupEntry(rgeValues);
+    }
+}
 
-    if(toInsert)
-        dbHandler->insertRow(tbl, record);
-    else
-        dbHandler->updateRow(tbl, 0, record);
+void Controller::deleteRotationGroupEntries(int groupTask_ID){
+    QString filter = QString("%1 = %2 AND %3 = %4")
+            .arg(DBConstants::COL_ROTATION_GROUP_IS_TASK).arg(1)
+            .arg(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).arg(groupTask_ID);
+
+    QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    }
+    for(int i = 0; i < rgesValues.size(); ++i){
+        int rgeOrder = rgesValues.at(i).value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
+        deleteRotationGroupEntry(rgeOrder);
+    }
 }
 
 
-void Controller::saveRecordingObservesLine(int lineID){
+QString Controller::stringFromResource(const QString &resName)
+{
+    QFile file(resName);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream ts(&file);
+    return ts.readAll();
+}
+
+void Controller::saveRecordingObservesLine(int lineID)
+{
     QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_RECORDING_OB_LINE_RECORDING_ID).arg(QString::number(recording_ID)).arg(DBConstants::COL_RECORDING_OB_LINE_LINE_ID).arg(QString::number(lineID));
 
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     values.insert(DBConstants::COL_RECORDING_OB_LINE_RECORDING_ID, recording_ID);
     values.insert(DBConstants::COL_RECORDING_OB_LINE_LINE_ID, lineID);
-    save(DB_TABLES::RECORDING_OBSERVES_LINE, filter, DBConstants::HASH_RECORDING_OB_LINE_TYPES, values);
+    dbHandler->save(DBConstants::TBL_RECORDING_OB_LINE, DBConstants::HASH_RECORDING_OB_LINE_TYPES, values, filter);
 }
 
-void Controller::deleteRecordingObservesLine(int lineID){
+void Controller::deleteRecordingObservesLine(int lineID)
+{
     QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_OB_LINE_LINE_ID).arg(QString::number(lineID));
-    dbHandler->deleteAll(DB_TABLES::RECORDING_OBSERVES_LINE, filter);
+    dbHandler->remove(DBConstants::TBL_RECORDING_OB_LINE, filter);
 }
 
-void Controller::saveRecordingObservesWorkplace(int workplaceID){
+void Controller::saveRecordingObservesWorkplace(int workplaceID)
+{
     QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_RECORDING_OB_WORKPLACE_RECORDING_ID).arg(QString::number(recording_ID)).arg(DBConstants::COL_RECORDING_OB_WORKPLACE_WORKPLACE_ID).arg(QString::number(workplaceID));
 
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     values.insert(DBConstants::COL_RECORDING_OB_WORKPLACE_RECORDING_ID, recording_ID);
     values.insert(DBConstants::COL_RECORDING_OB_WORKPLACE_WORKPLACE_ID, workplaceID);
-    save(DB_TABLES::RECORDING_OBSERVES_WORKPLACE, filter, DBConstants::HASH_RECORDING_OB_WORKPLACE_TYPES, values);
+    dbHandler->save(DBConstants::TBL_RECORDING_OB_WORKPLACE, DBConstants::HASH_RECORDING_OB_WORKPLACE_TYPES, values, filter);
 }
 
-void Controller::deleteRecordingOberservesWorkplace(int wpID){
+void Controller::deleteRecordingOberservesWorkplace(int wpID)
+{
     QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_OB_WORKPLACE_WORKPLACE_ID).arg(QString::number(wpID));
-    dbHandler->deleteAll(DB_TABLES::RECORDING_OBSERVES_WORKPLACE, filter);
+    dbHandler->remove(DBConstants::TBL_RECORDING_OB_WORKPLACE, filter);
 }
 
-int Controller::saveWorkplace(int id){
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(QString::number(id));
 
-    QHash<QString, QVariant> values = QHash<QString, QVariant>();
-    values.insert(DBConstants::COL_WORKPLACE_NAME, workplaceView->getName());
-    values.insert(DBConstants::COL_WORKPLACE_DESCRIPTION, workplaceView->getDescription());
-    values.insert(DBConstants::COL_WORKPLACE_CODE, workplaceView->getCode());
-    values.insert(DBConstants::COL_WORKPLACE_PERCENTAGE_WOMAN, workplaceView->getWomanPercentage());
-    values.insert(DBConstants::COL_WORKPLACE_BASIC_TIME, qTimeToSeconds(workplaceView->getBasicTime()));
-    values.insert(DBConstants::COL_WORKPLACE_REST_TIME, qTimeToSeconds(workplaceView->getRestTime()));
-    values.insert(DBConstants::COL_WORKPLACE_ALLOWANCE_TIME, qTimeToSeconds(workplaceView->getAllowanceTime()));
-    values.insert(DBConstants::COL_WORKPLACE_SETUP_TIME, qTimeToSeconds(workplaceView->getSetupTime()));
-    values.insert(DBConstants::COL_WORKPLACE_CYCLE_TIME, qTimeToSeconds(workplaceView->getCycleTime()));
-    return save(DB_TABLES::WORKPLACE, filter, DBConstants::COL_WORKPLACE_ID, DBConstants::HASH_WORKPLACE_TYPES, values);
-}
-
-int Controller::qTimeToSeconds(const QTime &time){
-    return time.hour() * 3600 + time.minute() * 60 + time.second();
-}
-
-void Controller::deleteWorkProcesses(int activity_ID){
-    DB_TABLES tbl = DB_TABLES::WORK_PROCESS;
-    dbHandler->select(tbl, QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID));
-    for(int i = 0; i < dbHandler->rowCount(tbl); ++i){
-        QSqlRecord record = dbHandler->record(tbl, i);
-        dbHandler->deleteAll(DB_TABLES::BODY_POSTURE, QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(record.value(DBConstants::COL_WORK_PROCESS_POSTURE_ID).toInt()));
-        dbHandler->deleteAll(DB_TABLES::APPLIED_FORCE, QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(record.value(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID).toInt()));
-        dbHandler->deleteAll(DB_TABLES::LOAD_HANDLING, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(record.value(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID).toInt()));
-        dbHandler->deleteAll(DB_TABLES::WORK_CONDITION, QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(record.value(DBConstants::COL_WORK_PROCESS_CONDITION_ID).toInt()));
-        dbHandler->deleteRow(tbl, i);
+void Controller::deleteWorkProcesses(int activity_ID)
+{
+    QString tbl = DBConstants::TBL_WORK_PROCESS;
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID);
+    QList<QHash<QString, QVariant>> values = dbHandler->select(tbl, filter);
+    for(int i = 0; i < values.count(); ++i){
+        QHash<QString, QVariant> row = values.at(i);
+        dbHandler->remove(DBConstants::TBL_BODY_POSTURE, QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_POSTURE_ID).toInt()));
+        dbHandler->remove(DBConstants::TBL_APPLIED_FORCE, QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID).toInt()));
+        dbHandler->remove(DBConstants::TBL_LOAD_HANDLING, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID).toInt()));
+        dbHandler->remove(DBConstants::TBL_WORK_CONDITION, QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(row.value(DBConstants::COL_WORK_PROCESS_CONDITION_ID).toInt()));
     }
+    dbHandler->remove(tbl, filter);
 }
-
-
 

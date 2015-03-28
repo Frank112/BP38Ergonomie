@@ -5,36 +5,31 @@
 #include <QLabel>
 #include <QScrollArea>
 #include <QVBoxLayout>
-#include "optionselectioncontrol.h"
-#include "textlineedit.h"
-#include "numberlineedit.h"
+#include "../optionselectioncontrol.h"
+#include "../textlineedit.h"
+#include "../numberlineedit.h"
+#include "../navigation/simplenavigateablewidget.h"
+#include "../interfaces/itransportationlist.h"
+#include "../interfaces/itransportation.h"
 
-class TransportationView : public QWidget
+class TransportationView : public SimpleNavigateableWidget, ITransportationList
 {
     Q_OBJECT
+    Q_INTERFACES(ITransportationList)
 public:
     explicit TransportationView(QWidget *parent = 0);
     ~TransportationView();
 
-    QString getName() const;
-    int getWeight() const;
-    int getMaxLoad() const;
-    bool hasFixedRoller() const;
-    bool hasBrakes() const;
-
 signals:
-    void back();
-    void saveTransportation();
+    void createTransportation(QHash<QString, QVariant> values);
     void deleteTransportation(int id);
+    void selectTransportation(int id);
 
 public slots:
-    void setWeight(int weight);
-    void setMaxLoad(int maxLoad);
-    void setFixedRoller(QVariant value);
-    void setBrakes(QVariant value);
-
-    void addTransportation(int id, const QString &name, int weight, int maxLoad, bool fixedRollers, bool brakes);
-    void clear();
+    void addTransportation(QHash<QString, QVariant> values);
+    void removeTransportation(int id);
+    void updateTransportation(QHash<QString, QVariant> values);
+    void clearTransportations();
 
 private slots:
     void btnAddClicked();
@@ -43,7 +38,6 @@ private:
 
     QScrollArea *scTransportation;
     QLabel *lblAddTransportation;
-    QLabel *lblViewName;
     QLabel *lblName;
     QLabel *lblWeight;
     QLabel *lblMaxLoad;
@@ -56,7 +50,6 @@ private:
     OptionSelectionControl *oscFixedRoller;
     OptionSelectionControl *oscBrakes;
 
-    QPushButton *btnBack;
     QPushButton *btnAdd;
 
     QVBoxLayout *transportationListLayout;

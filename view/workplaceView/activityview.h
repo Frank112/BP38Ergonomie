@@ -7,41 +7,50 @@
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QScrollArea>
-#include "textlineedit.h"
-#include "numberlineedit.h"
+#include "../textlineedit.h"
+#include "../numberlineedit.h"
+#include "../navigation/simplenavigateablewidget.h"
+#include "../interfaces/iproductlist.h"
+#include "../interfaces/iactivitylist.h"
 
-class ActivityView : public QWidget
+class ActivityView : public SimpleNavigateableWidget, IProductList, IActivityList
 {
     Q_OBJECT
+    Q_INTERFACES(IProductList)
+    Q_INTERFACES(IActivityList)
 public:
     explicit ActivityView(QWidget *parent = 0);
 
-    QString getDescription() const;
-    int getRepetitions() const;
-    int getSelectedProduct() const;
-
 signals:
-    void back();
-    void showProductView();
+    void createActivity(QHash<QString, QVariant> values);
     void deleteActivity(int id);
-    void showWorkProcessView();
-    void selectedProduct(int id);
-    void createActivity();
+    void editActivity(int id);
     void selectActivity(int id);
 
-public slots:
-    void addProduct(int id, const QString &name, const QString &productNumber);
-    void clearProducts();
-    void setSelectedProduct(int id);
+    void createProduct(QHash<QString, QVariant> values);
+    void deleteProduct(int id);
 
-    void setActivity(const QString &description, int repetitions, int selectedProductID);
-    void addActivity(int id, const QString &description, int repetitions);
+    void selectedProduct(int id);
+
+public slots:
+    void addActivity(QHash<QString, QVariant> values);
+    void updateActivity(QHash<QString, QVariant> values);
+    void removeActivity(int id);
     void clearActivities();
 
+    void addProduct(QHash<QString, QVariant> values);
+    void updateProduct(QHash<QString, QVariant> values);
+    void removeProduct(int id);
+    void clearProducts();
+
 private slots:
-    void btnBackClicked();
     void btnAddClicked();
+    void btnProductsClicked();
+    void dliActivityClicked(int id);
     void selectedProductChanged(int id);
+    void deselectProduct(int id);
+
+    void editActivityClicked(int id);
 
 private:
     const QList<QStringList> productItemScheme = QList<QStringList>() << (QStringList() << tr("product number"));
@@ -53,9 +62,6 @@ private:
     QVBoxLayout *mainLayout;
     QVBoxLayout *productListLayout;
     QVBoxLayout *activityListLayout;
-
-    QLabel *lblViewName;
-    QPushButton *btnBack;
 
     QWidget *productListContent;
     QWidget *activityListContent;

@@ -1,16 +1,15 @@
 #include "activityview.h"
-#include "separator.h"
-#include "flickcharm.h"
-#include "detailedlistitem.h"
-#include "iconconstants.h"
+#include "../separator.h"
+#include "../flickcharm.h"
+#include "../detailedlistitem.h"
+#include "../../databaseHandler/dbconstants.h"
 
 ActivityView::ActivityView(QWidget *parent) :
-    QWidget(parent),
+    SimpleNavigateableWidget(tr("Activities"), parent),
+    selectedProductID(0),
     mainLayout(new QVBoxLayout),
     productListLayout(new QVBoxLayout),
     activityListLayout(new QVBoxLayout),
-    lblViewName(new QLabel(tr("Activities"))),
-    btnBack(new QPushButton()),
     productListContent(new QWidget()),
     activityListContent(new QWidget()),
     scProducts(new QScrollArea()),
@@ -31,7 +30,6 @@ ActivityView::ActivityView(QWidget *parent) :
     scProducts->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     scProducts->setObjectName("saBordered");
     productListContent->setLayout(productListLayout);
-
     FlickCharm *flickCharmProducts = new FlickCharm(this);
     flickCharmProducts->activateOn(scProducts);
 
@@ -43,18 +41,9 @@ ActivityView::ActivityView(QWidget *parent) :
     FlickCharm *flickCharmActivities = new FlickCharm(this);
     flickCharmActivities->activateOn(scActivities);
 
-    btnBack->setFixedSize(45, 45);
-    btnBack->setObjectName("leftIcon");
-    connect(btnBack, SIGNAL(clicked()), this, SIGNAL(back()));
-
     btnMoreProducts->setFixedSize(45, 45);
     btnMoreProducts->setObjectName("editIcon");
-    connect(btnMoreProducts, SIGNAL(clicked()), this, SIGNAL(showProductView()));
-
-    QGridLayout *navigationBarLayout = new QGridLayout;
-    navigationBarLayout->addWidget(btnBack, 0, 0, 1, 1, Qt::AlignLeft);
-    navigationBarLayout->addWidget(lblViewName, 0, 1, 1, 1, Qt::AlignCenter);
-    navigationBarLayout->addWidget(new QLabel(), 0, 2, 1, 1, 0);
+    connect(btnMoreProducts, SIGNAL(clicked()), this, SLOT(btnProductsClicked()));
 
     btnAdd->setFixedSize(45, 45);
     btnAdd->setObjectName("plusIcon");
@@ -88,8 +77,6 @@ ActivityView::ActivityView(QWidget *parent) :
     newActivityLayout->addWidget(scProducts, 1, 2, 4, 1, Qt::AlignTop);
     newActivityLayout->addWidget(btnMoreProducts, 5, 2, 1, 1, Qt::AlignCenter);
 
-    mainLayout->addLayout(navigationBarLayout);
-    mainLayout->addWidget(new Separator(Qt::Horizontal, 3, 0));
     mainLayout->addLayout(newActivityLayout);
     mainLayout->addWidget(new Separator(Qt::Horizontal, 3, 0));
     mainLayout->addWidget(scActivities);
@@ -100,45 +87,99 @@ ActivityView::ActivityView(QWidget *parent) :
     setLayout(mainLayout);
 }
 
-// GETTER
-QString ActivityView::getDescription() const {
-    return txtBxActivityDescription->text();
-}
-
-int ActivityView::getRepetitions() const {
-    return numBxActivityRepetitions->getValue();
-}
-
-int ActivityView::getSelectedProduct() const {
-    return this->selectedProductID;
-}
-
-// PRIVATE SLOTS
-void ActivityView::btnBackClicked(){
-    emit back();
-}
-
-void ActivityView::btnAddClicked(){
-    emit createActivity();
-    txtBxActivityDescription->clear();
-    numBxActivityRepetitions->clear();
-}
-
-void ActivityView::selectedProductChanged(int id){
-    selectedProductID = id;
-    emit selectedProduct(id);
-}
-
 // PUBLIC SLOTS
-void ActivityView::addProduct(int id, const QString &name, const QString &productNumber){
-    DetailedListItem *newListItem = new DetailedListItem(0, IconConstants::ICON_PRODUCT, name, productItemScheme, false, true, false);
-    newListItem->setID(id);
-    QList<QStringList> values = QList<QStringList>() << (QStringList() << productNumber);
-    newListItem->setValues(values);
-    newListItem->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+void ActivityView::addActivity(QHash<QString, QVariant> values){
+    DetailedListItem *newListItem = new DetailedListItem(this, "activityIcon", values.value(DBConstants::COL_ACTIVITY_DESCRIPTION).toString(), activityItemScheme, true, false, true, false, true);
+    newListItem->setID(values.value(DBConstants::COL_ACTIVITY_ID).toInt());
+
+    QList<QStringList> dliValues = QList<QStringList>() << (QStringList() << values.value(DBConstants::COL_ACTIVITY_REPETITIONS).toString());
+    newListItem->setValues(dliValues);
+    connect(newListItem, SIGNAL(deleteItem(int)), this, SIGNAL(deleteActivity(int)));
+    connect(newListItem, SIGNAL(pressed(int)), this, SLOT(dliActivityClicked(int)));
+    connect(newListItem, SIGNAL(editItem(int)), this, SLOT(editActivityClicked(int)));
+    activityListLayout->addWidget(newListItem);
+}
+
+void ActivityView::updateActivity(QHash<QString, QVariant> values){
+    QLayoutItem *item;
+    int id = values.value(DBConstants::COL_ACTIVITY_ID).toInt();
+    int i = 0;
+    while((item = activityListLayout->itemAt(i)) != NULL){
+        DetailedListItem *dli = qobject_cast<DetailedListItem*>(item->widget());
+        if(dli->getID() == id){
+            dli->setName(values.value(DBConstants::COL_ACTIVITY_DESCRIPTION).toString());
+            QList<QStringList> dliValues = QList<QStringList>() << (QStringList() << values.value(DBConstants::COL_ACTIVITY_REPETITIONS).toString());
+            dli->setValues(dliValues);
+            break;
+        }
+        i++;
+    }
+}
+
+void ActivityView::removeActivity(int id){
+    QLayoutItem *item;
+    int i = 0;
+    while((item = activityListLayout->itemAt(i)) != NULL){
+        DetailedListItem *dli = qobject_cast<DetailedListItem*>(item->widget());
+        if(dli->getID() == id){
+            activityListLayout->removeItem(item);
+            delete item->widget();
+            delete item;
+            break;
+        }
+        i++;
+    }
+}
+
+void ActivityView::clearActivities(){
+    QLayoutItem *item;
+    while((item = activityListLayout->takeAt(0)) != NULL){
+        delete item->widget();
+        delete item;
+    }
+}
+
+void ActivityView::addProduct(QHash<QString, QVariant> values){
+    QList<QStringList> dliValues = QList<QStringList>() << (QStringList() << values.value(DBConstants::COL_PRODUCT_NUMBER).toString());
+    DetailedListItem *newListItem = new DetailedListItem(this, "productIcon", values.value(DBConstants::COL_PRODUCT_NAME).toString(), productItemScheme, false, true, false, false, false);
+    newListItem->setValues(dliValues);
+    newListItem->setID(values.value(DBConstants::COL_PRODUCT_ID).toInt());
     connect(newListItem, SIGNAL(selected(int)), this, SLOT(selectedProductChanged(int)));
+    connect(newListItem, SIGNAL(deselected(int)), this, SLOT(deselectProduct(int)));
     connect(this, SIGNAL(selectedProduct(int)), newListItem, SLOT(selectExclusiveWithID(int)));
     productListLayout->addWidget(newListItem);
+}
+
+void ActivityView::updateProduct(QHash<QString, QVariant> values){
+    QLayoutItem *item;
+    int id = values.value(DBConstants::COL_PRODUCT_ID).toInt();
+    int i = 0;
+    while((item = productListLayout->itemAt(i)) != NULL){
+        DetailedListItem *dli = qobject_cast<DetailedListItem*>(item->widget());
+        if(dli->getID() == id){
+            QList<QStringList> dliValues = QList<QStringList>() << (QStringList() << values.value(DBConstants::COL_PRODUCT_NUMBER).toString());
+            dli->setName(values.value(DBConstants::COL_PRODUCT_NAME).toString());
+            dli->setValues(dliValues);
+            break;
+        }
+        i++;
+    }
+}
+
+void ActivityView::removeProduct(int id){
+    QLayoutItem *item;
+    int i = 0;
+    while((item = productListLayout->itemAt(i)) != NULL){
+        DetailedListItem *dli = qobject_cast<DetailedListItem*>(item->widget());
+        if(dli->getID() == id){
+            productListLayout->removeItem(item);
+            delete item->widget();
+            delete item;
+            break;
+        }
+        i++;
+    }
 }
 
 void ActivityView::clearProducts(){
@@ -149,31 +190,39 @@ void ActivityView::clearProducts(){
     }
 }
 
-void ActivityView::setSelectedProduct(int id){
-    selectedProductChanged(id);
+// PRIVATE SLOTS
+void ActivityView::editActivityClicked(int id){
+    emit editActivity(id);
+    emit showPopUp(PopUpType::ACTIVITY_POPUP);
 }
 
-void ActivityView::setActivity(const QString &description, int repetitions, int selectedProductID){
-    txtBxActivityDescription->setText(description);
-    numBxActivityRepetitions->setValue(repetitions);
-    this->selectedProductID = selectedProductID;
+void ActivityView::btnAddClicked(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(DBConstants::COL_ACTIVITY_DESCRIPTION, txtBxActivityDescription->text());
+    values.insert(DBConstants::COL_ACTIVITY_REPETITIONS, numBxActivityRepetitions->getValue());
+    values.insert(DBConstants::COL_ACTIVITY_PRODUCT_ID, selectedProductID);
+    emit createActivity(values);
+    txtBxActivityDescription->clear();
+    numBxActivityRepetitions->clear();
+    selectedProduct(-1);
 }
 
-void ActivityView::addActivity(int id, const QString &description, int repetitions){
-    DetailedListItem *newListItem = new DetailedListItem(0, IconConstants::ICON_ACTIVITY, description, activityItemScheme, true, false, true);
-    newListItem->setID(id);
-    QList<QStringList> values = QList<QStringList>() << (QStringList() << QString::number(repetitions));
-    newListItem->setValues(values);
-    connect(newListItem, SIGNAL(clicked()), this, SIGNAL(showWorkProcessView()));
-    connect(newListItem, SIGNAL(deleteItem(int)), this, SIGNAL(deleteActivity(int)));
-    connect(newListItem, SIGNAL(pressed(int)), this, SIGNAL(selectActivity(int)));
-    activityListLayout->addWidget(newListItem);
+void ActivityView::selectedProductChanged(int id){
+    selectedProductID = id;
+    emit selectedProduct(id);
 }
 
-void ActivityView::clearActivities(){
-    QLayoutItem *item;
-    while((item = activityListLayout->takeAt(0)) != NULL){
-        delete item->widget();
-        delete item;
-    }
+void ActivityView::deselectProduct(int id){
+    if(id == selectedProductID)
+        selectedProductID = 0;
 }
+
+void ActivityView::btnProductsClicked(){
+    emit showPopUp(PopUpType::CREATE_PRODUCT_POPUP);
+}
+
+void ActivityView::dliActivityClicked(int id){
+    emit selectActivity(id);
+    emit showView(ViewType::DOCUMENTATION_VIEW);
+}
+

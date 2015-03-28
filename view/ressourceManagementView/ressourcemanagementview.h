@@ -2,30 +2,26 @@
 #define RESSOURCEMANAGEMENTVIEW_H
 
 #include <QWidget>
-#include <QPushButton>
-#include <QLabel>
+#include "../iconbutton.h"
+#include "../navigation/simplenavigateablewidget.h"
 
-class RessourceManagementView : public QWidget
+class RessourceManagementView : public SimpleNavigateableWidget
 {
     Q_OBJECT
 public:
     explicit RessourceManagementView(QWidget *parent = 0);
 
-signals:
-    void back();
-    void showEquipmentView();
-    void showProductView();
-    void showTransportationView();
-    void showEmployeeView();
-    void showBodyMeasurementsView();
-
+private slots:
+    void btnEquipmentClicked();
+    void btnProductClicked();
+    void btnTransportationClicked();
+    void btnEmployeeClicked();
+    
 private:
-    QLabel *lblViewName;
-    QPushButton *btnBack;
-    QPushButton *btnEquipmentView;
-    QPushButton *btnProductView;
-    QPushButton *btnTransportationView;
-    QPushButton *btnEmployeeView;
+    IconButton *btnEquipmentView;
+    IconButton *btnProductView;
+    IconButton *btnTransportationView;
+    IconButton *btnEmployeeView;
 
 
 };

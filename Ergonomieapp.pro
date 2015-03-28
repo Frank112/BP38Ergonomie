@@ -1,8 +1,10 @@
 include(view/view.pri)
 include(control/control.pri)
 include(databaseHandler/databaseHandler.pri)
+include(ftpHandler/ftpHandler.pri)
+include(xmlHandler/xmlHandler.pri)
 
-QT       += core gui quick qml multimedia sql
+QT += core gui widgets quick qml multimedia sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -14,25 +16,33 @@ CONFIG += c++11
 RESOURCES += \
     btnIcons.qrc \
     assets.qrc \
-    icons.qrc
+    icons.qrc \
+    qstillbodyicons.qrc \
+    qmovingbodyicons.qrc
 
 HEADERS += \
-    enum.h
+    enum.h \
+    standardpaths.h \
+    errorreporter.h \
+    settings.h
 
 SOURCES += \
-    main.cpp
+    main.cpp \
+    settings.cpp
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+android {
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+}
 
 ios {
-   IOS_ICON.files = $$files($$PWD/ios/*.png)
-   LAUNCH_IMAGES.files = $$files($$PWD/ios/LaunchImage*.png)
-   DATABASES.files = $$system("find $$PWD/assets/ -name '*.sqlite'")
-   DATABASES.path = Documents
-   QMAKE_BUNDLE_DATA += IOS_ICON
-   QMAKE_BUNDLE_DATA += LAUNCH_IMAGES
-   QMAKE_BUNDLE_DATA += DATABASES
-   QMAKE_INFO_PLIST = ios/Info.plist
+    IOS_ICON.files = $$files($$PWD/ios/*.png)
+    LAUNCH_IMAGES.files = $$files($$PWD/ios/LaunchImage*.png)
+    DATABASES.files = $$system("find $$PWD/assets/ -name '*.sqlite'")
+    DATABASES.path = Documents
+    QMAKE_BUNDLE_DATA += IOS_ICON
+    QMAKE_BUNDLE_DATA += LAUNCH_IMAGES
+    QMAKE_BUNDLE_DATA += DATABASES
+    QMAKE_INFO_PLIST = ios/Info.plist
 }
 
 unix {
@@ -47,8 +57,10 @@ unix {
 OTHER_FILES += \
     android/AndroidManifest.xml
 
-TRANSLATIONS = ergo_trans_de.ts
+TRANSLATIONS = translations/ergo_trans_de.ts \
+                translations/ergo_trans_en.ts
 
 deployment.files += myfile.sqlite
 deployment.path = /assets
 INSTALLS += deployment
+
