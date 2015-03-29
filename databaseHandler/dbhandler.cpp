@@ -95,21 +95,20 @@ QHash<QString, QVariant> DBHandler::selectFirst(const QString &tbl, const QStrin
     return rowValues;
 }
 
-int DBHandler::selectCount(const QString &tbl, const QString &filter, Qt::SortOrder order){
+int DBHandler::selectCount(const QString &tbl, const QString &filter){
     QSqlTableModel *tblModel = getSqlTableModel(tbl);
     tblModel->setFilter(filter);
-    tblModel->setSort(0, order);
 
     if(tblModel->select())
         return tblModel->rowCount();
 
 
     reportError(tblModel->lastError().text());
-    return 0;
+    return -1;
 }
 
-bool DBHandler::isSelectEmpty(const QString &tbl, const QString &filter, Qt::SortOrder order){
-    return selectCount(tbl, filter, order) == 0;
+bool DBHandler::isSelectEmpty(const QString &tbl, const QString &filter){
+    return selectCount(tbl, filter) == 0;
 }
 
 int DBHandler::insert(const QString &tbl, const QHash<QString, QVariant::Type> &colMapNameType, QHash<QString, QVariant> &colMapNameValue, const QString &colID){
