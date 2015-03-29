@@ -13,7 +13,7 @@
 #include "dbconstants.h"
 
 /**
- * @brief The DBHandler class is an abstract way to access a SQLite database in the local filesystem.
+ * @brief The DBHandler class is an abstract way to access an SQLite database in the local filesystem.
  *
  * An instance of DBHandler provides functions that model the basic SQL operations SELECT, INSERT, UPDATE, DELETE on
  * an SQLite database.
@@ -136,7 +136,7 @@ public:
      * @brief selectFirst Returns the first entry in the given order of the given table in the underlying database,
      * after the given filter has been applied on that table
      *
-     * The function is behaves similar to select(const QString &tbl, const QString &filter, Qt::SortOrder order), but
+     * The function behaves similar to select(const QString &tbl, const QString &filter, Qt::SortOrder order), but
      * returns only the first row of the table after executing the select statement.
      * If the statement could not be executed an error gets reported.
      *
@@ -205,17 +205,16 @@ public:
     bool isSelectEmpty(const QString &tbl, const QString &filter = "");
 
     /**
-     * @brief insert Inserts a new row into the given tbl with given types and values for each column.
+     * @brief insert Inserts a new row into the given table with given types and values for each column.
      *
      * This function is an abstract way to execute the SQL INSERT statement. It inserts a new row at the end of the given table,
      * therefor it uses the given types and values for each column in the given <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a>
      * and returns the ID of the given identification column of the created row.
      *
-     * If the statement could not be executed an error is reported
+     * If the statement could not be executed an error is reported.
      *
      * Error information can be retrieved with getLastError().
      *
-     * @see getLastError()
      * @param tbl The table name as specified in the underlying database.
      *
      * <b>Note:</b> The table has to be registered with registerTable(const QString &tblName).
@@ -238,12 +237,13 @@ public:
      *
      * This function is an abstract way of execute the SQL UPDATE statement. It updates all rows in the given table that match
      * the given filter. It only updates the columns that values are provided for by the colMapNameValue <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a>.
-     * If the statement could not be executed, an error is reported and the error information can be retrieved with getLastError().
+     * If the statement could not be executed, an error is reported.
      *
-     * <b>Note:</b> The update is only successful iff all rows in the given table
+     * Error information can be retrieved with getLastError().
+     *
+     * <b>Note:</b> The update is successful iff all rows in the given table
      * that match the given filter could be updated successfully.
      *
-     * @see getLastError()
      *
      * @param tbl The table name as specified in the underlying database.
      *
@@ -268,7 +268,7 @@ public:
     /**
      * @brief save Saves the given values as new or updated rows in the given table.
      *
-     * If there is a row that matches the given filter, update is called, otherwise insert is called.
+     * If there is a row that matches the given filter, update() is called, otherwise insert() is called.
      *
      * @param tbl The table name as specified in the underlying database.
      *
@@ -303,9 +303,6 @@ public:
      *
      * Error information can be retrieved with getLastError().
      *
-     * <b>Note:</b> If the statement could not be executed completely, such that not all rows that should have been removed
-     * were actually removed, the function is not atomic. This results in the rows that could be removed being deleted and the
-     * rows which could be not removed yeah ... 42
      * @param tbl The table name as specified in the underlying database.
      *
      * <b>Note:</b> The table has to be registered with registerTable(const QString &tblName).
@@ -314,6 +311,10 @@ public:
      * @see <a href="http://doc.qt.io/qt-4.8/qsqltablemodel.html#setFilter">QSqlTableModel::setFilter(const QString &filter)</a>
      *
      * @return true iff all rows in the given table that match the given filter could successfully be removed, false otherwise.
+     *
+     * @warning The function is not atomic, if it returns false, it does not mean that no row was removed.
+     * It only means, that there is at least one row, that could not be removed.
+     *
      */
     bool remove(const QString &tbl, const QString &filter);
 
@@ -329,17 +330,47 @@ public:
      *
      * <b>Note:</b> If the parameter's value is <i>false</i>, hasError() will return true, iff there is an unrecognized error,
      * this means it will not be reset.
-     * @see hasError()
      *
-     * @return The error message of the last error. If there has never been a reported error it will return a empty string.
+     * @return The error message of the last error. If there has never been a reported error it will return an empty string.
      */
     QString getLastError(bool resetHasError = true);
 
 private:
+
+    /**
+     * @brief getSqlTableModel Returns a reference to the <a href="http://doc.qt.io/qt-4.8/QSqlTableModel.html">QSqlTableModel</a> as registered with the given name.
+     *
+     * If there is no table registered with the given name, an error is reported.
+     *
+     * Error information can be retrieved with getLastError().
+     *
+     * @see registerTable()
+     *
+     * @param tblName The name of the table as registered.
+     * @return the table model reference of the corresponding name iff it was registered, 0 otherwise.
+     */
     QSqlTableModel* getSqlTableModel(const QString &tblName);
 
+    /**
+     * @brief existsSqlTableModel Indicates whether the given table name was registered.
+     * @param tblName The name of the table to check.
+     * @return <i>true</i> iff the table has been registered, <i>false</i> otherwise.
+     *
+     * @see registerTable()
+     */
     bool existsSqlTableModel(const QString &tblName);
 
+    /**
+     * @brief reportError Reports a database error with the given error message.
+     *
+     * Reporting an error means setting the given error message as the last error message. hasError() will then
+     * return <i>true</i>, the error message is accessible via getLastError().
+     * Furthermore the error gets logged by reporting it to the applications error log.
+     *
+     * @see ErrorReporter::reportError()
+     *
+     * @param errorMessage The error message, that describes the error.
+     */
     void reportError(const QString &errorMessage);
 
     bool m_hasError;

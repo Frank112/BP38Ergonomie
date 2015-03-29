@@ -10,13 +10,15 @@
 #include <QLabel>
 #include <QSqlRecord>
 #include "../../../databaseHandler/dbconstants.h"
+#include "../../interfaces/ibodyposture.h"
 #include "quickselectioncontrol.h"
 
 
-class BodyPostureView : public TitledWidget
+class BodyPostureView : public TitledWidget, IBodyPosture
 {
 
     Q_OBJECT
+    Q_INTERFACES(IBodyPosture)
 public:
     explicit BodyPostureView(QWidget *parent = 0);
 
