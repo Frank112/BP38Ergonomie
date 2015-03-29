@@ -36,7 +36,7 @@ DISTNAME      = tst_dbhandlertest1.0.0
 DISTDIR = /Users/frank/Documents/BP38Ergonomie/ErgonomieAppTest/.tmp/tst_dbhandlertest1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -headerpad_max_install_names -mmacosx-version-min=10.8 -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -stdlib=libc++ -mmacosx-version-min=10.7 -Wl,-rpath,/Applications/Qt/5.4/clang_64/lib
-LIBS          = $(SUBLIBS) -F/Applications/Qt/5.4/clang_64/lib -framework CoreFoundation -framework QtTest -framework Security -framework ApplicationServices -framework IOKit -framework QtCore -framework DiskArbitration -framework QtSql 
+LIBS          = $(SUBLIBS) -F/Applications/Qt/5.4/clang_64/lib -framework QtTest -framework Security -framework ApplicationServices -framework IOKit -framework QtCore -framework DiskArbitration -framework QtSql 
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
 SED           = sed

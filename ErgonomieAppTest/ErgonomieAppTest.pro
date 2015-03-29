@@ -14,8 +14,6 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-LIBS += -framework CoreFoundation
-
 unix {
     macx{
         QMAKE_CXXFLAGS += -stdlib=libc++
