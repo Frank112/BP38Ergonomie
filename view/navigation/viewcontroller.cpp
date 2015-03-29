@@ -121,13 +121,13 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
 
     //MetaDataView signals/slots
     connect(metaDataView, SIGNAL(saveBranchOfIndustry(QHash<QString,QVariant>)), controller, SLOT(saveBranchOfIndustry(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(settedBranchOfIndustry(QHash<QString,QVariant>)), metaDataView, SLOT(setBranchOfIndustry(QHash<QString,QVariant>)));
+    connect(controller, SIGNAL(selectedBranchOfIndustry(QHash<QString,QVariant>)), metaDataView, SLOT(setBranchOfIndustry(QHash<QString,QVariant>)));
     connect(metaDataView, SIGNAL(saveCorperation(QHash<QString,QVariant>)), controller, SLOT(saveCorperation(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(settedCorperation(QHash<QString,QVariant>)), metaDataView, SLOT(setCorperation(QHash<QString,QVariant>)));
+    connect(controller, SIGNAL(selectedCorperation(QHash<QString,QVariant>)), metaDataView, SLOT(setCorperation(QHash<QString,QVariant>)));
     connect(metaDataView, SIGNAL(saveFactory(QHash<QString,QVariant>)), controller, SLOT(saveFactory(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(settedFactory(QHash<QString,QVariant>)), metaDataView, SLOT(setFactory(QHash<QString,QVariant>)));
+    connect(controller, SIGNAL(selectedFactory(QHash<QString,QVariant>)), metaDataView, SLOT(setFactory(QHash<QString,QVariant>)));
     connect(metaDataView, SIGNAL(saveRecording(QHash<QString,QVariant>)), controller, SLOT(saveRecording(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(settedRecording(QHash<QString,QVariant>)), metaDataView, SLOT(setRecording(QHash<QString,QVariant>)));
+    connect(controller, SIGNAL(selectedRecording(QHash<QString,QVariant>)), metaDataView, SLOT(setRecording(QHash<QString,QVariant>)));
 
     //WorkplaceList View signal/slots
     connect(controller, SIGNAL(clearAll()), workplaceListView, SLOT(clearWorkplaces()));
@@ -290,7 +290,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(controller, SIGNAL(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)), ganttTimerView, SLOT(initiliazeWorkProcesses(QList<QHash<QString,QVariant> >)));
     connect(controller, SIGNAL(setSelectedWorkProcess(QHash<QString,QVariant>)), ganttTimerView, SLOT(setSelectedWorkProcess(QHash<QString,QVariant>)));
     connect(controller, SIGNAL(createdWorkProcess(QHash<QString, QVariant>)), ganttTimerView, SLOT(addWorkProcess(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(resettedWorkProcesses()), ganttTimerView, SLOT(resetWorkProcesses()));
+    connect(controller, SIGNAL(reselectedWorkProcesses()), ganttTimerView, SLOT(resetWorkProcesses()));
 
     connect(ganttTimerView, SIGNAL(entered()), timerViewController, SLOT(gantViewShown()));
     connect(ganttTimerView, SIGNAL(left()), timerViewController, SLOT(gantViewHidden()));

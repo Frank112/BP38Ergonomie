@@ -102,8 +102,8 @@ public:
 
     /**
      * @brief showStartView Displays the view with the given Types::ViewType. This type is pushed onto the stack views,
-     * the content is set to this widget, the type is pushed onto the stack of seen widgets and the navigation bar is
-     * adapted based on the views navigation.
+     * the </span>ViewController</span>'s <a href="http://doc.qt.io/qt-4.8/qstackedwidget.html">QStackedWidget</a> is set to this widget,
+     * the type is pushed onto the stack of seen widgets and the navigation bar is adapted based on the views navigation.
      *
      * @param type The type of the view to be shown.
      *
@@ -121,7 +121,8 @@ public:
      * @brief registerView Registers a NavigateableWidget with a corresponding Types::ViewType at the ViewController.
      *
      * This means in particular the view is inserted into a <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a> that
-     * matches the view's Types::ViewType with it's index in a <a href="http://doc.qt.io/qt-4.8/qstackedwidget.html">QStackedWidget</a>.
+     * matches the view's Types::ViewType with it's index in the <a href="http://doc.qt.io/qt-4.8/qstackedwidget.html">QStackedWidget</a>,
+     * all view widgets are held.
      *
      * Furthermore the view is inserted into a <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a> that matches the
      * view's Types::ViewType with the actual NavigateableWidget.
@@ -138,12 +139,12 @@ public:
     void registerView(NavigateableWidget *widget, Types::ViewType type);
 
     /**
-     * @brief registerPopUp Registers a AbstractPopUpWidget with a corresponding Types::PopUpType at the ViewController.
+     * @brief registerPopUp Registers an AbstractPopUpWidget with a corresponding Types::PopUpType at the ViewController.
      *
      * This means in particular the popup is inserted into a <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a> that
-     * matches the view's Types::ViewType with the actual AbstractPopUpWidget.
+     * matches the view's Types::PopUpType with the actual AbstractPopUpWidget.
      *
-     * <b>Note:</b> The popup is initially hidden, as it has only been registered.
+     * <b>Note:</b> The popup is initially hidden.
      *
      * The <span>AbstractPopUpWidget</span>'s signals AbstractPopUpWidget::closePopUp(), and
      * AbstractPopUpWidget::showMessage(const QString &message, NotificationMessage::MessageType msgType, NotificationMessage::MessageDisplayType msgDisplayType)
@@ -159,7 +160,7 @@ public:
      * <i>prevTypes</i> are pushed onto the stack of seen widgets, to simulate a navigation through those widgets, iff
      * the provided list does not equal 0.
      *
-     * The </span>ViewController</span>'scontent is set to this widget, the type itself is pushed onto the stack of seen widgets and the navigation bar is
+     * The </span>ViewController</span>'s <a href="http://doc.qt.io/qt-4.8/qstackedwidget.html">QStackedWidget</a> is set to this widget, the type itself is pushed onto the stack of seen widgets and the navigation bar is
      * adapted based on the views navigation.
      *
      * The previous view's TitledWidget::onLeaving() slot is called, as well as the new view's TitledWidget::onEnter() slot.

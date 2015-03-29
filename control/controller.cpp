@@ -179,7 +179,7 @@ void Controller::setBranchOfIndustry(int id){
                          NotificationMessage::PERSISTENT);
 
 
-    emit settedBranchOfIndustry(boiValues);
+    emit selectedBranchOfIndustry(boiValues);
 }
 
 void Controller::saveBranchOfIndustry(QHash<QString, QVariant> values){
@@ -207,7 +207,7 @@ void Controller::setCorperation(int id){
                          NotificationMessage::ERROR,
                          NotificationMessage::PERSISTENT);
 
-    emit settedCorperation(corpValues);
+    emit selectedCorperation(corpValues);
     int boiID = corpValues.value(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID).toInt();
     setBranchOfIndustry(boiID);
 }
@@ -246,7 +246,7 @@ void Controller::setFactory(int id){
                     NotificationMessage::PERSISTENT);
 
     factory_ID = id;
-    emit settedFactory(factoryValues);
+    emit selectedFactory(factoryValues);
     int corpID = factoryValues.value(DBConstants::COL_FACTORY_CORPORATION_ID).toInt();
     setCorperation(corpID);
 }
@@ -286,7 +286,7 @@ void Controller::setRecording(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(id);
     QHash<QString, QVariant> recordValues = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
     recording_ID = id;
-    emit settedRecording(recordValues);
+    emit selectedRecording(recordValues);
     int factoryID = recordValues.value(DBConstants::COL_RECORDING_FACTORY_ID).toInt();
     setFactory(factoryID);
     filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_RECORDING_ID).arg(recording_ID);

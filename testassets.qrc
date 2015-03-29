@@ -1,11 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>testData/testDB.sqlite</file>
         <file>testData/employees.xml</file>
         <file>testData/equipments.xml</file>
         <file>testData/products.xml</file>
         <file>testData/transportations.xml</file>
         <file>testData/workplaces.xml</file>
         <file>testData/workprocesslists.xml</file>
+        <file>testData/testDB.sqlite</file>
     </qresource>
 </RCC>
