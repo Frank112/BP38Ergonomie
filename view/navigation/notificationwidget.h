@@ -36,6 +36,8 @@ public slots:
     /**
      * @brief closePopUp Hides the popup <i>layer</i> of the NotificationWidget.
      *
+     * Furthermore the AbstractPopUpWidget::onLeaving() slot is called.
+     *
      * <b>Note:</b> The popup still exists but is not visible.
      */
     void closePopUp();

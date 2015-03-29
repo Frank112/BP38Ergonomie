@@ -78,6 +78,9 @@
  * Whenever a view is changed, the NavigateableWidget::onLeaving() slot of the old view and the NavigateableWidget::onEnter() slot
  * of the new view are called.
  *
+ * Furthermore a constantly visible navigation bar, containing the current view's navigation options, is displayed to get
+ * input for the actual navigation.
+ *
  * The ViewController holds <i>exactly one</i> instance of every view and popup.
  *
  * <b>Note:</b> All views and popups have to be registered with registerView(NavigateableWidget *widget, Types::ViewType type)
@@ -98,36 +101,79 @@ public:
     ~ViewController();
 
     /**
-     * @brief showStartView A method that is called to display the provided view. The Types::ViewType of this view
-     * is pushed onto the stack, the content is set to this widget and the navigation bar adapted to the view's
-     * @param type
+     * @brief showStartView Displays the view with the given Types::ViewType. This type is pushed onto the stack views,
+     * the content is set to this widget, the type is pushed onto the stack of seen widgets and the navigation bar is
+     * adapted based on the views navigation.
+     *
+     * @param type The type of the view to be shown.
+     *
+     * <b>Note:</b> The view has to be registered with registerView(NavigateableWidget *widget, Types::ViewType type);
+     *
+     * @see NavigateableWidget::getBackViewType()
+     * @see NavigateableWidget::getForwardViewType()
+     * @see NavigateableWidget::getAdditionalNavigation()
+     * @see NavigateableWidget::getInternalNavigation()
+     *
      */
     void showStartView(Types::ViewType type);
 
     /**
-     * @brief registerView
-     * @param widget
-     * @param type
+     * @brief registerView Registers a NavigateableWidget with a corresponding Types::ViewType at the ViewController.
+     *
+     * This means in particular the view is inserted into a <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a> that
+     * matches the view's Types::ViewType with it's index in a <a href="http://doc.qt.io/qt-4.8/qstackedwidget.html">QStackedWidget</a>.
+     *
+     * Furthermore the view is inserted into a <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a> that matches the
+     * view's Types::ViewType with the actual NavigateableWidget.
+     *
+     * The <span>NavigateableWidget</span>'s signals NavigateableWidget::showView(Types::ViewType), NavigateableWidget::showPopUp(Types::PopUpType)
+     * and NavigateableWidget::showMessage(const QString &message, NotificationMessage::MessageType msgType, NotificationMessage::MessageDisplayType msgDisplayType)
+     * are connected to the <span>ViewController</span>'s slots to process those signals.
+     *
+     * <b>Note:</b> If the widget has already been registered or is 0, it is <i>not</i> registered as described above.
+     *
+     * @param widget The view to be registered.
+     * @param type The corresponding type to be registered with the view.
      */
     void registerView(NavigateableWidget *widget, Types::ViewType type);
 
     /**
-     * @brief registerPopUp
-     * @param popUp
-     * @param type
+     * @brief registerPopUp Registers a AbstractPopUpWidget with a corresponding Types::PopUpType at the ViewController.
+     *
+     * This means in particular the popup is inserted into a <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a> that
+     * matches the view's Types::ViewType with the actual AbstractPopUpWidget.
+     *
+     * <b>Note:</b> The popup is initially hidden, as it has only been registered.
+     *
+     * The <span>AbstractPopUpWidget</span>'s signals AbstractPopUpWidget::closePopUp(), and
+     * AbstractPopUpWidget::showMessage(const QString &message, NotificationMessage::MessageType msgType, NotificationMessage::MessageDisplayType msgDisplayType)
+     * are connected to the <span>ViewController</span>'s slots to process those signals.
+     *
+     * @param popUp The popup to be registered.
+     * @param type The corresponding type to be registered with the popup.
      */
     void registerPopUp(AbstractPopUpWidget *popUp, Types::PopUpType type);
 
     /**
-     * @brief showView
-     * @param type
-     * @param prevTypes
+     * @brief showView Displays the view with the given Types::ViewType. The View Types::ViewType specified in
+     * <i>prevTypes</i> are pushed onto the stack of seen widgets, to simulate a navigation through those widgets, iff
+     * the provided list does not equal 0.
+     *
+     * The </span>ViewController</span>'scontent is set to this widget, the type itself is pushed onto the stack of seen widgets and the navigation bar is
+     * adapted based on the views navigation.
+     *
+     * The previous view's TitledWidget::onLeaving() slot is called, as well as the new view's TitledWidget::onEnter() slot.
+     *
+     * @param type The type of the widget to display.
+     * @param prevTypes A list of types that should be simulated as shown beforehand.
      */
     void showView(Types::ViewType type, QList<Types::ViewType> *prevTypes = 0);
 
 public slots:
     /**
-     * @brief closePopUp
+     * @brief closePopUp Hides the currently shown popup.
+     *
+     * @see NotificationWidget::closePopUp()
      */
     void closePopUp();
 
@@ -135,6 +181,11 @@ private slots:
     void btnBackClicked();
     void btnForwardClicked();
 
+    /**
+     * @brief goToView test est est
+     * @param type
+     * @param prevTypes
+     */
     void goToView(Types::ViewType type, QList<Types::ViewType> *prevTypes = 0);
 
     void backToView(Types::ViewType type);
