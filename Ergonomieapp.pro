@@ -4,7 +4,7 @@ include(databaseHandler/databaseHandler.pri)
 include(ftpHandler/ftpHandler.pri)
 include(xmlHandler/xmlHandler.pri)
 
-QT += core gui widgets quick qml multimedia sql network
+QT += core gui widgets quick qml multimedia sql network testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,7 +18,8 @@ RESOURCES += \
     assets.qrc \
     icons.qrc \
     qstillbodyicons.qrc \
-    qmovingbodyicons.qrc
+    qmovingbodyicons.qrc \
+    testassets.qrc
 
 HEADERS += \
     enum.h \

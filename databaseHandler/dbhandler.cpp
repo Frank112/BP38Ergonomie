@@ -1,5 +1,5 @@
 #include "dbhandler.h"
-#include "standardpaths.h"
+#include "../standardpaths.h"
 #include "../errorreporter.h"
 
 

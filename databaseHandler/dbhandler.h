@@ -9,7 +9,6 @@
 #include <QSqlRecord>
 #include <QFile>
 #include <QFileInfo>
-#include <QMessageBox>
 #include "dbconstants.h"
 
 /**
@@ -130,7 +129,7 @@ public:
      * @see <a href="http://doc.qt.io/qt-5/qhash.html">QHash</a>
      * @see <a href="http://doc.qt.io/qt-5/qlist.html">QList</a>
      */
-    QList<QHash<QString, QVariant>> select(const QString &tbl, const QString &filter = "", Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
+    QList<QHash<QString, QVariant> > select(const QString &tbl, const QString &filter = "", Qt::SortOrder order = Qt::AscendingOrder);
 
     /**
      * @brief selectFirst Returns the first entry in the given order of the given table in the underlying database,
@@ -162,7 +161,7 @@ public:
      * @see <a href="http://doc.qt.io/qt-5/qvariant.html">QVariant</a>
      * @see <a href="http://doc.qt.io/qt-5/qhash.html">QHash</a>
      */
-    QHash<QString, QVariant> selectFirst(const QString &tbl, const QString &filter = "", Qt::SortOrder order = Qt::SortOrder::AscendingOrder);
+    QHash<QString, QVariant> selectFirst(const QString &tbl, const QString &filter = "", Qt::SortOrder order = Qt::AscendingOrder);
 
     /**
      * @brief selectCount Returns the count of rows in the given table that match the given filter.

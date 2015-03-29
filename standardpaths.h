@@ -34,8 +34,20 @@ public:
         #endif
     }
 
+    static QString originTestDatabasePath(){
+        #if defined(Q_OS_IOS)
+            return QString("%1/%2/%3").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)).arg("Documents").arg("testDB.sqlite");
+        #else
+            return QString(":/testData/testDB.sqlite");
+        #endif
+    }
+
     static QString databasePath(){
         return QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("ergoAppDB.sqlite");
+    }
+
+    static QString testDatabasePath(){
+        return QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("testDB.sqlite");
     }
 
     static QString imageDirectoryPath(){
