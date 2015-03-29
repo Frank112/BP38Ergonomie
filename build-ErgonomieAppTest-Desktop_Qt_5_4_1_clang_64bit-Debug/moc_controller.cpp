@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Controller_t {
-    QByteArrayData data[206];
-    char stringdata[3625];
+    QByteArrayData data[205];
+    char stringdata[3611];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -51,191 +51,190 @@ QT_MOC_LITERAL(17, 241, 15), // "selectedAnalyst"
 QT_MOC_LITERAL(18, 257, 14), // "updatedAnalyst"
 QT_MOC_LITERAL(19, 272, 14), // "removedAnalyst"
 QT_MOC_LITERAL(20, 287, 2), // "id"
-QT_MOC_LITERAL(21, 290, 22), // "settedBranchOfIndustry"
-QT_MOC_LITERAL(22, 313, 17), // "settedCorperation"
-QT_MOC_LITERAL(23, 331, 13), // "settedFactory"
-QT_MOC_LITERAL(24, 345, 15), // "settedRecording"
-QT_MOC_LITERAL(25, 361, 15), // "clearWorkplaces"
-QT_MOC_LITERAL(26, 377, 16), // "createdWorkplace"
-QT_MOC_LITERAL(27, 394, 17), // "selectedWorkplace"
-QT_MOC_LITERAL(28, 412, 16), // "updatedWorkplace"
-QT_MOC_LITERAL(29, 429, 16), // "removedWorkplace"
-QT_MOC_LITERAL(30, 446, 15), // "selectedComment"
-QT_MOC_LITERAL(31, 462, 14), // "updatedComment"
-QT_MOC_LITERAL(32, 477, 11), // "createdLine"
-QT_MOC_LITERAL(33, 489, 11), // "updatedLine"
-QT_MOC_LITERAL(34, 501, 8), // "editLine"
-QT_MOC_LITERAL(35, 510, 11), // "removedLine"
-QT_MOC_LITERAL(36, 522, 12), // "selectedLine"
-QT_MOC_LITERAL(37, 535, 10), // "clearLines"
-QT_MOC_LITERAL(38, 546, 14), // "clearEmployees"
-QT_MOC_LITERAL(39, 561, 15), // "createdEmployee"
-QT_MOC_LITERAL(40, 577, 16), // "selectedEmployee"
-QT_MOC_LITERAL(41, 594, 15), // "updatedEmployee"
-QT_MOC_LITERAL(42, 610, 15), // "removedEmployee"
-QT_MOC_LITERAL(43, 626, 16), // "employeeSelected"
-QT_MOC_LITERAL(44, 643, 23), // "selectedBodyMeasurement"
-QT_MOC_LITERAL(45, 667, 13), // "clearProducts"
-QT_MOC_LITERAL(46, 681, 14), // "createdProduct"
-QT_MOC_LITERAL(47, 696, 14), // "updatedProduct"
-QT_MOC_LITERAL(48, 711, 14), // "removedProduct"
-QT_MOC_LITERAL(49, 726, 15), // "clearActivities"
-QT_MOC_LITERAL(50, 742, 15), // "createdActivity"
-QT_MOC_LITERAL(51, 758, 15), // "updatedActivity"
-QT_MOC_LITERAL(52, 774, 15), // "removedActivity"
-QT_MOC_LITERAL(53, 790, 12), // "editActivity"
-QT_MOC_LITERAL(54, 803, 15), // "clearEquipments"
-QT_MOC_LITERAL(55, 819, 16), // "createdEquipment"
-QT_MOC_LITERAL(56, 836, 16), // "updatedEquipment"
-QT_MOC_LITERAL(57, 853, 16), // "removedEquipment"
-QT_MOC_LITERAL(58, 870, 20), // "clearTransportations"
-QT_MOC_LITERAL(59, 891, 21), // "createdTransportation"
-QT_MOC_LITERAL(60, 913, 21), // "updatedTransportation"
-QT_MOC_LITERAL(61, 935, 21), // "removedTransportation"
-QT_MOC_LITERAL(62, 957, 15), // "setLoadHandling"
-QT_MOC_LITERAL(63, 973, 14), // "setBodyPosture"
-QT_MOC_LITERAL(64, 988, 15), // "setAppliedForce"
-QT_MOC_LITERAL(65, 1004, 14), // "setWorkProcess"
-QT_MOC_LITERAL(66, 1019, 21), // "setExecutionCondition"
-QT_MOC_LITERAL(67, 1041, 18), // "createdWorkProcess"
-QT_MOC_LITERAL(68, 1060, 22), // "setSelectedWorkProcess"
-QT_MOC_LITERAL(69, 1083, 25), // "setHasPreviousWorkProcess"
-QT_MOC_LITERAL(70, 1109, 11), // "hasPrevious"
-QT_MOC_LITERAL(71, 1121, 21), // "setHasNextWorkProcess"
-QT_MOC_LITERAL(72, 1143, 7), // "hasNext"
-QT_MOC_LITERAL(73, 1151, 26), // "setSelectedWorkProcessType"
-QT_MOC_LITERAL(74, 1178, 6), // "AVType"
-QT_MOC_LITERAL(75, 1185, 4), // "type"
-QT_MOC_LITERAL(76, 1190, 24), // "initiliazedWorkProcesses"
-QT_MOC_LITERAL(77, 1215, 31), // "QList<QHash<QString,QVariant> >"
-QT_MOC_LITERAL(78, 1247, 21), // "resettedWorkProcesses"
-QT_MOC_LITERAL(79, 1269, 13), // "selectedShift"
-QT_MOC_LITERAL(80, 1283, 18), // "clearRotationGroup"
-QT_MOC_LITERAL(81, 1302, 21), // "addRotationGroupEntry"
-QT_MOC_LITERAL(82, 1324, 25), // "updatedRotationGroupEntry"
-QT_MOC_LITERAL(83, 1350, 26), // "addRotationGroupBreakEntry"
-QT_MOC_LITERAL(84, 1377, 23), // "clearRotationGroupTasks"
-QT_MOC_LITERAL(85, 1401, 24), // "createdRotationGroupTask"
-QT_MOC_LITERAL(86, 1426, 24), // "updatedRotationGroupTask"
-QT_MOC_LITERAL(87, 1451, 24), // "removedRotationGroupTask"
-QT_MOC_LITERAL(88, 1476, 25), // "selectedRotationGroupTask"
-QT_MOC_LITERAL(89, 1502, 32), // "updatedRotationGroupTaskDuration"
-QT_MOC_LITERAL(90, 1535, 8), // "duration"
-QT_MOC_LITERAL(91, 1544, 29), // "clearRotationGroupTaskEntries"
-QT_MOC_LITERAL(92, 1574, 29), // "createdRotationGroupTaskEntry"
-QT_MOC_LITERAL(93, 1604, 29), // "removedRotationGroupTaskEntry"
-QT_MOC_LITERAL(94, 1634, 18), // "initializeAnalysts"
-QT_MOC_LITERAL(95, 1653, 13), // "createAnalyst"
-QT_MOC_LITERAL(96, 1667, 13), // "deleteAnalyst"
-QT_MOC_LITERAL(97, 1681, 13), // "selectAnalyst"
-QT_MOC_LITERAL(98, 1695, 20), // "createBlankRecording"
-QT_MOC_LITERAL(99, 1716, 19), // "setBranchOfIndustry"
-QT_MOC_LITERAL(100, 1736, 20), // "saveBranchOfIndustry"
-QT_MOC_LITERAL(101, 1757, 14), // "setCorperation"
-QT_MOC_LITERAL(102, 1772, 15), // "saveCorperation"
-QT_MOC_LITERAL(103, 1788, 10), // "setFactory"
-QT_MOC_LITERAL(104, 1799, 11), // "saveFactory"
-QT_MOC_LITERAL(105, 1811, 12), // "setRecording"
-QT_MOC_LITERAL(106, 1824, 13), // "saveRecording"
-QT_MOC_LITERAL(107, 1838, 20), // "initializeWorkplaces"
-QT_MOC_LITERAL(108, 1859, 15), // "createWorkplace"
-QT_MOC_LITERAL(109, 1875, 14), // "activityValues"
-QT_MOC_LITERAL(110, 1890, 15), // "deleteWorkplace"
-QT_MOC_LITERAL(111, 1906, 15), // "selectWorkplace"
-QT_MOC_LITERAL(112, 1922, 13), // "saveWorkplace"
-QT_MOC_LITERAL(113, 1936, 11), // "saveComment"
-QT_MOC_LITERAL(114, 1948, 15), // "initializeLines"
-QT_MOC_LITERAL(115, 1964, 10), // "createLine"
-QT_MOC_LITERAL(116, 1975, 8), // "saveLine"
-QT_MOC_LITERAL(117, 1984, 10), // "deleteLine"
-QT_MOC_LITERAL(118, 1995, 10), // "selectLine"
-QT_MOC_LITERAL(119, 2006, 18), // "initializeProducts"
-QT_MOC_LITERAL(120, 2025, 13), // "createProduct"
-QT_MOC_LITERAL(121, 2039, 11), // "saveProduct"
-QT_MOC_LITERAL(122, 2051, 13), // "deleteProduct"
-QT_MOC_LITERAL(123, 2065, 20), // "initializeActivities"
-QT_MOC_LITERAL(124, 2086, 12), // "workplace_ID"
-QT_MOC_LITERAL(125, 2099, 14), // "createActivity"
-QT_MOC_LITERAL(126, 2114, 12), // "saveActivity"
-QT_MOC_LITERAL(127, 2127, 14), // "deleteActivity"
-QT_MOC_LITERAL(128, 2142, 7), // "showMsg"
-QT_MOC_LITERAL(129, 2150, 14), // "selectActivity"
-QT_MOC_LITERAL(130, 2165, 20), // "initializeEquipments"
-QT_MOC_LITERAL(131, 2186, 15), // "createEquipment"
-QT_MOC_LITERAL(132, 2202, 13), // "saveEquipment"
-QT_MOC_LITERAL(133, 2216, 15), // "deleteEquipment"
-QT_MOC_LITERAL(134, 2232, 24), // "initializeTansportations"
-QT_MOC_LITERAL(135, 2257, 20), // "createTransportation"
-QT_MOC_LITERAL(136, 2278, 18), // "saveTransportation"
-QT_MOC_LITERAL(137, 2297, 20), // "deleteTransportation"
-QT_MOC_LITERAL(138, 2318, 16), // "saveLoadHandling"
-QT_MOC_LITERAL(139, 2335, 15), // "saveBodyPosture"
-QT_MOC_LITERAL(140, 2351, 16), // "saveAppliedForce"
-QT_MOC_LITERAL(141, 2368, 15), // "saveWorkProcess"
-QT_MOC_LITERAL(142, 2384, 22), // "saveExecutionCondition"
-QT_MOC_LITERAL(143, 2407, 22), // "initilizeWorkProcesses"
-QT_MOC_LITERAL(144, 2430, 11), // "selectFirst"
-QT_MOC_LITERAL(145, 2442, 17), // "createWorkprocess"
-QT_MOC_LITERAL(146, 2460, 21), // "createWorkprocessList"
-QT_MOC_LITERAL(147, 2482, 13), // "workplaceName"
-QT_MOC_LITERAL(148, 2496, 12), // "activityName"
-QT_MOC_LITERAL(149, 2509, 13), // "workprocesses"
-QT_MOC_LITERAL(150, 2523, 21), // "selectNextWorkProcess"
-QT_MOC_LITERAL(151, 2545, 25), // "selectPreviousWorkProcess"
-QT_MOC_LITERAL(152, 2571, 22), // "workProcessTypeChanged"
-QT_MOC_LITERAL(153, 2594, 18), // "resetWorkProcesses"
-QT_MOC_LITERAL(154, 2613, 26), // "workProcessDurationChanged"
-QT_MOC_LITERAL(155, 2640, 4), // "time"
-QT_MOC_LITERAL(156, 2645, 17), // "selectWorkProcess"
-QT_MOC_LITERAL(157, 2663, 24), // "saveWorkProcessFrequence"
-QT_MOC_LITERAL(158, 2688, 9), // "frequence"
-QT_MOC_LITERAL(159, 2698, 19), // "initializeEmployees"
-QT_MOC_LITERAL(160, 2718, 14), // "createEmployee"
-QT_MOC_LITERAL(161, 2733, 21), // "bodyMeasurementValues"
-QT_MOC_LITERAL(162, 2755, 14), // "deleteEmployee"
-QT_MOC_LITERAL(163, 2770, 14), // "selectEmployee"
-QT_MOC_LITERAL(164, 2785, 12), // "saveEmployee"
-QT_MOC_LITERAL(165, 2798, 19), // "setSelectedEmployee"
-QT_MOC_LITERAL(166, 2818, 22), // "resetEmployeeSelection"
-QT_MOC_LITERAL(167, 2841, 19), // "saveBodyMeasurement"
-QT_MOC_LITERAL(168, 2861, 24), // "initializeFTPConnections"
-QT_MOC_LITERAL(169, 2886, 16), // "IFTPConnections*"
-QT_MOC_LITERAL(170, 2903, 6), // "widget"
-QT_MOC_LITERAL(171, 2910, 19), // "createFTPConnection"
-QT_MOC_LITERAL(172, 2930, 17), // "editFTPConnection"
-QT_MOC_LITERAL(173, 2948, 19), // "selectFTPConnection"
-QT_MOC_LITERAL(174, 2968, 10), // "importData"
-QT_MOC_LITERAL(175, 2979, 12), // "IImportData*"
-QT_MOC_LITERAL(176, 2992, 26), // "importDataDownloadFinished"
-QT_MOC_LITERAL(177, 3019, 23), // "importDataDownloadError"
-QT_MOC_LITERAL(178, 3043, 5), // "error"
-QT_MOC_LITERAL(179, 3049, 8), // "sendData"
-QT_MOC_LITERAL(180, 3058, 10), // "ISendData*"
-QT_MOC_LITERAL(181, 3069, 21), // "sendDataUploadStarted"
-QT_MOC_LITERAL(182, 3091, 22), // "sendDataUploadFinished"
-QT_MOC_LITERAL(183, 3114, 8), // "filename"
-QT_MOC_LITERAL(184, 3123, 19), // "sendDataUploadError"
-QT_MOC_LITERAL(185, 3143, 15), // "initializeShift"
-QT_MOC_LITERAL(186, 3159, 9), // "saveShift"
-QT_MOC_LITERAL(187, 3169, 23), // "initializeRotationGroup"
-QT_MOC_LITERAL(188, 3193, 24), // "createRotationGroupEntry"
-QT_MOC_LITERAL(189, 3218, 29), // "createRotationGroupBreakEntry"
-QT_MOC_LITERAL(190, 3248, 24), // "deleteRotationGroupEntry"
-QT_MOC_LITERAL(191, 3273, 5), // "order"
-QT_MOC_LITERAL(192, 3279, 24), // "moveRotationGroupEntryUp"
-QT_MOC_LITERAL(193, 3304, 26), // "moveRotationGroupEntryDown"
-QT_MOC_LITERAL(194, 3331, 28), // "initializeRotationGroupTasks"
-QT_MOC_LITERAL(195, 3360, 23), // "createRotationGroupTask"
-QT_MOC_LITERAL(196, 3384, 23), // "deleteRotationGroupTask"
-QT_MOC_LITERAL(197, 3408, 23), // "selectRotationGroupTask"
-QT_MOC_LITERAL(198, 3432, 21), // "saveRotationGroupTask"
-QT_MOC_LITERAL(199, 3454, 34), // "initializeRotationGroupTaskEn..."
-QT_MOC_LITERAL(200, 3489, 28), // "createRotationGroupTaskEntry"
-QT_MOC_LITERAL(201, 3518, 28), // "deleteRotationGroupTaskEntry"
-QT_MOC_LITERAL(202, 3547, 20), // "resetDatabaseFactory"
-QT_MOC_LITERAL(203, 3568, 20), // "resetSelectedEntries"
-QT_MOC_LITERAL(204, 3589, 23), // "ISelectedDatabaseReset*"
-QT_MOC_LITERAL(205, 3613, 11) // "changeTheme"
+QT_MOC_LITERAL(21, 290, 24), // "selectedBranchOfIndustry"
+QT_MOC_LITERAL(22, 315, 19), // "selectedCorperation"
+QT_MOC_LITERAL(23, 335, 15), // "selectedFactory"
+QT_MOC_LITERAL(24, 351, 17), // "selectedRecording"
+QT_MOC_LITERAL(25, 369, 15), // "clearWorkplaces"
+QT_MOC_LITERAL(26, 385, 16), // "createdWorkplace"
+QT_MOC_LITERAL(27, 402, 17), // "selectedWorkplace"
+QT_MOC_LITERAL(28, 420, 16), // "updatedWorkplace"
+QT_MOC_LITERAL(29, 437, 16), // "removedWorkplace"
+QT_MOC_LITERAL(30, 454, 15), // "selectedComment"
+QT_MOC_LITERAL(31, 470, 14), // "updatedComment"
+QT_MOC_LITERAL(32, 485, 11), // "createdLine"
+QT_MOC_LITERAL(33, 497, 11), // "updatedLine"
+QT_MOC_LITERAL(34, 509, 8), // "editLine"
+QT_MOC_LITERAL(35, 518, 11), // "removedLine"
+QT_MOC_LITERAL(36, 530, 12), // "selectedLine"
+QT_MOC_LITERAL(37, 543, 10), // "clearLines"
+QT_MOC_LITERAL(38, 554, 14), // "clearEmployees"
+QT_MOC_LITERAL(39, 569, 15), // "createdEmployee"
+QT_MOC_LITERAL(40, 585, 16), // "selectedEmployee"
+QT_MOC_LITERAL(41, 602, 15), // "updatedEmployee"
+QT_MOC_LITERAL(42, 618, 15), // "removedEmployee"
+QT_MOC_LITERAL(43, 634, 16), // "employeeSelected"
+QT_MOC_LITERAL(44, 651, 23), // "selectedBodyMeasurement"
+QT_MOC_LITERAL(45, 675, 13), // "clearProducts"
+QT_MOC_LITERAL(46, 689, 14), // "createdProduct"
+QT_MOC_LITERAL(47, 704, 14), // "updatedProduct"
+QT_MOC_LITERAL(48, 719, 14), // "removedProduct"
+QT_MOC_LITERAL(49, 734, 15), // "clearActivities"
+QT_MOC_LITERAL(50, 750, 15), // "createdActivity"
+QT_MOC_LITERAL(51, 766, 15), // "updatedActivity"
+QT_MOC_LITERAL(52, 782, 15), // "removedActivity"
+QT_MOC_LITERAL(53, 798, 12), // "editActivity"
+QT_MOC_LITERAL(54, 811, 15), // "clearEquipments"
+QT_MOC_LITERAL(55, 827, 16), // "createdEquipment"
+QT_MOC_LITERAL(56, 844, 16), // "updatedEquipment"
+QT_MOC_LITERAL(57, 861, 16), // "removedEquipment"
+QT_MOC_LITERAL(58, 878, 20), // "clearTransportations"
+QT_MOC_LITERAL(59, 899, 21), // "createdTransportation"
+QT_MOC_LITERAL(60, 921, 21), // "updatedTransportation"
+QT_MOC_LITERAL(61, 943, 21), // "removedTransportation"
+QT_MOC_LITERAL(62, 965, 15), // "setLoadHandling"
+QT_MOC_LITERAL(63, 981, 14), // "setBodyPosture"
+QT_MOC_LITERAL(64, 996, 15), // "setAppliedForce"
+QT_MOC_LITERAL(65, 1012, 14), // "setWorkProcess"
+QT_MOC_LITERAL(66, 1027, 21), // "setExecutionCondition"
+QT_MOC_LITERAL(67, 1049, 18), // "createdWorkProcess"
+QT_MOC_LITERAL(68, 1068, 22), // "setSelectedWorkProcess"
+QT_MOC_LITERAL(69, 1091, 25), // "setHasPreviousWorkProcess"
+QT_MOC_LITERAL(70, 1117, 11), // "hasPrevious"
+QT_MOC_LITERAL(71, 1129, 21), // "setHasNextWorkProcess"
+QT_MOC_LITERAL(72, 1151, 7), // "hasNext"
+QT_MOC_LITERAL(73, 1159, 26), // "setSelectedWorkProcessType"
+QT_MOC_LITERAL(74, 1186, 6), // "AVType"
+QT_MOC_LITERAL(75, 1193, 4), // "type"
+QT_MOC_LITERAL(76, 1198, 24), // "initiliazedWorkProcesses"
+QT_MOC_LITERAL(77, 1223, 31), // "QList<QHash<QString,QVariant> >"
+QT_MOC_LITERAL(78, 1255, 13), // "selectedShift"
+QT_MOC_LITERAL(79, 1269, 18), // "clearRotationGroup"
+QT_MOC_LITERAL(80, 1288, 21), // "addRotationGroupEntry"
+QT_MOC_LITERAL(81, 1310, 25), // "updatedRotationGroupEntry"
+QT_MOC_LITERAL(82, 1336, 26), // "addRotationGroupBreakEntry"
+QT_MOC_LITERAL(83, 1363, 23), // "clearRotationGroupTasks"
+QT_MOC_LITERAL(84, 1387, 24), // "createdRotationGroupTask"
+QT_MOC_LITERAL(85, 1412, 24), // "updatedRotationGroupTask"
+QT_MOC_LITERAL(86, 1437, 24), // "removedRotationGroupTask"
+QT_MOC_LITERAL(87, 1462, 25), // "selectedRotationGroupTask"
+QT_MOC_LITERAL(88, 1488, 32), // "updatedRotationGroupTaskDuration"
+QT_MOC_LITERAL(89, 1521, 8), // "duration"
+QT_MOC_LITERAL(90, 1530, 29), // "clearRotationGroupTaskEntries"
+QT_MOC_LITERAL(91, 1560, 29), // "createdRotationGroupTaskEntry"
+QT_MOC_LITERAL(92, 1590, 29), // "removedRotationGroupTaskEntry"
+QT_MOC_LITERAL(93, 1620, 18), // "initializeAnalysts"
+QT_MOC_LITERAL(94, 1639, 13), // "createAnalyst"
+QT_MOC_LITERAL(95, 1653, 13), // "deleteAnalyst"
+QT_MOC_LITERAL(96, 1667, 13), // "selectAnalyst"
+QT_MOC_LITERAL(97, 1681, 20), // "createBlankRecording"
+QT_MOC_LITERAL(98, 1702, 19), // "setBranchOfIndustry"
+QT_MOC_LITERAL(99, 1722, 20), // "saveBranchOfIndustry"
+QT_MOC_LITERAL(100, 1743, 14), // "setCorperation"
+QT_MOC_LITERAL(101, 1758, 15), // "saveCorperation"
+QT_MOC_LITERAL(102, 1774, 10), // "setFactory"
+QT_MOC_LITERAL(103, 1785, 11), // "saveFactory"
+QT_MOC_LITERAL(104, 1797, 12), // "setRecording"
+QT_MOC_LITERAL(105, 1810, 13), // "saveRecording"
+QT_MOC_LITERAL(106, 1824, 20), // "initializeWorkplaces"
+QT_MOC_LITERAL(107, 1845, 15), // "createWorkplace"
+QT_MOC_LITERAL(108, 1861, 14), // "activityValues"
+QT_MOC_LITERAL(109, 1876, 15), // "deleteWorkplace"
+QT_MOC_LITERAL(110, 1892, 15), // "selectWorkplace"
+QT_MOC_LITERAL(111, 1908, 13), // "saveWorkplace"
+QT_MOC_LITERAL(112, 1922, 11), // "saveComment"
+QT_MOC_LITERAL(113, 1934, 15), // "initializeLines"
+QT_MOC_LITERAL(114, 1950, 10), // "createLine"
+QT_MOC_LITERAL(115, 1961, 8), // "saveLine"
+QT_MOC_LITERAL(116, 1970, 10), // "deleteLine"
+QT_MOC_LITERAL(117, 1981, 10), // "selectLine"
+QT_MOC_LITERAL(118, 1992, 18), // "initializeProducts"
+QT_MOC_LITERAL(119, 2011, 13), // "createProduct"
+QT_MOC_LITERAL(120, 2025, 11), // "saveProduct"
+QT_MOC_LITERAL(121, 2037, 13), // "deleteProduct"
+QT_MOC_LITERAL(122, 2051, 20), // "initializeActivities"
+QT_MOC_LITERAL(123, 2072, 12), // "workplace_ID"
+QT_MOC_LITERAL(124, 2085, 14), // "createActivity"
+QT_MOC_LITERAL(125, 2100, 12), // "saveActivity"
+QT_MOC_LITERAL(126, 2113, 14), // "deleteActivity"
+QT_MOC_LITERAL(127, 2128, 7), // "showMsg"
+QT_MOC_LITERAL(128, 2136, 14), // "selectActivity"
+QT_MOC_LITERAL(129, 2151, 20), // "initializeEquipments"
+QT_MOC_LITERAL(130, 2172, 15), // "createEquipment"
+QT_MOC_LITERAL(131, 2188, 13), // "saveEquipment"
+QT_MOC_LITERAL(132, 2202, 15), // "deleteEquipment"
+QT_MOC_LITERAL(133, 2218, 24), // "initializeTansportations"
+QT_MOC_LITERAL(134, 2243, 20), // "createTransportation"
+QT_MOC_LITERAL(135, 2264, 18), // "saveTransportation"
+QT_MOC_LITERAL(136, 2283, 20), // "deleteTransportation"
+QT_MOC_LITERAL(137, 2304, 16), // "saveLoadHandling"
+QT_MOC_LITERAL(138, 2321, 15), // "saveBodyPosture"
+QT_MOC_LITERAL(139, 2337, 16), // "saveAppliedForce"
+QT_MOC_LITERAL(140, 2354, 15), // "saveWorkProcess"
+QT_MOC_LITERAL(141, 2370, 22), // "saveExecutionCondition"
+QT_MOC_LITERAL(142, 2393, 22), // "initilizeWorkProcesses"
+QT_MOC_LITERAL(143, 2416, 11), // "selectFirst"
+QT_MOC_LITERAL(144, 2428, 17), // "createWorkprocess"
+QT_MOC_LITERAL(145, 2446, 21), // "createWorkprocessList"
+QT_MOC_LITERAL(146, 2468, 13), // "workplaceName"
+QT_MOC_LITERAL(147, 2482, 12), // "activityName"
+QT_MOC_LITERAL(148, 2495, 13), // "workprocesses"
+QT_MOC_LITERAL(149, 2509, 21), // "selectNextWorkProcess"
+QT_MOC_LITERAL(150, 2531, 25), // "selectPreviousWorkProcess"
+QT_MOC_LITERAL(151, 2557, 22), // "workProcessTypeChanged"
+QT_MOC_LITERAL(152, 2580, 18), // "resetWorkProcesses"
+QT_MOC_LITERAL(153, 2599, 26), // "workProcessDurationChanged"
+QT_MOC_LITERAL(154, 2626, 4), // "time"
+QT_MOC_LITERAL(155, 2631, 17), // "selectWorkProcess"
+QT_MOC_LITERAL(156, 2649, 24), // "saveWorkProcessFrequence"
+QT_MOC_LITERAL(157, 2674, 9), // "frequence"
+QT_MOC_LITERAL(158, 2684, 19), // "initializeEmployees"
+QT_MOC_LITERAL(159, 2704, 14), // "createEmployee"
+QT_MOC_LITERAL(160, 2719, 21), // "bodyMeasurementValues"
+QT_MOC_LITERAL(161, 2741, 14), // "deleteEmployee"
+QT_MOC_LITERAL(162, 2756, 14), // "selectEmployee"
+QT_MOC_LITERAL(163, 2771, 12), // "saveEmployee"
+QT_MOC_LITERAL(164, 2784, 19), // "setSelectedEmployee"
+QT_MOC_LITERAL(165, 2804, 22), // "resetEmployeeSelection"
+QT_MOC_LITERAL(166, 2827, 19), // "saveBodyMeasurement"
+QT_MOC_LITERAL(167, 2847, 24), // "initializeFTPConnections"
+QT_MOC_LITERAL(168, 2872, 16), // "IFTPConnections*"
+QT_MOC_LITERAL(169, 2889, 6), // "widget"
+QT_MOC_LITERAL(170, 2896, 19), // "createFTPConnection"
+QT_MOC_LITERAL(171, 2916, 17), // "editFTPConnection"
+QT_MOC_LITERAL(172, 2934, 19), // "selectFTPConnection"
+QT_MOC_LITERAL(173, 2954, 10), // "importData"
+QT_MOC_LITERAL(174, 2965, 12), // "IImportData*"
+QT_MOC_LITERAL(175, 2978, 26), // "importDataDownloadFinished"
+QT_MOC_LITERAL(176, 3005, 23), // "importDataDownloadError"
+QT_MOC_LITERAL(177, 3029, 5), // "error"
+QT_MOC_LITERAL(178, 3035, 8), // "sendData"
+QT_MOC_LITERAL(179, 3044, 10), // "ISendData*"
+QT_MOC_LITERAL(180, 3055, 21), // "sendDataUploadStarted"
+QT_MOC_LITERAL(181, 3077, 22), // "sendDataUploadFinished"
+QT_MOC_LITERAL(182, 3100, 8), // "filename"
+QT_MOC_LITERAL(183, 3109, 19), // "sendDataUploadError"
+QT_MOC_LITERAL(184, 3129, 15), // "initializeShift"
+QT_MOC_LITERAL(185, 3145, 9), // "saveShift"
+QT_MOC_LITERAL(186, 3155, 23), // "initializeRotationGroup"
+QT_MOC_LITERAL(187, 3179, 24), // "createRotationGroupEntry"
+QT_MOC_LITERAL(188, 3204, 29), // "createRotationGroupBreakEntry"
+QT_MOC_LITERAL(189, 3234, 24), // "deleteRotationGroupEntry"
+QT_MOC_LITERAL(190, 3259, 5), // "order"
+QT_MOC_LITERAL(191, 3265, 24), // "moveRotationGroupEntryUp"
+QT_MOC_LITERAL(192, 3290, 26), // "moveRotationGroupEntryDown"
+QT_MOC_LITERAL(193, 3317, 28), // "initializeRotationGroupTasks"
+QT_MOC_LITERAL(194, 3346, 23), // "createRotationGroupTask"
+QT_MOC_LITERAL(195, 3370, 23), // "deleteRotationGroupTask"
+QT_MOC_LITERAL(196, 3394, 23), // "selectRotationGroupTask"
+QT_MOC_LITERAL(197, 3418, 21), // "saveRotationGroupTask"
+QT_MOC_LITERAL(198, 3440, 34), // "initializeRotationGroupTaskEn..."
+QT_MOC_LITERAL(199, 3475, 28), // "createRotationGroupTaskEntry"
+QT_MOC_LITERAL(200, 3504, 28), // "deleteRotationGroupTaskEntry"
+QT_MOC_LITERAL(201, 3533, 20), // "resetDatabaseFactory"
+QT_MOC_LITERAL(202, 3554, 20), // "resetSelectedEntries"
+QT_MOC_LITERAL(203, 3575, 23), // "ISelectedDatabaseReset*"
+QT_MOC_LITERAL(204, 3599, 11) // "changeTheme"
 
     },
     "Controller\0showMessage\0\0message\0"
@@ -245,9 +244,9 @@ QT_MOC_LITERAL(205, 3613, 11) // "changeTheme"
     "view\0QList<Types::ViewType>*\0previousViews\0"
     "clearAll\0clearAnalysts\0createdAnalyst\0"
     "values\0selectedAnalyst\0updatedAnalyst\0"
-    "removedAnalyst\0id\0settedBranchOfIndustry\0"
-    "settedCorperation\0settedFactory\0"
-    "settedRecording\0clearWorkplaces\0"
+    "removedAnalyst\0id\0selectedBranchOfIndustry\0"
+    "selectedCorperation\0selectedFactory\0"
+    "selectedRecording\0clearWorkplaces\0"
     "createdWorkplace\0selectedWorkplace\0"
     "updatedWorkplace\0removedWorkplace\0"
     "selectedComment\0updatedComment\0"
@@ -273,9 +272,8 @@ QT_MOC_LITERAL(205, 3613, 11) // "changeTheme"
     "hasNext\0setSelectedWorkProcessType\0"
     "AVType\0type\0initiliazedWorkProcesses\0"
     "QList<QHash<QString,QVariant> >\0"
-    "resettedWorkProcesses\0selectedShift\0"
-    "clearRotationGroup\0addRotationGroupEntry\0"
-    "updatedRotationGroupEntry\0"
+    "selectedShift\0clearRotationGroup\0"
+    "addRotationGroupEntry\0updatedRotationGroupEntry\0"
     "addRotationGroupBreakEntry\0"
     "clearRotationGroupTasks\0"
     "createdRotationGroupTask\0"
@@ -350,195 +348,194 @@ static const uint qt_meta_data_Controller[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-     179,   14, // methods
+     178,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-      78,       // signalCount
+      77,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    3,  909,    2, 0x06 /* Public */,
-       1,    2,  916,    2, 0x26 /* Public | MethodCloned */,
-       1,    1,  921,    2, 0x26 /* Public | MethodCloned */,
-       8,    2,  924,    2, 0x06 /* Public */,
-       8,    1,  929,    2, 0x26 /* Public | MethodCloned */,
-      13,    0,  932,    2, 0x06 /* Public */,
-      14,    0,  933,    2, 0x06 /* Public */,
-      15,    1,  934,    2, 0x06 /* Public */,
-      17,    1,  937,    2, 0x06 /* Public */,
-      18,    1,  940,    2, 0x06 /* Public */,
-      19,    1,  943,    2, 0x06 /* Public */,
-      21,    1,  946,    2, 0x06 /* Public */,
-      22,    1,  949,    2, 0x06 /* Public */,
-      23,    1,  952,    2, 0x06 /* Public */,
-      24,    1,  955,    2, 0x06 /* Public */,
-      25,    0,  958,    2, 0x06 /* Public */,
-      26,    1,  959,    2, 0x06 /* Public */,
-      27,    1,  962,    2, 0x06 /* Public */,
-      28,    1,  965,    2, 0x06 /* Public */,
-      29,    1,  968,    2, 0x06 /* Public */,
-      30,    1,  971,    2, 0x06 /* Public */,
-      31,    1,  974,    2, 0x06 /* Public */,
-      32,    1,  977,    2, 0x06 /* Public */,
-      33,    1,  980,    2, 0x06 /* Public */,
-      34,    1,  983,    2, 0x06 /* Public */,
-      35,    1,  986,    2, 0x06 /* Public */,
-      36,    1,  989,    2, 0x06 /* Public */,
-      37,    0,  992,    2, 0x06 /* Public */,
-      38,    0,  993,    2, 0x06 /* Public */,
-      39,    1,  994,    2, 0x06 /* Public */,
-      40,    1,  997,    2, 0x06 /* Public */,
-      41,    1, 1000,    2, 0x06 /* Public */,
-      42,    1, 1003,    2, 0x06 /* Public */,
-      43,    1, 1006,    2, 0x06 /* Public */,
-      44,    1, 1009,    2, 0x06 /* Public */,
-      45,    0, 1012,    2, 0x06 /* Public */,
-      46,    1, 1013,    2, 0x06 /* Public */,
-      47,    1, 1016,    2, 0x06 /* Public */,
-      48,    1, 1019,    2, 0x06 /* Public */,
-      49,    0, 1022,    2, 0x06 /* Public */,
-      50,    1, 1023,    2, 0x06 /* Public */,
-      51,    1, 1026,    2, 0x06 /* Public */,
-      52,    1, 1029,    2, 0x06 /* Public */,
-      53,    1, 1032,    2, 0x06 /* Public */,
-      54,    0, 1035,    2, 0x06 /* Public */,
-      55,    1, 1036,    2, 0x06 /* Public */,
-      56,    1, 1039,    2, 0x06 /* Public */,
-      57,    1, 1042,    2, 0x06 /* Public */,
-      58,    0, 1045,    2, 0x06 /* Public */,
-      59,    1, 1046,    2, 0x06 /* Public */,
-      60,    1, 1049,    2, 0x06 /* Public */,
-      61,    1, 1052,    2, 0x06 /* Public */,
-      62,    1, 1055,    2, 0x06 /* Public */,
-      63,    1, 1058,    2, 0x06 /* Public */,
-      64,    1, 1061,    2, 0x06 /* Public */,
-      65,    1, 1064,    2, 0x06 /* Public */,
-      66,    1, 1067,    2, 0x06 /* Public */,
-      67,    1, 1070,    2, 0x06 /* Public */,
-      68,    1, 1073,    2, 0x06 /* Public */,
-      69,    1, 1076,    2, 0x06 /* Public */,
-      71,    1, 1079,    2, 0x06 /* Public */,
-      73,    1, 1082,    2, 0x06 /* Public */,
-      76,    1, 1085,    2, 0x06 /* Public */,
-      78,    0, 1088,    2, 0x06 /* Public */,
-      79,    1, 1089,    2, 0x06 /* Public */,
-      80,    0, 1092,    2, 0x06 /* Public */,
-      81,    1, 1093,    2, 0x06 /* Public */,
-      82,    1, 1096,    2, 0x06 /* Public */,
-      83,    1, 1099,    2, 0x06 /* Public */,
-      84,    0, 1102,    2, 0x06 /* Public */,
-      85,    1, 1103,    2, 0x06 /* Public */,
-      86,    1, 1106,    2, 0x06 /* Public */,
-      87,    1, 1109,    2, 0x06 /* Public */,
-      88,    1, 1112,    2, 0x06 /* Public */,
-      89,    1, 1115,    2, 0x06 /* Public */,
-      91,    0, 1118,    2, 0x06 /* Public */,
-      92,    1, 1119,    2, 0x06 /* Public */,
-      93,    1, 1122,    2, 0x06 /* Public */,
+       1,    3,  904,    2, 0x06 /* Public */,
+       1,    2,  911,    2, 0x26 /* Public | MethodCloned */,
+       1,    1,  916,    2, 0x26 /* Public | MethodCloned */,
+       8,    2,  919,    2, 0x06 /* Public */,
+       8,    1,  924,    2, 0x26 /* Public | MethodCloned */,
+      13,    0,  927,    2, 0x06 /* Public */,
+      14,    0,  928,    2, 0x06 /* Public */,
+      15,    1,  929,    2, 0x06 /* Public */,
+      17,    1,  932,    2, 0x06 /* Public */,
+      18,    1,  935,    2, 0x06 /* Public */,
+      19,    1,  938,    2, 0x06 /* Public */,
+      21,    1,  941,    2, 0x06 /* Public */,
+      22,    1,  944,    2, 0x06 /* Public */,
+      23,    1,  947,    2, 0x06 /* Public */,
+      24,    1,  950,    2, 0x06 /* Public */,
+      25,    0,  953,    2, 0x06 /* Public */,
+      26,    1,  954,    2, 0x06 /* Public */,
+      27,    1,  957,    2, 0x06 /* Public */,
+      28,    1,  960,    2, 0x06 /* Public */,
+      29,    1,  963,    2, 0x06 /* Public */,
+      30,    1,  966,    2, 0x06 /* Public */,
+      31,    1,  969,    2, 0x06 /* Public */,
+      32,    1,  972,    2, 0x06 /* Public */,
+      33,    1,  975,    2, 0x06 /* Public */,
+      34,    1,  978,    2, 0x06 /* Public */,
+      35,    1,  981,    2, 0x06 /* Public */,
+      36,    1,  984,    2, 0x06 /* Public */,
+      37,    0,  987,    2, 0x06 /* Public */,
+      38,    0,  988,    2, 0x06 /* Public */,
+      39,    1,  989,    2, 0x06 /* Public */,
+      40,    1,  992,    2, 0x06 /* Public */,
+      41,    1,  995,    2, 0x06 /* Public */,
+      42,    1,  998,    2, 0x06 /* Public */,
+      43,    1, 1001,    2, 0x06 /* Public */,
+      44,    1, 1004,    2, 0x06 /* Public */,
+      45,    0, 1007,    2, 0x06 /* Public */,
+      46,    1, 1008,    2, 0x06 /* Public */,
+      47,    1, 1011,    2, 0x06 /* Public */,
+      48,    1, 1014,    2, 0x06 /* Public */,
+      49,    0, 1017,    2, 0x06 /* Public */,
+      50,    1, 1018,    2, 0x06 /* Public */,
+      51,    1, 1021,    2, 0x06 /* Public */,
+      52,    1, 1024,    2, 0x06 /* Public */,
+      53,    1, 1027,    2, 0x06 /* Public */,
+      54,    0, 1030,    2, 0x06 /* Public */,
+      55,    1, 1031,    2, 0x06 /* Public */,
+      56,    1, 1034,    2, 0x06 /* Public */,
+      57,    1, 1037,    2, 0x06 /* Public */,
+      58,    0, 1040,    2, 0x06 /* Public */,
+      59,    1, 1041,    2, 0x06 /* Public */,
+      60,    1, 1044,    2, 0x06 /* Public */,
+      61,    1, 1047,    2, 0x06 /* Public */,
+      62,    1, 1050,    2, 0x06 /* Public */,
+      63,    1, 1053,    2, 0x06 /* Public */,
+      64,    1, 1056,    2, 0x06 /* Public */,
+      65,    1, 1059,    2, 0x06 /* Public */,
+      66,    1, 1062,    2, 0x06 /* Public */,
+      67,    1, 1065,    2, 0x06 /* Public */,
+      68,    1, 1068,    2, 0x06 /* Public */,
+      69,    1, 1071,    2, 0x06 /* Public */,
+      71,    1, 1074,    2, 0x06 /* Public */,
+      73,    1, 1077,    2, 0x06 /* Public */,
+      76,    1, 1080,    2, 0x06 /* Public */,
+      78,    1, 1083,    2, 0x06 /* Public */,
+      79,    0, 1086,    2, 0x06 /* Public */,
+      80,    1, 1087,    2, 0x06 /* Public */,
+      81,    1, 1090,    2, 0x06 /* Public */,
+      82,    1, 1093,    2, 0x06 /* Public */,
+      83,    0, 1096,    2, 0x06 /* Public */,
+      84,    1, 1097,    2, 0x06 /* Public */,
+      85,    1, 1100,    2, 0x06 /* Public */,
+      86,    1, 1103,    2, 0x06 /* Public */,
+      87,    1, 1106,    2, 0x06 /* Public */,
+      88,    1, 1109,    2, 0x06 /* Public */,
+      90,    0, 1112,    2, 0x06 /* Public */,
+      91,    1, 1113,    2, 0x06 /* Public */,
+      92,    1, 1116,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      94,    0, 1125,    2, 0x0a /* Public */,
-      95,    1, 1126,    2, 0x0a /* Public */,
-      96,    1, 1129,    2, 0x0a /* Public */,
-      97,    1, 1132,    2, 0x0a /* Public */,
-      98,    0, 1135,    2, 0x0a /* Public */,
-      99,    1, 1136,    2, 0x0a /* Public */,
-     100,    1, 1139,    2, 0x0a /* Public */,
-     101,    1, 1142,    2, 0x0a /* Public */,
-     102,    1, 1145,    2, 0x0a /* Public */,
-     103,    1, 1148,    2, 0x0a /* Public */,
-     104,    1, 1151,    2, 0x0a /* Public */,
-     105,    1, 1154,    2, 0x0a /* Public */,
-     106,    1, 1157,    2, 0x0a /* Public */,
-     107,    0, 1160,    2, 0x0a /* Public */,
-     108,    1, 1161,    2, 0x0a /* Public */,
-     108,    2, 1164,    2, 0x0a /* Public */,
-     110,    1, 1169,    2, 0x0a /* Public */,
-     111,    1, 1172,    2, 0x0a /* Public */,
-     112,    1, 1175,    2, 0x0a /* Public */,
-     113,    1, 1178,    2, 0x0a /* Public */,
-     114,    0, 1181,    2, 0x0a /* Public */,
+      93,    0, 1119,    2, 0x0a /* Public */,
+      94,    1, 1120,    2, 0x0a /* Public */,
+      95,    1, 1123,    2, 0x0a /* Public */,
+      96,    1, 1126,    2, 0x0a /* Public */,
+      97,    0, 1129,    2, 0x0a /* Public */,
+      98,    1, 1130,    2, 0x0a /* Public */,
+      99,    1, 1133,    2, 0x0a /* Public */,
+     100,    1, 1136,    2, 0x0a /* Public */,
+     101,    1, 1139,    2, 0x0a /* Public */,
+     102,    1, 1142,    2, 0x0a /* Public */,
+     103,    1, 1145,    2, 0x0a /* Public */,
+     104,    1, 1148,    2, 0x0a /* Public */,
+     105,    1, 1151,    2, 0x0a /* Public */,
+     106,    0, 1154,    2, 0x0a /* Public */,
+     107,    1, 1155,    2, 0x0a /* Public */,
+     107,    2, 1158,    2, 0x0a /* Public */,
+     109,    1, 1163,    2, 0x0a /* Public */,
+     110,    1, 1166,    2, 0x0a /* Public */,
+     111,    1, 1169,    2, 0x0a /* Public */,
+     112,    1, 1172,    2, 0x0a /* Public */,
+     113,    0, 1175,    2, 0x0a /* Public */,
+     114,    1, 1176,    2, 0x0a /* Public */,
+      34,    1, 1179,    2, 0x0a /* Public */,
      115,    1, 1182,    2, 0x0a /* Public */,
-      34,    1, 1185,    2, 0x0a /* Public */,
-     116,    1, 1188,    2, 0x0a /* Public */,
-     117,    1, 1191,    2, 0x0a /* Public */,
-     118,    1, 1194,    2, 0x0a /* Public */,
-     119,    0, 1197,    2, 0x0a /* Public */,
-     120,    1, 1198,    2, 0x0a /* Public */,
-     121,    1, 1201,    2, 0x0a /* Public */,
-     122,    1, 1204,    2, 0x0a /* Public */,
-     123,    1, 1207,    2, 0x0a /* Public */,
-     125,    1, 1210,    2, 0x0a /* Public */,
-     126,    1, 1213,    2, 0x0a /* Public */,
-     127,    2, 1216,    2, 0x0a /* Public */,
-     127,    1, 1221,    2, 0x2a /* Public | MethodCloned */,
-     129,    1, 1224,    2, 0x0a /* Public */,
-      53,    1, 1227,    2, 0x0a /* Public */,
-     130,    0, 1230,    2, 0x0a /* Public */,
-     131,    1, 1231,    2, 0x0a /* Public */,
-     132,    1, 1234,    2, 0x0a /* Public */,
-     133,    1, 1237,    2, 0x0a /* Public */,
-     134,    0, 1240,    2, 0x0a /* Public */,
-     135,    1, 1241,    2, 0x0a /* Public */,
-     136,    1, 1244,    2, 0x0a /* Public */,
-     137,    1, 1247,    2, 0x0a /* Public */,
-     138,    1, 1250,    2, 0x0a /* Public */,
-     139,    1, 1253,    2, 0x0a /* Public */,
-     140,    1, 1256,    2, 0x0a /* Public */,
-     141,    1, 1259,    2, 0x0a /* Public */,
-     142,    1, 1262,    2, 0x0a /* Public */,
-     143,    1, 1265,    2, 0x0a /* Public */,
-     143,    0, 1268,    2, 0x2a /* Public | MethodCloned */,
-     145,    1, 1269,    2, 0x0a /* Public */,
-     146,    3, 1272,    2, 0x0a /* Public */,
-     150,    0, 1279,    2, 0x0a /* Public */,
-     151,    0, 1280,    2, 0x0a /* Public */,
-     152,    1, 1281,    2, 0x0a /* Public */,
-     153,    0, 1284,    2, 0x0a /* Public */,
-     154,    1, 1285,    2, 0x0a /* Public */,
-     156,    2, 1288,    2, 0x0a /* Public */,
-     157,    1, 1293,    2, 0x0a /* Public */,
-     159,    0, 1296,    2, 0x0a /* Public */,
-     160,    1, 1297,    2, 0x0a /* Public */,
-     160,    2, 1300,    2, 0x0a /* Public */,
-     162,    1, 1305,    2, 0x0a /* Public */,
-     163,    1, 1308,    2, 0x0a /* Public */,
-     164,    1, 1311,    2, 0x0a /* Public */,
-     165,    1, 1314,    2, 0x0a /* Public */,
-     166,    0, 1317,    2, 0x0a /* Public */,
-     167,    1, 1318,    2, 0x0a /* Public */,
-     168,    1, 1321,    2, 0x0a /* Public */,
-     171,    1, 1324,    2, 0x0a /* Public */,
-     172,    2, 1327,    2, 0x0a /* Public */,
-     173,    2, 1332,    2, 0x0a /* Public */,
-     174,    1, 1337,    2, 0x0a /* Public */,
-     176,    1, 1340,    2, 0x0a /* Public */,
-     177,    1, 1343,    2, 0x0a /* Public */,
-     179,    1, 1346,    2, 0x0a /* Public */,
-     181,    0, 1349,    2, 0x0a /* Public */,
-     182,    1, 1350,    2, 0x0a /* Public */,
-     184,    1, 1353,    2, 0x0a /* Public */,
-     185,    1, 1356,    2, 0x0a /* Public */,
-     186,    1, 1359,    2, 0x0a /* Public */,
-     187,    1, 1362,    2, 0x0a /* Public */,
-     188,    1, 1365,    2, 0x0a /* Public */,
-     189,    1, 1368,    2, 0x0a /* Public */,
-     190,    1, 1371,    2, 0x0a /* Public */,
-     192,    1, 1374,    2, 0x0a /* Public */,
-     193,    1, 1377,    2, 0x0a /* Public */,
-     194,    0, 1380,    2, 0x0a /* Public */,
-     195,    1, 1381,    2, 0x0a /* Public */,
-     196,    1, 1384,    2, 0x0a /* Public */,
-     197,    1, 1387,    2, 0x0a /* Public */,
-     198,    1, 1390,    2, 0x0a /* Public */,
-     199,    1, 1393,    2, 0x0a /* Public */,
-     200,    1, 1396,    2, 0x0a /* Public */,
-     201,    2, 1399,    2, 0x0a /* Public */,
-     201,    1, 1404,    2, 0x2a /* Public | MethodCloned */,
-     202,    0, 1407,    2, 0x0a /* Public */,
-     203,    1, 1408,    2, 0x0a /* Public */,
-     205,    0, 1411,    2, 0x0a /* Public */,
+     116,    1, 1185,    2, 0x0a /* Public */,
+     117,    1, 1188,    2, 0x0a /* Public */,
+     118,    0, 1191,    2, 0x0a /* Public */,
+     119,    1, 1192,    2, 0x0a /* Public */,
+     120,    1, 1195,    2, 0x0a /* Public */,
+     121,    1, 1198,    2, 0x0a /* Public */,
+     122,    1, 1201,    2, 0x0a /* Public */,
+     124,    1, 1204,    2, 0x0a /* Public */,
+     125,    1, 1207,    2, 0x0a /* Public */,
+     126,    2, 1210,    2, 0x0a /* Public */,
+     126,    1, 1215,    2, 0x2a /* Public | MethodCloned */,
+     128,    1, 1218,    2, 0x0a /* Public */,
+      53,    1, 1221,    2, 0x0a /* Public */,
+     129,    0, 1224,    2, 0x0a /* Public */,
+     130,    1, 1225,    2, 0x0a /* Public */,
+     131,    1, 1228,    2, 0x0a /* Public */,
+     132,    1, 1231,    2, 0x0a /* Public */,
+     133,    0, 1234,    2, 0x0a /* Public */,
+     134,    1, 1235,    2, 0x0a /* Public */,
+     135,    1, 1238,    2, 0x0a /* Public */,
+     136,    1, 1241,    2, 0x0a /* Public */,
+     137,    1, 1244,    2, 0x0a /* Public */,
+     138,    1, 1247,    2, 0x0a /* Public */,
+     139,    1, 1250,    2, 0x0a /* Public */,
+     140,    1, 1253,    2, 0x0a /* Public */,
+     141,    1, 1256,    2, 0x0a /* Public */,
+     142,    1, 1259,    2, 0x0a /* Public */,
+     142,    0, 1262,    2, 0x2a /* Public | MethodCloned */,
+     144,    1, 1263,    2, 0x0a /* Public */,
+     145,    3, 1266,    2, 0x0a /* Public */,
+     149,    0, 1273,    2, 0x0a /* Public */,
+     150,    0, 1274,    2, 0x0a /* Public */,
+     151,    1, 1275,    2, 0x0a /* Public */,
+     152,    0, 1278,    2, 0x0a /* Public */,
+     153,    1, 1279,    2, 0x0a /* Public */,
+     155,    2, 1282,    2, 0x0a /* Public */,
+     156,    1, 1287,    2, 0x0a /* Public */,
+     158,    0, 1290,    2, 0x0a /* Public */,
+     159,    1, 1291,    2, 0x0a /* Public */,
+     159,    2, 1294,    2, 0x0a /* Public */,
+     161,    1, 1299,    2, 0x0a /* Public */,
+     162,    1, 1302,    2, 0x0a /* Public */,
+     163,    1, 1305,    2, 0x0a /* Public */,
+     164,    1, 1308,    2, 0x0a /* Public */,
+     165,    0, 1311,    2, 0x0a /* Public */,
+     166,    1, 1312,    2, 0x0a /* Public */,
+     167,    1, 1315,    2, 0x0a /* Public */,
+     170,    1, 1318,    2, 0x0a /* Public */,
+     171,    2, 1321,    2, 0x0a /* Public */,
+     172,    2, 1326,    2, 0x0a /* Public */,
+     173,    1, 1331,    2, 0x0a /* Public */,
+     175,    1, 1334,    2, 0x0a /* Public */,
+     176,    1, 1337,    2, 0x0a /* Public */,
+     178,    1, 1340,    2, 0x0a /* Public */,
+     180,    0, 1343,    2, 0x0a /* Public */,
+     181,    1, 1344,    2, 0x0a /* Public */,
+     183,    1, 1347,    2, 0x0a /* Public */,
+     184,    1, 1350,    2, 0x0a /* Public */,
+     185,    1, 1353,    2, 0x0a /* Public */,
+     186,    1, 1356,    2, 0x0a /* Public */,
+     187,    1, 1359,    2, 0x0a /* Public */,
+     188,    1, 1362,    2, 0x0a /* Public */,
+     189,    1, 1365,    2, 0x0a /* Public */,
+     191,    1, 1368,    2, 0x0a /* Public */,
+     192,    1, 1371,    2, 0x0a /* Public */,
+     193,    0, 1374,    2, 0x0a /* Public */,
+     194,    1, 1375,    2, 0x0a /* Public */,
+     195,    1, 1378,    2, 0x0a /* Public */,
+     196,    1, 1381,    2, 0x0a /* Public */,
+     197,    1, 1384,    2, 0x0a /* Public */,
+     198,    1, 1387,    2, 0x0a /* Public */,
+     199,    1, 1390,    2, 0x0a /* Public */,
+     200,    2, 1393,    2, 0x0a /* Public */,
+     200,    1, 1398,    2, 0x2a /* Public | MethodCloned */,
+     201,    0, 1401,    2, 0x0a /* Public */,
+     202,    1, 1402,    2, 0x0a /* Public */,
+     204,    0, 1405,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString, 0x80000000 | 4, 0x80000000 | 6,    3,    5,    7,
@@ -604,7 +601,6 @@ static const uint qt_meta_data_Controller[] = {
     QMetaType::Void, QMetaType::Bool,   72,
     QMetaType::Void, 0x80000000 | 74,   75,
     QMetaType::Void, 0x80000000 | 77,   16,
-    QMetaType::Void,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QVariantHash,   16,
@@ -615,7 +611,7 @@ static const uint qt_meta_data_Controller[] = {
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, QMetaType::Int,   90,
+    QMetaType::Void, QMetaType::Int,   89,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::Int,   20,
@@ -636,7 +632,7 @@ static const uint qt_meta_data_Controller[] = {
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, QMetaType::QVariantHash, 0x80000000 | 77,   16,  109,
+    QMetaType::Void, QMetaType::QVariantHash, 0x80000000 | 77,   16,  108,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::QVariantHash,   16,
@@ -651,10 +647,10 @@ static const uint qt_meta_data_Controller[] = {
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::Int,   20,
-    QMetaType::Void, QMetaType::Int,  124,
+    QMetaType::Void, QMetaType::Int,  123,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   20,  128,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   20,  127,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::Int,   20,
@@ -671,45 +667,45 @@ static const uint qt_meta_data_Controller[] = {
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, QMetaType::Bool,  144,
+    QMetaType::Void, QMetaType::Bool,  143,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, QMetaType::QString, QMetaType::QString, 0x80000000 | 77,  147,  148,  149,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, 0x80000000 | 77,  146,  147,  148,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 74,   75,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QTime,  155,
+    QMetaType::Void, QMetaType::QTime,  154,
     QMetaType::Void, QMetaType::Int, 0x80000000 | 74,   20,   75,
-    QMetaType::Void, QMetaType::Int,  158,
+    QMetaType::Void, QMetaType::Int,  157,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, QMetaType::QVariantHash, QMetaType::QVariantHash,   16,  161,
+    QMetaType::Void, QMetaType::QVariantHash, QMetaType::QVariantHash,   16,  160,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, 0x80000000 | 169,  170,
-    QMetaType::Void, 0x80000000 | 169,  170,
-    QMetaType::Void, 0x80000000 | 169, QMetaType::Int,  170,   20,
-    QMetaType::Void, 0x80000000 | 169, QMetaType::Int,  170,   20,
-    QMetaType::Void, 0x80000000 | 175,  170,
+    QMetaType::Void, 0x80000000 | 168,  169,
+    QMetaType::Void, 0x80000000 | 168,  169,
+    QMetaType::Void, 0x80000000 | 168, QMetaType::Int,  169,   20,
+    QMetaType::Void, 0x80000000 | 168, QMetaType::Int,  169,   20,
+    QMetaType::Void, 0x80000000 | 174,  169,
     QMetaType::Void, QMetaType::QString,    2,
-    QMetaType::Void, QMetaType::QString,  178,
-    QMetaType::Void, 0x80000000 | 180,  170,
+    QMetaType::Void, QMetaType::QString,  177,
+    QMetaType::Void, 0x80000000 | 179,  169,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,  183,
-    QMetaType::Void, QMetaType::QString,  178,
+    QMetaType::Void, QMetaType::QString,  182,
+    QMetaType::Void, QMetaType::QString,  177,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, QMetaType::Int,  191,
-    QMetaType::Void, QMetaType::Int,  191,
-    QMetaType::Void, QMetaType::Int,  191,
+    QMetaType::Void, QMetaType::Int,  190,
+    QMetaType::Void, QMetaType::Int,  190,
+    QMetaType::Void, QMetaType::Int,  190,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::Int,   20,
@@ -717,10 +713,10 @@ static const uint qt_meta_data_Controller[] = {
     QMetaType::Void, QMetaType::QVariantHash,   16,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void, QMetaType::QVariantHash,   16,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   20,  128,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   20,  127,
     QMetaType::Void, QMetaType::Int,   20,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 204,  170,
+    QMetaType::Void, 0x80000000 | 203,  169,
     QMetaType::Void,
 
        0        // eod
@@ -742,10 +738,10 @@ void Controller::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 8: _t->selectedAnalyst((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
         case 9: _t->updatedAnalyst((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
         case 10: _t->removedAnalyst((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 11: _t->settedBranchOfIndustry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 12: _t->settedCorperation((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 13: _t->settedFactory((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 14: _t->settedRecording((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 11: _t->selectedBranchOfIndustry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 12: _t->selectedCorperation((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 13: _t->selectedFactory((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 14: _t->selectedRecording((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
         case 15: _t->clearWorkplaces(); break;
         case 16: _t->createdWorkplace((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
         case 17: _t->selectedWorkplace((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
@@ -794,122 +790,121 @@ void Controller::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 60: _t->setHasNextWorkProcess((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 61: _t->setSelectedWorkProcessType((*reinterpret_cast< AVType(*)>(_a[1]))); break;
         case 62: _t->initiliazedWorkProcesses((*reinterpret_cast< QList<QHash<QString,QVariant> >(*)>(_a[1]))); break;
-        case 63: _t->resettedWorkProcesses(); break;
-        case 64: _t->selectedShift((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 65: _t->clearRotationGroup(); break;
-        case 66: _t->addRotationGroupEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 67: _t->updatedRotationGroupEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 68: _t->addRotationGroupBreakEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 69: _t->clearRotationGroupTasks(); break;
-        case 70: _t->createdRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 71: _t->updatedRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 72: _t->removedRotationGroupTask((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 73: _t->selectedRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 74: _t->updatedRotationGroupTaskDuration((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 75: _t->clearRotationGroupTaskEntries(); break;
-        case 76: _t->createdRotationGroupTaskEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 77: _t->removedRotationGroupTaskEntry((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 78: _t->initializeAnalysts(); break;
-        case 79: _t->createAnalyst((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 80: _t->deleteAnalyst((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 81: _t->selectAnalyst((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 82: _t->createBlankRecording(); break;
-        case 83: _t->setBranchOfIndustry((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 84: _t->saveBranchOfIndustry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 85: _t->setCorperation((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 86: _t->saveCorperation((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 87: _t->setFactory((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 88: _t->saveFactory((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 89: _t->setRecording((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 90: _t->saveRecording((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 91: _t->initializeWorkplaces(); break;
-        case 92: _t->createWorkplace((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 93: _t->createWorkplace((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1])),(*reinterpret_cast< QList<QHash<QString,QVariant> >(*)>(_a[2]))); break;
-        case 94: _t->deleteWorkplace((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 95: _t->selectWorkplace((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 96: _t->saveWorkplace((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 97: _t->saveComment((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 98: _t->initializeLines(); break;
-        case 99: _t->createLine((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 100: _t->editLine((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 101: _t->saveLine((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 102: _t->deleteLine((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 103: _t->selectLine((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 104: _t->initializeProducts(); break;
-        case 105: _t->createProduct((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 106: _t->saveProduct((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 107: _t->deleteProduct((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 108: _t->initializeActivities((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 109: _t->createActivity((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 110: _t->saveActivity((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 111: _t->deleteActivity((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 112: _t->deleteActivity((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 113: _t->selectActivity((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 114: _t->editActivity((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 115: _t->initializeEquipments(); break;
-        case 116: _t->createEquipment((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 117: _t->saveEquipment((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 118: _t->deleteEquipment((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 119: _t->initializeTansportations(); break;
-        case 120: _t->createTransportation((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 121: _t->saveTransportation((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 122: _t->deleteTransportation((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 123: _t->saveLoadHandling((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 124: _t->saveBodyPosture((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 125: _t->saveAppliedForce((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 126: _t->saveWorkProcess((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 127: _t->saveExecutionCondition((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 128: _t->initilizeWorkProcesses((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 129: _t->initilizeWorkProcesses(); break;
-        case 130: _t->createWorkprocess((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 131: _t->createWorkprocessList((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QList<QHash<QString,QVariant> >(*)>(_a[3]))); break;
-        case 132: _t->selectNextWorkProcess(); break;
-        case 133: _t->selectPreviousWorkProcess(); break;
-        case 134: _t->workProcessTypeChanged((*reinterpret_cast< AVType(*)>(_a[1]))); break;
-        case 135: _t->resetWorkProcesses(); break;
-        case 136: _t->workProcessDurationChanged((*reinterpret_cast< QTime(*)>(_a[1]))); break;
-        case 137: _t->selectWorkProcess((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< AVType(*)>(_a[2]))); break;
-        case 138: _t->saveWorkProcessFrequence((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 139: _t->initializeEmployees(); break;
-        case 140: _t->createEmployee((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 141: _t->createEmployee((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1])),(*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[2]))); break;
-        case 142: _t->deleteEmployee((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 143: _t->selectEmployee((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 144: _t->saveEmployee((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 145: _t->setSelectedEmployee((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 146: _t->resetEmployeeSelection(); break;
-        case 147: _t->saveBodyMeasurement((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 148: _t->initializeFTPConnections((*reinterpret_cast< IFTPConnections*(*)>(_a[1]))); break;
-        case 149: _t->createFTPConnection((*reinterpret_cast< IFTPConnections*(*)>(_a[1]))); break;
-        case 150: _t->editFTPConnection((*reinterpret_cast< IFTPConnections*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 151: _t->selectFTPConnection((*reinterpret_cast< IFTPConnections*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 152: _t->importData((*reinterpret_cast< IImportData*(*)>(_a[1]))); break;
-        case 153: _t->importDataDownloadFinished((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 154: _t->importDataDownloadError((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 155: _t->sendData((*reinterpret_cast< ISendData*(*)>(_a[1]))); break;
-        case 156: _t->sendDataUploadStarted(); break;
-        case 157: _t->sendDataUploadFinished((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 158: _t->sendDataUploadError((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 159: _t->initializeShift((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 160: _t->saveShift((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 161: _t->initializeRotationGroup((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 162: _t->createRotationGroupEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 163: _t->createRotationGroupBreakEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 164: _t->deleteRotationGroupEntry((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 165: _t->moveRotationGroupEntryUp((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 166: _t->moveRotationGroupEntryDown((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 167: _t->initializeRotationGroupTasks(); break;
-        case 168: _t->createRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 169: _t->deleteRotationGroupTask((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 170: _t->selectRotationGroupTask((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 171: _t->saveRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 172: _t->initializeRotationGroupTaskEntries((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 173: _t->createRotationGroupTaskEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
-        case 174: _t->deleteRotationGroupTaskEntry((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 175: _t->deleteRotationGroupTaskEntry((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 176: _t->resetDatabaseFactory(); break;
-        case 177: _t->resetSelectedEntries((*reinterpret_cast< ISelectedDatabaseReset*(*)>(_a[1]))); break;
-        case 178: _t->changeTheme(); break;
+        case 63: _t->selectedShift((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 64: _t->clearRotationGroup(); break;
+        case 65: _t->addRotationGroupEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 66: _t->updatedRotationGroupEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 67: _t->addRotationGroupBreakEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 68: _t->clearRotationGroupTasks(); break;
+        case 69: _t->createdRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 70: _t->updatedRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 71: _t->removedRotationGroupTask((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 72: _t->selectedRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 73: _t->updatedRotationGroupTaskDuration((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 74: _t->clearRotationGroupTaskEntries(); break;
+        case 75: _t->createdRotationGroupTaskEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 76: _t->removedRotationGroupTaskEntry((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 77: _t->initializeAnalysts(); break;
+        case 78: _t->createAnalyst((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 79: _t->deleteAnalyst((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 80: _t->selectAnalyst((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 81: _t->createBlankRecording(); break;
+        case 82: _t->setBranchOfIndustry((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 83: _t->saveBranchOfIndustry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 84: _t->setCorperation((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 85: _t->saveCorperation((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 86: _t->setFactory((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 87: _t->saveFactory((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 88: _t->setRecording((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 89: _t->saveRecording((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 90: _t->initializeWorkplaces(); break;
+        case 91: _t->createWorkplace((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 92: _t->createWorkplace((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1])),(*reinterpret_cast< QList<QHash<QString,QVariant> >(*)>(_a[2]))); break;
+        case 93: _t->deleteWorkplace((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 94: _t->selectWorkplace((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 95: _t->saveWorkplace((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 96: _t->saveComment((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 97: _t->initializeLines(); break;
+        case 98: _t->createLine((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 99: _t->editLine((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 100: _t->saveLine((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 101: _t->deleteLine((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 102: _t->selectLine((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 103: _t->initializeProducts(); break;
+        case 104: _t->createProduct((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 105: _t->saveProduct((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 106: _t->deleteProduct((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 107: _t->initializeActivities((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 108: _t->createActivity((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 109: _t->saveActivity((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 110: _t->deleteActivity((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 111: _t->deleteActivity((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 112: _t->selectActivity((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 113: _t->editActivity((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 114: _t->initializeEquipments(); break;
+        case 115: _t->createEquipment((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 116: _t->saveEquipment((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 117: _t->deleteEquipment((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 118: _t->initializeTansportations(); break;
+        case 119: _t->createTransportation((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 120: _t->saveTransportation((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 121: _t->deleteTransportation((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 122: _t->saveLoadHandling((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 123: _t->saveBodyPosture((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 124: _t->saveAppliedForce((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 125: _t->saveWorkProcess((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 126: _t->saveExecutionCondition((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 127: _t->initilizeWorkProcesses((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 128: _t->initilizeWorkProcesses(); break;
+        case 129: _t->createWorkprocess((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 130: _t->createWorkprocessList((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QList<QHash<QString,QVariant> >(*)>(_a[3]))); break;
+        case 131: _t->selectNextWorkProcess(); break;
+        case 132: _t->selectPreviousWorkProcess(); break;
+        case 133: _t->workProcessTypeChanged((*reinterpret_cast< AVType(*)>(_a[1]))); break;
+        case 134: _t->resetWorkProcesses(); break;
+        case 135: _t->workProcessDurationChanged((*reinterpret_cast< QTime(*)>(_a[1]))); break;
+        case 136: _t->selectWorkProcess((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< AVType(*)>(_a[2]))); break;
+        case 137: _t->saveWorkProcessFrequence((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 138: _t->initializeEmployees(); break;
+        case 139: _t->createEmployee((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 140: _t->createEmployee((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1])),(*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[2]))); break;
+        case 141: _t->deleteEmployee((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 142: _t->selectEmployee((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 143: _t->saveEmployee((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 144: _t->setSelectedEmployee((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 145: _t->resetEmployeeSelection(); break;
+        case 146: _t->saveBodyMeasurement((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 147: _t->initializeFTPConnections((*reinterpret_cast< IFTPConnections*(*)>(_a[1]))); break;
+        case 148: _t->createFTPConnection((*reinterpret_cast< IFTPConnections*(*)>(_a[1]))); break;
+        case 149: _t->editFTPConnection((*reinterpret_cast< IFTPConnections*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 150: _t->selectFTPConnection((*reinterpret_cast< IFTPConnections*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 151: _t->importData((*reinterpret_cast< IImportData*(*)>(_a[1]))); break;
+        case 152: _t->importDataDownloadFinished((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 153: _t->importDataDownloadError((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 154: _t->sendData((*reinterpret_cast< ISendData*(*)>(_a[1]))); break;
+        case 155: _t->sendDataUploadStarted(); break;
+        case 156: _t->sendDataUploadFinished((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 157: _t->sendDataUploadError((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 158: _t->initializeShift((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 159: _t->saveShift((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 160: _t->initializeRotationGroup((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 161: _t->createRotationGroupEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 162: _t->createRotationGroupBreakEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 163: _t->deleteRotationGroupEntry((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 164: _t->moveRotationGroupEntryUp((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 165: _t->moveRotationGroupEntryDown((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 166: _t->initializeRotationGroupTasks(); break;
+        case 167: _t->createRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 168: _t->deleteRotationGroupTask((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 169: _t->selectRotationGroupTask((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 170: _t->saveRotationGroupTask((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 171: _t->initializeRotationGroupTaskEntries((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 172: _t->createRotationGroupTaskEntry((*reinterpret_cast< QHash<QString,QVariant>(*)>(_a[1]))); break;
+        case 173: _t->deleteRotationGroupTaskEntry((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 174: _t->deleteRotationGroupTaskEntry((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 175: _t->resetDatabaseFactory(); break;
+        case 176: _t->resetSelectedEntries((*reinterpret_cast< ISelectedDatabaseReset*(*)>(_a[1]))); break;
+        case 177: _t->changeTheme(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -922,14 +917,14 @@ void Controller::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QList<QHash<QString,QVariant> > >(); break;
             }
             break;
-        case 93:
+        case 92:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 1:
                 *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QList<QHash<QString,QVariant> > >(); break;
             }
             break;
-        case 131:
+        case 130:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 2:
@@ -990,25 +985,25 @@ void Controller::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::settedBranchOfIndustry)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::selectedBranchOfIndustry)) {
                 *result = 11;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::settedCorperation)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::selectedCorperation)) {
                 *result = 12;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::settedFactory)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::selectedFactory)) {
                 *result = 13;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::settedRecording)) {
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::selectedRecording)) {
                 *result = 14;
             }
         }
@@ -1301,93 +1296,87 @@ void Controller::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             }
         }
         {
-            typedef void (Controller::*_t)();
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::resettedWorkProcesses)) {
-                *result = 63;
-            }
-        }
-        {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::selectedShift)) {
-                *result = 64;
+                *result = 63;
             }
         }
         {
             typedef void (Controller::*_t)();
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::clearRotationGroup)) {
-                *result = 65;
+                *result = 64;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::addRotationGroupEntry)) {
-                *result = 66;
+                *result = 65;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::updatedRotationGroupEntry)) {
-                *result = 67;
+                *result = 66;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::addRotationGroupBreakEntry)) {
-                *result = 68;
+                *result = 67;
             }
         }
         {
             typedef void (Controller::*_t)();
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::clearRotationGroupTasks)) {
-                *result = 69;
+                *result = 68;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::createdRotationGroupTask)) {
-                *result = 70;
+                *result = 69;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::updatedRotationGroupTask)) {
-                *result = 71;
+                *result = 70;
             }
         }
         {
             typedef void (Controller::*_t)(int );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::removedRotationGroupTask)) {
-                *result = 72;
+                *result = 71;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::selectedRotationGroupTask)) {
-                *result = 73;
+                *result = 72;
             }
         }
         {
             typedef void (Controller::*_t)(int );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::updatedRotationGroupTaskDuration)) {
-                *result = 74;
+                *result = 73;
             }
         }
         {
             typedef void (Controller::*_t)();
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::clearRotationGroupTaskEntries)) {
-                *result = 75;
+                *result = 74;
             }
         }
         {
             typedef void (Controller::*_t)(QHash<QString,QVariant> );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::createdRotationGroupTaskEntry)) {
-                *result = 76;
+                *result = 75;
             }
         }
         {
             typedef void (Controller::*_t)(int );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Controller::removedRotationGroupTaskEntry)) {
-                *result = 77;
+                *result = 76;
             }
         }
     }
@@ -1418,13 +1407,13 @@ int Controller::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 179)
+        if (_id < 178)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 179;
+        _id -= 178;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 179)
+        if (_id < 178)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 179;
+        _id -= 178;
     }
     return _id;
 }
@@ -1484,28 +1473,28 @@ void Controller::removedAnalyst(int _t1)
 }
 
 // SIGNAL 11
-void Controller::settedBranchOfIndustry(QHash<QString,QVariant> _t1)
+void Controller::selectedBranchOfIndustry(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 11, _a);
 }
 
 // SIGNAL 12
-void Controller::settedCorperation(QHash<QString,QVariant> _t1)
+void Controller::selectedCorperation(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 12, _a);
 }
 
 // SIGNAL 13
-void Controller::settedFactory(QHash<QString,QVariant> _t1)
+void Controller::selectedFactory(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 13, _a);
 }
 
 // SIGNAL 14
-void Controller::settedRecording(QHash<QString,QVariant> _t1)
+void Controller::selectedRecording(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 14, _a);
@@ -1841,103 +1830,97 @@ void Controller::initiliazedWorkProcesses(QList<QHash<QString,QVariant>> _t1)
 }
 
 // SIGNAL 63
-void Controller::resettedWorkProcesses()
-{
-    QMetaObject::activate(this, &staticMetaObject, 63, Q_NULLPTR);
-}
-
-// SIGNAL 64
 void Controller::selectedShift(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 64, _a);
+    QMetaObject::activate(this, &staticMetaObject, 63, _a);
+}
+
+// SIGNAL 64
+void Controller::clearRotationGroup()
+{
+    QMetaObject::activate(this, &staticMetaObject, 64, Q_NULLPTR);
 }
 
 // SIGNAL 65
-void Controller::clearRotationGroup()
+void Controller::addRotationGroupEntry(QHash<QString,QVariant> _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 65, Q_NULLPTR);
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 65, _a);
 }
 
 // SIGNAL 66
-void Controller::addRotationGroupEntry(QHash<QString,QVariant> _t1)
+void Controller::updatedRotationGroupEntry(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 66, _a);
 }
 
 // SIGNAL 67
-void Controller::updatedRotationGroupEntry(QHash<QString,QVariant> _t1)
+void Controller::addRotationGroupBreakEntry(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 67, _a);
 }
 
 // SIGNAL 68
-void Controller::addRotationGroupBreakEntry(QHash<QString,QVariant> _t1)
+void Controller::clearRotationGroupTasks()
 {
-    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 68, _a);
+    QMetaObject::activate(this, &staticMetaObject, 68, Q_NULLPTR);
 }
 
 // SIGNAL 69
-void Controller::clearRotationGroupTasks()
+void Controller::createdRotationGroupTask(QHash<QString,QVariant> _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 69, Q_NULLPTR);
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 69, _a);
 }
 
 // SIGNAL 70
-void Controller::createdRotationGroupTask(QHash<QString,QVariant> _t1)
+void Controller::updatedRotationGroupTask(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 70, _a);
 }
 
 // SIGNAL 71
-void Controller::updatedRotationGroupTask(QHash<QString,QVariant> _t1)
+void Controller::removedRotationGroupTask(int _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 71, _a);
 }
 
 // SIGNAL 72
-void Controller::removedRotationGroupTask(int _t1)
+void Controller::selectedRotationGroupTask(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 72, _a);
 }
 
 // SIGNAL 73
-void Controller::selectedRotationGroupTask(QHash<QString,QVariant> _t1)
+void Controller::updatedRotationGroupTaskDuration(int _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 73, _a);
 }
 
 // SIGNAL 74
-void Controller::updatedRotationGroupTaskDuration(int _t1)
+void Controller::clearRotationGroupTaskEntries()
 {
-    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 74, _a);
+    QMetaObject::activate(this, &staticMetaObject, 74, Q_NULLPTR);
 }
 
 // SIGNAL 75
-void Controller::clearRotationGroupTaskEntries()
-{
-    QMetaObject::activate(this, &staticMetaObject, 75, Q_NULLPTR);
-}
-
-// SIGNAL 76
 void Controller::createdRotationGroupTaskEntry(QHash<QString,QVariant> _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 76, _a);
+    QMetaObject::activate(this, &staticMetaObject, 75, _a);
 }
 
-// SIGNAL 77
+// SIGNAL 76
 void Controller::removedRotationGroupTaskEntry(int _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
-    QMetaObject::activate(this, &staticMetaObject, 77, _a);
+    QMetaObject::activate(this, &staticMetaObject, 76, _a);
 }
 QT_END_MOC_NAMESPACE

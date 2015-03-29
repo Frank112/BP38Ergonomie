@@ -1049,7 +1049,7 @@ tst_controllertest.o: ../ErgonomieappTest/tst_controllertest.cpp ../Ergonomieapp
 		../view/navigation/viewtype.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tst_controllertest.o ../ErgonomieappTest/tst_controllertest.cpp
 
-dbHandler.o: ../databaseHandler/dbHandler.cpp ../databaseHandler/dbHandler.h \
+dbHandler.o: ../databaseHandler/dbHandler.cpp ../databaseHandler/dbhandler.h \
 		/Applications/Qt/5.4/clang_64/lib/QtSql.framework/Versions/5/Headers/QSqlDatabase \
 		/Applications/Qt/5.4/clang_64/lib/QtSql.framework/Versions/5/Headers/qsqldatabase.h \
 		/Applications/Qt/5.4/clang_64/lib/QtSql.framework/Versions/5/Headers/QSqlError \
