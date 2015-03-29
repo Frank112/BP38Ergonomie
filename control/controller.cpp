@@ -75,6 +75,10 @@ void Controller::initialize(){
 void Controller::initializeAnalysts(){
     emit clearAnalysts();
     QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ANALYST, QString(""));
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not initialize analysts \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     for(int i = 0; i < rows.size(); ++i)
         emit createdAnalyst(rows.at(i));
 }
@@ -85,15 +89,14 @@ void Controller::createAnalyst(QHash<QString, QVariant> values){
     QHash<QString, QVariant> valuesEmployer = QHash<QString, QVariant>();
     valuesEmployer.insert(DBConstants::COL_EMPLOYER_NAME, empName);
     int emp_ID = dbHandler->save(DBConstants::TBL_EMPLOYER, DBConstants::HASH_EMPLOYER_TYPES, valuesEmployer, filter, DBConstants::COL_EMPLOYER_ID);
-    if(dbHandler->hasError()){
-        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-    }
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not save employer \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     values.remove(DBConstants::COL_EMPLOYER_NAME);
     values.insert(DBConstants::COL_ANALYST_EMPLOYER_ID, emp_ID);
     dbHandler->insert(DBConstants::TBL_ANALYST, DBConstants::HASH_ANALYST_TYPES, values, DBConstants::COL_ANALYST_ID);
     if(dbHandler->hasError()){
-        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
+        emit showMessage(QString(tr("Could not create analyst \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
     }
     emit showMessage(tr("Created analyst"));
     emit createdAnalyst(values);
@@ -103,8 +106,8 @@ void Controller::deleteAnalyst(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ANALYST_ID).arg(id);
     dbHandler->remove(DBConstants::TBL_ANALYST, filter);
     if(dbHandler->hasError()){
-        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
+        emit showMessage(QString(tr("Could not delete analyst \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
     }
     emit showMessage(tr("Deleted analyst"));
     emit removedAnalyst(id);
@@ -114,8 +117,8 @@ void Controller::selectAnalyst(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ANALYST_ID).arg(id);
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_ANALYST, filter);
     if(dbHandler->hasError()){
-        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
+        emit showMessage(QString(tr("Could not select analyst \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
     }
     analyst_ID = id;
     QString firstName = values.value(DBConstants::COL_ANALYST_FIRSTNAME).toString();
@@ -124,10 +127,18 @@ void Controller::selectAnalyst(int id){
     emit selectedAnalyst(values);
     filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ANALYST_ID).arg(analyst_ID);
     QHash<QString, QVariant> recValues = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select recording \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     int recID = 0;
     if(recValues.isEmpty()){
         recValues.insert(DBConstants::COL_RECORDING_ANALYST_ID, analyst_ID);
         recID = dbHandler->insert(DBConstants::TBL_RECORDING, DBConstants::HASH_RECORDING_TYPES, recValues, DBConstants::COL_RECORDING_ID);
+        if(dbHandler->hasError()){
+            emit showMessage(QString(tr("Could not save recording \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+            return;
+        }
     }
     else
         recID = recValues.value(DBConstants::COL_RECORDING_ID).toInt();
@@ -143,7 +154,7 @@ void Controller::createBlankRecording(){
 
     if(dbHandler->hasError()){
         emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
+        return;
     }
 
     emit createdWorkplace(values);
@@ -155,7 +166,7 @@ void Controller::createBlankRecording(){
 
     if(dbHandler->hasError()){
         emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
+        return;
     }
 
     QList<Types::ViewType> prevViews = QList<Types::ViewType>();
@@ -174,10 +185,7 @@ void Controller::setBranchOfIndustry(int id){
     QHash<QString, QVariant> boiValues = dbHandler->selectFirst(DBConstants::TBL_BRANCH_OF_INDUSTRY, filter);
 
     if(dbHandler->hasError())
-        emit showMessage(dbHandler->getLastError(),
-                         NotificationMessage::ERROR,
-                         NotificationMessage::PERSISTENT);
-
+        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR,NotificationMessage::PERSISTENT);
 
     emit selectedBranchOfIndustry(boiValues);
 }

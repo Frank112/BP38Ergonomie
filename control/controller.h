@@ -25,8 +25,6 @@
  * It provides the information about the coherence of the tables, and thus
  * keeps the data displayed and the data stored in the database in <i>sync</i>.
  *
- * <b>Note:</b>
- *
  * @author Frank Loeffler
  */
 class Controller : public QObject
@@ -50,7 +48,7 @@ public:
 
 signals:
     /**
-     * @brief showMessage A signal that can be emitted to indicate that a NotificationMessage should be shown.
+     * @brief showMessage A signal that is emitted to indicate that a NotificationMessage should be shown.
      * @param message The message requested to be displayed.
      * @param msgType The message type of the message to be displayed.
      * @param msgDisplayType The message display type of the message to be displayed.
@@ -58,20 +56,20 @@ signals:
     void showMessage(QString message, NotificationMessage::MessageType msgType = NotificationMessage::ACCEPT, NotificationMessage::MessageDisplayType msgDisplayType = NotificationMessage::MIDDLE);
 
     /**
-     * @brief showView A signal that can be emitted to indicate that the view with the Types::ViewType::ViewType <i>type</i> should be shown
+     * @brief showView A signal that is emitted to indicate that the view with the Types::ViewType::ViewType <i>type</i> should be shown
      * @param view The view type of the widget that is requested to be shown.
      * @param previousViews The list of view types representing the previous Views of the now to be shown view.
      */
     void showView(Types::ViewType view, QList<Types::ViewType> *previousViews = 0);
 
     /**
-     * @brief clearAll A signal that can be emitted to indicate that all exisiting entries should be deleted.
+     * @brief clearAll A signal that is emitted to indicate that all exisiting entries should be deleted.
      */
     void clearAll();
 
     //Analyst
     /**
-     * @brief clearAnalysts A signal that can be emitted to indicate that all existing analysts should be deleted.
+     * @brief clearAnalysts A signal that is emitted to indicate that all existing analysts should be deleted.
      */
     void clearAnalysts();
 
@@ -94,7 +92,7 @@ signals:
     void selectedAnalyst(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedAnalyst A signal that can be emitted to indicate that the analyst identified in <i>values</i>
+     * @brief updatedAnalyst A signal that is emitted to indicate that the analyst identified in <i>values</i>
      * should be updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
@@ -102,7 +100,7 @@ signals:
 
     /**
      * @brief removedAnalyst A signal that is emitted to indicate that the analyst with <i>id</> should be removed.
-     * @param id The id of the analyst that is to be removed.
+     * @param id The id of the analyst to be removed.
      */
     void removedAnalyst(int id);
 
@@ -116,7 +114,7 @@ signals:
 
     //Corperation
     /**
-     * @brief selectedCorperation A signal that can be emitted to indicate that the Corporation was selected in the
+     * @brief selectedCorperation A signal that is emitted to indicate that the Corporation was selected in the
      * Controller with the data in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
@@ -124,7 +122,7 @@ signals:
 
     //Factory
     /**
-     * @brief selectedFactory A signal that can be emitted to indicate that the Factory was selected in the Controller
+     * @brief selectedFactory A signal that is emitted to indicate that the Factory was selected in the Controller
      * with the data in in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
@@ -132,7 +130,7 @@ signals:
 
     //Recording
     /**
-     * @brief selectedRecording A signal that can be emitted to indicate that the Recording was selected in the Controller
+     * @brief selectedRecording A signal that is emitted to indicate that the Recording was selected in the Controller
      * with the data in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
@@ -167,7 +165,7 @@ signals:
 
     /**
      * @brief removedWorkplace A signal that is emitted to indicate that the workplace with <i>id</i> should be removed
-     * @param id The id of the workplace that is to be removed.
+     * @param id The id of the workplace to be removed.
      */
     void removedWorkplace(int id);
 
@@ -210,7 +208,7 @@ signals:
 
     /**
      * @brief removedLine A signal that is emitted to indicate that the line with <i>id</i> should be removed
-     * @param id The id of the line that is to be removed
+     * @param id The id of the line to be removed
      */
     void removedLine(int id);
 
@@ -255,7 +253,7 @@ signals:
 
     /**
      * @brief removedEmployee A signal that is emitted to indicate that the employee with <i>id</i> should be removed.
-     * @param id The id of the employee that is to be removed.
+     * @param id The id of the employee to be removed.
      */
     void removedEmployee(int id);
 
@@ -263,7 +261,7 @@ signals:
     /**
      * @brief employeeSelected A signal that is emitted to indicate that the employee identified in <i>values</i> should
      * be selected.
-     * @param id The id of the employee that is to be selected.
+     * @param id The id of the employee to be selected.
      */
     void employeeSelected(int id);
 
@@ -297,7 +295,7 @@ signals:
 
     /**
      * @brief removedProduct A signal that is emitted to indicate that the product with <i>id</i> should be removed.
-     * @param id The id of the product that is to be removed.
+     * @param id The id of the product to be removed.
      */
     void removedProduct(int id);
 
@@ -323,7 +321,7 @@ signals:
 
     /**
      * @brief removedActivity A signal that is emitted to indicate that the activity with <i>id</i> should be removed.
-     * @param id The id of the activity that is to be removed.
+     * @param id The id of the activity to be removed.
      */
     void removedActivity(int id);
 
@@ -336,217 +334,242 @@ signals:
 
     //Equipment
     /**
-     * @brief clearEquipments A signal that is emitted
+     * @brief clearEquipments A signal that is emitted to indicate that all existing equipments should be deleted.
      */
     void clearEquipments();
 
     /**
-     * @brief createdEquipment
+     * @brief createdEquipment A signal that is emitted to indicate that a new equipment should be created as
+     * specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdEquipment(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedEquipment
+     * @brief updatedEquipment A signal that is emitted to indicate that the equipment identified in <i>values
+     * should be updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedEquipment(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedEquipment
-     * @param id
+     * @brief removedEquipment A signal that is emitted to indicate that the activity with <i>id</i> should be removed.
+     * @param id The id of the equipment to be removed.
      */
     void removedEquipment(int id);
 
     //Transportation
     /**
-     * @brief clearTransportations
+     * @brief clearTransportations A signal that is emitted to indicate that all existing equipments should be deleted.
      */
     void clearTransportations();
 
     /**
-     * @brief createdTransportation
+     * @brief createdTransportation A signal that is emitted to indicate that a new transportation should be created as
+     * specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdTransportation(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedTransportation
+     * @brief updatedTransportation A signal that is emitted to indicate that the transportation identified in <i>values
+     * should be updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedTransportation(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedTransportation
-     * @param id
+     * @brief removedTransportation A signal that is emitted to indicate that the transportation with <i>id</i> should be removed.
+     * @param id The id of the transportation to be removed.
      */
     void removedTransportation(int id);
 
     //LoadHandling
     /**
-     * @brief setLoadHandling
+     * @brief setLoadHandling A signal that is emitted to indicate that the load handling should be set as
+     * specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setLoadHandling(QHash<QString, QVariant> values);
 
     //BodyPosture
     /**
-     * @brief setBodyPosture
+     * @brief setBodyPosture A signal that is emitted to indicate that the body posture should be set as
+     * specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setBodyPosture(QHash<QString, QVariant> values);
 
     //AppliedForce
     /**
-     * @brief setAppliedForce
+     * @brief setAppliedForce A signal that is emitted to indicate that the applied force should be set as
+     * specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setAppliedForce(QHash<QString, QVariant> values);
 
     //WorkProcess
     /**
-     * @brief setWorkProcess
+     * @brief setWorkProcess A signal that is emitted to indicate that the work process should be set as
+     * specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setWorkProcess(QHash<QString, QVariant> values);
 
     //ExecutionCondition
     /**
-     * @brief setExecutionCondition
+     * @brief setExecutionCondition A signal that is emitted to indicate that the execution condition should be set as
+     * specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setExecutionCondition(QHash<QString, QVariant> values);
 
     //WorkProcessControll
     /**
-     * @brief createdWorkProcess
+     * @brief createdWorkProcess A signal that is emitted to indicate that a work process should be created as
+     * specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdWorkProcess(QHash<QString, QVariant> values);
 
     /**
-     * @brief setSelectedWorkProcess
+     * @brief setSelectedWorkProcess A signal that is emitted to indicate that the work process specified in <i>values</i>
+     * should be selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setSelectedWorkProcess(QHash<QString, QVariant> values);
 
     /**
-     * @brief setHasPreviousWorkProcess
-     * @param hasPrevious
+     * @brief setHasPreviousWorkProcess A signal that is emitted to indicate if the currently selected
+     * workprocess has a previous work process or not.
+     * @param hasPrevious true, iff the work process should have a previous process, false otherwise.
      */
     void setHasPreviousWorkProcess(bool hasPrevious);
 
     /**
-     * @brief setHasNextWorkProcess
-     * @param hasNext
+     * @brief setHasNextWorkProcess A signal that is emitted to indicate if the currently selected
+     * workprocess has a next work process or not.
+     * @param hasNext true, iff the work process should have a next process, false otherwise.
      */
     void setHasNextWorkProcess(bool hasNext);
 
     /**
-     * @brief setSelectedWorkProcessType
-     * @param type
+     * @brief setSelectedWorkProcessType A signal that is emitted to indicate the AVType of the currently
+     * selected work process.
+     * @param type The type the workprocess should be set to.
      */
     void setSelectedWorkProcessType(AVType type);
 
     /**
-     * @brief initiliazedWorkProcesses
-     * @param values A hashmap of values with each the column name and the corresponding value to this column.
+     * @brief initiliazedWorkProcesses A signal that is emitted to initialize the work process with a
+     * <a href="http://doc.qt.io/qt-5/qlist.html">QList</a> of <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a>.
+     * Each element of the list represents a work process.
+     * @param values A list of hashmaps of values with each the column name and the corresponding value to this column.
      */
     void initiliazedWorkProcesses(QList<QHash<QString, QVariant>> values);
 
-    /**
-     * @brief reselectedWorkProcesses
-     */
-    void reselectedWorkProcesses();
-
     //Shift
     /**
-     * @brief selectedShift
+     * @brief selectedShift A signal that is emitted to indicate that the shift identified in <i>values</i>
+     * should be selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedShift(QHash<QString, QVariant> values);
 
     //RotationGroup
     /**
-     * @brief clearRotationGroup A signal that can be emitted to indicate that all existing rotation groups should be deleted
+     * @brief clearRotationGroup A signal that is emitted to indicate that all existing rotation groups should be deleted.
      */
     void clearRotationGroup();
 
     /**
-     * @brief addRotationGroupEntry A signal that can be emitted to indicate that a rotation group entry should be added
+     * @brief addRotationGroupEntry A signal that is emitted to indicate that a rotation group entry should be added.
+     *
+     * <b>Note:</b> The Rotation group task name and its duration is provided with the values.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void addRotationGroupEntry(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedRotationGroupEntry
+     * @brief updatedRotationGroupEntry A signal that is emitted to indicate that the rotation group entry identified in <i>values
+     * should be updated.
+     *
+     * <b>Note:</b> The Rotation group task name and its duration is provided with the values.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedRotationGroupEntry(QHash<QString, QVariant> values);
 
     /**
-     * @brief addRotationGroupBreakEntry A signal that can be emitted to indicate that a new rotation group task break should
-     * be added.
+     * @brief addRotationGroupBreakEntry A signal that is emitted to indicate that a new rotation group break entry
+     * should be added.
+     *
+     * <b>Note:</b> The break's duration is provided with the values.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void addRotationGroupBreakEntry(QHash<QString, QVariant> values);
 
     //RotationGroupTask
     /**
-     * @brief clearRotationGroupTasks A signal that can be emitted to indicate that all existing rotation group tasks should
+     * @brief clearRotationGroupTasks A signal that is emitted to indicate that all existing rotation group tasks should
      * be deleted.
      */
     void clearRotationGroupTasks();
 
     /**
-     * @brief createdRotationGroupTask A signal that can be emitted to indicate that a new rotation group task should be created.
+     * @brief createdRotationGroupTask A signal that is emitted to indicate that a new rotation group task should
+     * be created as specified in <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdRotationGroupTask(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedRotationGroupTask
+     * @brief updatedRotationGroupTask A signal that is emitted to indicate that the rotation group task identified in <i>values</i>
+     * should be updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedRotationGroupTask(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedRotationGroupTask A signal that can be emitted to indicate that the rotation group task with <i>id</i>
+     * @brief removedRotationGroupTask A signal that is emitted to indicate that the rotation group task with <i>id</i>
      * should be removed.
-     * @param id The id of the rotation group task that is to be removed
+     * @param id The id of the rotation group task to be removed.
      */
     void removedRotationGroupTask(int id);
 
     /**
-     * @brief selectedRotationGroupTask
+     * @brief selectedRotationGroupTask A signal that is emitted to indicate that the rotation group identified in <i>values</i>
+     * should be selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedRotationGroupTask(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedRotationGroupTaskDuration
-     * @param duration
+     * @brief updatedRotationGroupTaskDuration A signal that is emitted to indicate that the currently selected rotation
+     * group task should be updated with the provided <i>duration</i>.
+     * @param duration The duration the rotatoin group task should be updated to.
      */
     void updatedRotationGroupTaskDuration(int duration);
 
     //RotationGroupTaskEntry
     /**
-     * @brief clearRotationGroupTaskEntries A signal that can be emitted to indicate that all existing rotation group task
-     * entries should be deleted
+     * @brief clearRotationGroupTaskEntries A signal that is emitted to indicate that all existing rotation group task
+     * entries should be deleted.
      */
     void clearRotationGroupTaskEntries();
 
     /**
-     * @brief createdRotationGroupTaskEntry A signal that can be emitted to indicate that a new rotation group task entry
-     * should be created
+     * @brief createdRotationGroupTaskEntry A signal that is emitted to indicate that a new rotation group task entry
+     * should be created as specified in <i>values</i>.
+     *
+     * <b>Note:</b> The work place name is provided with the values.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdRotationGroupTaskEntry(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedRotationGroupTaskEntry A signal that can be emitted to indicate that the rotation group task entry with
-     * <i>id</id> should be removed
-     * @param id The id of the rotation group task entry that is to be removed
+     * @brief removedRotationGroupTaskEntry A signal that is emitted to indicate that the rotation group task entry with
+     * <i>id</id> should be removed.
+     * @param id The id of the rotation group task entry to be removed.
      */
     void removedRotationGroupTaskEntry(int id);
 

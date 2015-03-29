@@ -191,7 +191,6 @@ void ShiftCalendar::addRotationGroupEntry(QHash<QString, QVariant> values){
     DetailedListItem *newListItem = new DetailedListItem(this, "workplaceIcon", name, QList<QStringList>(), false, true, false, false, false);
     int orderNumber = values.value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
     newListItem->setID(orderNumber);
-    // TODO HIER HÄNGT DAS PROBLEM!
     newListItem->setFixedSize(350, ((float) HOUR_HEIGHT / 60) * (float) values.value(DBConstants::COL_ROTATION_GROUP_TASK_DURATION).toInt());
     connect(newListItem, SIGNAL(selected(int)), this, SLOT(selectedEntryChanged(int)));
     connect(newListItem, SIGNAL(deselected(int)), this, SLOT(deselectEntry(int)));
@@ -231,7 +230,6 @@ void ShiftCalendar::addRotationGroupBreakEntry(QHash<QString, QVariant> values){
     DetailedListItem *newListItem = new DetailedListItem(this, "breakIcon", tr("Break"), QList<QStringList>(), false, true, false, false, false);
     int orderNumber = values.value(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER).toInt();
     newListItem->setID(orderNumber);
-    // TODO HIER HÄNGT DAS PROBLEM!
     newListItem->setFixedSize(350, ((float) HOUR_HEIGHT / 60) * (float) values.value(DBConstants::COL_BREAK_DURATION).toInt());
     connect(newListItem, SIGNAL(selected(int)), this, SLOT(selectedEntryChanged(int)));
     connect(newListItem, SIGNAL(deselected(int)), this, SLOT(deselectEntry(int)));
