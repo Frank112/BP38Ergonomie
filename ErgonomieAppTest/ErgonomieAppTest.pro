@@ -4,13 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core testlib sql
+QT       += core gui widgets testlib sql network
 
-QT       -= gui
 
-TARGET = tst_dbhandlertest
+TARGET = EronomieappTest
 CONFIG   += console c++11
-CONFIG   -= app_bundle
 
 TEMPLATE = app
 
@@ -23,11 +21,30 @@ unix {
     }
 }
 
-SOURCES += tst_dbhandlertest.cpp \
-           $$PWD/../databaseHandler/dbHandler.cpp
-HEADERS += ../databaseHandler/dbHandler.h \
-           ../standardpaths.h
+HEADERS += tst_dbhandlertest.h \
+           tst_controllertest.h \
+           ../databaseHandler/dbHandler.h \
+           ../standardpaths.h \
+           ../databaseHandler/dbconstants.h \
+           ../control/controller.h \
+           ../ftpHandler/ftphandler.h \
+           ../xmlHandler/xmlparser.h \
+           ../xmlHandler/xmlconstants.h \
+           ../settings.h
 
-RESOURCES += ../testassets.qrc
+SOURCES += main.cpp \
+           tst_dbhandlertest.cpp \
+           tst_controllertest.cpp \
+           ../databaseHandler/dbHandler.cpp \
+           ../databaseHandler/dbconstants.cpp \
+           ../control/controller.cpp \
+           ../ftpHandler/ftphandler.cpp \
+           ../xmlHandler/xmlparser.cpp \
+           ../xmlHandler/xmlconstants.cpp \
+           ../settings.cpp
+
+
+RESOURCES += ../testassets.qrc \
+             ../assets.qrc
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"

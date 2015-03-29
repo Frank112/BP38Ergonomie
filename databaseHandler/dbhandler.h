@@ -315,7 +315,7 @@ public:
      * It only means, that there is at least one row, that could not be removed.
      *
      */
-    bool remove(const QString &tbl, const QString &filter);
+    bool remove(const QString &tbl, const QString &filter = "");
 
     /**
      * @brief hasError Indicates whether the DBHandler has an unrecognized error.

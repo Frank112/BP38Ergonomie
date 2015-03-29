@@ -1,92 +1,4 @@
-#include <QString>
-#include <QtTest>
-#include <QFileInfo>
-#include <QFile>
-#include "../databaseHandler/dbhandler.h"
-#include "../databaseHandler/qhashbuilder.h"
-#include "../standardpaths.h"
-
-class DBHandlerTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    DBHandlerTest();
-
-private Q_SLOTS:
-    void initTestCase();
-
-    void cleanup();
-
-    void registerTableTest();
-    void registerUnknownTableTest();
-    void registerTableTwiceTest();
-
-    void getNextIDWithoutFilterTest();
-    void getNextIDWithFilterTest();
-    void getNextIDWithInvalidFilterTest();
-    void getNextIDFromUnknownTableTest();
-    void getNextIDFromInvalidColumnTest();
-
-    void selectWithFilterTest();
-    void selectWithoutFilterTest();
-    void selectEmptyTest();
-    void selectFromUnknownTableTest();
-    void selectWithInvalidFilterTest();
-
-    void selectFirstWithFilterTest();
-    void selectFirstWithoutFilterTest();
-    void selectFirstEmptyTest();
-    void selectFirstFromUnknownTableTest();
-    void selectFirstWithInvalidFilterTest();
-
-    void selectCountWithFilterTest();
-    void selectCountWithoutFilterTest();
-    void selectCountEmpty();
-    void selectCountFromUnknownTableTest();
-    void selectCountWithInvalidFilterTest();
-
-    void isSelectEmptyTrueTest();
-    void isSelectEmptyFalseTest();
-    void isSelectEmptyFromUnknownTableTest();
-    void isSelectEmptyWithInvalidFilterTest();
-
-    void insertWithoutCOLIDTest();
-    void insertWithCOLIDTest();
-    void insertIntoUnknownTableTest();
-    void insertInvalidValuesTest();
-
-    void updateWithCOLIDTest();
-    void updateWithoutCOLIDTest();
-    void updateWithFilterTest();
-    void updateWithoutFilterTest();
-    void updateIntoUnknownTableTest();
-    void updateInvalidValuesTest();
-    void updateExactlyOneRowTest();
-
-    void removeWithFilterTest();
-    void removeWithoutFilterTest();
-    void removeFromUnknownTableTest();
-    void removeWithInvalidFilterTest();
-
-    void cleanupTestCase();
-
-
-private:
-    static const QString TBL_ENTRY;
-    static const QString COL_ENTRY_ID;
-    static const QString COL_ENTRY_DESCRIPTION;
-    static const QString COL_ENTRY_AMOUNT;
-    static const QHash<QString, QVariant::Type> HASH_ENTRY_TYPES;
-
-    static const QString TBL_SHOPPING_LIST;
-    static const QString COL_SHOPPING_LIST_ID;
-    static const QString COL_SHOPPING_LIST_ORDER;
-    static const QString COL_SHOPPING_LIST_ENTRY_ID;
-    static const QHash<QString, QVariant::Type> HASH_SHOPPING_LIST_TYPES;
-
-    DBHandler *dbHandler;
-};
+#include "tst_dbhandlertest.h"
 
 //Static constants
 const QString DBHandlerTest::TBL_ENTRY = QString("Entry");
@@ -104,13 +16,12 @@ const QString DBHandlerTest::COL_SHOPPING_LIST_ID = QString("list_ID");
 const QString DBHandlerTest::COL_SHOPPING_LIST_ORDER = QString("order_number");
 const QString DBHandlerTest::COL_SHOPPING_LIST_ENTRY_ID = QString("entry_ID");
 const QHash<QString, QVariant::Type> DBHandlerTest::HASH_SHOPPING_LIST_TYPES = QHashBuilder<QString, QVariant::Type>()
-.add(COL_SHOPPING_LIST_ID, QVariant::Int)
-.add(COL_SHOPPING_LIST_ORDER, QVariant::Int)
-.add(COL_SHOPPING_LIST_ENTRY_ID, QVariant::Int)
+.add(DBHandlerTest::COL_SHOPPING_LIST_ID, QVariant::Int)
+.add(DBHandlerTest::COL_SHOPPING_LIST_ORDER, QVariant::Int)
+.add(DBHandlerTest::COL_SHOPPING_LIST_ENTRY_ID, QVariant::Int)
 .build();
 
-DBHandlerTest::DBHandlerTest()
-{
+DBHandlerTest::DBHandlerTest(){
 }
 
 void DBHandlerTest::initTestCase(){
@@ -136,6 +47,35 @@ void DBHandlerTest::initTestCase(){
 
     dbHandler = new DBHandler(databasePath);
     QVERIFY(!dbHandler->hasError());
+}
+
+void DBHandlerTest::initInvalidDatabaseTest(){
+    DBHandler *test = new DBHandler("/hier/koennte/ihre/werbung/stehen.sqlite");
+    QVERIFY(test->hasError());
+}
+
+void DBHandlerTest::hasErrorTrueTest(){
+    dbHandler->registerTable("Test");
+    QVERIFY(dbHandler->hasError());
+}
+
+void DBHandlerTest::hasErrorFalseTest(){
+    dbHandler->registerTable(TBL_ENTRY);
+    QVERIFY(!dbHandler->hasError());
+}
+
+void DBHandlerTest::getLastErrorWithResetTest(){
+    dbHandler->registerTable("Test");
+    QVERIFY(dbHandler->hasError());
+    dbHandler->getLastError(true);
+    QVERIFY(!dbHandler->hasError());
+}
+
+void DBHandlerTest::getLastErrorWithoutResetTest(){
+    dbHandler->registerTable("Test");
+    QVERIFY(dbHandler->hasError());
+    dbHandler->getLastError(false);
+    QVERIFY(dbHandler->hasError());
 }
 
 void DBHandlerTest::cleanup(){
@@ -222,19 +162,43 @@ void DBHandlerTest::selectWithFilterTest(){
 }
 
 void DBHandlerTest::selectWithoutFilterTest(){
+    QList<QHash<QString, QVariant>> entries = dbHandler->select(TBL_ENTRY);
 
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(entries.size(), 3);
+
+    QHash<QString, QVariant> entry0 = entries.at(0);
+    QCOMPARE(entry0.value(COL_ENTRY_ID).toInt(), 1);
+    QCOMPARE(entry0.value(COL_ENTRY_DESCRIPTION).toString(), QString("Bread"));
+    QCOMPARE(entry0.value(COL_ENTRY_AMOUNT).toInt(), 1);
+
+    QHash<QString, QVariant> entry1 = entries.at(1);
+    QCOMPARE(entry1.value(COL_ENTRY_ID).toInt(), 2);
+    QCOMPARE(entry1.value(COL_ENTRY_DESCRIPTION).toString(), QString("Milk"));
+    QCOMPARE(entry1.value(COL_ENTRY_AMOUNT).toInt(), 3);
+
+    QHash<QString, QVariant> entry2 = entries.at(2);
+    QCOMPARE(entry2.value(COL_ENTRY_ID).toInt(), 3);
+    QCOMPARE(entry2.value(COL_ENTRY_DESCRIPTION).toString(), QString("Applewoi"));
+    QCOMPARE(entry2.value(COL_ENTRY_AMOUNT).toInt(), 42);
 }
 
 void DBHandlerTest::selectEmptyTest(){
-
+    QList<QHash<QString, QVariant>> entries = dbHandler->select(TBL_SHOPPING_LIST);
+    QVERIFY(!dbHandler->hasError());
+    QVERIFY(entries.isEmpty());
 }
 
 void DBHandlerTest::selectFromUnknownTableTest(){
-
+    QList<QHash<QString, QVariant>> entries = dbHandler->select("Test");
+    QVERIFY(dbHandler->hasError());
+    QVERIFY(entries.isEmpty());
 }
 
 void DBHandlerTest::selectWithInvalidFilterTest(){
-
+    QList<QHash<QString, QVariant>> entries = dbHandler->select(TBL_ENTRY, "Test = 'test'");
+    QVERIFY(dbHandler->hasError());
+    QVERIFY(entries.isEmpty());
 }
 
 void DBHandlerTest::selectFirstWithFilterTest(){
@@ -353,65 +317,179 @@ void DBHandlerTest::insertWithoutCOLIDTest(){
 }
 
 void DBHandlerTest::insertWithCOLIDTest(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(COL_ENTRY_DESCRIPTION, "Tequilla");
+    values.insert(COL_ENTRY_AMOUNT, 5);
 
+    int ret_ID = dbHandler->insert(TBL_ENTRY, HASH_ENTRY_TYPES, values, COL_ENTRY_ID);
+    QCOMPARE(ret_ID, 5);
+    QVERIFY(!dbHandler->hasError());
+
+    QString filter = QString("%1 = %2").arg(COL_ENTRY_ID).arg(ret_ID);
+    values = dbHandler->selectFirst(TBL_ENTRY, filter);
+
+    QCOMPARE(values.value(COL_ENTRY_ID).toInt(), ret_ID);
+    QCOMPARE(values.value(COL_ENTRY_DESCRIPTION).toString(), QString("Tequilla"));
+    QCOMPARE(values.value(COL_ENTRY_AMOUNT).toInt(), 5);
+    QVERIFY(!dbHandler->hasError());
 }
 
 void DBHandlerTest::insertIntoUnknownTableTest(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    int ret_ID = dbHandler->insert("Test", HASH_ENTRY_TYPES, values, COL_ENTRY_ID);
 
+    QVERIFY(dbHandler->hasError());
+    QCOMPARE(ret_ID, -1);
 }
 
 void DBHandlerTest::insertInvalidValuesTest(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(COL_ENTRY_DESCRIPTION, "Test");
+    values.insert(COL_SHOPPING_LIST_ORDER, 3);
+    int ret_ID = dbHandler->insert(TBL_ENTRY, HASH_ENTRY_TYPES, values, COL_ENTRY_ID);
 
+    QVERIFY(dbHandler->hasError());
+    QCOMPARE(ret_ID, -1);
+    QCOMPARE(dbHandler->selectCount(TBL_ENTRY), 5);
 }
 
 void DBHandlerTest::updateWithCOLIDTest(){
+    QString filter = QString("%1 = %2").arg(COL_ENTRY_ID).arg(1);
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(COL_ENTRY_AMOUNT, 10);
+    int id = dbHandler->update(TBL_ENTRY, HASH_ENTRY_TYPES, values, filter, COL_ENTRY_ID);
 
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(id, 1);
+    QList<QHash<QString, QVariant>> entries = dbHandler->select(TBL_ENTRY, filter);
+
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(entries.size(), 1);
+    QHash<QString, QVariant> entry = entries.at(0);
+
+    QCOMPARE(entry.value(COL_ENTRY_ID).toInt(), 1);
+    QCOMPARE(entry.value(COL_ENTRY_DESCRIPTION).toString(), QString("Bread"));
+    QCOMPARE(entry.value(COL_ENTRY_AMOUNT).toInt(), 10);
 }
 
 void DBHandlerTest::updateWithoutCOLIDTest(){
+    QString filter = QString("%1 = %2").arg(COL_ENTRY_ID).arg(2);
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(COL_ENTRY_DESCRIPTION, "lime");
+    int id = dbHandler->update(TBL_ENTRY, HASH_ENTRY_TYPES, values, filter);
 
-}
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(id, 0);
+    QList<QHash<QString, QVariant>> entries = dbHandler->select(TBL_ENTRY, filter);
 
-void DBHandlerTest::updateWithFilterTest(){
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(entries.size(), 1);
+    QHash<QString, QVariant> entry = entries.at(0);
 
+    QCOMPARE(entry.value(COL_ENTRY_ID).toInt(), 2);
+    QCOMPARE(entry.value(COL_ENTRY_DESCRIPTION).toString(), QString("lime"));
+    QCOMPARE(entry.value(COL_ENTRY_AMOUNT).toInt(), 3);
 }
 
 void DBHandlerTest::updateWithoutFilterTest(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(COL_ENTRY_AMOUNT, 42);
+    int id = dbHandler->update(TBL_ENTRY, HASH_ENTRY_TYPES, values);
 
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(id, 0);
+
+    QList<QHash<QString, QVariant>> entries = dbHandler->select(TBL_ENTRY);
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(entries.size(), 5);
+    for(int i = 0; i < entries.size(); ++i)
+        QCOMPARE(entries.at(i).value(COL_ENTRY_AMOUNT).toInt(), 42);
 }
 
 void DBHandlerTest::updateIntoUnknownTableTest(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    int id = dbHandler->update("Test", HASH_ENTRY_TYPES, values);
 
+    QVERIFY(dbHandler->hasError());
+    QCOMPARE(id, -1);
 }
 
 void DBHandlerTest::updateInvalidValuesTest(){
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(COL_SHOPPING_LIST_ORDER, 5);
+    int id = dbHandler->update(TBL_ENTRY, HASH_ENTRY_TYPES, values);
 
+    QVERIFY(dbHandler->hasError());
+    QCOMPARE(id, -1);
 }
 
-void DBHandlerTest::updateExactlyOneRowTest(){
+void DBHandlerTest::saveInsertTest(){
+    QString filter = QString("%1 = %2").arg(COL_ENTRY_ID);
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(COL_ENTRY_DESCRIPTION, "wine");
+    values.insert(COL_ENTRY_AMOUNT, 18);
+    int id = dbHandler->save(TBL_ENTRY, HASH_ENTRY_TYPES, values, filter.arg(0), COL_ENTRY_ID);
 
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(id, 6);
+
+    QHash<QString, QVariant> entry = dbHandler->selectFirst(TBL_ENTRY, filter.arg(id));
+    QVERIFY(!dbHandler->hasError());
+    QVERIFY(!entry.isEmpty());
+    QCOMPARE(entry.value(COL_ENTRY_ID).toInt(), 6);
+    QCOMPARE(entry.value(COL_ENTRY_AMOUNT).toInt(), 18);
+    QCOMPARE(entry.value(COL_ENTRY_DESCRIPTION).toString(), QString("wine"));
+}
+
+void DBHandlerTest::saveUpdateTest(){
+    QString filter = QString("%1 > %2").arg(COL_ENTRY_ID).arg(3);
+    QHash<QString, QVariant> values = QHash<QString, QVariant>();
+    values.insert(COL_ENTRY_DESCRIPTION, "test");
+    int id = dbHandler->save(TBL_ENTRY, HASH_ENTRY_TYPES, values, filter, COL_ENTRY_ID);
+
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(id, 4);
+
+    QList<QHash<QString, QVariant>> entries = dbHandler->select(TBL_ENTRY, filter);
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(entries.size(), 3);
+    for(int i = 0; i < entries.size(); ++i)
+        QCOMPARE(entries.at(i).value(COL_ENTRY_DESCRIPTION).toString(), QString("test"));
 }
 
 void DBHandlerTest::removeWithFilterTest(){
+    QString filter = QString("%1 > %2").arg(COL_ENTRY_ID).arg(3);
+    bool success = dbHandler->remove(TBL_ENTRY, filter);
 
+    QVERIFY(success && !dbHandler->hasError());
+    QList<QHash<QString, QVariant>> entries = dbHandler->select(TBL_ENTRY);
+
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(entries.size(), 3);
+    for(int i = 0; i < entries.size(); ++i)
+        QVERIFY(entries.at(i).value(COL_ENTRY_ID).toInt() <= 3);
 }
 
 void DBHandlerTest::removeWithoutFilterTest(){
+    bool success = dbHandler->remove(TBL_ENTRY, "");
 
+    QVERIFY(success && !dbHandler->hasError());
+    int count = dbHandler->selectCount(TBL_ENTRY);
+    QVERIFY(!dbHandler->hasError());
+    QCOMPARE(count, 0);
 }
 
 void DBHandlerTest::removeFromUnknownTableTest(){
-
+    bool success = dbHandler->remove("Test");
+    QVERIFY(!success && dbHandler->hasError());
 }
 
 void DBHandlerTest::removeWithInvalidFilterTest(){
-
+    bool success = dbHandler->remove(TBL_ENTRY, "Test = test");
+    QVERIFY(!success && dbHandler->hasError());
 }
 
 void DBHandlerTest::cleanupTestCase(){
     delete dbHandler;
 }
 
-QTEST_APPLESS_MAIN(DBHandlerTest)
-
-#include "tst_dbhandlertest.moc"

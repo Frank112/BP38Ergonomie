@@ -175,8 +175,12 @@ int DBHandler::save(const QString &tbl, const QHash<QString, QVariant::Type> &co
 bool DBHandler::remove(const QString &tbl, const QString &filter){
     bool success = true;
     QSqlTableModel* tblModel = getSqlTableModel(tbl);
-    for(int i = selectCount(tbl, filter) - 1; i >= 0; --i)
-        success &= tblModel->removeRow(i);
+    int count = selectCount(tbl, filter);
+    if(count >= 0)
+        for(int i = count - 1; i >= 0; --i)
+            success &= tblModel->removeRow(i);
+    else
+        success = false;
     if(!success)
         reportError(tblModel->lastError().text());
     return success;
