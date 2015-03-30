@@ -1278,7 +1278,10 @@ xmlparsertest.o: ../ErgonomieappTest/xmlparsertest.cpp ../ErgonomieappTest/xmlpa
 		../xmlHandler/xmlconstants.h \
 		../xmlHandler/iimportdataparser.h \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QtPlugin \
-		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qplugin.h
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qplugin.h \
+		../standardpaths.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QStandardPaths \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qstandardpaths.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xmlparsertest.o ../ErgonomieappTest/xmlparsertest.cpp
 
 qrc_testassets.o: qrc_testassets.cpp 

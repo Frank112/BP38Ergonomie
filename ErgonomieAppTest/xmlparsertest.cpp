@@ -108,21 +108,21 @@ void XMLParserTest::parseProductsWithInvalidXMLFileTest(){}
 
 void XMLParserTest::parseEmployeesTest(){
     QString path = QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("employees.xml");
-    xmlParser->parseTransportations(path);
+    xmlParser->parseEmployees(path);
 }
 void XMLParserTest::parseEmployeesWithInvalidXMLNodeTest(){}
 void XMLParserTest::parseEmployeesWithInvalidXMLFileTest(){}
 
 void XMLParserTest::parseWorkplacesTest(){
     QString path = QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("workplaces.xml");
-    xmlParser->parseTransportations(path);
+    xmlParser->parseWorkplaces(path);
 }
 void XMLParserTest::parseWorkplacesWithInvalidXMLNodeTest(){}
 void XMLParserTest::parseWorkplacesWithInvalidXMLFileTest(){}
 
 void XMLParserTest::parseWorkprocessListsTest(){
     QString path = QString("%1/%2").arg(StandardPaths::writeableLocation()).arg("workprocesslists.xml");
-    xmlParser->parseTransportations(path);
+    xmlParser->parseWorkprocessLists(path);
 }
 void XMLParserTest::parseWorkprocessListsWithInvalidXMLNodeTest(){}
 void XMLParserTest::parseWorkprocessListsWithInvalidXMLFileTest(){}
