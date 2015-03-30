@@ -42,7 +42,7 @@ public:
     ~Controller();
 
     /**
-     * @brief initialize All data availabe by default is being initialized.
+     * @brief initialize Initializes the controller by syncing it with the database for all values that are available instantly.
      */
     void initialize();
 
@@ -574,15 +574,6 @@ signals:
     void removedRotationGroupTaskEntry(int id);
 
 public slots:
-    //Analyst
-    /**
-     * @brief initializeAnalysts Initialize all existing analysts from the database.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeAnalysts();
-
     /**
      * @brief createAnalyst Creates a new analyst with the entries given in <i>values</i> in the database.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -643,13 +634,13 @@ public slots:
 
     //Corperation
     /**
-     * @brief setCorperation Sets the corporation with <i>id</i> from the database.
+     * @brief setCorporation Sets the corporation with <i>id</i> from the database.
      * @param id The id of the corporatoin to be set.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
      */
-    void setCorperation(int id);
+    void setCorporation(int id);
 
     /**
      * @brief saveCorperation Saves the corporation entries given in <i>values</i> in the database.
@@ -697,15 +688,6 @@ public slots:
      * NotificationMessage::MessageType::ERROR.
      */
     void saveRecording(QHash<QString, QVariant> values);
-
-    //Workplace
-    /**
-     * @brief initializeWorkplaces Initializes all existing workplaces from the database.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeWorkplaces();
 
     /**
      * @brief createWorkplace Creates a new workplace with the entries given in <i>values</i> in the database.
@@ -764,15 +746,6 @@ public slots:
      */
     void saveComment(QHash<QString, QVariant> values);
 
-    //Line
-    /**
-     * @brief initializeLines Initializes all existing lines from the database.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeLines();
-
     /**
      * @brief createLine Creates a new line with the entries given in <i>values</i> in the database.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -818,15 +791,6 @@ public slots:
      */
     void selectLine(int id);
 
-    //Product
-    /**
-     * @brief initializeProducts Initializes all existing products from the database.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeProducts();
-
     /**
      * @brief createProduct Creates a new product with the entries given in <i>values</i> in the database.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -853,17 +817,6 @@ public slots:
      * NotificationMessage::MessageType::ERROR.
      */
     void deleteProduct(int id);
-
-    //Activity
-    /**
-     * @brief initializeActivities Initializes all existing activities from the database belonging to the workplace
-     * with <i>workplace_ID</i>.
-     * @param workplace_ID The id of the workplace, whose activites are initialized.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeActivities(int workplace_ID);
 
     /**
      * @brief createActivity Creates a new activity with the entries given in <i>values</i> in the database.
@@ -912,15 +865,6 @@ public slots:
      */
     void editActivity(int id);
 
-    //Equipment
-    /**
-     * @brief initializeEquipments Initializes all existing equipments from the database
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeEquipments();
-
     /**
      * @brief createEquipment Creates a new equipment with the entries given in <i>values</i> in the database.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -947,15 +891,6 @@ public slots:
      * NotificationMessage::MessageType::ERROR.
      */
     void deleteEquipment(int id);
-
-    //Transportation
-    /**
-     * @brief initializeTansportations Initializes all exising transporations from the database.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeTansportations();
 
     /**
      * @brief createTransportation Creates a new transportation with the entries given in <i>values</i> in the database.
@@ -1034,17 +969,6 @@ public slots:
      */
     void saveExecutionCondition(QHash<QString, QVariant> values);
 
-    //WorkProcessControll
-    /**
-     * @brief initilizeWorkProcesses Initializes all existing work processes from the database and selects the first basic
-     * work process if selectFirst is true. Otherwise no work process is selected.
-     * @param selectFirst Indicates whether the first basic work process should be selected.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initilizeWorkProcesses(bool selectFirst = true);
-
     /**
      * @brief createWorkprocess Creates a new workplace with the entries given in <i>values</i> in the database.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -1117,15 +1041,6 @@ public slots:
      */
     void saveWorkProcessFrequence(int frequence);
 
-    //Employee
-    /**
-     * @brief initializeEmployees Initializes all employees from the database.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeEmployees();
-
     /**
      * @brief createEmployee Creates a new employee with the entries given in <i>values</i> in the database.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -1193,13 +1108,9 @@ public slots:
      */
     void saveBodyMeasurement(QHash<QString, QVariant> values);
 
-    //Connection
     /**
-     * @brief initializeFTPConnections
-     * @param widget
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
+     * @brief initializeFTPConnections Initializes the widget which shows all FTP connections for the selected analyst.
+     * @param widget A widget which implements the IFTPConnections interface.
      */
     void initializeFTPConnections(IFTPConnections *widget);
 
@@ -1280,16 +1191,6 @@ public slots:
      */
     void sendDataUploadError(const QString &error);
 
-    //Shift
-    /**
-     * @brief initializeShift Initializes the shift with <i>id</i> from the database.
-     * @param id The id of the shift to be initialized.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeShift(int id);
-
     /**
      * @brief saveShift
      * @param values
@@ -1298,16 +1199,6 @@ public slots:
      * NotificationMessage::MessageType::ERROR.
      */
     void saveShift(QHash<QString, QVariant> values);
-
-    //RotationGroup
-    /**
-     * @brief initializeRotationGroup
-     * @param id
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeRotationGroup(int id);
 
     /**
      * @brief createRotationGroupEntry
@@ -1354,15 +1245,6 @@ public slots:
      */
     void moveRotationGroupEntryDown(int order);
 
-    //RotationGroupTask
-    /**
-     * @brief initializeRotationGroupTasks Initializes all existing rotation group tasks from the database.
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeRotationGroupTasks();
-
     /**
      * @brief createRotationGroupTask Creates a new rotation group task with the entries given in <i>values</i>
      * in the database.
@@ -1399,16 +1281,6 @@ public slots:
      * NotificationMessage::MessageType::ERROR.
      */
     void saveRotationGroupTask(QHash<QString, QVariant> values);
-
-    //RotationGroupTaskEntry
-    /**
-     * @brief initializeRotationGroupTaskEntries
-     * @param id
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void initializeRotationGroupTaskEntries(int id);
 
     /**
      * @brief createRotationGroupTaskEntry Creates a new rotation group task entry with the entries given in <i>values</i>
@@ -1484,6 +1356,20 @@ private:
     QString downloadDir;
     int countFileDownload;
 
+    void initializeAnalysts();
+    void initializeProducts();
+    void initializeTransportations();
+    void initializeEquipments();
+    void initializeEmployees();
+    void initializeLines();
+    void initializeWorkplaces();
+    void initializeActivities(int workplace_ID);
+    void initializeShift(int id);
+    void initializeWorkProcesses(bool selectFirst = true);
+    void initializeRotationGroup(int id);
+    void initializeRotationGroupTasks();
+    void initializeRotationGroupTaskEntries(int id);
+
     void updateRotationGroupTaskDuration();
     QString getWorkplaceNameByID(int id);
     void swapRotationGroupEntries(int order1, int order2);
@@ -1499,6 +1385,9 @@ private:
     void deleteWorkProcesses(int activity_ID);
 
     QString stringFromResource(const QString &resName);
+
+
+
 };
 
 #endif // CONTROLLER_H

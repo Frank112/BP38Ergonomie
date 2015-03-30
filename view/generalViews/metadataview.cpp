@@ -136,7 +136,7 @@ void MetaDataView::setFactory(QHash<QString, QVariant> values){
     txtBxFactoryContact->setText(values.value(DBConstants::COL_FACTORY_CONTACT_PERSON).toString());
 }
 
-void MetaDataView::setCorperation(QHash<QString, QVariant> values){
+void MetaDataView::setCorporation(QHash<QString, QVariant> values){
     txtBxCorpName->setText(values.value(DBConstants::COL_CORPORATION_NAME).toString());
 }
 

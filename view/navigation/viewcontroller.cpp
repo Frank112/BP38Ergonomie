@@ -123,7 +123,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(metaDataView, SIGNAL(saveBranchOfIndustry(QHash<QString,QVariant>)), controller, SLOT(saveBranchOfIndustry(QHash<QString,QVariant>)));
     connect(controller, SIGNAL(selectedBranchOfIndustry(QHash<QString,QVariant>)), metaDataView, SLOT(setBranchOfIndustry(QHash<QString,QVariant>)));
     connect(metaDataView, SIGNAL(saveCorperation(QHash<QString,QVariant>)), controller, SLOT(saveCorperation(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(selectedCorperation(QHash<QString,QVariant>)), metaDataView, SLOT(setCorperation(QHash<QString,QVariant>)));
+    connect(controller, SIGNAL(selectedCorperation(QHash<QString,QVariant>)), metaDataView, SLOT(setCorporation(QHash<QString,QVariant>)));
     connect(metaDataView, SIGNAL(saveFactory(QHash<QString,QVariant>)), controller, SLOT(saveFactory(QHash<QString,QVariant>)));
     connect(controller, SIGNAL(selectedFactory(QHash<QString,QVariant>)), metaDataView, SLOT(setFactory(QHash<QString,QVariant>)));
     connect(metaDataView, SIGNAL(saveRecording(QHash<QString,QVariant>)), controller, SLOT(saveRecording(QHash<QString,QVariant>)));

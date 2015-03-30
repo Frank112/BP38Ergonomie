@@ -20,10 +20,10 @@ signals:
 
 public slots:
     /**
-     * @brief setCorperation Sets the corporation to be displayed.
+     * @brief setCorporation Sets the corporation to be displayed.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
-    virtual void setCorperation(QHash<QString, QVariant> values) = 0;
+    virtual void setCorporation(QHash<QString, QVariant> values) = 0;
 };
 
 

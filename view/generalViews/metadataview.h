@@ -40,7 +40,7 @@ signals:
 public slots:
     void setRecording(QHash<QString, QVariant> values);
     void setFactory(QHash<QString, QVariant> values);
-    void setCorperation(QHash<QString, QVariant> values);
+    void setCorporation(QHash<QString, QVariant> values);
     void setBranchOfIndustry(QHash<QString, QVariant> values);
 
 
