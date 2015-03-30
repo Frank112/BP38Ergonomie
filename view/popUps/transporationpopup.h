@@ -6,11 +6,19 @@
 #include "../optionselectioncontrol.h"
 #include "../interfaces/itransportation.h"
 
+/**
+ * @brief The TransporationPopUp class provides functionality to create a new transportation with a form
+ * displayed in a popup.
+ */
 class TransporationPopUp : public AbstractPopUpWidget, ITransportation
 {
     Q_OBJECT
     Q_INTERFACES(ITransportation)
 public:
+    /**
+     * @brief TransporationPopUp Creates an AbstractPopUpWidget with a <i>parent</i>
+     * @param parent The parent widget of the popup.
+     */
     explicit TransporationPopUp(QWidget *parent = 0);
     ~TransporationPopUp();
 
@@ -20,6 +28,7 @@ signals:
 public slots:
     void setTransportation(QHash<QString, QVariant>){}
 
+private slots:
     void onConfirm();
     void onClose();
 

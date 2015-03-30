@@ -18,11 +18,25 @@
 #include "shiftcalendar.h"
 #include "../navigation/simplenavigateablewidget.h"
 
+/**
+ * @brief The ShiftView class provides functionality to display and save a shift.
+ *
+ * ShiftView inherits SimpleNavigateableWidget and implements IShift
+ *
+ * A shift is described by a shift type, a begin and end time, as well as an employee who works the shift.
+ *
+ * @author Marius Gassen
+ *
+ */
 class ShiftView : public SimpleNavigateableWidget, IShift
 {
     Q_OBJECT
     Q_INTERFACES(IShift)
 public:
+    /**
+     * @brief ShiftView Creates a SimpleNavigateableWidget with a <i>parent</i>
+     * @param parent The parent of the widget.
+     */
     explicit ShiftView(QWidget *parent = 0);
     ~ShiftView();
 
