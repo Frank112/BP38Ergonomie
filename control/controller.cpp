@@ -57,32 +57,6 @@ Controller::~Controller(){
     Settings::saveSettings(StandardPaths::configFile());
 }
 
-void Controller::initialize(){
-    //Initialize the data that is available by default
-    initializeAnalysts();
-    initializeProducts();
-    initializeTansportations();
-    initializeEquipments();
-    initializeEmployees();
-    initializeLines();
-    initializeWorkplaces();
-    initializeRotationGroupTasks();
-}
-
-//PRIVATE SLOTS
-
-//Analyst
-void Controller::initializeAnalysts(){
-    emit clearAnalysts();
-    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ANALYST, QString(""));
-    if(dbHandler->hasError()){
-        emit showMessage(QString(tr("Could not initialize analysts \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
-    }
-    for(int i = 0; i < rows.size(); ++i)
-        emit createdAnalyst(rows.at(i));
-}
-
 void Controller::createAnalyst(QHash<QString, QVariant> values){
     QString empName = values.value(DBConstants::COL_EMPLOYER_NAME).toString();
     QString filter = QString("%1 = '%2'").arg(DBConstants::COL_EMPLOYER_NAME).arg(empName);
@@ -90,12 +64,12 @@ void Controller::createAnalyst(QHash<QString, QVariant> values){
     valuesEmployer.insert(DBConstants::COL_EMPLOYER_NAME, empName);
     int emp_ID = dbHandler->save(DBConstants::TBL_EMPLOYER, DBConstants::HASH_EMPLOYER_TYPES, valuesEmployer, filter, DBConstants::COL_EMPLOYER_ID);
     if(dbHandler->hasError())
-        emit showMessage(QString(tr("Could not save employer \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not save employer: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     values.remove(DBConstants::COL_EMPLOYER_NAME);
     values.insert(DBConstants::COL_ANALYST_EMPLOYER_ID, emp_ID);
     dbHandler->insert(DBConstants::TBL_ANALYST, DBConstants::HASH_ANALYST_TYPES, values, DBConstants::COL_ANALYST_ID);
     if(dbHandler->hasError()){
-        emit showMessage(QString(tr("Could not create analyst \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not create analyst: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
         return;
     }
     emit showMessage(tr("Created analyst"));
@@ -106,7 +80,7 @@ void Controller::deleteAnalyst(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ANALYST_ID).arg(id);
     dbHandler->remove(DBConstants::TBL_ANALYST, filter);
     if(dbHandler->hasError()){
-        emit showMessage(QString(tr("Could not delete analyst \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not delete analyst: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
         return;
     }
     emit showMessage(tr("Deleted analyst"));
@@ -117,7 +91,7 @@ void Controller::selectAnalyst(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ANALYST_ID).arg(id);
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_ANALYST, filter);
     if(dbHandler->hasError()){
-        emit showMessage(QString(tr("Could not select analyst \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not select analyst: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
         return;
     }
     analyst_ID = id;
@@ -128,7 +102,7 @@ void Controller::selectAnalyst(int id){
     filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ANALYST_ID).arg(analyst_ID);
     QHash<QString, QVariant> recValues = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
     if(dbHandler->hasError()){
-        emit showMessage(QString(tr("Could not select recording \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not select recording: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
         return;
     }
     int recID = 0;
@@ -136,7 +110,7 @@ void Controller::selectAnalyst(int id){
         recValues.insert(DBConstants::COL_RECORDING_ANALYST_ID, analyst_ID);
         recID = dbHandler->insert(DBConstants::TBL_RECORDING, DBConstants::HASH_RECORDING_TYPES, recValues, DBConstants::COL_RECORDING_ID);
         if(dbHandler->hasError()){
-            emit showMessage(QString(tr("Could not save recording \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+            emit showMessage(QString(tr("Could not save recording: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
             return;
         }
     }
@@ -153,7 +127,7 @@ void Controller::createBlankRecording(){
     workplace_ID = dbHandler->insert(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, DBConstants::COL_WORKPLACE_ID);
 
     if(dbHandler->hasError()){
-        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not create recording: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
         return;
     }
 
@@ -165,7 +139,7 @@ void Controller::createBlankRecording(){
     activity_ID = dbHandler->insert(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, values, DBConstants::COL_ACTIVITY_ID);
 
     if(dbHandler->hasError()){
-        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not create autogenerated activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
         return;
     }
 
@@ -185,7 +159,7 @@ void Controller::setBranchOfIndustry(int id){
     QHash<QString, QVariant> boiValues = dbHandler->selectFirst(DBConstants::TBL_BRANCH_OF_INDUSTRY, filter);
 
     if(dbHandler->hasError())
-        emit showMessage(dbHandler->getLastError(), NotificationMessage::ERROR,NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not select branch of industry: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 
     emit selectedBranchOfIndustry(boiValues);
 }
@@ -199,9 +173,7 @@ void Controller::saveBranchOfIndustry(QHash<QString, QVariant> values){
                     values, filter, DBConstants::COL_BRANCH_OF_INDUSTRY_ID);
 
     if(dbHandler->hasError())
-        emit showMessage(QString(tr("Could not save branch of industry : \n%1")).arg(dbHandler->getLastError()),
-                         NotificationMessage::ERROR,
-                         NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not save branch of industry: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 }
 
 //Corperation
@@ -211,9 +183,7 @@ void Controller::setCorperation(int id){
     QHash<QString, QVariant> corpValues = dbHandler->selectFirst(DBConstants::TBL_CORPORATION, filter);
 
     if(dbHandler->hasError())
-        emit showMessage(dbHandler->getLastError(),
-                         NotificationMessage::ERROR,
-                         NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not select corporation: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 
     emit selectedCorperation(corpValues);
     int boiID = corpValues.value(DBConstants::COL_CORPORATION_BRANCH_OF_INDUSTRY_ID).toInt();
@@ -230,6 +200,9 @@ void Controller::saveCorperation(QHash<QString, QVariant> values){
                   boiValues.value(DBConstants::COL_BRANCH_OF_INDUSTRY_ID));
     values.remove(DBConstants::COL_BRANCH_OF_INDUSTRY_NAME);
 
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not select branch of industry: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     filter = QString("%1 = '%2'")
             .arg(DBConstants::COL_CORPORATION_NAME)
             .arg(values.value(DBConstants::COL_CORPORATION_NAME).toString());
@@ -238,9 +211,7 @@ void Controller::saveCorperation(QHash<QString, QVariant> values){
                     values, filter, DBConstants::COL_CORPORATION_ID);
 
     if(dbHandler->hasError())
-        showMessage(QString(tr("Could not save corperation: \n%1")).arg(dbHandler->getLastError()),
-                    NotificationMessage::ERROR,
-                    NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not save corportation: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 }
 
 //Factory
@@ -249,9 +220,7 @@ void Controller::setFactory(int id){
     QHash<QString, QVariant> factoryValues = dbHandler->selectFirst(DBConstants::TBL_FACTORY, filter);
 
     if(dbHandler->hasError())
-        showMessage(QString(tr("Could not save corperation: \n%1")).arg(dbHandler->getLastError()),
-                    NotificationMessage::ERROR,
-                    NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not select factory: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 
     factory_ID = id;
     emit selectedFactory(factoryValues);
@@ -260,19 +229,14 @@ void Controller::setFactory(int id){
 }
 
 void Controller::saveFactory(QHash<QString, QVariant> values){
-    QString filter = QString("%3 = '%4'")
-            .arg(DBConstants::COL_CORPORATION_NAME)
-            .arg(values.value(DBConstants::COL_CORPORATION_NAME).toString());
+    QString filter = QString("%3 = '%4'").arg(DBConstants::COL_CORPORATION_NAME).arg(values.value(DBConstants::COL_CORPORATION_NAME).toString());
 
     QHash<QString, QVariant> corpValues = dbHandler->selectFirst(DBConstants::TBL_CORPORATION, filter);
 
     if(dbHandler->hasError())
-        showMessage(dbHandler->getLastError(),
-                    NotificationMessage::ERROR,
-                    NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not select corporation: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 
-    values.insert(DBConstants::COL_FACTORY_CORPORATION_ID,
-                  corpValues.value(DBConstants::COL_CORPORATION_ID));
+    values.insert(DBConstants::COL_FACTORY_CORPORATION_ID, corpValues.value(DBConstants::COL_CORPORATION_ID));
     values.remove(DBConstants::COL_CORPORATION_NAME);
 
     filter = QString("%1 = '%2' AND %3 = '%4'")
@@ -284,21 +248,29 @@ void Controller::saveFactory(QHash<QString, QVariant> values){
     dbHandler->save(DBConstants::TBL_FACTORY, DBConstants::HASH_FACTORY_TYPES, values, filter, DBConstants::COL_FACTORY_ID);
 
     if(dbHandler->hasError())
-        showMessage(QString(tr("Could not save factory: \n%1")).arg(dbHandler->getLastError()),
-                    NotificationMessage::ERROR,
-                    NotificationMessage::PERSISTENT);
+        emit showMessage(QString(tr("Could not save factory: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 }
 
 //Recording
 void Controller::setRecording(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(id);
     QHash<QString, QVariant> recordValues = dbHandler->selectFirst(DBConstants::TBL_RECORDING, filter);
+
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select recording: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+
     recording_ID = id;
     emit selectedRecording(recordValues);
     int factoryID = recordValues.value(DBConstants::COL_RECORDING_FACTORY_ID).toInt();
     setFactory(factoryID);
     filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_RECORDING_ID).arg(recording_ID);
     QHash<QString, QVariant> shiftValues = dbHandler->selectFirst(DBConstants::TBL_SHIFT, filter);
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not select shift: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     int shift_ID = shiftValues.value(DBConstants::COL_SHIFT_ID).toInt();
     initializeShift(shift_ID);
 }
@@ -313,19 +285,23 @@ void Controller::saveRecording(QHash<QString, QVariant> values){
     values.insert(DBConstants::COL_RECORDING_ANALYST_ID, analyst_ID);
     filter = QString("%1 = %2").arg(DBConstants::COL_RECORDING_ID).arg(recording_ID);
     dbHandler->save(DBConstants::TBL_RECORDING, DBConstants::HASH_RECORDING_TYPES, values, filter, DBConstants::COL_RECORDING_ID);
-    emit showMessage(tr("Saved meta data"));
-}
 
-//WorkplaceView
-void Controller::initializeWorkplaces(){
-    emit clearWorkplaces();
-    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_WORKPLACE, QString(""));
-    for(int i = 0; i < rows.count(); ++i)
-        emit createdWorkplace(rows.at(i));
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save metadata: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+
+    emit showMessage(tr("Saved meta data"));
 }
 
 void Controller::createWorkplace(QHash<QString, QVariant> values){
     int wp_ID = dbHandler->insert(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, DBConstants::COL_WORKPLACE_ID);
+
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+
     values.insert(DBConstants::COL_WORKPLACE_ID, wp_ID);
     emit createdWorkplace(values);
     saveRecordingObservesWorkplace(wp_ID);
@@ -334,6 +310,11 @@ void Controller::createWorkplace(QHash<QString, QVariant> values){
 
 void Controller::createWorkplace(QHash<QString, QVariant> values, QList<QHash<QString, QVariant>> activityValues){
     int workplace_ID = dbHandler->insert(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values,DBConstants::COL_WORKPLACE_ID);
+
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     values.insert(DBConstants::COL_WORKPLACE_ID, workplace_ID);
     emit createdWorkplace(values);
     for(int i = 0; i < activityValues.size(); ++i){
@@ -341,6 +322,10 @@ void Controller::createWorkplace(QHash<QString, QVariant> values, QList<QHash<QS
         if(curValues.contains(DBConstants::COL_PRODUCT_NAME)){
             QString filter = QString("%1 = '%2'").arg(DBConstants::COL_PRODUCT_NAME).arg(curValues.value(DBConstants::COL_PRODUCT_NAME).toString());
             QHash<QString, QVariant> productValues = dbHandler->selectFirst(DBConstants::TBL_PRODUCT, filter);
+
+            if(dbHandler->hasError())
+                emit showMessage(QString(tr("Could not select product: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
             if(!productValues.isEmpty()){
                 curValues.insert(DBConstants::COL_ACTIVITY_PRODUCT_ID, productValues.value(DBConstants::COL_PRODUCT_ID));
             }
@@ -348,6 +333,8 @@ void Controller::createWorkplace(QHash<QString, QVariant> values, QList<QHash<QS
         }
         curValues.insert(DBConstants::COL_ACTIVITY_WORKPLACE_ID, workplace_ID);
         dbHandler->insert(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, curValues, DBConstants::COL_ACTIVITY_ID);
+        if(dbHandler->hasError())
+            emit showMessage(QString(tr("Could not create activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     }
 }
 
@@ -355,13 +342,25 @@ void Controller::deleteWorkplace(int id){
     QString tbl = DBConstants::TBL_WORKPLACE;
     dbHandler->remove(tbl, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(QString::number(id)));
 
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not delete workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+
     deleteRecordingOberservesWorkplace(id);
 
     QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_ACTIVITY, QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(id));
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not select activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     for(int i = 0; i < values.count(); ++i)
         deleteActivity(values.at(i).value(DBConstants::COL_ACTIVITY_ID).toInt(), false);
 
     dbHandler->remove(DBConstants::TBL_COMMENT, QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(id));
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not delete comment: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 
     emit showMessage(tr("Deleted workplace"));
 
@@ -370,13 +369,25 @@ void Controller::deleteWorkplace(int id){
 
 void Controller::selectWorkplace(int id){
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_WORKPLACE, QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(id));
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     workplace_ID = id;
     emit selectedWorkplace(values);
     selectedEmployee_ID = values.value(DBConstants::COL_WORKPLACE_EMPLOYEE_ID).toInt();
     emit employeeSelected(selectedEmployee_ID);
     values = dbHandler->selectFirst(DBConstants::TBL_LINE, QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(values.value(DBConstants::COL_WORKPLACE_LINE_ID).toInt()));
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not select line: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     emit selectedLine(values);
     values = dbHandler->selectFirst(DBConstants::TBL_COMMENT, QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(workplace_ID));
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not select Comment: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     emit selectedComment(values);
     initializeActivities(id);
 }
@@ -386,6 +397,10 @@ void Controller::saveWorkplace(QHash<QString, QVariant> values){
     values.insert(DBConstants::COL_WORKPLACE_ID, workplace_ID);
     values.insert(DBConstants::COL_WORKPLACE_EMPLOYEE_ID, selectedEmployee_ID);
     dbHandler->update(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit updatedWorkplace(values);
 }
 
@@ -394,21 +409,23 @@ void Controller::saveComment(QHash<QString, QVariant> values){
     values.insert(DBConstants::COL_COMMENT_WORKPLACE_ID, workplace_ID);
     QString filter = QString("%1 = %2").arg(DBConstants::COL_COMMENT_WORKPLACE_ID).arg(workplace_ID);
     dbHandler->save(DBConstants::TBL_COMMENT, DBConstants::HASH_COMMENT_TYPES, values, filter, DBConstants::COL_COMMENT_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save comment: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit updatedComment(values);
-}
-
-//Line
-void Controller::initializeLines(){
-    emit clearLines();
-    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_LINE, QString(""));
-    for(int i = 0; i < rows.count(); ++i)
-        emit createdLine(rows.at(i));
 }
 
 
 void Controller::createLine(QHash<QString, QVariant> values){
     values.insert(DBConstants::COL_LINE_FACTORY_ID, factory_ID);
     int line_ID = dbHandler->insert(DBConstants::TBL_LINE, DBConstants::HASH_LINE_TYPES, values, DBConstants::COL_LINE_ID);
+
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create line: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+
     values.insert(DBConstants::COL_LINE_ID, line_ID);
     saveRecordingObservesLine(line_ID);
     emit createdLine(values);
@@ -417,48 +434,69 @@ void Controller::createLine(QHash<QString, QVariant> values){
 
 void Controller::editLine(int id){
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_LINE, QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(id));
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select line to edit: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit editLine(values);
 }
 
 void Controller::saveLine(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(values.value(DBConstants::COL_LINE_ID).toInt());
     dbHandler->update(DBConstants::TBL_LINE, DBConstants::HASH_LINE_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save line: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit updatedLine(values);
 }
 
 void Controller::deleteLine(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(id);
     dbHandler->remove(DBConstants::TBL_LINE, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not delete line: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     deleteRecordingObservesLine(id);
     emit removedLine(id);
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     values.insert(DBConstants::COL_WORKPLACE_LINE_ID, 0);
     filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_LINE_ID).arg(id);
     dbHandler->update(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not remove line from workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit showMessage(tr("Deleted line"));
 }
 
 void Controller::selectLine(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_LINE_ID).arg(id);
     QHash<QString, QVariant> lineValues = dbHandler->selectFirst(DBConstants::TBL_LINE, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select line: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     values.insert(DBConstants::COL_WORKPLACE_LINE_ID, id);
     filter = QString("%1 = %2").arg(DBConstants::COL_WORKPLACE_ID).arg(workplace_ID);
     dbHandler->update(DBConstants::TBL_WORKPLACE, DBConstants::HASH_WORKPLACE_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not match line with workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     selectedLine(lineValues);
 }
 
-//Product
-void Controller::initializeProducts(){
-    emit clearProducts();
-    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_PRODUCT, QString(""));
-    for(int i = 0; i < rows.count(); ++i)
-        emit createdProduct(rows.at(i));
-}
 
 void Controller::createProduct(QHash<QString, QVariant> values){
     int prod_ID = dbHandler->insert(DBConstants::TBL_PRODUCT, DBConstants::HASH_PRODUCT_TYPES, values, DBConstants::COL_PRODUCT_ID);
     values.insert(DBConstants::COL_PRODUCT_ID, prod_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create product: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit createdProduct(values);
     emit showMessage(tr("Created new product"));
 }
@@ -466,6 +504,10 @@ void Controller::createProduct(QHash<QString, QVariant> values){
 void Controller::saveProduct(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_PRODUCT_ID).arg(values.value(DBConstants::COL_PRODUCT_ID).toInt());
     dbHandler->update(DBConstants::TBL_PRODUCT, DBConstants::HASH_PRODUCT_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save product: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit updatedProduct(values);
 }
 
@@ -473,24 +515,29 @@ void Controller::saveProduct(QHash<QString, QVariant> values){
 void Controller::deleteProduct(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_PRODUCT_ID).arg(id);
     dbHandler->remove(DBConstants::TBL_PRODUCT, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not delete product: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit removedProduct(id);
     filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_PRODUCT_ID).arg(id);
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     values.insert(DBConstants::COL_ACTIVITY_PRODUCT_ID, 0);
     dbHandler->update(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not remove product from activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit showMessage(tr("Deleted product"));
 }
 
-//Equipment
-void Controller::initializeEquipments(){
-    emit clearEquipments();
-    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_EQUIPMENT, QString(""));
-    for(int i = 0; i < rows.count(); ++i)
-        emit createdEquipment(rows.at(i));
-}
 
 void Controller::createEquipment(QHash<QString, QVariant> values){
     int eq_ID = dbHandler->insert(DBConstants::TBL_EQUIPMENT, DBConstants::HASH_EQUIPMENT_TYPES, values, DBConstants::COL_EQUIPMENT_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create equipment: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     values.insert(DBConstants::COL_EQUIPMENT_ID, eq_ID);
     emit createdEquipment(values);
     emit showMessage(tr("Created new equipment"));
@@ -499,28 +546,31 @@ void Controller::createEquipment(QHash<QString, QVariant> values){
 void Controller::saveEquipment(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EQUIPMENT_ID).arg(values.value(DBConstants::COL_EQUIPMENT_ID).toString());
     dbHandler->update(DBConstants::TBL_EQUIPMENT, DBConstants::HASH_EQUIPMENT_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save equipment: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit updatedEquipment(values);
 }
 
 void Controller::deleteEquipment(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EQUIPMENT_ID).arg(id);
     dbHandler->remove(DBConstants::TBL_EQUIPMENT, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not delete equipment: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit removedEquipment(id);
     emit showMessage(tr("Deleted equipment"));
-}
-
-//Activity
-void Controller::initializeActivities(int workplace_ID){
-    emit clearActivities();
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(workplace_ID);
-    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ACTIVITY, filter);
-    for(int i = 0; i < rows.count(); ++i)
-        emit createdActivity(rows.at(i));
 }
 
 void Controller::createActivity(QHash<QString, QVariant> values){
    values.insert(DBConstants::COL_ACTIVITY_WORKPLACE_ID, workplace_ID);
    int ac_ID = dbHandler->insert(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, values, DBConstants::COL_ACTIVITY_ID);
+   if(dbHandler->hasError()){
+       emit showMessage(QString(tr("Could not create activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+       return;
+   }
    values.insert(DBConstants::COL_ACTIVITY_ID, ac_ID);
    emit createdActivity(values);
    emit showMessage(tr("Created new activity"));
@@ -530,11 +580,19 @@ void Controller::saveActivity(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(values.value(DBConstants::COL_ACTIVITY_ID).toInt());
     values.insert(DBConstants::COL_ACTIVITY_WORKPLACE_ID, workplace_ID);
     dbHandler->update(DBConstants::TBL_ACTIVITY, DBConstants::HASH_ACTIVITY_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit updatedActivity(values);
 }
 
 void Controller::deleteActivity(int id, bool showMsg){
     dbHandler->remove(DBConstants::TBL_ACTIVITY, QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(id));
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not delete activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     deleteWorkProcesses(id);
     emit removedActivity(id);
     if(showMsg)
@@ -549,21 +607,20 @@ void Controller::selectActivity(int id){
 void Controller::editActivity(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_ID).arg(id);
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_ACTIVITY, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select activity to edit: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit editActivity(values);
-}
-
-
-//Transportation
-void Controller::initializeTansportations(){
-    emit clearTransportations();
-    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_TRANSPORTATION, QString(""));
-    for(int i = 0; i < rows.count(); ++i)
-        emit createdTransportation(rows.at(i));
 }
 
 void Controller::createTransportation(QHash<QString, QVariant> values){
     int trans_ID = dbHandler->insert(DBConstants::TBL_TRANSPORTATION, DBConstants::HASH_TRANSPORTATION_TYPES, values, DBConstants::COL_TRANSPORTATION_ID);
     values.insert(DBConstants::COL_TRANSPORTATION_ID, trans_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create transportation: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit createdTransportation(values);
     emit showMessage(tr("Created new transportation"));
 }
@@ -571,12 +628,20 @@ void Controller::createTransportation(QHash<QString, QVariant> values){
 void Controller::saveTransportation(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_TRANSPORTATION_ID).arg(values.value(DBConstants::COL_TRANSPORTATION_ID).toString());
     dbHandler->update(DBConstants::TBL_TRANSPORTATION, DBConstants::HASH_TRANSPORTATION_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save transportation: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit updatedTransportation(values);
 }
 
 void Controller::deleteTransportation(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_TRANSPORTATION_ID).arg(id);
     dbHandler->remove(DBConstants::TBL_TRANSPORTATION, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not delete transportation: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit removedTransportation(id);
     emit showMessage(tr("Deleted transportation"));
 }
@@ -585,9 +650,17 @@ void Controller::deleteTransportation(int id){
 void Controller::saveLoadHandling(QHash<QString, QVariant> values){
     QString filter = QString("%1 = '%2'").arg(DBConstants::COL_LOAD_HANDLING_TYPE_NAME).arg(values.value(DBConstants::COL_LOAD_HANDLING_TYPE_NAME).toString());
     QHash<QString, QVariant> loadType = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING_TYPE, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not retrieve load handling type: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(loadType.isEmpty()){
         loadType.insert(DBConstants::COL_LOAD_HANDLING_TYPE_NAME, values.value(DBConstants::COL_LOAD_HANDLING_TYPE_NAME).toString());
         int lt_ID = dbHandler->insert(DBConstants::TBL_LOAD_HANDLING_TYPE, DBConstants::HASH_LOAD_HANDLING_TYPE_TYPES, loadType, DBConstants::COL_LOAD_HANDLING_TYPE_ID);
+        if(dbHandler->hasError()){
+            emit showMessage(QString(tr("Could not save load handling type: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+            return;
+        }
         loadType.insert(DBConstants::COL_LOAD_HANDLING_TYPE_ID, lt_ID);
     }
     values.insert(DBConstants::COL_LOAD_HANDLING_LOAD_HANDLING_TYPE_ID, loadType.value(DBConstants::COL_LOAD_HANDLING_TYPE_ID));
@@ -595,9 +668,17 @@ void Controller::saveLoadHandling(QHash<QString, QVariant> values){
 
     filter = QString("%1 = '%2'").arg(DBConstants::COL_TYPE_OF_GRASPING_NAME).arg(values.value(DBConstants::COL_TYPE_OF_GRASPING_NAME).toString());
     QHash<QString, QVariant> graspType = dbHandler->selectFirst(DBConstants::TBL_TYPE_OF_GRASPING, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not retrieve grasp type: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(graspType.isEmpty()){
         graspType.insert(DBConstants::COL_TYPE_OF_GRASPING_NAME, values.value(DBConstants::COL_TYPE_OF_GRASPING_NAME).toString());
         int gt_ID = dbHandler->insert(DBConstants::TBL_TYPE_OF_GRASPING, DBConstants::HASH_TYPE_OF_GRASPING_TYPES, graspType, DBConstants::COL_TYPE_OF_GRASPING_ID);
+        if(dbHandler->hasError()){
+            emit showMessage(QString(tr("Could not save grasp type: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+            return;
+        }
         graspType.insert(DBConstants::COL_TYPE_OF_GRASPING_ID, gt_ID);
     }
     values.insert(DBConstants::COL_LOAD_HANDLING_TYPE_OF_GRASPING, graspType.value(DBConstants::COL_TYPE_OF_GRASPING_ID));
@@ -605,6 +686,10 @@ void Controller::saveLoadHandling(QHash<QString, QVariant> values){
 
     filter = QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(loadhandling_ID);
     int l_ID = dbHandler->save(DBConstants::TBL_LOAD_HANDLING, DBConstants::HASH_LOAD_HANDLING_TYPES, values, filter, DBConstants::COL_LOAD_HANDLING_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save load handling: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(l_ID > 0)
         loadhandling_ID = l_ID;
     values.insert(DBConstants::COL_LOAD_HANDLING_ID, loadhandling_ID);
@@ -616,6 +701,10 @@ void Controller::saveLoadHandling(QHash<QString, QVariant> values){
 void Controller::saveBodyPosture(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(bodyPosture_ID);
     int bp_ID = dbHandler->save(DBConstants::TBL_BODY_POSTURE, DBConstants::HASH_BODY_POSTURE_TYPES, values, filter, DBConstants::COL_BODY_POSTURE_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save body posture: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(bp_ID > 0)
         bodyPosture_ID = bp_ID;
     values.insert(DBConstants::COL_BODY_POSTURE_ID, bodyPosture_ID);
@@ -626,6 +715,10 @@ void Controller::saveBodyPosture(QHash<QString, QVariant> values){
 void Controller::saveAppliedForce(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(appliedforce_ID);
     int af_ID = dbHandler->save(DBConstants::TBL_APPLIED_FORCE, DBConstants::HASH_APPLIED_FORCE_TYPES, values, filter, DBConstants::COL_APPLIED_FORCE_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save applied force: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(af_ID > 0)
         appliedforce_ID = af_ID;
     values.insert(DBConstants::COL_APPLIED_FORCE_ID, appliedforce_ID);
@@ -644,6 +737,10 @@ void Controller::saveWorkProcess(QHash<QString, QVariant> values){
     values.insert(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID, loadhandling_ID);
     values.insert(DBConstants::COL_WORK_PROCESS_POSTURE_ID, bodyPosture_ID);
     dbHandler->update(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save work process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit setWorkProcess(values);
 }
 
@@ -651,6 +748,10 @@ void Controller::saveWorkProcess(QHash<QString, QVariant> values){
 void Controller::saveExecutionCondition(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_WORK_CONDITION_ID).arg(workcondition_ID);
     int wc_ID = dbHandler->save(DBConstants::TBL_WORK_CONDITION, DBConstants::HASH_WORK_CONDITION_TYPES, values, filter, DBConstants::COL_WORK_CONDITION_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save working condition: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(wc_ID > 0)
         workcondition_ID = wc_ID;
     values.insert(DBConstants::COL_WORK_CONDITION_ID, workcondition_ID);
@@ -658,27 +759,36 @@ void Controller::saveExecutionCondition(QHash<QString, QVariant> values){
     saveWorkProcess(QHash<QString, QVariant>());
 }
 
-//Employee
-void Controller::initializeEmployees(){
-    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_EMPLOYEE, QString(""));
-    for(int i = 0; i < values.count(); ++i)
-        emit createdEmployee(values.at(i));
-}
-
 void Controller::createEmployee(QHash<QString, QVariant> values){
     QHash<QString, QVariant> bmValues = QHash<QString, QVariant>();
     int bmID = dbHandler->insert(DBConstants::TBL_BODY_MEASUREMENT, DBConstants::HASH_BODY_MEASUREMENT_TYPES, bmValues, DBConstants::COL_BODY_MEASUREMENT_ID);
     values.insert(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID, bmID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save body measurement: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     int id = dbHandler->insert(DBConstants::TBL_EMPLOYEE, DBConstants::HASH_EMPLOYEE_TYPES, values, DBConstants::COL_EMPLOYEE_ID);
     values.insert(DBConstants::COL_EMPLOYEE_ID, id);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create employee: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit createdEmployee(values);
     emit showMessage(tr("Created new employee"));
 }
 
 void Controller::createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues){
     int bmID = dbHandler->insert(DBConstants::TBL_BODY_MEASUREMENT, DBConstants::HASH_BODY_MEASUREMENT_TYPES, bodyMeasurementValues, DBConstants::COL_BODY_MEASUREMENT_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save body measurement: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     values.insert(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID, bmID);
     int empID = dbHandler->insert(DBConstants::TBL_EMPLOYEE, DBConstants::HASH_EMPLOYEE_TYPES, values, DBConstants::COL_EMPLOYEE_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create employee: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     values.insert(DBConstants::COL_EMPLOYEE_ID, empID);
     emit createdEmployee(values);
 }
@@ -686,21 +796,40 @@ void Controller::createEmployee(QHash<QString, QVariant> values, QHash<QString, 
 void Controller::deleteEmployee(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_ID).arg(id);
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select employee: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     dbHandler->remove(DBConstants::TBL_EMPLOYEE, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not delete employee: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit removedEmployee(id);
     filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID).arg(values.value(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID).toInt());
     dbHandler->remove(DBConstants::TBL_BODY_MEASUREMENT, filter);
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not delete body measurement: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     emit showMessage(tr("Deleted employee"));
 }
 
 void Controller::selectEmployee(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_ID).arg(id);
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select employee: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     employee_ID = id;
     bodyMeasurement_ID = values.value(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID).toInt();
     emit selectedEmployee(values);
     filter = QString("%1 = %2").arg(DBConstants::COL_BODY_MEASUREMENT_ID).arg(bodyMeasurement_ID);
     values = dbHandler->selectFirst(DBConstants::TBL_BODY_MEASUREMENT, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select body measurement: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit selectedBodyMeasurement(values);
 }
 
@@ -708,6 +837,10 @@ void Controller::saveEmployee(QHash<QString, QVariant> values){
     values.insert(DBConstants::COL_EMPLOYEE_ID, employee_ID);
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_ID, employee_ID).arg(employee_ID);
     dbHandler->save(DBConstants::TBL_EMPLOYEE, DBConstants::HASH_EMPLOYEE_TYPES, values, filter, DBConstants::COL_EMPLOYEE_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save employee: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     emit updatedEmployee(values);
 }
 
@@ -723,16 +856,10 @@ void Controller::resetEmployeeSelection(){
 void Controller::saveBodyMeasurement(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_BODY_MEASUREMENT_ID).arg(bodyMeasurement_ID);
     dbHandler->save(DBConstants::TBL_BODY_MEASUREMENT, DBConstants::HASH_BODY_MEASUREMENT_TYPES, values, filter, DBConstants::COL_BODY_MEASUREMENT_ID);
-}
-
-
-//WorkProcessControll
-void Controller::initilizeWorkProcesses(bool selectFirst){
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID);
-    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_WORK_PROCESS, filter);
-    emit initiliazedWorkProcesses(values);
-    if(selectFirst)
-        selectWorkProcess(1, AVType::BASIC);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save body measurement: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
 }
 
 void Controller::createWorkprocess(QHash<QString, QVariant> values){
@@ -740,10 +867,18 @@ void Controller::createWorkprocess(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(type);
 
     int id = dbHandler->getNextID(DBConstants::TBL_WORK_PROCESS, DBConstants::COL_WORK_PROCESS_ID, filter);
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not retrieve next ID for the work process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     values.insert(DBConstants::COL_WORK_PROCESS_ID, id);
     values.insert(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID, activity_ID);
     values.insert(DBConstants::COL_WORK_PROCESS_TYPE, type);
     dbHandler->insert(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, DBConstants::COL_WORK_PROCESS_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create work process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(type == workprocess_Type && id == workprocess_ID + 1 )
         emit setHasNextWorkProcess(true);
     emit createdWorkProcess(values);
@@ -757,13 +892,25 @@ void Controller::createWorkprocessList(QString workplaceName, QString activityNa
         QString absErrorMessage = QString(tr("Could not create workprocess list because \n the %1 \"%2\" %3 is missing."));
         QString filter = QString("%1 = '%2'").arg(DBConstants::COL_WORKPLACE_NAME).arg(workplaceName);
         int wp_ID = dbHandler->selectFirst(DBConstants::TBL_WORKPLACE, filter).value(DBConstants::COL_WORKPLACE_ID).toInt();
+
+        if(dbHandler->hasError())
+            emit showMessage(QString(tr("Could not select workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
         if(wp_ID > 0){
             filter = QString("%1 = %2 AND %3 = '%4'").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(wp_ID).arg(DBConstants::COL_ACTIVITY_DESCRIPTION).arg(activityName);
             int ac_ID = dbHandler->selectFirst(DBConstants::TBL_ACTIVITY, filter).value(DBConstants::COL_ACTIVITY_ID).toInt();
+
+            if(dbHandler->hasError())
+                emit showMessage(QString(tr("Could not select activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
             if(ac_ID > 0){
                 filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID);
 
                 if(!dbHandler->isSelectEmpty(DBConstants::TBL_WORK_PROCESS, filter)){
+
+                    if(dbHandler->hasError())
+                        emit showMessage(QString(tr("Could not check work processes : \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
                     QString errorMessage = QString("The activity \"%1\" in workplace \"%2\" is not empty.").arg(activityName).arg(workplaceName);
                     ErrorReporter::reportError(errorMessage);
                     emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
@@ -774,10 +921,14 @@ void Controller::createWorkprocessList(QString workplaceName, QString activityNa
                     QHash<QString, QVariant> values = workprocesses.at(i);
                     filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(AVType::BASIC);
                     int id = dbHandler->getNextID(DBConstants::TBL_WORK_PROCESS, DBConstants::COL_WORK_PROCESS_ID, filter);
+                    if(dbHandler->hasError())
+                        emit showMessage(QString(tr("Could not retrieve next ID for work process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
                     values.insert(DBConstants::COL_WORK_PROCESS_TYPE, AVType::BASIC);
                     values.insert(DBConstants::COL_WORK_PROCESS_ID, id);
                     values.insert(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID, ac_ID);
                     dbHandler->insert(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, DBConstants::COL_WORK_PROCESS_ID);
+                    if(dbHandler->hasError())
+                        emit showMessage(QString(tr("Could not create work process in list: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
                 }
             } else {
                 QString addition = QString("with workplace \"%1\"").arg(workplaceName);
@@ -819,6 +970,10 @@ void Controller::workProcessDurationChanged(QTime time){
     QString tbl = DBConstants::TBL_WORK_PROCESS;
     QString filter = QString("%1 = %2 AND %3 = %4 AND %5 >= %6").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(workprocess_Type).arg(DBConstants::COL_WORK_PROCESS_ID).arg(workprocess_ID);
     QList<QHash<QString, QVariant>> rows = dbHandler->select(tbl, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select work process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(!rows.isEmpty())
         {
             QHash<QString, QVariant> row = rows.at(0);
@@ -828,6 +983,9 @@ void Controller::workProcessDurationChanged(QTime time){
             int diff = QTime(0, 0).addSecs(begin.secsTo(end)).secsTo(time);
             row.insert(DBConstants::COL_WORK_PROCESS_END, end.addSecs(diff));
             dbHandler->update(tbl, DBConstants::HASH_WORK_PROCESS_TYPES, row, filter.arg(workprocess_ID));
+            if(dbHandler->hasError())
+                emit showMessage(QString(tr("Could not update work process types: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
             for(int i = 1; i < rows.count(); ++i)
                 {
                     row = rows.at(i);
@@ -836,6 +994,8 @@ void Controller::workProcessDurationChanged(QTime time){
                     row.insert(DBConstants::COL_WORK_PROCESS_BEGIN, begin.addSecs(diff));
                     row.insert(DBConstants::COL_WORK_PROCESS_END, end.addSecs(diff));
                     dbHandler->update(tbl, DBConstants::HASH_WORK_PROCESS_TYPES, row, filter.arg(row.value(DBConstants::COL_WORK_PROCESS_ID).toInt()));
+                    if(dbHandler->hasError())
+                        emit showMessage(QString(tr("Could not update work process types: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
                 }
             initilizeWorkProcesses(false);
         }
@@ -850,15 +1010,25 @@ void Controller::selectWorkProcess(int id , AVType type){
     QHash<QString, QVariant> row = dbHandler->selectFirst(tbl, filter);
     bodyPosture_ID = row.value(DBConstants::COL_WORK_PROCESS_POSTURE_ID).toInt();
     emit setBodyPosture(dbHandler->selectFirst(DBConstants::TBL_BODY_POSTURE, QString("%1 = %2").arg(DBConstants::COL_BODY_POSTURE_ID).arg(bodyPosture_ID)));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not set body posture: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     appliedforce_ID = row.value(DBConstants::COL_WORK_PROCESS_APPLIED_FORCE_ID).toInt();
     emit setAppliedForce(dbHandler->selectFirst(DBConstants::TBL_APPLIED_FORCE, QString("%1 = %2").arg(DBConstants::COL_APPLIED_FORCE_ID).arg(appliedforce_ID)));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not set applied force: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     loadhandling_ID = row.value(DBConstants::COL_WORK_PROCESS_LOAD_HANDLING_ID).toInt();
     QHash<QString, QVariant> lhValues = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_ID).arg(loadhandling_ID));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not set load handling: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     int lht_ID = lhValues.value(DBConstants::COL_LOAD_HANDLING_LOAD_HANDLING_TYPE_ID).toInt();
     QHash<QString, QVariant> lhtValues = dbHandler->selectFirst(DBConstants::TBL_LOAD_HANDLING_TYPE, QString("%1 = %2").arg(DBConstants::COL_LOAD_HANDLING_TYPE_ID).arg(lht_ID));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not set load handling type: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     lhValues.insert(DBConstants::COL_LOAD_HANDLING_TYPE_NAME, lhtValues.value(DBConstants::COL_LOAD_HANDLING_TYPE_NAME));
     int gt_ID = lhValues.value(DBConstants::COL_LOAD_HANDLING_TYPE_OF_GRASPING).toInt();
     QHash<QString, QVariant> togValues = dbHandler->selectFirst(DBConstants::TBL_TYPE_OF_GRASPING, QString("%1 = %2").arg(DBConstants::COL_TYPE_OF_GRASPING_ID).arg(gt_ID));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not set grasp type: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     lhValues.insert(DBConstants::COL_TYPE_OF_GRASPING_NAME, togValues.value(DBConstants::COL_TYPE_OF_GRASPING_NAME));
     emit setLoadHandling(lhValues);
     workcondition_ID = row.value(DBConstants::COL_WORK_PROCESS_CONDITION_ID).toInt();
@@ -870,7 +1040,13 @@ void Controller::selectWorkProcess(int id , AVType type){
     emit setSelectedWorkProcessType(type);
     emit setSelectedWorkProcess(row);
     bool hasPrevious = !dbHandler->isSelectEmpty(tbl, absFilter.arg(id - 1));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("It is not sure iff the work process has a previous process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     bool hasNext = !dbHandler->isSelectEmpty(tbl, absFilter.arg(id + 1));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("It is not sure iff the work process has a next process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
     emit setHasPreviousWorkProcess(hasPrevious);
     emit setHasNextWorkProcess(hasNext);
 }
@@ -881,25 +1057,16 @@ void Controller::saveWorkProcessFrequence(int frequence){
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     values.insert(DBConstants::COL_WORK_PROCESS_FREQUENCY, frequence);
     dbHandler->update(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, filter);
-
-}
-
-//Connection
-void Controller::initializeFTPConnections(IFTPConnections *widget){
-    widget->clearFTPConnections();
-    int defaultConnection_ID = 0;
-    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_CONNECTION, QString("%1 = %2").arg(DBConstants::COL_CONNECTION_ANALYST_ID).arg(analyst_ID));
-    for(int i = 0; i < values.count(); ++i){
-        QHash<QString, QVariant> row = values.at(i);
-        widget->addFTPConnection(row);
-        if(row.value(DBConstants::COL_CONNECTION_DEFAULT).toBool())
-            defaultConnection_ID = row.value(DBConstants::COL_CONNECTION_ID).toInt();
-    }
-    widget->selectedFTPConnection(defaultConnection_ID);
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not update work process frequency: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 }
 
 void Controller::selectFTPConnection(IFTPConnections *widget, int id){
     QHash<QString, QVariant> row = dbHandler->selectFirst(DBConstants::TBL_CONNECTION, QString("%1 = %2").arg(DBConstants::COL_CONNECTION_ID).arg(id));
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select FTP connection: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(!row.isEmpty()){
         widget->setFTPConnection(row);
     }
@@ -910,6 +1077,8 @@ void Controller::createFTPConnection(IFTPConnections *widget)
     QHash<QString, QVariant> values = widget->getFTPConnection();
     values.insert(DBConstants::COL_CONNECTION_ANALYST_ID, analyst_ID);
     dbHandler->insert(DBConstants::TBL_CONNECTION, DBConstants::HASH_CONNECTION_TYPES, values, DBConstants::COL_CONNECTION_ID);
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not create FTP connection: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 }
 
 void Controller::editFTPConnection(IFTPConnections *widget, int id)
@@ -917,6 +1086,8 @@ void Controller::editFTPConnection(IFTPConnections *widget, int id)
     QHash<QString, QVariant> values = widget->getFTPConnection();
     values.insert(DBConstants::COL_CONNECTION_ANALYST_ID, analyst_ID);
     dbHandler->update(DBConstants::TBL_CONNECTION, DBConstants::HASH_CONNECTION_TYPES, values, QString("%1 = %2").arg(DBConstants::COL_CONNECTION_ID).arg(id));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr(": \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 }
 
 //ImportData
@@ -1038,65 +1209,40 @@ void Controller::sendDataUploadError(const QString &error){
     emit showMessage(error, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 }
 
-//Shift
-void Controller::initializeShift(int id){
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_ID).arg(id);
-    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_SHIFT, filter);
-    if(!values.isEmpty()){
-        shift_ID = values.value(DBConstants::COL_SHIFT_ID).toInt();
-        filter = QString ("%1 = %2").arg(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_SHIFT_ID).arg(shift_ID);
-        selectedEmployee_ID = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, filter).value(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID).toInt();
-        emit employeeSelected(selectedEmployee_ID);
-        emit selectedShift(values);
-        initializeRotationGroup(values.value(DBConstants::COL_SHIFT_ROTATION_GROUP_ID).toInt());
-    }
-}
-
 void Controller::saveShift(QHash<QString, QVariant> values){
     QHash<QString, QVariant> ewsValues = QHash<QString, QVariant>();
     ewsValues.insert(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID, selectedEmployee_ID);
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_SHIFT_ID).arg(shift_ID);
     dbHandler->update(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, DBConstants::HASH_EMPLOYEE_WORKS_SHIFT_TYPES, ewsValues, filter, DBConstants::COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID);
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not save employee matching shift: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
     filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_ID).arg(shift_ID);
     values.insert(DBConstants::COL_SHIFT_RECORDING_ID, recording_ID);
     values.insert(DBConstants::COL_SHIFT_ROTATION_GROUP_ID, rotationGroup_ID);
     values.insert(DBConstants::COL_SHIFT_ID, shift_ID);
     dbHandler->save(DBConstants::TBL_SHIFT, DBConstants::HASH_SHIFT_TYPES, values, filter, DBConstants::COL_SHIFT_ID);
-    emit selectedShift(values);
-}
-
-//RotationGroup
-void Controller::initializeRotationGroup(int id){
-    rotationGroup_ID = id;
-    emit clearRotationGroup();
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(id);
-    QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
-    for(int i = 0; i < rgesValues.size(); ++i){
-        QHash<QString, QVariant> rgeValues = rgesValues.at(i);
-        int entry_ID = rgeValues.value(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).toInt();
-        bool isTask = rgeValues.value(DBConstants::COL_ROTATION_GROUP_IS_TASK).toBool();
-        QHash<QString, QVariant> additionalValues;
-        QString tblName = isTask ? DBConstants::TBL_ROTATION_GROUP_TASK : DBConstants::TBL_BREAK;
-        QString colIDName = isTask ? DBConstants::COL_ROTATION_GROUP_TASK_ID : DBConstants::COL_BREAK_ID;
-        filter = QString("%1 = %2").arg(colIDName).arg(entry_ID);
-        additionalValues = dbHandler->selectFirst(tblName, filter);
-        foreach(QString key , additionalValues.keys())
-            rgeValues.insert(key, additionalValues.value(key));
-        if(isTask)
-            emit addRotationGroupEntry(rgeValues);
-        else
-            emit addRotationGroupBreakEntry(rgeValues);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save shift: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
     }
-
+    emit selectedShift(values);
 }
 
 void Controller::createRotationGroupEntry(QHash<QString, QVariant> values){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(rotationGroup_ID);
     int order = dbHandler->getNextID(DBConstants::TBL_ROTATION_GROUP, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not retrieve next ID for rotation group entry: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     values.insert(DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER, order);
     values.insert(DBConstants::COL_ROTATION_GROUP_IS_TASK, true);
     values.insert(DBConstants::COL_ROTATION_GROUP_ID, rotationGroup_ID);
     int success = dbHandler->insert(DBConstants::TBL_ROTATION_GROUP, DBConstants::HASH_ROTATION_GROUP_TYPES, values, DBConstants::COL_ROTATION_GROUP_ORDER_NUMBER);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
     if(success > 0) {
         filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ID).arg(values.value(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).toString());
         QHash<QString, QVariant> additionalValues = dbHandler->selectFirst(DBConstants::TBL_ROTATION_GROUP_TASK, filter);
@@ -1157,15 +1303,6 @@ void Controller::moveRotationGroupEntryDown(int order){
     initializeRotationGroup(rotationGroup_ID);
 }
 
-
-//RotationGroupTask
-void Controller::initializeRotationGroupTasks(){
-    emit clearRotationGroupTasks();
-    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK, QString(""));
-    for(int i = 0; i < rows.size(); ++i)
-        emit createdRotationGroupTask(rows.value(i));
-}
-
 void Controller::createRotationGroupTask(QHash<QString, QVariant> values){
     dbHandler->insert(DBConstants::TBL_ROTATION_GROUP_TASK, DBConstants::HASH_ROTATION_GROUP_TASK_TYPES, values, DBConstants::COL_ROTATION_GROUP_TASK_ID);
     emit showMessage(tr("Created rotation group task"));
@@ -1200,21 +1337,6 @@ void Controller::saveRotationGroupTask(QHash<QString, QVariant> values){
     emit showMessage(tr("Saved rotation group task"));
     emit updatedRotationGroupTask(values);
     updateRotationGroupEntry(values.value(DBConstants::COL_ROTATION_GROUP_TASK_ID).toInt());
-}
-
-
-//RotationGroupTaskEntry
-void Controller::initializeRotationGroupTaskEntries(int id){
-    emit clearRotationGroupTaskEntries();
-    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(id);
-    QList<QHash<QString, QVariant>> rgtesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, filter);
-    for(int i = 0; i < rgtesValues.size(); ++i){
-        QHash<QString, QVariant> rgteValues = rgtesValues.at(i);
-        rgteValues.insert(DBConstants::COL_WORKPLACE_NAME, getWorkplaceNameByID(rgteValues.value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_WORKPLACE_ID).toInt()));
-        emit createdRotationGroupTaskEntry(rgteValues);
-    }
-    updateRotationGroupTaskDuration();
-
 }
 
 void Controller::createRotationGroupTaskEntry(QHash<QString, QVariant> values){
@@ -1453,3 +1575,190 @@ void Controller::deleteWorkProcesses(int activity_ID)
     dbHandler->remove(tbl, filter);
 }
 
+void Controller::initialize(){
+    //Initialize the data that is available by default
+    initializeAnalysts();
+    initializeProducts();
+    initializeTansportations();
+    initializeEquipments();
+    initializeEmployees();
+    initializeLines();
+    initializeWorkplaces();
+    initializeRotationGroupTasks();
+}
+
+void Controller::initializeAnalysts(){
+    emit clearAnalysts();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ANALYST, QString(""));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not initialize analysts: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    for(int i = 0; i < rows.size(); ++i)
+        emit createdAnalyst(rows.at(i));
+}
+
+void Controller::initializeProducts(){
+    emit clearProducts();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_PRODUCT, QString(""));
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not initialize product: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdProduct(rows.at(i));
+}
+
+void Controller::initializeTansportations(){
+    emit clearTransportations();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_TRANSPORTATION, QString(""));
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not initialize transportations: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdTransportation(rows.at(i));
+}
+
+void Controller::initializeEquipments(){
+    emit clearEquipments();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_EQUIPMENT, QString(""));
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not initialize equipments: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdEquipment(rows.at(i));
+}
+
+void Controller::initializeEmployees(){
+    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_EMPLOYEE, QString(""));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not initialize employees: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    for(int i = 0; i < values.count(); ++i)
+        emit createdEmployee(values.at(i));
+}
+
+void Controller::initializeLines(){
+    emit clearLines();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_LINE, QString(""));
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not select line: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdLine(rows.at(i));
+}
+
+void Controller::initializeWorkplaces(){
+    emit clearWorkplaces();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_WORKPLACE, QString(""));
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdWorkplace(rows.at(i));
+}
+
+void Controller::initializeActivities(int workplace_ID){
+    emit clearActivities();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(workplace_ID);
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ACTIVITY, filter);
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not initialize activities: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    for(int i = 0; i < rows.count(); ++i)
+        emit createdActivity(rows.at(i));
+}
+
+void Controller::initializeShift(int id){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_SHIFT_ID).arg(id);
+    QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_SHIFT, filter);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not select shift: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+    if(!values.isEmpty()){
+        shift_ID = values.value(DBConstants::COL_SHIFT_ID).toInt();
+        filter = QString ("%1 = %2").arg(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_SHIFT_ID).arg(shift_ID);
+        selectedEmployee_ID = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE_WORKS_SHIFT, filter).value(DBConstants::COL_EMPLOYEE_WORKS_SHIFT_EMPLOYEE_ID).toInt();
+        if(dbHandler->hasError())
+            emit showMessage(QString(tr("Could not match employee to shift: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        emit employeeSelected(selectedEmployee_ID);
+        emit selectedShift(values);
+        initializeRotationGroup(values.value(DBConstants::COL_SHIFT_ROTATION_GROUP_ID).toInt());
+    }
+}
+
+void Controller::initilizeWorkProcesses(bool selectFirst){
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(activity_ID);
+    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_WORK_PROCESS, filter);
+
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Work processes could not be initialized: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+    emit initiliazedWorkProcesses(values);
+    if(selectFirst)
+        selectWorkProcess(1, AVType::BASIC);
+}
+
+void Controller::initializeFTPConnections(IFTPConnections *widget){
+    widget->clearFTPConnections();
+    int defaultConnection_ID = 0;
+    QList<QHash<QString, QVariant>> values = dbHandler->select(DBConstants::TBL_CONNECTION, QString("%1 = %2").arg(DBConstants::COL_CONNECTION_ANALYST_ID).arg(analyst_ID));
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not retrieved FTP connections: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+    for(int i = 0; i < values.count(); ++i){
+        QHash<QString, QVariant> row = values.at(i);
+        widget->addFTPConnection(row);
+        if(row.value(DBConstants::COL_CONNECTION_DEFAULT).toBool())
+            defaultConnection_ID = row.value(DBConstants::COL_CONNECTION_ID).toInt();
+    }
+    widget->selectedFTPConnection(defaultConnection_ID);
+}
+
+void Controller::initializeRotationGroup(int id){
+    rotationGroup_ID = id;
+    emit clearRotationGroup();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_ID).arg(id);
+    QList<QHash<QString, QVariant>> rgesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP, filter);
+    if(dbHandler->hasError())
+        emit showMessage(QString(tr("Could not initialize rotation groups: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+    for(int i = 0; i < rgesValues.size(); ++i){
+        QHash<QString, QVariant> rgeValues = rgesValues.at(i);
+        int entry_ID = rgeValues.value(DBConstants::COL_ROTATION_GROUP_ENTRY_ID).toInt();
+        bool isTask = rgeValues.value(DBConstants::COL_ROTATION_GROUP_IS_TASK).toBool();
+        QHash<QString, QVariant> additionalValues;
+        QString tblName = isTask ? DBConstants::TBL_ROTATION_GROUP_TASK : DBConstants::TBL_BREAK;
+        QString colIDName = isTask ? DBConstants::COL_ROTATION_GROUP_TASK_ID : DBConstants::COL_BREAK_ID;
+        filter = QString("%1 = %2").arg(colIDName).arg(entry_ID);
+        additionalValues = dbHandler->selectFirst(tblName, filter);
+        if(dbHandler->hasError()){
+            emit showMessage(QString(tr("Could not fetch additional information for rotation group: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+            return;
+        }
+        foreach(QString key , additionalValues.keys())
+            rgeValues.insert(key, additionalValues.value(key));
+        if(isTask)
+            emit addRotationGroupEntry(rgeValues);
+        else
+            emit addRotationGroupBreakEntry(rgeValues);
+    }
+}
+
+void Controller::initializeRotationGroupTasks(){
+    emit clearRotationGroupTasks();
+    QList<QHash<QString, QVariant>> rows = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK, QString(""));
+    for(int i = 0; i < rows.size(); ++i)
+        emit createdRotationGroupTask(rows.value(i));
+}
+
+void Controller::initializeRotationGroupTaskEntries(int id){
+    emit clearRotationGroupTaskEntries();
+    QString filter = QString("%1 = %2").arg(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_TASK_ID).arg(id);
+    QList<QHash<QString, QVariant>> rgtesValues = dbHandler->select(DBConstants::TBL_ROTATION_GROUP_TASK_ENTRY, filter);
+    for(int i = 0; i < rgtesValues.size(); ++i){
+        QHash<QString, QVariant> rgteValues = rgtesValues.at(i);
+        rgteValues.insert(DBConstants::COL_WORKPLACE_NAME, getWorkplaceNameByID(rgteValues.value(DBConstants::COL_ROTATION_GROUP_TASK_ENTRY_WORKPLACE_ID).toInt()));
+        emit createdRotationGroupTaskEntry(rgteValues);
+    }
+    updateRotationGroupTaskDuration();
+
+}

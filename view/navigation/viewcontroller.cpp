@@ -290,7 +290,6 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(controller, SIGNAL(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)), ganttTimerView, SLOT(initiliazeWorkProcesses(QList<QHash<QString,QVariant> >)));
     connect(controller, SIGNAL(setSelectedWorkProcess(QHash<QString,QVariant>)), ganttTimerView, SLOT(setSelectedWorkProcess(QHash<QString,QVariant>)));
     connect(controller, SIGNAL(createdWorkProcess(QHash<QString, QVariant>)), ganttTimerView, SLOT(addWorkProcess(QHash<QString,QVariant>)));
-    connect(controller, SIGNAL(reselectedWorkProcesses()), ganttTimerView, SLOT(resetWorkProcesses()));
 
     connect(ganttTimerView, SIGNAL(entered()), timerViewController, SLOT(gantViewShown()));
     connect(ganttTimerView, SIGNAL(left()), timerViewController, SLOT(gantViewHidden()));
