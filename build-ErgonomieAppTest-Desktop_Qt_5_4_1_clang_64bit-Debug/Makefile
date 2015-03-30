@@ -205,7 +205,7 @@ DIST          = /Applications/Qt/5.4/clang_64/mkspecs/features/spec_pre.prf \
 		/Applications/Qt/5.4/clang_64/mkspecs/features/exceptions.prf \
 		/Applications/Qt/5.4/clang_64/mkspecs/features/yacc.prf \
 		/Applications/Qt/5.4/clang_64/mkspecs/features/lex.prf \
-		../ErgonomieappTest/ErgonomieappTest.pro ../ErgonomieappTest/tst_dbhandlertest.h \
+		../ErgonomieappTest/ErgonomieAppTest.pro ../ErgonomieappTest/tst_dbhandlertest.h \
 		../ErgonomieappTest/tst_controllertest.h \
 		../databaseHandler/dbhandler.h \
 		../standardpaths.h \
@@ -389,7 +389,7 @@ Makefile: ../ErgonomieappTest/ErgonomieappTest.pro /Applications/Qt/5.4/clang_64
 		/Applications/Qt/5.4/clang_64/mkspecs/features/exceptions.prf \
 		/Applications/Qt/5.4/clang_64/mkspecs/features/yacc.prf \
 		/Applications/Qt/5.4/clang_64/mkspecs/features/lex.prf \
-		../ErgonomieappTest/ErgonomieappTest.pro \
+		../ErgonomieappTest/ErgonomieAppTest.pro \
 		../testassets.qrc \
 		../assets.qrc \
 		/Applications/Qt/5.4/clang_64/lib/QtWidgets.framework/QtWidgets.prl \
@@ -521,7 +521,7 @@ Makefile: ../ErgonomieappTest/ErgonomieappTest.pro /Applications/Qt/5.4/clang_64
 /Applications/Qt/5.4/clang_64/mkspecs/features/exceptions.prf:
 /Applications/Qt/5.4/clang_64/mkspecs/features/yacc.prf:
 /Applications/Qt/5.4/clang_64/mkspecs/features/lex.prf:
-../ErgonomieappTest/ErgonomieappTest.pro:
+../ErgonomieappTest/ErgonomieAppTest.pro:
 ../testassets.qrc:
 ../assets.qrc:
 /Applications/Qt/5.4/clang_64/lib/QtWidgets.framework/QtWidgets.prl:
