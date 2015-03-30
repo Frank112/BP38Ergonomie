@@ -49,11 +49,6 @@ void DBHandlerTest::initTestCase(){
     QVERIFY(!dbHandler->hasError());
 }
 
-void DBHandlerTest::initInvalidDatabaseTest(){
-    DBHandler *test = new DBHandler("/hier/koennte/ihre/werbung/stehen.sqlite");
-    QVERIFY(test->hasError());
-}
-
 void DBHandlerTest::hasErrorTrueTest(){
     dbHandler->registerTable("Test");
     QVERIFY(dbHandler->hasError());
@@ -65,14 +60,14 @@ void DBHandlerTest::hasErrorFalseTest(){
 }
 
 void DBHandlerTest::getLastErrorWithResetTest(){
-    dbHandler->registerTable("Test");
+    dbHandler->registerTable("Bar");
     QVERIFY(dbHandler->hasError());
     dbHandler->getLastError(true);
     QVERIFY(!dbHandler->hasError());
 }
 
 void DBHandlerTest::getLastErrorWithoutResetTest(){
-    dbHandler->registerTable("Test");
+    dbHandler->registerTable("Foo");
     QVERIFY(dbHandler->hasError());
     dbHandler->getLastError(false);
     QVERIFY(dbHandler->hasError());
@@ -94,7 +89,7 @@ void DBHandlerTest::registerTableTest(){
 
 void DBHandlerTest::registerUnknownTableTest(){
     dbHandler->getLastError();
-    dbHandler->registerTable("Test");
+    dbHandler->registerTable("Bla");
 
     QVERIFY(dbHandler->hasError());
 }

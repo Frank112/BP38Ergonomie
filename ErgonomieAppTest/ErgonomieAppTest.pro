@@ -23,7 +23,7 @@ unix {
 
 HEADERS += tst_dbhandlertest.h \
            tst_controllertest.h \
-           ../databaseHandler/dbHandler.h \
+           ../databaseHandler/dbhandler.h \
            ../standardpaths.h \
            ../databaseHandler/dbconstants.h \
            ../control/controller.h \
@@ -35,7 +35,7 @@ HEADERS += tst_dbhandlertest.h \
 SOURCES += main.cpp \
            tst_dbhandlertest.cpp \
            tst_controllertest.cpp \
-           ../databaseHandler/dbHandler.cpp \
+           ../databaseHandler/dbhandler.cpp \
            ../databaseHandler/dbconstants.cpp \
            ../control/controller.cpp \
            ../ftpHandler/ftphandler.cpp \

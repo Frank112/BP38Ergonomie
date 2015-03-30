@@ -21,8 +21,6 @@ private Q_SLOTS:
 
     void cleanup();
 
-    void initInvalidDatabaseTest();
-
     void hasErrorTrueTest();
     void hasErrorFalseTest();
 

@@ -51,7 +51,7 @@ OBJECTS_DIR   = ./
 SOURCES       = ../ErgonomieappTest/main.cpp \
 		../ErgonomieappTest/tst_dbhandlertest.cpp \
 		../ErgonomieappTest/tst_controllertest.cpp \
-		../databaseHandler/dbHandler.cpp \
+		../databaseHandler/dbhandler.cpp \
 		../databaseHandler/dbconstants.cpp \
 		../control/controller.cpp \
 		../ftpHandler/ftphandler.cpp \
@@ -68,7 +68,7 @@ SOURCES       = ../ErgonomieappTest/main.cpp \
 OBJECTS       = main.o \
 		tst_dbhandlertest.o \
 		tst_controllertest.o \
-		dbHandler.o \
+		dbhandler.o \
 		dbconstants.o \
 		controller.o \
 		ftphandler.o \
@@ -207,7 +207,7 @@ DIST          = /Applications/Qt/5.4/clang_64/mkspecs/features/spec_pre.prf \
 		/Applications/Qt/5.4/clang_64/mkspecs/features/lex.prf \
 		../ErgonomieappTest/ErgonomieappTest.pro ../ErgonomieappTest/tst_dbhandlertest.h \
 		../ErgonomieappTest/tst_controllertest.h \
-		../databaseHandler/dbHandler.h \
+		../databaseHandler/dbhandler.h \
 		../standardpaths.h \
 		../databaseHandler/dbconstants.h \
 		../control/controller.h \
@@ -217,7 +217,7 @@ DIST          = /Applications/Qt/5.4/clang_64/mkspecs/features/spec_pre.prf \
 		../settings.h ../ErgonomieappTest/main.cpp \
 		../ErgonomieappTest/tst_dbhandlertest.cpp \
 		../ErgonomieappTest/tst_controllertest.cpp \
-		../databaseHandler/dbHandler.cpp \
+		../databaseHandler/dbhandler.cpp \
 		../databaseHandler/dbconstants.cpp \
 		../control/controller.cpp \
 		../ftpHandler/ftphandler.cpp \
@@ -560,8 +560,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../testassets.qrc ../assets.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../ErgonomieappTest/tst_dbhandlertest.h ../ErgonomieappTest/tst_controllertest.h ../databaseHandler/dbHandler.h ../standardpaths.h ../databaseHandler/dbconstants.h ../control/controller.h ../ftpHandler/ftphandler.h ../xmlHandler/xmlparser.h ../xmlHandler/xmlconstants.h ../settings.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../ErgonomieappTest/main.cpp ../ErgonomieappTest/tst_dbhandlertest.cpp ../ErgonomieappTest/tst_controllertest.cpp ../databaseHandler/dbHandler.cpp ../databaseHandler/dbconstants.cpp ../control/controller.cpp ../ftpHandler/ftphandler.cpp ../xmlHandler/xmlparser.cpp ../xmlHandler/xmlconstants.cpp ../settings.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../ErgonomieappTest/tst_dbhandlertest.h ../ErgonomieappTest/tst_controllertest.h ../databaseHandler/dbhandler.h ../standardpaths.h ../databaseHandler/dbconstants.h ../control/controller.h ../ftpHandler/ftphandler.h ../xmlHandler/xmlparser.h ../xmlHandler/xmlconstants.h ../settings.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../ErgonomieappTest/main.cpp ../ErgonomieappTest/tst_dbhandlertest.cpp ../ErgonomieappTest/tst_controllertest.cpp ../databaseHandler/dbhandler.cpp ../databaseHandler/dbconstants.cpp ../control/controller.cpp ../ftpHandler/ftphandler.cpp ../xmlHandler/xmlparser.cpp ../xmlHandler/xmlconstants.cpp ../settings.cpp $(DISTDIR)/
 
 
 clean:compiler_clean 
@@ -1049,7 +1049,7 @@ tst_controllertest.o: ../ErgonomieappTest/tst_controllertest.cpp ../Ergonomieapp
 		../view/navigation/viewtype.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tst_controllertest.o ../ErgonomieappTest/tst_controllertest.cpp
 
-dbHandler.o: ../databaseHandler/dbHandler.cpp ../databaseHandler/dbhandler.h \
+dbhandler.o: ../databaseHandler/dbhandler.cpp ../databaseHandler/dbhandler.h \
 		/Applications/Qt/5.4/clang_64/lib/QtSql.framework/Versions/5/Headers/QSqlDatabase \
 		/Applications/Qt/5.4/clang_64/lib/QtSql.framework/Versions/5/Headers/qsqldatabase.h \
 		/Applications/Qt/5.4/clang_64/lib/QtSql.framework/Versions/5/Headers/QSqlError \
@@ -1085,7 +1085,7 @@ dbHandler.o: ../databaseHandler/dbHandler.cpp ../databaseHandler/dbhandler.h \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qtextstream.h \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QDateTime \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qdatetime.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dbHandler.o ../databaseHandler/dbHandler.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dbhandler.o ../databaseHandler/dbhandler.cpp
 
 dbconstants.o: ../databaseHandler/dbconstants.cpp ../databaseHandler/dbconstants.h \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
