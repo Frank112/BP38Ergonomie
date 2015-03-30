@@ -75,7 +75,7 @@ void TimerViewController::setSelectedWorkProcessType(AVType type){
     setWorkProcessType(type, TYPE_PREFIXE.at(type - 1));
 }
 
-void TimerViewController::initiliazedWorkProcesses(QList<QHash<QString, QVariant>> values){
+void TimerViewController::initializedWorkProcesses(QList<QHash<QString, QVariant>> values){
     QVector<QVariant> *leftWorkProcesses = new QVector<QVariant>();
     QVector<QVariant> *rightWorkProcesses = new QVector<QVariant>();
     QVector<QVariant> *basicWorkProcesses = new QVector<QVariant>();

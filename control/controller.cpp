@@ -764,22 +764,6 @@ void Controller::createEmployee(QHash<QString, QVariant> values){
     emit showMessage(tr("Created new employee"));
 }
 
-void Controller::createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues){
-    int bmID = dbHandler->insert(DBConstants::TBL_BODY_MEASUREMENT, DBConstants::HASH_BODY_MEASUREMENT_TYPES, bodyMeasurementValues, DBConstants::COL_BODY_MEASUREMENT_ID);
-    if(dbHandler->hasError()){
-        emit showMessage(QString(tr("Could not save body measurement: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
-    }
-    values.insert(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID, bmID);
-    int empID = dbHandler->insert(DBConstants::TBL_EMPLOYEE, DBConstants::HASH_EMPLOYEE_TYPES, values, DBConstants::COL_EMPLOYEE_ID);
-    if(dbHandler->hasError()){
-        emit showMessage(QString(tr("Could not create employee: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        return;
-    }
-    values.insert(DBConstants::COL_EMPLOYEE_ID, empID);
-    emit createdEmployee(values);
-}
-
 void Controller::deleteEmployee(int id){
     QString filter = QString("%1 = %2").arg(DBConstants::COL_EMPLOYEE_ID).arg(id);
     QHash<QString, QVariant> values = dbHandler->selectFirst(DBConstants::TBL_EMPLOYEE, filter);
@@ -872,66 +856,6 @@ void Controller::createWorkprocess(QHash<QString, QVariant> values){
         selectWorkProcess(1, type);
     }
 }
-
-void Controller::createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses){
-    if(workplaceName != "" && activityName != ""){
-        QString absErrorMessage = QString(tr("Could not create workprocess list because \n the %1 \"%2\" %3 is missing."));
-        QString filter = QString("%1 = '%2'").arg(DBConstants::COL_WORKPLACE_NAME).arg(workplaceName);
-        int wp_ID = dbHandler->selectFirst(DBConstants::TBL_WORKPLACE, filter).value(DBConstants::COL_WORKPLACE_ID).toInt();
-
-        if(dbHandler->hasError())
-            emit showMessage(QString(tr("Could not select workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
-        if(wp_ID > 0){
-            filter = QString("%1 = %2 AND %3 = '%4'").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(wp_ID).arg(DBConstants::COL_ACTIVITY_DESCRIPTION).arg(activityName);
-            int ac_ID = dbHandler->selectFirst(DBConstants::TBL_ACTIVITY, filter).value(DBConstants::COL_ACTIVITY_ID).toInt();
-
-            if(dbHandler->hasError())
-                emit showMessage(QString(tr("Could not select activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
-            if(ac_ID > 0){
-                filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID);
-
-                if(!dbHandler->isSelectEmpty(DBConstants::TBL_WORK_PROCESS, filter)){
-
-                    if(dbHandler->hasError())
-                        emit showMessage(QString(tr("Could not check work processes : \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
-                    QString errorMessage = QString("The activity \"%1\" in workplace \"%2\" is not empty.").arg(activityName).arg(workplaceName);
-                    ErrorReporter::reportError(errorMessage);
-                    emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-
-                }
-
-                for(int i = 0; i < workprocesses.size(); ++i){
-                    QHash<QString, QVariant> values = workprocesses.at(i);
-                    filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(AVType::BASIC);
-                    int id = dbHandler->getNextID(DBConstants::TBL_WORK_PROCESS, DBConstants::COL_WORK_PROCESS_ID, filter);
-                    if(dbHandler->hasError())
-                        emit showMessage(QString(tr("Could not retrieve next ID for work process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-                    values.insert(DBConstants::COL_WORK_PROCESS_TYPE, AVType::BASIC);
-                    values.insert(DBConstants::COL_WORK_PROCESS_ID, id);
-                    values.insert(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID, ac_ID);
-                    dbHandler->insert(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, DBConstants::COL_WORK_PROCESS_ID);
-                    if(dbHandler->hasError())
-                        emit showMessage(QString(tr("Could not create work process in list: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-                }
-            } else {
-                QString addition = QString("with workplace \"%1\"").arg(workplaceName);
-                QString errorMessage = absErrorMessage.arg(tr("activity")).arg(activityName).arg(addition);
-                ErrorReporter::reportError(errorMessage);
-                emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-            }
-
-        } else {
-            QString errorMessage = absErrorMessage.arg(tr("workplace")).arg(workplaceName).arg("");
-            ErrorReporter::reportError(errorMessage);
-            emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-        }
-
-    }
-}
-
 
 void Controller::selectNextWorkProcess(){
     selectWorkProcess(workprocess_ID + 1, workprocess_Type);
@@ -1075,122 +999,6 @@ void Controller::editFTPConnection(IFTPConnections *widget, int id)
         emit showMessage(QString(tr(": \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 }
 
-void Controller::importData(IImportData *widget){
-    emit showMessage(tr("Start parsing"));
-    importDataWidget = widget;
-    if(widget->getImportMode().compare("XML") == 0){
-        XMLParser *xmlParser = new XMLParser(this);
-        connect(xmlParser, SIGNAL(createTransportation(QHash<QString,QVariant>)), this, SLOT(createTransportation(QHash<QString, QVariant>)));
-        connect(xmlParser, SIGNAL(createEmployee(QHash<QString,QVariant>,QHash<QString,QVariant>)), this, SLOT(createEmployee(QHash<QString,QVariant>,QHash<QString,QVariant>)));
-        connect(xmlParser, SIGNAL(createEquipment(QHash<QString,QVariant>)), this, SLOT(createEquipment(QHash<QString,QVariant>)));
-        connect(xmlParser, SIGNAL(createProduct(QHash<QString,QVariant>)), this, SLOT(createProduct(QHash<QString,QVariant>)));
-        connect(xmlParser, SIGNAL(createWorkplace(QHash<QString,QVariant>,QList<QHash<QString,QVariant> >)), this, SLOT(createWorkplace(QHash<QString,QVariant>,QList<QHash<QString,QVariant> >)));
-        connect(xmlParser, SIGNAL(createWorkprocessList(QString,QString,QList<QHash<QString,QVariant> >)), this, SLOT(createWorkprocessList(QString,QString,QList<QHash<QString,QVariant> >)));
-        parser = qobject_cast<IImportDataParser*>(xmlParser);
-        downloadDir = StandardPaths::xmlDirectoryPath();
-    }
-    else {
-        parser = 0;
-        downloadDir = "";
-    }
-
-
-    QDir downloadDirectory = QDir(downloadDir);
-    if(!downloadDirectory.exists())
-        downloadDirectory.mkpath(downloadDir);
-
-    if(parser){
-        FtpHandler *ftpHandler = new FtpHandler();
-        connect(ftpHandler, SIGNAL(error(QString)), this, SLOT(importDataDownloadError(QString)));
-        connect(ftpHandler, SIGNAL(finished(QString)), this, SLOT(importDataDownloadFinished(QString)));
-        QHash<QString, QVariant> conValues = widget->getFTPConnection();
-        ftpHandler->setUser(conValues.value(DBConstants::COL_CONNECTION_USERNAME).toString(), conValues.value(DBConstants::COL_CONNECTION_PASSWORD).toString());
-        ftpHandler->setPort(conValues.value(DBConstants::COL_CONNECTION_PORT).toInt());
-        ftpHandler->setServer(conValues.value(DBConstants::COL_CONNECTION_SERVER_ADDRESS).toString());
-
-        countFileDownload = 0;
-        if(parser->getFileMode() == IImportDataParser::FileMode::MultiFile){
-            if(widget->importTransportations()){
-                ftpHandler->downloadFile(parser->getTransportationFilename(), downloadDir);
-                countFileDownload++;
-            }
-            if(widget->importEquipments()){
-                ftpHandler->downloadFile(parser->getEquipmentFilename(), downloadDir);
-                countFileDownload++;
-            }
-            if(widget->importProducts()){
-                ftpHandler->downloadFile(parser->getProductFilename(), downloadDir);
-                countFileDownload++;
-            }
-            if(widget->importEmployees()){
-                ftpHandler->downloadFile(parser->getEmployeeFilename(), downloadDir);
-                countFileDownload++;
-            }
-            if(widget->importWorkplaces()){
-                ftpHandler->downloadFile(parser->getWorkplaceFilename(), downloadDir);
-                countFileDownload++;
-            }
-            if(widget->importWorkprocessLists()){
-                ftpHandler->downloadFile(parser->getWorkprocessListFilename(), downloadDir);
-                countFileDownload++;
-            }
-        }
-        else {
-            ftpHandler->downloadFile(parser->getSingleFilename(), downloadDir);
-            countFileDownload++;
-        }
-    }
-}
-
-void Controller::importDataDownloadFinished(const QString ){
-    countFileDownload--;
-    if(countFileDownload != 0)
-        return;
-
-    QString path = QString("%1/%2").arg(downloadDir);
-    if(parser != 0){
-        if(importDataWidget->importTransportations())
-            parser->parseTransportations(path.arg(parser->getTransportationFilename()));
-        if(importDataWidget->importEquipments())
-            parser->parseEquipments(path.arg(parser->getEquipmentFilename()));
-        if(importDataWidget->importProducts())
-            parser->parseProducts(path.arg(parser->getProductFilename()));
-        if(importDataWidget->importEmployees())
-            parser->parseEmployees(path.arg(parser->getEmployeeFilename()));
-        if(importDataWidget->importWorkplaces())
-            parser->parseWorkplaces(path.arg(parser->getWorkplaceFilename()));
-        if(importDataWidget->importWorkprocessLists())
-            parser->parseWorkprocessLists(path.arg(parser->getWorkprocessListFilename()));
-    }
-}
-
-void Controller::importDataDownloadError(const QString &error){
-    emit showMessage(error, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-}
-
-void Controller::sendData(ISendData *widget){
-    FtpHandler *ftpHandler = new FtpHandler();
-    connect(ftpHandler, SIGNAL(started()), this, SLOT(sendDataUploadStarted()));
-    connect(ftpHandler, SIGNAL(finished(QString)), this, SLOT(sendDataUploadFinished(QString)));
-    connect(ftpHandler, SIGNAL(error(QString)), this, SLOT(sendDataUploadError(QString)));
-    QHash<QString, QVariant> conValues = widget->getFTPConnection();
-    ftpHandler->setUser(conValues.value(DBConstants::COL_CONNECTION_USERNAME).toString(), conValues.value(DBConstants::COL_CONNECTION_PASSWORD).toString());
-    ftpHandler->setPort(conValues.value(DBConstants::COL_CONNECTION_PORT).toInt());
-    ftpHandler->setServer(conValues.value(DBConstants::COL_CONNECTION_SERVER_ADDRESS).toString());
-    ftpHandler->uploadFile(StandardPaths::databasePath());
-}
-
-void Controller::sendDataUploadStarted(){
-    emit showMessage(tr("Started Upload"), NotificationMessage::INFORMATION, NotificationMessage::MIDDLE);
-}
-
-void Controller::sendDataUploadFinished(const QString filename){
-    emit showMessage(QString(tr("Finished Upload: ")).append(filename));
-}
-
-void Controller::sendDataUploadError(const QString &error){
-    emit showMessage(error, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
-}
 
 void Controller::saveShift(QHash<QString, QVariant> values){
     QHash<QString, QVariant> ewsValues = QHash<QString, QVariant>();
@@ -1702,6 +1510,124 @@ void Controller::deleteWorkProcesses(int activity_ID)
     dbHandler->remove(tbl, filter);
 }
 
+void Controller::importData(IImportData *widget){
+    emit showMessage(tr("Start parsing"));
+    importDataWidget = widget;
+    if(widget->getImportMode().compare("XML") == 0){
+        XMLParser *xmlParser = new XMLParser(this);
+        connect(xmlParser, SIGNAL(createTransportation(QHash<QString,QVariant>)), this, SLOT(createTransportation(QHash<QString, QVariant>)));
+        connect(xmlParser, SIGNAL(createEmployee(QHash<QString,QVariant>,QHash<QString,QVariant>)), this, SLOT(createEmployee(QHash<QString,QVariant>,QHash<QString,QVariant>)));
+        connect(xmlParser, SIGNAL(createEquipment(QHash<QString,QVariant>)), this, SLOT(createEquipment(QHash<QString,QVariant>)));
+        connect(xmlParser, SIGNAL(createProduct(QHash<QString,QVariant>)), this, SLOT(createProduct(QHash<QString,QVariant>)));
+        connect(xmlParser, SIGNAL(createWorkplace(QHash<QString,QVariant>,QList<QHash<QString,QVariant> >)), this, SLOT(createWorkplace(QHash<QString,QVariant>,QList<QHash<QString,QVariant> >)));
+        connect(xmlParser, SIGNAL(createWorkprocessList(QString,QString,QList<QHash<QString,QVariant> >)), this, SLOT(createWorkprocessList(QString,QString,QList<QHash<QString,QVariant> >)));
+        parser = qobject_cast<IImportDataParser*>(xmlParser);
+        downloadDir = StandardPaths::xmlDirectoryPath();
+    }
+    else {
+        parser = 0;
+        downloadDir = "";
+    }
+
+
+    QDir downloadDirectory = QDir(downloadDir);
+    if(!downloadDirectory.exists())
+        downloadDirectory.mkpath(downloadDir);
+
+    if(parser){
+        FtpHandler *ftpHandler = new FtpHandler();
+        connect(ftpHandler, SIGNAL(error(QString)), this, SLOT(importDataDownloadError(QString)));
+        connect(ftpHandler, SIGNAL(finished(QString)), this, SLOT(importDataDownloadFinished(QString)));
+        QHash<QString, QVariant> conValues = widget->getFTPConnection();
+        ftpHandler->setUser(conValues.value(DBConstants::COL_CONNECTION_USERNAME).toString(), conValues.value(DBConstants::COL_CONNECTION_PASSWORD).toString());
+        ftpHandler->setPort(conValues.value(DBConstants::COL_CONNECTION_PORT).toInt());
+        ftpHandler->setServer(conValues.value(DBConstants::COL_CONNECTION_SERVER_ADDRESS).toString());
+
+        countFileDownload = 0;
+        if(parser->getFileMode() == IImportDataParser::FileMode::MultiFile){
+            if(widget->importTransportations()){
+                ftpHandler->downloadFile(parser->getTransportationFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importEquipments()){
+                ftpHandler->downloadFile(parser->getEquipmentFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importProducts()){
+                ftpHandler->downloadFile(parser->getProductFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importEmployees()){
+                ftpHandler->downloadFile(parser->getEmployeeFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importWorkplaces()){
+                ftpHandler->downloadFile(parser->getWorkplaceFilename(), downloadDir);
+                countFileDownload++;
+            }
+            if(widget->importWorkprocessLists()){
+                ftpHandler->downloadFile(parser->getWorkprocessListFilename(), downloadDir);
+                countFileDownload++;
+            }
+        }
+        else {
+            ftpHandler->downloadFile(parser->getSingleFilename(), downloadDir);
+            countFileDownload++;
+        }
+    }
+}
+
+void Controller::importDataDownloadFinished(const QString ){
+    countFileDownload--;
+    if(countFileDownload != 0)
+        return;
+
+    QString path = QString("%1/%2").arg(downloadDir);
+    if(parser != 0){
+        if(importDataWidget->importTransportations())
+            parser->parseTransportations(path.arg(parser->getTransportationFilename()));
+        if(importDataWidget->importEquipments())
+            parser->parseEquipments(path.arg(parser->getEquipmentFilename()));
+        if(importDataWidget->importProducts())
+            parser->parseProducts(path.arg(parser->getProductFilename()));
+        if(importDataWidget->importEmployees())
+            parser->parseEmployees(path.arg(parser->getEmployeeFilename()));
+        if(importDataWidget->importWorkplaces())
+            parser->parseWorkplaces(path.arg(parser->getWorkplaceFilename()));
+        if(importDataWidget->importWorkprocessLists())
+            parser->parseWorkprocessLists(path.arg(parser->getWorkprocessListFilename()));
+    }
+}
+
+void Controller::importDataDownloadError(const QString &error){
+    emit showMessage(error, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+}
+
+void Controller::sendData(ISendData *widget){
+    FtpHandler *ftpHandler = new FtpHandler();
+    connect(ftpHandler, SIGNAL(started()), this, SLOT(sendDataUploadStarted()));
+    connect(ftpHandler, SIGNAL(finished(QString)), this, SLOT(sendDataUploadFinished(QString)));
+    connect(ftpHandler, SIGNAL(error(QString)), this, SLOT(sendDataUploadError(QString)));
+    QHash<QString, QVariant> conValues = widget->getFTPConnection();
+    ftpHandler->setUser(conValues.value(DBConstants::COL_CONNECTION_USERNAME).toString(), conValues.value(DBConstants::COL_CONNECTION_PASSWORD).toString());
+    ftpHandler->setPort(conValues.value(DBConstants::COL_CONNECTION_PORT).toInt());
+    ftpHandler->setServer(conValues.value(DBConstants::COL_CONNECTION_SERVER_ADDRESS).toString());
+    ftpHandler->uploadFile(StandardPaths::databasePath());
+}
+
+void Controller::sendDataUploadStarted(){
+    emit showMessage(tr("Started Upload"), NotificationMessage::INFORMATION, NotificationMessage::MIDDLE);
+}
+
+void Controller::sendDataUploadFinished(const QString filename){
+    emit showMessage(QString(tr("Finished Upload: ")).append(filename));
+}
+
+void Controller::sendDataUploadError(const QString &error){
+    emit showMessage(error, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+}
+
+
 void Controller::initialize(){
     //Initialize the data that is available by default
     initializeAnalysts();
@@ -1821,7 +1747,7 @@ void Controller::initializeWorkProcesses(bool selectFirst){
     if(dbHandler->hasError())
         emit showMessage(QString(tr("Work processes could not be initialized: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
 
-    emit initiliazedWorkProcesses(values);
+    emit initializedWorkProcesses(values);
     if(selectFirst)
         selectWorkProcess(1, AVType::BASIC);
 }
@@ -1887,5 +1813,80 @@ void Controller::initializeRotationGroupTaskEntries(int id){
         emit createdRotationGroupTaskEntry(rgteValues);
     }
     updateRotationGroupTaskDuration();
+}
 
+void Controller::createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses){
+    if(workplaceName != "" && activityName != ""){
+        QString absErrorMessage = QString(tr("Could not create workprocess list because \n the %1 \"%2\" %3 is missing."));
+        QString filter = QString("%1 = '%2'").arg(DBConstants::COL_WORKPLACE_NAME).arg(workplaceName);
+        int wp_ID = dbHandler->selectFirst(DBConstants::TBL_WORKPLACE, filter).value(DBConstants::COL_WORKPLACE_ID).toInt();
+
+        if(dbHandler->hasError())
+            emit showMessage(QString(tr("Could not select workplace: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+        if(wp_ID > 0){
+            filter = QString("%1 = %2 AND %3 = '%4'").arg(DBConstants::COL_ACTIVITY_WORKPLACE_ID).arg(wp_ID).arg(DBConstants::COL_ACTIVITY_DESCRIPTION).arg(activityName);
+            int ac_ID = dbHandler->selectFirst(DBConstants::TBL_ACTIVITY, filter).value(DBConstants::COL_ACTIVITY_ID).toInt();
+
+            if(dbHandler->hasError())
+                emit showMessage(QString(tr("Could not select activity: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+            if(ac_ID > 0){
+                filter = QString("%1 = %2").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID);
+
+                if(!dbHandler->isSelectEmpty(DBConstants::TBL_WORK_PROCESS, filter)){
+
+                    if(dbHandler->hasError())
+                        emit showMessage(QString(tr("Could not check work processes : \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+                    QString errorMessage = QString("The activity \"%1\" in workplace \"%2\" is not empty.").arg(activityName).arg(workplaceName);
+                    ErrorReporter::reportError(errorMessage);
+                    emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+
+                }
+
+                for(int i = 0; i < workprocesses.size(); ++i){
+                    QHash<QString, QVariant> values = workprocesses.at(i);
+                    filter = QString("%1 = %2 AND %3 = %4").arg(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID).arg(ac_ID).arg(DBConstants::COL_WORK_PROCESS_TYPE).arg(AVType::BASIC);
+                    int id = dbHandler->getNextID(DBConstants::TBL_WORK_PROCESS, DBConstants::COL_WORK_PROCESS_ID, filter);
+                    if(dbHandler->hasError())
+                        emit showMessage(QString(tr("Could not retrieve next ID for work process: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+                    values.insert(DBConstants::COL_WORK_PROCESS_TYPE, AVType::BASIC);
+                    values.insert(DBConstants::COL_WORK_PROCESS_ID, id);
+                    values.insert(DBConstants::COL_WORK_PROCESS_ACTIVITY_ID, ac_ID);
+                    dbHandler->insert(DBConstants::TBL_WORK_PROCESS, DBConstants::HASH_WORK_PROCESS_TYPES, values, DBConstants::COL_WORK_PROCESS_ID);
+                    if(dbHandler->hasError())
+                        emit showMessage(QString(tr("Could not create work process in list: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+                }
+            } else {
+                QString addition = QString("with workplace \"%1\"").arg(workplaceName);
+                QString errorMessage = absErrorMessage.arg(tr("activity")).arg(activityName).arg(addition);
+                ErrorReporter::reportError(errorMessage);
+                emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+            }
+
+        } else {
+            QString errorMessage = absErrorMessage.arg(tr("workplace")).arg(workplaceName).arg("");
+            ErrorReporter::reportError(errorMessage);
+            emit showMessage(errorMessage, NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        }
+
+    }
+}
+
+
+void Controller::createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues){
+    int bmID = dbHandler->insert(DBConstants::TBL_BODY_MEASUREMENT, DBConstants::HASH_BODY_MEASUREMENT_TYPES, bodyMeasurementValues, DBConstants::COL_BODY_MEASUREMENT_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not save body measurement: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+    values.insert(DBConstants::COL_EMPLOYEE_BODY_MEASUREMENT_ID, bmID);
+    int empID = dbHandler->insert(DBConstants::TBL_EMPLOYEE, DBConstants::HASH_EMPLOYEE_TYPES, values, DBConstants::COL_EMPLOYEE_ID);
+    if(dbHandler->hasError()){
+        emit showMessage(QString(tr("Could not create employee: \n%1")).arg(dbHandler->getLastError()), NotificationMessage::ERROR, NotificationMessage::PERSISTENT);
+        return;
+    }
+    values.insert(DBConstants::COL_EMPLOYEE_ID, empID);
+    emit createdEmployee(values);
 }

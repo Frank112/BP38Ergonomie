@@ -48,7 +48,7 @@ public:
 
 signals:
     /**
-     * @brief showMessage A signal that is emitted to indicate that a NotificationMessage should be shown.
+     * @brief showMessage A signal that is emitted to indicate that a NotificationMessage has been shown.
      * @param message The message requested to be displayed.
      * @param msgType The message type of the message to be displayed.
      * @param msgDisplayType The message display type of the message to be displayed.
@@ -56,25 +56,31 @@ signals:
     void showMessage(QString message, NotificationMessage::MessageType msgType = NotificationMessage::ACCEPT, NotificationMessage::MessageDisplayType msgDisplayType = NotificationMessage::MIDDLE);
 
     /**
-     * @brief showView A signal that is emitted to indicate that the view with the Types::ViewType::ViewType <i>type</i> should be shown
+     * @brief showView A signal that is emitted to indicate that the view with the Types::ViewType <i>type</i> has been shown
+     * and a <a href="http://doc.qt.io/qt-5/qlist.html">QList</a> of <span>Types::ViewType</span>s that has been simulated before.
+     *
+     * <b>Note:</b> The simulation is required if the <i>back</i> semantic should behave, as if the views in the list
+     * has been stepped through, even if they were not really displayed <i>before</i>.
+     *
+     * <b>Note:</b> The previous views are listed in the order of simulation.
+     *
      * @param view The view type of the widget that is requested to be shown.
-     * @param previousViews The list of view types representing the previous Views of the now to be shown view.
+     * @param previousViews The list of view types representing the previous views to be simulated.
      */
     void showView(Types::ViewType view, QList<Types::ViewType> *previousViews = 0);
 
     /**
-     * @brief clearAll A signal that is emitted to indicate that all exisiting entries should be deleted.
+     * @brief clearAll A signal that is emitted to indicate that all exisiting entries have been deleted.
      */
     void clearAll();
 
-    //Analyst
     /**
-     * @brief clearAnalysts A signal that is emitted to indicate that all existing analysts should be deleted.
+     * @brief clearAnalysts A signal that is emitted to indicate that all existing analysts have been deleted.
      */
     void clearAnalysts();
 
     /**
-     * @brief createdAnalyst A signal that is emitted to indicate that a new analyst should be created as specified
+     * @brief createdAnalyst A signal that is emitted to indicate that a new analyst has been created as specified
      * in <i>values</i>.
      *
      * <b>Note:</b> The corporation name is provided with the values.
@@ -84,357 +90,330 @@ signals:
     void createdAnalyst(QHash<QString, QVariant> values);
 
     /**
-     * @brief selectedAnalyst A signal that is emitted to indicate that the analyst identified in <i>values</i>
-     * should be selected.
+     * @brief selectedAnalyst A signal that is emitted to indicate that the analyst specified in <i>values</i>
+     * has been selected.
      *
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedAnalyst(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedAnalyst A signal that is emitted to indicate that the analyst identified in <i>values</i>
-     * should be updated.
-     * @param values A hashmap of values with each the column name and the corresponding value to this column.
-     */
-    void updatedAnalyst(QHash<QString, QVariant> values);
-
-    /**
-     * @brief removedAnalyst A signal that is emitted to indicate that the analyst with <i>id</> should be removed.
-     * @param id The id of the analyst to be removed.
+     * @brief removedAnalyst A signal that is emitted to indicate that the analyst with <i>id</> has been removed.
+     * @param id The id of the analyst removed.
      */
     void removedAnalyst(int id);
 
-    //Branch of Industry
     /**
-     * @brief selectedBranchOfIndustry A signal that is emitted to indicate that the Branch of Industry was selected
-     * in the Controller with the data in <i>values</i>.
+     * @brief selectedBranchOfIndustry A signal that is emitted to indicate that the Branch of Industry specified in
+     * <i>values</i> has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedBranchOfIndustry(QHash<QString, QVariant> values);
 
-    //Corperation
     /**
-     * @brief selectedCorperation A signal that is emitted to indicate that the Corporation was selected in the
-     * Controller with the data in <i>values</i>.
+     * @brief selectedCorperation A signal that is emitted to indicate that the Corporation specified in
+     * <i>values</i> has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedCorperation(QHash<QString, QVariant> values);
 
-    //Factory
     /**
-     * @brief selectedFactory A signal that is emitted to indicate that the Factory was selected in the Controller
-     * with the data in in <i>values</i>.
+     * @brief selectedFactory A signal that is emitted to indicate that the Factory specified in <i>values</i>
+     * has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedFactory(QHash<QString, QVariant> values);
 
-    //Recording
     /**
-     * @brief selectedRecording A signal that is emitted to indicate that the Recording was selected in the Controller
-     * with the data in <i>values</i>.
+     * @brief selectedRecording A signal that is emitted to indicate that the recording specified in <i>values</i>
+     * has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedRecording(QHash<QString, QVariant> values);
 
-    //Workplace
     /**
-     * @brief clearWorkplaces A signal that is emitted to indicate that all existing workplaces should be deleted.
+     * @brief clearWorkplaces A signal that is emitted to indicate that all existing workplaces have been deleted.
      */
     void clearWorkplaces();
 
     /**
-     * @brief createdWorkplace A signal that is emitted to indicate that a new workplace should be created as
+     * @brief createdWorkplace A signal that is emitted to indicate that a new workplace has been created as
      * specified in <i>values</i>
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdWorkplace(QHash<QString, QVariant> values);
 
     /**
-     * @brief selectedWorkplace A signal that is emitted to indicate that the workplace identified by <i>values</i>
-     * should be selected.
+     * @brief selectedWorkplace A signal that is emitted to indicate that the workplace specified in <i>values</i>
+     * has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedWorkplace(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedWorkplace A signal that is emitted to indicate that the workplaces identified in <i>values</i>
-     * should be updated.
+     * @brief updatedWorkplace A signal that is emitted to indicate that the workplaces specified in <i>values</i>
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedWorkplace(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedWorkplace A signal that is emitted to indicate that the workplace with <i>id</i> should be removed
-     * @param id The id of the workplace to be removed.
+     * @brief removedWorkplace A signal that is emitted to indicate that the workplace with <i>id</i> has been removed
+     * @param id The id of the workplace removed.
      */
     void removedWorkplace(int id);
 
-    //Workplace comment
     /**
-     * @brief selectedComment A signal that is emitted to indicate that the comment identified in <i>values</i>
-     * should be selected.
+     * @brief selectedComment A signal that is emitted to indicate that the comment specified in <i>values</i>
+     * has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedComment(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedComment A signal that is emitted to indicate that the comment identified in <i>values</i>
-     * should be updated.
+     * @brief updatedComment A signal that is emitted to indicate that the comment specified in <i>values</i>
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedComment(QHash<QString, QVariant> values);
 
-    //Line
     /**
-     * @brief createdLine A signal that is emitted to indicate that a new line should be created as specified in
-     * <i>values</i>.
+     * @brief createdLine A signal that is emitted to indicate that a new line specified in <i>values</i>
+     * has been created.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdLine(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedLine A signal that is emitted to indicate that the line identified in <i>values</i>
-     * should be updated
+     * @brief updatedLine A signal that is emitted to indicate that the line specified in <i>values</i>
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedLine(QHash<QString, QVariant> values);
 
     /**
-     * @brief editLine A signal that is emitted to indictate that the line identified in <i>values</i>
-     * should be edited.
+     * @brief editLine A signal that is emitted to indictate that the line specified in <i>values</i>
+     * has been edited.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void editLine(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedLine A signal that is emitted to indicate that the line with <i>id</i> should be removed
-     * @param id The id of the line to be removed
+     * @brief removedLine A signal that is emitted to indicate that the line with <i>id</i> has been removed.
+     * @param id The id of the line removed.
      */
     void removedLine(int id);
 
     /**
-     * @brief selectedLine A signal that is emitted to indicate that the line identified in <i>values</i> should be
+     * @brief selectedLine A signal that is emitted to indicate that the line specified in <i>values</i> has been
      * selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedLine(QHash<QString, QVariant> values);
 
     /**
-     * @brief clearLines A signal that is emitted to indicate that all exisiting lines should be deleted.
+     * @brief clearLines A signal that is emitted to indicate that all exisiting lines have been deleted.
      */
     void clearLines();
 
-    //Employee
     /**
-     * @brief clearEmployees A signal that is emitted to indicate that all exisiting employees should be deleted.
+     * @brief clearEmployees A signal that is emitted to indicate that all exisiting employees have been deleted.
      */
     void clearEmployees();
 
     /**
-     * @brief createdEmployee A signal that is emitted to indicate that a new employee should be created as specified
-     * in <i>values</i>.
+     * @brief createdEmployee A signal that is emitted to indicate that a new employee specified in <i>values</i>
+     * has been created.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdEmployee(QHash<QString, QVariant> values);
 
     /**
-     * @brief selectedEmployee A signal that is emitted to indicate that the employee identified in <i>values</i> should
-     * be selected.
+     * @brief selectedEmployee A signal that is emitted to indicate that the employee specified in <i>values</i>
+     * has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedEmployee(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedEmployee A signal that is emitted to indicate that the employee identified in <i>values</i> should
-     * be updated.
+     * @brief updatedEmployee A signal that is emitted to indicate that the employee specified in <i>values</i>
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedEmployee(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedEmployee A signal that is emitted to indicate that the employee with <i>id</i> should be removed.
-     * @param id The id of the employee to be removed.
+     * @brief removedEmployee A signal that is emitted to indicate that the employee with <i>id</i> has been removed.
+     * @param id The id of the employee removed.
      */
     void removedEmployee(int id);
 
-    //EmployeeSelectList
     /**
-     * @brief employeeSelected A signal that is emitted to indicate that the employee identified in <i>values</i> should
-     * be selected.
+     * @brief employeeSelected A signal that is emitted to indicate that the employee specified in <i>values</i>
+     * has been selected.
      * @param id The id of the employee to be selected.
      */
     void employeeSelected(int id);
 
-    //BodyMeasurement
     /**
-     * @brief selectedBodyMeasurement A signal that is emitted to indicate that the body measurment identified in
-     * <i>values</i> should be selected.
+     * @brief selectedBodyMeasurement A signal that is emitted to indicate that the body measurment specified in
+     * <i>values</i> has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedBodyMeasurement(QHash<QString, QVariant> values);
 
-    //Product
     /**
-     * @brief clearProducts A signal that is emitted to indicate that all existing products should be deleted.
+     * @brief clearProducts A signal that is emitted to indicate that all existing products have been deleted.
      */
     void clearProducts();
 
     /**
-     * @brief createdProduct A signal that is emitted to indicate that a new product should be created as specified
-     * in <i>values</i>.
+     * @brief createdProduct A signal that is emitted to indicate that a new product specified in <i>values</i>
+     * has been created.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdProduct(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedProduct A signal that is emitted to indicate that the product identified in <i>values</i> should
-     * be updated.
+     * @brief updatedProduct A signal that is emitted to indicate that the product specified in <i>values</i>
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedProduct(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedProduct A signal that is emitted to indicate that the product with <i>id</i> should be removed.
-     * @param id The id of the product to be removed.
+     * @brief removedProduct A signal that is emitted to indicate that the product with <i>id</i> has been removed.
+     * @param id The id of the product removed.
      */
     void removedProduct(int id);
 
-    //Activity
     /**
-     * @brief clearActivities A signal that is emitted to indicate that all exisiting activities should be deleted.
+     * @brief clearActivities A signal that is emitted to indicate that all exisiting activities have been deleted.
      */
     void clearActivities();
 
     /**
-     * @brief createdActivity A signal that is emitted to indicate that a new activity should be created as
-     * specified in <i>values</i>.
+     * @brief createdActivity A signal that is emitted to indicate that a new activity specified in <i>values</i>
+     * has been created.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdActivity(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedActivity A signal that is emitted to indicate that the activity identified in <i>values
-     * should be updated.
+     * @brief updatedActivity A signal that is emitted to indicate that the activity specified in <i>values
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedActivity(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedActivity A signal that is emitted to indicate that the activity with <i>id</i> should be removed.
-     * @param id The id of the activity to be removed.
+     * @brief removedActivity A signal that is emitted to indicate that the activity with <i>id</i> has been removed.
+     * @param id The id of the activity removed.
      */
     void removedActivity(int id);
 
     /**
-     * @brief editActivity A signal that is emitted to indicate that the activity identified in <i>values</i>
+     * @brief editActivity A signal that is emitted to indicate that the activity specified in <i>values</i>
      * should be edited.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void editActivity(QHash<QString, QVariant> values);
 
-    //Equipment
     /**
-     * @brief clearEquipments A signal that is emitted to indicate that all existing equipments should be deleted.
+     * @brief clearEquipments A signal that is emitted to indicate that all existing equipments have been deleted.
      */
     void clearEquipments();
 
     /**
-     * @brief createdEquipment A signal that is emitted to indicate that a new equipment should be created as
-     * specified in <i>values</i>.
+     * @brief createdEquipment A signal that is emitted to indicate that a new equipment specified in <i>values</i>
+     * has been created.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdEquipment(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedEquipment A signal that is emitted to indicate that the equipment identified in <i>values
-     * should be updated.
+     * @brief updatedEquipment A signal that is emitted to indicate that the equipment specified in <i>values
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedEquipment(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedEquipment A signal that is emitted to indicate that the activity with <i>id</i> should be removed.
-     * @param id The id of the equipment to be removed.
+     * @brief removedEquipment A signal that is emitted to indicate that the activity with <i>id</i> has been removed.
+     * @param id The id of the equipment removed.
      */
     void removedEquipment(int id);
 
-    //Transportation
     /**
-     * @brief clearTransportations A signal that is emitted to indicate that all existing equipments should be deleted.
+     * @brief clearTransportations A signal that is emitted to indicate that all existing equipments have been deleted.
      */
     void clearTransportations();
 
     /**
-     * @brief createdTransportation A signal that is emitted to indicate that a new transportation should be created as
-     * specified in <i>values</i>.
+     * @brief createdTransportation A signal that is emitted to indicate that a new transportation specified in <i>values</i>
+     * has been created.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdTransportation(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedTransportation A signal that is emitted to indicate that the transportation identified in <i>values
-     * should be updated.
+     * @brief updatedTransportation A signal that is emitted to indicate that the transportation specified in <i>values
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedTransportation(QHash<QString, QVariant> values);
 
     /**
-     * @brief removedTransportation A signal that is emitted to indicate that the transportation with <i>id</i> should be removed.
-     * @param id The id of the transportation to be removed.
+     * @brief removedTransportation A signal that is emitted to indicate that the transportation with <i>id</i> has been removed.
+     * @param id The id of the transportation removed.
      */
     void removedTransportation(int id);
 
-    //LoadHandling
     /**
-     * @brief setLoadHandling A signal that is emitted to indicate that the load handling should be set as
-     * specified in <i>values</i>.
+     * @brief setLoadHandling A signal that is emitted to indicate that the load handling specified in <i>values</i>
+     * has been set.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setLoadHandling(QHash<QString, QVariant> values);
 
-    //BodyPosture
     /**
-     * @brief setBodyPosture A signal that is emitted to indicate that the body posture should be set as
-     * specified in <i>values</i>.
+     * @brief setBodyPosture A signal that is emitted to indicate that the body posture specified in <i>values</i>
+     * has been set.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setBodyPosture(QHash<QString, QVariant> values);
 
-    //AppliedForce
     /**
-     * @brief setAppliedForce A signal that is emitted to indicate that the applied force should be set as
-     * specified in <i>values</i>.
+     * @brief setAppliedForce A signal that is emitted to indicate that the applied force specified in <i>values</i>
+     * has been set.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setAppliedForce(QHash<QString, QVariant> values);
 
-    //WorkProcess
     /**
-     * @brief setWorkProcess A signal that is emitted to indicate that the work process should be set as
-     * specified in <i>values</i>.
+     * @brief setWorkProcess A signal that is emitted to indicate that the work process specified in <i>values</i>
+     * has been set.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setWorkProcess(QHash<QString, QVariant> values);
 
-    //ExecutionCondition
     /**
-     * @brief setExecutionCondition A signal that is emitted to indicate that the execution condition should be set as
-     * specified in <i>values</i>.
+     * @brief setExecutionCondition A signal that is emitted to indicate that the execution condition specified in <i>values</i>
+     * has been set.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setExecutionCondition(QHash<QString, QVariant> values);
 
-    //WorkProcessControll
     /**
-     * @brief createdWorkProcess A signal that is emitted to indicate that a work process should be created as
-     * specified in <i>values</i>.
+     * @brief createdWorkProcess A signal that is emitted to indicate that a work process specified in <i>values</i>
+     * has been created.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdWorkProcess(QHash<QString, QVariant> values);
 
     /**
      * @brief setSelectedWorkProcess A signal that is emitted to indicate that the work process specified in <i>values</i>
-     * should be selected.
+     * has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void setSelectedWorkProcess(QHash<QString, QVariant> values);
@@ -456,34 +435,33 @@ signals:
     /**
      * @brief setSelectedWorkProcessType A signal that is emitted to indicate the AVType of the currently
      * selected work process.
-     * @param type The type the workprocess should be set to.
+     * @param type The type the workprocess has been set to.
      */
     void setSelectedWorkProcessType(AVType type);
 
     /**
-     * @brief initiliazedWorkProcesses A signal that is emitted to initialize the work process with a
+     * @brief initializedWorkProcesses A signal that is emitted to indicate the work processes have ben initialized with a
      * <a href="http://doc.qt.io/qt-5/qlist.html">QList</a> of <a href="http://doc.qt.io/qt-4.8/qhash.html">QHash</a>.
      * Each element of the list represents a work process.
      * @param values A list of hashmaps of values with each the column name and the corresponding value to this column.
      */
-    void initiliazedWorkProcesses(QList<QHash<QString, QVariant>> values);
+    void initializedWorkProcesses(QList<QHash<QString, QVariant>> values);
 
-    //Shift
     /**
-     * @brief selectedShift A signal that is emitted to indicate that the shift identified in <i>values</i>
-     * should be selected.
+     * @brief selectedShift A signal that is emitted to indicate that the shift specified in <i>values</i>
+     * has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedShift(QHash<QString, QVariant> values);
 
-    //RotationGroup
     /**
-     * @brief clearRotationGroup A signal that is emitted to indicate that all existing rotation groups should be deleted.
+     * @brief clearRotationGroup A signal that is emitted to indicate that all existing rotation groups have been deleted.
      */
     void clearRotationGroup();
 
     /**
-     * @brief addRotationGroupEntry A signal that is emitted to indicate that a rotation group entry should be added.
+     * @brief addRotationGroupEntry A signal that is emitted to indicate that a rotation group entry  specified in <i>values</i>
+     * has been added.
      *
      * <b>Note:</b> The Rotation group task name and its duration is provided with the values.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -491,8 +469,8 @@ signals:
     void addRotationGroupEntry(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedRotationGroupEntry A signal that is emitted to indicate that the rotation group entry identified in <i>values
-     * should be updated.
+     * @brief updatedRotationGroupEntry A signal that is emitted to indicate that the rotation group entry specified in <i>values
+     * has been updated.
      *
      * <b>Note:</b> The Rotation group task name and its duration is provided with the values.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -501,65 +479,63 @@ signals:
 
     /**
      * @brief addRotationGroupBreakEntry A signal that is emitted to indicate that a new rotation group break entry
-     * should be added.
+     * specified in <i>values</i> has been added.
      *
-     * <b>Note:</b> The break's duration is provided with the values.
+     * <b>Note:</b> The entry's duration is provided with the values.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void addRotationGroupBreakEntry(QHash<QString, QVariant> values);
 
-    //RotationGroupTask
     /**
-     * @brief clearRotationGroupTasks A signal that is emitted to indicate that all existing rotation group tasks should
-     * be deleted.
+     * @brief clearRotationGroupTasks A signal that is emitted to indicate that all existing rotation group tasks
+     * have been deleted.
      */
     void clearRotationGroupTasks();
 
     /**
-     * @brief createdRotationGroupTask A signal that is emitted to indicate that a new rotation group task should
-     * be created as specified in <i>values</i>.
+     * @brief createdRotationGroupTask A signal that is emitted to indicate that a new rotation group task specified in <i>values</i>
+     * has been created.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void createdRotationGroupTask(QHash<QString, QVariant> values);
 
     /**
-     * @brief updatedRotationGroupTask A signal that is emitted to indicate that the rotation group task identified in <i>values</i>
-     * should be updated.
+     * @brief updatedRotationGroupTask A signal that is emitted to indicate that the rotation group task specified in <i>values</i>
+     * has been updated.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void updatedRotationGroupTask(QHash<QString, QVariant> values);
 
     /**
      * @brief removedRotationGroupTask A signal that is emitted to indicate that the rotation group task with <i>id</i>
-     * should be removed.
-     * @param id The id of the rotation group task to be removed.
+     * has been removed.
+     * @param id The id of the rotation group task removed.
      */
     void removedRotationGroupTask(int id);
 
     /**
-     * @brief selectedRotationGroupTask A signal that is emitted to indicate that the rotation group identified in <i>values</i>
-     * should be selected.
+     * @brief selectedRotationGroupTask A signal that is emitted to indicate that the rotation group specified in <i>values</i>
+     * has been selected.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     void selectedRotationGroupTask(QHash<QString, QVariant> values);
 
     /**
      * @brief updatedRotationGroupTaskDuration A signal that is emitted to indicate that the currently selected rotation
-     * group task should be updated with the provided <i>duration</i>.
-     * @param duration The duration the rotatoin group task should be updated to.
+     * group task has been updated with the provided <i>duration</i>.
+     * @param duration The duration the rotation group task has been updated to.
      */
     void updatedRotationGroupTaskDuration(int duration);
 
-    //RotationGroupTaskEntry
     /**
      * @brief clearRotationGroupTaskEntries A signal that is emitted to indicate that all existing rotation group task
-     * entries should be deleted.
+     * entries have been deleted.
      */
     void clearRotationGroupTaskEntries();
 
     /**
      * @brief createdRotationGroupTaskEntry A signal that is emitted to indicate that a new rotation group task entry
-     * should be created as specified in <i>values</i>.
+     * specified in <i>values</i> has been created.
      *
      * <b>Note:</b> The work place name is provided with the values.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
@@ -568,14 +544,14 @@ signals:
 
     /**
      * @brief removedRotationGroupTaskEntry A signal that is emitted to indicate that the rotation group task entry with
-     * <i>id</id> should be removed.
-     * @param id The id of the rotation group task entry to be removed.
+     * <i>id</id> has been removed.
+     * @param id The id of the rotation group task entry removed.
      */
     void removedRotationGroupTaskEntry(int id);
 
 public slots:
     /**
-     * @brief createAnalyst Creates a new analyst with the entries given in <i>values</i> in the database.
+     * @brief createAnalyst Creates a new analyst in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -601,19 +577,19 @@ public slots:
      */
     void selectAnalyst(int id);
 
-    //MainMenuView
     /**
      * @brief createBlankRecording Creates a new autogenerated recording in the database and simulates the normal
      * behaviour of creating a recording in the views.
      *
      * An autogenerated workplace and activity are created.
      *
+     * @see showView();
+     *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
      */
     void createBlankRecording();
 
-    //BranchOfIndustry
     /**
      * @brief setBranchOfIndustry Sets the branch of industry values with <i>id</i> from the database.
      * @param id The id of the branch of industry to be set.
@@ -624,7 +600,7 @@ public slots:
     void setBranchOfIndustry(int id);
 
     /**
-     * @brief saveBranchOfIndustry Saves the branch of industry entries given in <i>values</i> in the database.
+     * @brief saveBranchOfIndustry Saves the branch of industry in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -632,7 +608,6 @@ public slots:
      */
     void saveBranchOfIndustry(QHash<QString, QVariant> values);
 
-    //Corperation
     /**
      * @brief setCorporation Sets the corporation with <i>id</i> from the database.
      * @param id The id of the corporatoin to be set.
@@ -643,7 +618,7 @@ public slots:
     void setCorporation(int id);
 
     /**
-     * @brief saveCorperation Saves the corporation entries given in <i>values</i> in the database.
+     * @brief saveCorperation Saves the corporation in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -651,7 +626,6 @@ public slots:
      */
     void saveCorperation(QHash<QString, QVariant> values);
 
-    //Factory
     /**
      * @brief setFactory Sets the factory with <i>id</i> from the database.
      * @param id The id of the factory to be set.
@@ -662,7 +636,7 @@ public slots:
     void setFactory(int id);
 
     /**
-     * @brief saveFactory Saves the factory entries given in <i>values</i> in the database.
+     * @brief saveFactory Saves the factory in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -670,7 +644,6 @@ public slots:
      */
     void saveFactory(QHash<QString, QVariant> values);
 
-    //Recording
     /**
      * @brief setRecording Sets the recording with <i>id</i> from the database.
      * @param id The id of the recording to be set.
@@ -681,7 +654,7 @@ public slots:
     void setRecording(int id);
 
     /**
-     * @brief saveRecording Saves the recoring entries given in <i>values</i> in the database.
+     * @brief saveRecording Saves the recording in the database with the given <i>values</i> .
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -690,7 +663,7 @@ public slots:
     void saveRecording(QHash<QString, QVariant> values);
 
     /**
-     * @brief createWorkplace Creates a new workplace with the entries given in <i>values</i> in the database.
+     * @brief createWorkplace Creates a new workplace in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -699,8 +672,8 @@ public slots:
     void createWorkplace(QHash<QString, QVariant> values);
 
     /**
-     * @brief createWorkplace Creates a new workplace with the entries given in <i>values</i> and the activities given in
-     * <i>activityValues</i> in the database.
+     * @brief createWorkplace Creates a new workplace in the database with the given <i>values</i> and the
+     * activities given in <i>activityValues</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      * @param activityValues A list of hashmaps of values with each the column name and the corresponding value to this column.
      *
@@ -728,7 +701,7 @@ public slots:
     void selectWorkplace(int id);
 
     /**
-     * @brief saveWorkplace Saves the workplace entries given in <i>values</i> in the database.
+     * @brief saveWorkplace Saves the workplace in the database with the given <i>values</i> .
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -736,9 +709,8 @@ public slots:
      */
     void saveWorkplace(QHash<QString, QVariant> values);
 
-    //Comment
     /**
-     * @brief saveComment Saves the comment entries given in <i>values</i> in the database.
+     * @brief saveComment Saves the comment in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -747,7 +719,7 @@ public slots:
     void saveComment(QHash<QString, QVariant> values);
 
     /**
-     * @brief createLine Creates a new line with the entries given in <i>values</i> in the database.
+     * @brief createLine Creates a new line in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -756,7 +728,7 @@ public slots:
     void createLine(QHash<QString, QVariant> values);
 
     /**
-     * @brief editLine Edits the Line with the given <i>id</i>.
+     * @brief editLine Edits the Line with the given <i>id</i> in the database.
      * @param id The id of the line to be edited.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -765,7 +737,7 @@ public slots:
     void editLine(int id);
 
     /**
-     * @brief saveLine Saves the line entries given in <i>values</i> in the database.
+     * @brief saveLine Saves the line in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -792,7 +764,7 @@ public slots:
     void selectLine(int id);
 
     /**
-     * @brief createProduct Creates a new product with the entries given in <i>values</i> in the database.
+     * @brief createProduct Creates a new product in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -801,7 +773,7 @@ public slots:
     void createProduct(QHash<QString, QVariant> values);
 
     /**
-     * @brief saveProduct Saves the product entries given in <i>values</i> in the database.
+     * @brief saveProduct Saves the product in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -819,7 +791,7 @@ public slots:
     void deleteProduct(int id);
 
     /**
-     * @brief createActivity Creates a new activity with the entries given in <i>values</i> in the database.
+     * @brief createActivity Creates a new activity in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -828,7 +800,7 @@ public slots:
     void createActivity(QHash<QString, QVariant> values);
 
     /**
-     * @brief saveActivity Saves the activity entries given in <i>values</i> in the database.
+     * @brief saveActivity Saves the activity in the database with the <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -838,7 +810,7 @@ public slots:
 
     /**
      * @brief deleteActivity Deletes the activity with <i>id</i> from the database. If showMsg is true, a message
-     * indicating the deletion should be shown.
+     * indicating the deletion is requested.
      * @param id The id of the activity to be deleted.
      * @param showMsg Indicates whether a message indicating the deletion of the activity should be shown.
      *
@@ -866,7 +838,7 @@ public slots:
     void editActivity(int id);
 
     /**
-     * @brief createEquipment Creates a new equipment with the entries given in <i>values</i> in the database.
+     * @brief createEquipment Creates a new equipment in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -875,7 +847,7 @@ public slots:
     void createEquipment(QHash<QString, QVariant> values);
 
     /**
-     * @brief saveEquipment Save the equipment entries given in <i>values</i> in the database.
+     * @brief saveEquipment Save the equipment in the database with the given <i>values</i> .
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -893,7 +865,7 @@ public slots:
     void deleteEquipment(int id);
 
     /**
-     * @brief createTransportation Creates a new transportation with the entries given in <i>values</i> in the database.
+     * @brief createTransportation Creates a new transportation in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -902,7 +874,7 @@ public slots:
     void createTransportation(QHash<QString, QVariant> values);
 
     /**
-     * @brief saveTransportation Saves the transportation entries given in <i>values</i> in the database.
+     * @brief saveTransportation Saves the transportation in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -919,9 +891,8 @@ public slots:
      */
     void deleteTransportation(int id);
 
-    //LoadHandling
     /**
-     * @brief saveLoadHandling Saves the load handling entries given in <i>values</i> in the database.
+     * @brief saveLoadHandling Saves the load handling in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -929,9 +900,8 @@ public slots:
      */
     void saveLoadHandling(QHash<QString, QVariant> values);
 
-    //BodyPosture
     /**
-     * @brief saveBodyPosture Saves the body posture entries given in <i>values</i> in the database.
+     * @brief saveBodyPosture Saves the body posture in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -939,9 +909,8 @@ public slots:
      */
     void saveBodyPosture(QHash<QString, QVariant> values);
 
-    //AppliedForce
     /**
-     * @brief saveAppliedForce Saves the applied force entries given in <i>values</i> in the database.
+     * @brief saveAppliedForce Saves the applied force in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -949,9 +918,8 @@ public slots:
      */
     void saveAppliedForce(QHash<QString, QVariant> values);
 
-    //WorkProcess
     /**
-     * @brief saveWorkProcess Saves the work process entries given in <i>values</i> in the database.
+     * @brief saveWorkProcess Saves the work process in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -959,9 +927,8 @@ public slots:
      */
     void saveWorkProcess(QHash<QString, QVariant> values);
 
-    //ExecutionCondition
     /**
-     * @brief saveExecutionCondition Saves the execution condition entries given in <i>values</i> in the database.
+     * @brief saveExecutionCondition Saves the execution condition in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -970,7 +937,7 @@ public slots:
     void saveExecutionCondition(QHash<QString, QVariant> values);
 
     /**
-     * @brief createWorkprocess Creates a new workplace with the entries given in <i>values</i> in the database.
+     * @brief createWorkprocess Creates a new workplace in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -979,42 +946,39 @@ public slots:
     void createWorkprocess(QHash<QString, QVariant> values);
 
     /**
-     * @brief createWorkprocessList
-     * @param workplaceName
-     * @param activityName
-     * @param workprocesses
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses);
-
-    /**
-     * @brief selectNextWorkProcess Selects the workprocess with the current workprocess id +1 and the current workprocess
-     * type.
+     * @brief selectNextWorkProcess Selects the next work process, this means the work process with the
+     * current work process' id + 1 and the current workprocess' type.
      */
     void selectNextWorkProcess();
 
     /**
-     * @brief selectPreviousWorkProcess Selects the workprocess with the current workprocess id -1 and the current workProcess
-     * type
+     * @brief selectPreviousWorkProcess Selects the previous work process, this means the work process with the
+     * current work process' id - 1 and the current workprocess' type.
      */
     void selectPreviousWorkProcess();
 
     /**
-     * @brief workProcessTypeChanged Selects the first workprocess with work process type <i>type</i>.
-     * @param type The type of the workprocess to be selected.
+     * @brief workProcessTypeChanged Selects the first work process with the specified <i>AVType</i>
+     * @param type The type of which the first process should be selected.
      */
     void workProcessTypeChanged(AVType type);
 
     /**
-     * @brief resetWorkProcesses Resets all existing workprocesses in the database.
+     * @brief resetWorkProcesses Resets all existing workprocesses in the database for the currently selected
+     * activity.
      */
     void resetWorkProcesses();
 
     /**
-     * @brief workProcessDurationChanged
-     * @param time
+     * @brief workProcessDurationChanged The currently selected work process' time is set to the provided
+     * <i>time</i>.
+     *
+     * The begin and end times of the following work processes of the same type are adapted depending on
+     * whether the duration of the selected work process in- or decreased. The adaption is the difference
+     * between the old and the new duration of the selected process.
+     *
+     * <b>Note:</b> The work processes of AVTypes different from the currently selected are not affected.
+     * @param time The new time of the work process.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1022,19 +986,18 @@ public slots:
     void workProcessDurationChanged(QTime time);
 
     /**
-     * @brief selectWorkProcess
-     * @param id
-     * @param type
+     * @brief selectWorkProcess Selects the work process identified by <i>id</i> and <i>type</i> in the database.
+     * @param id The id of the work process to be selected.
+     * @param type The type of the work process to be selected.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
      */
     void selectWorkProcess(int id, AVType type);
 
-    //Gantt
     /**
-     * @brief saveWorkProcessFrequence
-     * @param frequence
+     * @brief saveWorkProcessFrequence Saves the given frequence for the selected work process in the database.
+     * @param frequence The new frequence of the work process.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1042,23 +1005,13 @@ public slots:
     void saveWorkProcessFrequence(int frequence);
 
     /**
-     * @brief createEmployee Creates a new employee with the entries given in <i>values</i> in the database.
+     * @brief createEmployee Creates a new employee in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
      */
     void createEmployee(QHash<QString, QVariant> values);
-
-    /**
-     * @brief createEmployee
-     * @param values
-     * @param bodyMeasurementValues
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues);
 
     /**
      * @brief deleteEmployee Deletes the employee with <i>id</i> from the database.
@@ -1079,7 +1032,7 @@ public slots:
     void selectEmployee(int id);
 
     /**
-     * @brief saveEmployee Saves the employee entries given in <i>values</i> in the database.
+     * @brief saveEmployee Saves the employee in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -1088,19 +1041,18 @@ public slots:
     void saveEmployee(QHash<QString, QVariant> values);
 
     /**
-     * @brief setSelectedEmployee Sets the selectedEmployee_ID to id.
+     * @brief setSelectedEmployee Sets the currently selected employee to the one with <i>id</i> in the database.
      * @param id The new selectedEmployee id.
      */
     void setSelectedEmployee(int id);
 
     /**
-     * @brief resetEmployeeSelection Emits the selectedEmployee signal with the current selectedEmployee_ID.
+     * @brief resetEmployeeSelection Emits the selectedEmployee() signal with the currently selected employee's ID.
      */
     void resetEmployeeSelection();
 
-    //BodyMeasurement
     /**
-     * @brief saveBodyMeasurement Saves the body measurement entries given in <i>values</i> in the database.
+     * @brief saveBodyMeasurement Saves the body measurement in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -1115,8 +1067,9 @@ public slots:
     void initializeFTPConnections(IFTPConnections *widget);
 
     /**
-     * @brief createFTPConnection
-     * @param widget
+     * @brief createFTPConnection Creates a new FTP connection in the database with the values
+     * provided by <i>widget</i>.
+     * @param widget The widget implementing IFTPConnections, the values for the connection should be taken from.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1124,9 +1077,10 @@ public slots:
     void createFTPConnection(IFTPConnections *widget);
 
     /**
-     * @brief editFTPConnection
-     * @param widget
-     * @param id
+     * @brief editFTPConnection Saves an FTP connection in the database with <i>id</i>.
+     * The values to be saved are provided by <i>widget</i>.
+     * @param widget The widget implementing IFTPConnections, the data for the connection should be taken from.
+     * @param id The id of the connection to be updated.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1134,66 +1088,19 @@ public slots:
     void editFTPConnection(IFTPConnections *widget, int id);
 
     /**
-     * @brief selectFTPConnection
-     * @param widget
-     * @param id
+     * @brief selectFTPConnection Selects the FTP connection with <i>id</i> from the database.
+     * The connection is set on <i>widget</i>
+     * @param widget The widget implementing IFTPConnections, the FTP connection should be set on.
+     * @param id The id of the FTP connection.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
      */
     void selectFTPConnection(IFTPConnections *widget, int id);
 
-    //ImportData
     /**
-     * @brief importData
-     * @param widget
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void importData(IImportData *widget);
-
-    /**
-     * @brief importDataDownloadFinished
-     */
-    void importDataDownloadFinished(const QString);
-
-    /**
-     * @brief importDataDownloadError
-     * @param error
-     */
-    void importDataDownloadError(const QString &error);
-
-    //SendData
-    /**
-     * @brief sendData
-     * @param widget
-     */
-    void sendData(ISendData *widget);
-
-    /**
-     * @brief sendDataUploadStarted
-     *
-     * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
-     * NotificationMessage::MessageType::ERROR.
-     */
-    void sendDataUploadStarted();
-
-    /**
-     * @brief sendDataUploadFinished
-     * @param filename
-     */
-    void sendDataUploadFinished(const QString filename);
-
-    /**
-     * @brief sendDataUploadError
-     * @param error
-     */
-    void sendDataUploadError(const QString &error);
-
-    /**
-     * @brief saveShift
-     * @param values
+     * @brief saveShift Saves a shift in the database with the given <i>values</i>.
+     * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1201,8 +1108,8 @@ public slots:
     void saveShift(QHash<QString, QVariant> values);
 
     /**
-     * @brief createRotationGroupEntry
-     * @param values
+     * @brief createRotationGroupEntry Creates a new rotation group entry as specified in <i>values</i>.
+     * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1210,8 +1117,8 @@ public slots:
     void createRotationGroupEntry(QHash<QString, QVariant> values);
 
     /**
-     * @brief createRotationGroupBreakEntry
-     * @param values
+     * @brief createRotationGroupBreakEntry Creates a new rotation group break entry as specified in <i>values</i>.
+     * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1219,8 +1126,11 @@ public slots:
     void createRotationGroupBreakEntry(QHash<QString, QVariant> values);
 
     /**
-     * @brief deleteRotationGroupEntry
-     * @param order
+     * @brief deleteRotationGroupEntry Removes a rotation group entry with the given <i>order</i>.
+     * This causes all rotation group entries with order numbers greater than <i>order</i> are
+     * decreased by one.
+     *
+     * @param order The current order number of the rotation group entry to be deleted.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1228,8 +1138,10 @@ public slots:
     void deleteRotationGroupEntry(int order);
 
     /**
-     * @brief moveRotationGroupEntryUp
-     * @param order
+     * @brief moveRotationGroupEntryUp Decreases the order number of the rotatation group entry with the
+     * given <i>order</i>. Therefore the order number is swapped with the entry that has the order number
+     * <i>order - 1</i>.
+     * @param order The current order number of the rotation group entry to move up.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1237,8 +1149,10 @@ public slots:
     void moveRotationGroupEntryUp(int order);
 
     /**
-     * @brief moveRotationGroupEntryDown
-     * @param order
+     * @brief moveRotationGroupEntryDown Increases the order number of the rotatation group entry with the
+     * given <i>order</i>. Therefore the order number is swapped with the entry that has the order number
+     * <i>order + 1</i>.
+     * @param order The current order number of the rotation group entry to move down.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
@@ -1246,8 +1160,7 @@ public slots:
     void moveRotationGroupEntryDown(int order);
 
     /**
-     * @brief createRotationGroupTask Creates a new rotation group task with the entries given in <i>values</i>
-     * in the database.
+     * @brief createRotationGroupTask Creates a new rotation group task in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -1274,7 +1187,7 @@ public slots:
     void selectRotationGroupTask(int id);
 
     /**
-     * @brief saveRotationGroupTask Saves the rotation group task entries given in <i>values</i> in the database.
+     * @brief saveRotationGroupTask Saves the rotation group task in the database with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -1283,8 +1196,8 @@ public slots:
     void saveRotationGroupTask(QHash<QString, QVariant> values);
 
     /**
-     * @brief createRotationGroupTaskEntry Creates a new rotation group task entry with the entries given in <i>values</i>
-     * in the database.
+     * @brief createRotationGroupTaskEntry Creates a new rotation group task entry in the database
+     * with the given <i>values</i>.
      * @param values A hashmap of values with each the column name and the corresponding value to this column.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
@@ -1293,16 +1206,15 @@ public slots:
     void createRotationGroupTaskEntry(QHash<QString, QVariant> values);
 
     /**
-     * @brief deleteRotationGroupTaskEntry
-     * @param id
-     * @param showMsg
+     * @brief deleteRotationGroupTaskEntry Deletes the Rotation group task entry with <i>id</i> from the database.
+     * @param id The id of the rotation group task entry to be deleted.
+     * @param showMsg Indicates whether a message indicating the deletion of the entry should be shown.
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
      */
     void deleteRotationGroupTaskEntry(int id, bool showMsg = true);
 
-    //Reset
     /**
      * @brief resetDatabaseFactory Resets all entries in the database to their default values.
      *
@@ -1313,21 +1225,35 @@ public slots:
 
     /**
      * @brief resetSelectedEntries Resets the selected entries of <i>widget</i> in the database to their default values.
-     * @param widget DatabaseReset widget representing the selected entries.
+     * @param widget A widget representing the selected entries which implements ISelectedDatabaseReset.
+     *
+     * @see ISelectedDatabaseReset
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
      */
     void resetSelectedEntries(ISelectedDatabaseReset *widget);
 
-    //Theme
     /**
      * @brief changeTheme Sets the stylesheet of the application according to the settings.
+     *
+     * @see Settings
      *
      * <b>Note:</b> If an error occurs when accessing the database, showMessage() is emitted with
      * NotificationMessage::MessageType::ERROR.
      */
     void changeTheme();
+
+private slots:
+
+    void importData(IImportData *widget);
+    void importDataDownloadFinished(const QString);
+    void importDataDownloadError(const QString &error);
+
+    void sendData(ISendData *widget);
+    void sendDataUploadStarted();
+    void sendDataUploadFinished(const QString filename);
+    void sendDataUploadError(const QString &error);
 
 private:
     QApplication *application;
@@ -1369,6 +1295,9 @@ private:
     void initializeRotationGroup(int id);
     void initializeRotationGroupTasks();
     void initializeRotationGroupTaskEntries(int id);
+
+    void createWorkprocessList(QString workplaceName, QString activityName, QList<QHash<QString, QVariant>> workprocesses);
+    void createEmployee(QHash<QString, QVariant> values, QHash<QString, QVariant> bodyMeasurementValues);
 
     void updateRotationGroupTaskDuration();
     QString getWorkplaceNameByID(int id);

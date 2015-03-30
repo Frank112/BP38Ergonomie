@@ -34,7 +34,7 @@ public slots:
     void setHasPreviousWorkProcess(bool hasPrevious);
     void setHasNextWorkProcess(bool hasNext);
     void setSelectedWorkProcessType(AVType type);
-    void initiliazedWorkProcesses(QList<QHash<QString, QVariant>> values);
+    void initializedWorkProcesses(QList<QHash<QString, QVariant>> values);
 
     void closeTimerView();
     void gantViewShown();

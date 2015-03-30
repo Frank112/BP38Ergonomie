@@ -19,7 +19,7 @@ public slots:
     virtual void setHasPreviousWorkProcess(bool hasPrevious) = 0;
     virtual void setHasNextWorkProcess(bool hasNext) = 0;
     virtual void setSelectedWorkProcessType(AVType type) = 0;
-    virtual void initiliazedWorkProcesses(QList<QHash<QString, QVariant>> values) = 0;
+    virtual void initializedWorkProcesses(QList<QHash<QString, QVariant>> values) = 0;
 
 };
 

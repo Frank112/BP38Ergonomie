@@ -114,7 +114,6 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(controller, SIGNAL(removedAnalyst(int)), analystSelectionView, SLOT(removeAnalyst(int)));
     connect(analystSelectionView, SIGNAL(deleteAnalyst(int)), controller, SLOT(deleteAnalyst(int)));
     connect(analystSelectionView, SIGNAL(selectAnalyst(int)), controller, SLOT(selectAnalyst(int)));
-    connect(controller, SIGNAL(updatedAnalyst(QHash<QString,QVariant>)), analystSelectionView, SLOT(updateAnalyst(QHash<QString,QVariant>)));
 
     //AnalystPopUp signals/slots
     connect(analystPopUp, SIGNAL(saveAnalyst(QHash<QString,QVariant>)), controller, SLOT(createAnalyst(QHash<QString,QVariant>)));
@@ -287,7 +286,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     //GanttTimer View signals/slots
     connect(ganttTimerView, SIGNAL(selectWorkProcess(int, AVType)), controller, SLOT(selectWorkProcess(int, AVType)));
     connect(ganttTimerView, SIGNAL(saveWorkProcessFrequence(int)), controller, SLOT(saveWorkProcessFrequence(int)));
-    connect(controller, SIGNAL(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)), ganttTimerView, SLOT(initiliazeWorkProcesses(QList<QHash<QString,QVariant> >)));
+    connect(controller, SIGNAL(initializedWorkProcesses(QList<QHash<QString,QVariant> >)), ganttTimerView, SLOT(initiliazeWorkProcesses(QList<QHash<QString,QVariant> >)));
     connect(controller, SIGNAL(setSelectedWorkProcess(QHash<QString,QVariant>)), ganttTimerView, SLOT(setSelectedWorkProcess(QHash<QString,QVariant>)));
     connect(controller, SIGNAL(createdWorkProcess(QHash<QString, QVariant>)), ganttTimerView, SLOT(addWorkProcess(QHash<QString,QVariant>)));
 
@@ -295,7 +294,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(ganttTimerView, SIGNAL(left()), timerViewController, SLOT(gantViewHidden()));
 
     //WorkProcessControll
-    connect(controller, SIGNAL(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)), timerViewController, SLOT(initiliazedWorkProcesses(QList<QHash<QString,QVariant> >)));
+    connect(controller, SIGNAL(initializedWorkProcesses(QList<QHash<QString,QVariant> >)), timerViewController, SLOT(initializedWorkProcesses(QList<QHash<QString,QVariant> >)));
     connect(timerViewController, SIGNAL(createWorkProcess(QHash<QString,QVariant>)), controller, SLOT(createWorkprocess(QHash<QString,QVariant>)));
     connect(controller, SIGNAL(setSelectedWorkProcess(QHash<QString,QVariant>)), timerViewController, SLOT(setSelectedWorkProcess(QHash<QString,QVariant>)));
     connect(timerViewController, SIGNAL(selectPreviousWorkProcess()), controller, SLOT(selectPreviousWorkProcess()));
