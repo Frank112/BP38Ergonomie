@@ -1,0 +1,8 @@
+#include "xmlparsertest.h"
+
+XMLParserTest::XMLParserTest()
+{
+
+}
+
+

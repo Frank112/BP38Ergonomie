@@ -30,7 +30,8 @@ HEADERS += tst_dbhandlertest.h \
            ../ftpHandler/ftphandler.h \
            ../xmlHandler/xmlparser.h \
            ../xmlHandler/xmlconstants.h \
-           ../settings.h
+           ../settings.h \
+    xmlparsertest.h
 
 SOURCES += main.cpp \
            tst_dbhandlertest.cpp \
@@ -41,7 +42,8 @@ SOURCES += main.cpp \
            ../ftpHandler/ftphandler.cpp \
            ../xmlHandler/xmlparser.cpp \
            ../xmlHandler/xmlconstants.cpp \
-           ../settings.cpp
+           ../settings.cpp \
+    xmlparsertest.cpp
 
 
 RESOURCES += ../testassets.qrc \
