@@ -57,14 +57,16 @@ SOURCES       = ../ErgonomieappTest/main.cpp \
 		../ftpHandler/ftphandler.cpp \
 		../xmlHandler/xmlparser.cpp \
 		../xmlHandler/xmlconstants.cpp \
-		../settings.cpp qrc_testassets.cpp \
+		../settings.cpp \
+		../ErgonomieappTest/xmlparsertest.cpp qrc_testassets.cpp \
 		qrc_assets.cpp \
 		moc_tst_dbhandlertest.cpp \
 		moc_tst_controllertest.cpp \
 		moc_standardpaths.cpp \
 		moc_controller.cpp \
 		moc_ftphandler.cpp \
-		moc_xmlparser.cpp
+		moc_xmlparser.cpp \
+		moc_xmlparsertest.cpp
 OBJECTS       = main.o \
 		tst_dbhandlertest.o \
 		tst_controllertest.o \
@@ -75,6 +77,7 @@ OBJECTS       = main.o \
 		xmlparser.o \
 		xmlconstants.o \
 		settings.o \
+		xmlparsertest.o \
 		qrc_testassets.o \
 		qrc_assets.o \
 		moc_tst_dbhandlertest.o \
@@ -82,7 +85,8 @@ OBJECTS       = main.o \
 		moc_standardpaths.o \
 		moc_controller.o \
 		moc_ftphandler.o \
-		moc_xmlparser.o
+		moc_xmlparser.o \
+		moc_xmlparsertest.o
 DIST          = /Applications/Qt/5.4/clang_64/mkspecs/features/spec_pre.prf \
 		/Applications/Qt/5.4/clang_64/mkspecs/qdevice.pri \
 		/Applications/Qt/5.4/clang_64/mkspecs/features/device_config.prf \
@@ -214,7 +218,8 @@ DIST          = /Applications/Qt/5.4/clang_64/mkspecs/features/spec_pre.prf \
 		../ftpHandler/ftphandler.h \
 		../xmlHandler/xmlparser.h \
 		../xmlHandler/xmlconstants.h \
-		../settings.h ../ErgonomieappTest/main.cpp \
+		../settings.h \
+		../ErgonomieappTest/xmlparsertest.h ../ErgonomieappTest/main.cpp \
 		../ErgonomieappTest/tst_dbhandlertest.cpp \
 		../ErgonomieappTest/tst_controllertest.cpp \
 		../databaseHandler/dbhandler.cpp \
@@ -223,7 +228,8 @@ DIST          = /Applications/Qt/5.4/clang_64/mkspecs/features/spec_pre.prf \
 		../ftpHandler/ftphandler.cpp \
 		../xmlHandler/xmlparser.cpp \
 		../xmlHandler/xmlconstants.cpp \
-		../settings.cpp
+		../settings.cpp \
+		../ErgonomieappTest/xmlparsertest.cpp
 QMAKE_TARGET  = EronomieappTest
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = EronomieappTest.app/Contents/MacOS/EronomieappTest
@@ -560,8 +566,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../testassets.qrc ../assets.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../ErgonomieappTest/tst_dbhandlertest.h ../ErgonomieappTest/tst_controllertest.h ../databaseHandler/dbhandler.h ../standardpaths.h ../databaseHandler/dbconstants.h ../control/controller.h ../ftpHandler/ftphandler.h ../xmlHandler/xmlparser.h ../xmlHandler/xmlconstants.h ../settings.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../ErgonomieappTest/main.cpp ../ErgonomieappTest/tst_dbhandlertest.cpp ../ErgonomieappTest/tst_controllertest.cpp ../databaseHandler/dbhandler.cpp ../databaseHandler/dbconstants.cpp ../control/controller.cpp ../ftpHandler/ftphandler.cpp ../xmlHandler/xmlparser.cpp ../xmlHandler/xmlconstants.cpp ../settings.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../ErgonomieappTest/tst_dbhandlertest.h ../ErgonomieappTest/tst_controllertest.h ../databaseHandler/dbhandler.h ../standardpaths.h ../databaseHandler/dbconstants.h ../control/controller.h ../ftpHandler/ftphandler.h ../xmlHandler/xmlparser.h ../xmlHandler/xmlconstants.h ../settings.h ../ErgonomieappTest/xmlparsertest.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../ErgonomieappTest/main.cpp ../ErgonomieappTest/tst_dbhandlertest.cpp ../ErgonomieappTest/tst_controllertest.cpp ../databaseHandler/dbhandler.cpp ../databaseHandler/dbconstants.cpp ../control/controller.cpp ../ftpHandler/ftphandler.cpp ../xmlHandler/xmlparser.cpp ../xmlHandler/xmlconstants.cpp ../settings.cpp ../ErgonomieappTest/xmlparsertest.cpp $(DISTDIR)/
 
 
 clean:compiler_clean 
@@ -606,9 +612,9 @@ qrc_assets.cpp: ../assets.qrc \
 		../translations/ergo_trans_en.qm
 	/Applications/Qt/5.4/clang_64/bin/rcc -name assets ../assets.qrc -o qrc_assets.cpp
 
-compiler_moc_header_make_all: moc_tst_dbhandlertest.cpp moc_tst_controllertest.cpp moc_standardpaths.cpp moc_controller.cpp moc_ftphandler.cpp moc_xmlparser.cpp
+compiler_moc_header_make_all: moc_tst_dbhandlertest.cpp moc_tst_controllertest.cpp moc_standardpaths.cpp moc_controller.cpp moc_ftphandler.cpp moc_xmlparser.cpp moc_xmlparsertest.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_tst_dbhandlertest.cpp moc_tst_controllertest.cpp moc_standardpaths.cpp moc_controller.cpp moc_ftphandler.cpp moc_xmlparser.cpp
+	-$(DEL_FILE) moc_tst_dbhandlertest.cpp moc_tst_controllertest.cpp moc_standardpaths.cpp moc_controller.cpp moc_ftphandler.cpp moc_xmlparser.cpp moc_xmlparsertest.cpp
 moc_tst_dbhandlertest.cpp: /Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QFileInfo \
@@ -834,6 +840,31 @@ moc_xmlparser.cpp: /Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5
 		../xmlHandler/xmlparser.h
 	/Applications/Qt/5.4/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -I/Applications/Qt/5.4/clang_64/mkspecs/macx-clang -I/Users/frank/Documents/BP38Ergonomie/ErgonomieappTest -I/Applications/Qt/5.4/clang_64/lib/QtWidgets.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtGui.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtTest.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtSql.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtNetwork.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Headers -I. -F/Applications/Qt/5.4/clang_64/lib ../xmlHandler/xmlparser.h -o moc_xmlparser.cpp
 
+moc_xmlparsertest.cpp: /Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../xmlHandler/xmlparser.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QFile \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qfile.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QXmlStreamReader \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qxmlstream.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QTime \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
+		../databaseHandler/dbconstants.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QVariant \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../xmlHandler/xmlconstants.h \
+		../xmlHandler/iimportdataparser.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QtPlugin \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qplugin.h \
+		../ErgonomieappTest/xmlparsertest.h
+	/Applications/Qt/5.4/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -I/Applications/Qt/5.4/clang_64/mkspecs/macx-clang -I/Users/frank/Documents/BP38Ergonomie/ErgonomieappTest -I/Applications/Qt/5.4/clang_64/lib/QtWidgets.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtGui.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtTest.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtSql.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtNetwork.framework/Headers -I/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Headers -I. -F/Applications/Qt/5.4/clang_64/lib ../ErgonomieappTest/xmlparsertest.h -o moc_xmlparsertest.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all:
@@ -931,7 +962,8 @@ main.o: ../ErgonomieappTest/main.cpp /Applications/Qt/5.4/clang_64/lib/QtCore.fr
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qtextstream.h \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QDateTime \
 		../settings.h \
-		../view/navigation/viewtype.h
+		../view/navigation/viewtype.h \
+		../ErgonomieappTest/xmlparsertest.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ErgonomieappTest/main.cpp
 
 tst_dbhandlertest.o: ../ErgonomieappTest/tst_dbhandlertest.cpp ../ErgonomieappTest/tst_dbhandlertest.h \
@@ -1224,6 +1256,31 @@ settings.o: ../settings.cpp ../settings.h \
 		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qtextstream.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o settings.o ../settings.cpp
 
+xmlparsertest.o: ../ErgonomieappTest/xmlparsertest.cpp ../ErgonomieappTest/xmlparsertest.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QObject \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qobject.h \
+		../xmlHandler/xmlparser.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QFile \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qfile.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QXmlStreamReader \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qxmlstream.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QTime \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qdatetime.h \
+		../databaseHandler/dbconstants.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QString \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qstring.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QList \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qlist.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QVariant \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qvariant.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QHash \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qhash.h \
+		../xmlHandler/xmlconstants.h \
+		../xmlHandler/iimportdataparser.h \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/QtPlugin \
+		/Applications/Qt/5.4/clang_64/lib/QtCore.framework/Versions/5/Headers/qplugin.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xmlparsertest.o ../ErgonomieappTest/xmlparsertest.cpp
+
 qrc_testassets.o: qrc_testassets.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_testassets.o qrc_testassets.cpp
 
@@ -1247,6 +1304,9 @@ moc_ftphandler.o: moc_ftphandler.cpp
 
 moc_xmlparser.o: moc_xmlparser.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_xmlparser.o moc_xmlparser.cpp
+
+moc_xmlparsertest.o: moc_xmlparsertest.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_xmlparsertest.o moc_xmlparsertest.cpp
 
 ####### Install
 
