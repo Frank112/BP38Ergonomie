@@ -328,12 +328,12 @@ void ShiftCalendar::dliRotationGroupTaskAddClicked(int id){
 
 void ShiftCalendar::btnMoveUpClicked(){
     emit requestMoveEntryUp(selectedOrderID);
-    selectedEntryChanged(0);
+    selectedEntryChanged(selectedOrderID-1);
 }
 
 void ShiftCalendar::btnMoveDownClicked(){
     emit requestMoveEntryDown(selectedOrderID);
-    selectedEntryChanged(0);
+    selectedEntryChanged(selectedOrderID+1);
 }
 
 void ShiftCalendar::btnDeleteClicked(){
