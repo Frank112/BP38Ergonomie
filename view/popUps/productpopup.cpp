@@ -1,6 +1,6 @@
-#include "createproductpopup.h"
+#include "productpopup.h"
 
-CreateProductPopUp::CreateProductPopUp(QWidget *parent) :
+ProductPopUp::ProductPopUp(QWidget *parent) :
     AbstractPopUpWidget(ConfirmMode::ACCEPT, tr("Create product"), parent),
     txtBxName(new TextLineEdit()),
     txtBxNumber(new TextLineEdit()),
@@ -25,12 +25,12 @@ CreateProductPopUp::CreateProductPopUp(QWidget *parent) :
     setLayout(mainLayout);
 }
 
-CreateProductPopUp::~CreateProductPopUp(){
+ProductPopUp::~ProductPopUp(){
 
 }
 
 // PRIVATE SLOTS
-void CreateProductPopUp::onConfirm(){
+void ProductPopUp::onConfirm(){
     QHash<QString, QVariant> values = QHash<QString, QVariant>();
     values.insert(DBConstants::COL_PRODUCT_NAME, txtBxName->text());
     values.insert(DBConstants::COL_PRODUCT_NUMBER, txtBxNumber->text());
@@ -39,7 +39,7 @@ void CreateProductPopUp::onConfirm(){
     onClose();
 }
 
-void CreateProductPopUp::onClose(){
+void ProductPopUp::onClose(){
     txtBxName->clear();
     txtBxNumber->clear();
     numBxTotalPercentage->clear();

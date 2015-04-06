@@ -9,6 +9,13 @@
 /**
  * @brief The TransporationPopUp class provides functionality to create a new transportation with a form
  * displayed in a popup.
+ *
+ * TransportationPopUp inherits AbstractPopUpWidget and implements ITransportation.
+ *
+ * Pressing confirm button of the popup emits the saveTransportation() signal to indicate the
+ * entered data should be saved and a new transportation is created.
+ *
+ * @author Frank Loeffler
  */
 class TransporationPopUp : public AbstractPopUpWidget, ITransportation
 {

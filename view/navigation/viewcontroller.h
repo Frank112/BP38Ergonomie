@@ -43,7 +43,7 @@
 #include "../popUps/transporationpopup.h"
 #include "../popUps/senddatabasepopup.h"
 #include "../popUps/analystpopup.h"
-#include "../popUps/createproductpopup.h"
+#include "../popUps/productpopup.h"
 #include "../popUps/activitypopup.h"
 #include "../popUps/languagepopup.h"
 #include "../popUps/themepopup.h"
@@ -249,7 +249,7 @@ private:
     TransporationPopUp *transportationPopUp;
     SendDatabasePopUp *sendDatabasePopUp;
     AnalystPopUp *analystPopUp;
-    CreateProductPopUp *createProductPopUp;
+    ProductPopUp *productPopUp;
     ActivityPopUp *activityPopUp;
     LanguagePopUp *languagePopUp;
     ThemePopUp *themePopUp;

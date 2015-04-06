@@ -6,12 +6,27 @@
 #include "../interfaces/isenddata.h"
 #include "../../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The SendDatabasePopUp class provides functionality to send the database to a
+ * server with a form displayed in a popup.
+ *
+ * SendDatabasePopUp inherits AbstractPopUpWidget and implements ISendData.
+ *
+ * Pressing confirm button of the popup emits the sendData() signal to indicate the
+ * database should be send.
+ *
+ * @author Frank Loeffler
+ */
 class SendDatabasePopUp : public AbstractPopUpWidget, public ISendData
 {
     Q_OBJECT
     Q_INTERFACES(ISendData)
 
 public:
+    /**
+     * @brief SendDatabasePopUp Creates an AbstractPopUpWidget with a <i>parent</i>
+     * @param parent The parent widget of the popup.
+     */
     explicit SendDatabasePopUp(QWidget *parent = 0);
     ~SendDatabasePopUp();
 

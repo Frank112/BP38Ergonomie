@@ -6,11 +6,26 @@
 #include "../ftpconnectionswidget.h"
 #include "../../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The ImportDataPopUp class provides functionality to import data with a form
+ * displayed in a popup.
+ *
+ * ImportDataPopUp inherits AbstractPopUpWidget and implements IImportData.
+ *
+ * Pressing confirm button of the popup emits the importData() signal to indicate that the
+ * selected data should be imported.
+ *
+ * @author Frank Loeffler
+ */
 class ImportDataPopUp : public AbstractPopUpWidget, public IImportData
 {
     Q_OBJECT
     Q_INTERFACES(IImportData)
 public:
+    /**
+     * @brief ImportDataPopUp Creates an AbstractPopUpWidget with a <i>parent</i>
+     * @param parent The parent widget of the popup.
+     */
     explicit ImportDataPopUp(QWidget *parent = 0);
     ~ImportDataPopUp();
 

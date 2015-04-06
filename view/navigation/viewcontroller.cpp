@@ -49,7 +49,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     transportationPopUp(new TransporationPopUp()),
     sendDatabasePopUp(new SendDatabasePopUp()),
     analystPopUp(new AnalystPopUp()),
-    createProductPopUp(new CreateProductPopUp()),
+    productPopUp(new ProductPopUp()),
     activityPopUp(new ActivityPopUp()),
     languagePopUp(new LanguagePopUp()),
     themePopUp(new ThemePopUp()),
@@ -201,8 +201,8 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     connect(controller, SIGNAL(removedProduct(int)), productView, SLOT(removeProduct(int)));
     connect(controller, SIGNAL(updatedProduct(QHash<QString,QVariant>)), productView, SLOT(updateProduct(QHash<QString,QVariant>)));
 
-    //CreateProductPopUp signal/slots
-    connect(createProductPopUp, SIGNAL(saveProduct(QHash<QString, QVariant>)), controller, SLOT(createProduct(QHash<QString,QVariant>)));
+    //ProductPopUp signal/slots
+    connect(productPopUp, SIGNAL(saveProduct(QHash<QString, QVariant>)), controller, SLOT(createProduct(QHash<QString,QVariant>)));
 
     //ActivityPopUp signal/slots
     connect(controller, SIGNAL(clearAll()), activityPopUp, SLOT(clearProducts()));
@@ -414,7 +414,7 @@ ViewController::ViewController(QWidget *parent) : NotificationWidget(parent),
     registerPopUp(equipmentPopUp, Types::PopUpType::EQUIPMENT_POPUP);
     registerPopUp(sendDatabasePopUp, Types::PopUpType::DB_SEND_POPUP);
     registerPopUp(transportationPopUp, Types::PopUpType::TRANSPORTATION_POPUP);
-    registerPopUp(createProductPopUp, Types::PopUpType::CREATE_PRODUCT_POPUP);
+    registerPopUp(productPopUp, Types::PopUpType::CREATE_PRODUCT_POPUP);
     registerPopUp(analystPopUp, Types::PopUpType::ANALYST_POPUP);
     registerPopUp(activityPopUp, Types::PopUpType::ACTIVITY_POPUP);
     registerPopUp(languagePopUp, Types::PopUpType::LANGUAGE_POPUP);

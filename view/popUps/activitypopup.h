@@ -10,12 +10,28 @@
 #include "../interfaces/iactivity.h"
 #include "../../databaseHandler/dbconstants.h"
 
+
+/**
+ * @brief The ActivityPopUp class provides functionality to edit an activity with a form
+ * displayed in a popup.
+ *
+ * ActivityPopUp inherits AbstractPopUpWidget and implements IProductList and IActivity.
+ *
+ * Pressing confirm button of the popup emits the saveActivity() signal to indicate the
+ * entered data should be saved.
+ *
+ * @author Marius Gassen
+ */
 class ActivityPopUp : public AbstractPopUpWidget, IProductList, IActivity
 {
     Q_OBJECT
     Q_INTERFACES(IProductList)
     Q_INTERFACES(IActivity)
 public:
+    /**
+     * @brief ActivityPopUp Creates an AbstractPopUpWidget with a <i>parent</i>
+     * @param parent The parent widget of the popup.
+     */
     explicit ActivityPopUp(QWidget *parent = 0);
     ~ActivityPopUp();
 

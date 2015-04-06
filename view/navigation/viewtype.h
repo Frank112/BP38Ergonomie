@@ -46,7 +46,7 @@ enum ViewType{
 enum PopUpType{
     ANALYST_POPUP, ///< Represents the AnalystPopUp
     ACTIVITY_POPUP, ///< Represents the ActivityPopUp
-    CREATE_PRODUCT_POPUP, ///< Represents the CreateProductPopUp
+    CREATE_PRODUCT_POPUP, ///< Represents the ProductPopUp
     EQUIPMENT_POPUP, ///< Represents the EquipmentPopUp
     TRANSPORTATION_POPUP, ///< Represents the TransportationPopUp
     DB_SEND_POPUP, ///< Represents the SendDatabasePopUp

@@ -90,7 +90,6 @@ HEADERS +=\
     $$PWD/interfaces/iline.h \
     $$PWD/interfaces/iproductlist.h \
     $$PWD/interfaces/iproduct.h \
-    $$PWD/popUps/createproductpopup.h \
     $$PWD/interfaces/iactivitylist.h \
     $$PWD/interfaces/iactivity.h \
     $$PWD/interfaces/iloadhandling.h \
@@ -121,7 +120,8 @@ HEADERS +=\
     $$PWD/interfaces/irotationgroup.h \
     $$PWD/interfaces/iselecteddatabasereset.h \
     $$PWD/generalViews/errorlogview.h \
-    $$PWD/timerView/gantttimerview.h
+    $$PWD/timerView/gantttimerview.h \
+    $$PWD/popUps/productpopup.h
 
 
 SOURCES +=\
@@ -198,8 +198,8 @@ SOURCES +=\
     $$PWD/documentationView/bodyPostureView/quickselectioncontrol.cpp \
     $$PWD/popUps/factorysettingspopup.cpp \
     $$PWD/popUps/linepopup.cpp \
-    $$PWD/popUps/createproductpopup.cpp \
     $$PWD/rotationGroupView/rotationgrouptasklistview.cpp \
     $$PWD/rotationGroupView/rotationgrouptaskview.cpp \
-    $$PWD/generalViews/errorlogview.cpp
+    $$PWD/generalViews/errorlogview.cpp \
+    $$PWD/popUps/productpopup.cpp
 

@@ -9,12 +9,27 @@
 #include "../databaseHandler/dbconstants.h"
 #include "../detailedlistitem.h"
 
+/**
+ * @brief The EmployeePopUp class provides functionality to select an employee from a list of employees
+ * displayed in a popup.
+ *
+ * EmployeePopUp inherits AbstractPopUpWidget and implements IEmployeeList and IEmployeeSelect.
+ *
+ * Pressing confirm button of the popup emits the saveEmployeeSelected() signal to indicate the
+ * employee is selected.
+ *
+ * @author Markus Danz
+ */
 class EmployeePopUp : public AbstractPopUpWidget, IEmployeeList, IEmployeeSelect
 {
     Q_OBJECT
     Q_INTERFACES(IEmployeeList)
     Q_INTERFACES(IEmployeeSelect)
 public:
+    /**
+     * @brief EmployeePopUp Creates an AbstractPopUpWidget with a <i>parent</i>
+     * @param parent The parent widget of the popup.
+     */
     EmployeePopUp(QWidget *parent = 0);
 
 signals:
@@ -25,6 +40,10 @@ signals:
     void saveEmployeeSelected(int id);
     void resetEmployeeSelection();
 
+    /**
+     * @brief selectedEmployee A signal to indicate that the employee with <i>id</i> is selected.
+     * @param id The id of the employee selected.
+     */
     void selectedEmployee(int id);
 
 public slots:
