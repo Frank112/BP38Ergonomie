@@ -6,7 +6,12 @@
 #include <QVariant>
 #include <QHash>
 
-
+/**
+ * @brief The DBConstants class contains constants for the table and column names of the underlying database as well as
+ * mapping between the column names and their types.
+ *
+ * @author Frank Loeffler
+ */
 class DBConstants
 {
 public:
@@ -354,6 +359,10 @@ public:
     static const QHash<QString, QVariant::Type> HASH_ROTATION_GROUP_TASK_ENTRY_TYPES;
 
     //Table list
+    /**
+     * @brief LIST_TABLE_NAMES Is a list containing all table names of the underlying database that are registered
+     * in the DBHandler.
+     */
     static const QList<QString> LIST_TABLE_NAMES;
 };
 

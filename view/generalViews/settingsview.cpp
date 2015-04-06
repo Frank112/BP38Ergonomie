@@ -6,7 +6,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QTextStream>
-#include <QDebug>
 #include "../../settings.h"
 
 SettingsView::SettingsView(QWidget *parent) :

@@ -3,6 +3,12 @@
 
 #include <QString>
 
+/**
+ * @brief The XMLConstants class contains constants for the names of all nodes and all files in
+ * the XML files.
+ *
+ * @author Frank Loeffler
+ */
 class XMLConstants
 {
 public:

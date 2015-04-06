@@ -3,7 +3,6 @@
 #include "../../databaseHandler/dbconstants.h"
 #include "QFont"
 #include "../selectablevaluebutton.h"
-#include <QDebug>
 #include <QToolBar>
 #include <QDialogButtonBox>
 #include <QHBoxLayout>

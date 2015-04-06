@@ -1,5 +1,4 @@
 #include "datetimespinner.h"
-#include <QDebug>
 #include <QLabel>
 
 DateTimeSpinner::DateTimeSpinner(QWidget *parent) :

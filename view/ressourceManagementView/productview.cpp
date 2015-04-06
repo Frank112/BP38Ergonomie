@@ -1,7 +1,6 @@
 #include "productview.h"
 #include "../separator.h"
 #include <QGridLayout>
-#include <QDebug>
 #include "../detailedlistitem.h"
 #include "../flickcharm.h"
 #include "../../databaseHandler/dbconstants.h"

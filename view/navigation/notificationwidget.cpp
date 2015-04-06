@@ -1,5 +1,4 @@
 #include "notificationwidget.h"
-#include <QDebug>
 #include"../../standardpaths.h"
 #include "../../settings.h"
 

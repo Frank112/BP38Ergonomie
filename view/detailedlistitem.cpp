@@ -2,7 +2,6 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QSpacerItem>
-#include <QDebug>
 #include <QStylePainter>
 #include <QStyleOption>
 

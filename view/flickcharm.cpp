@@ -40,7 +40,6 @@
 ****************************************************************************/
 
 #include "flickcharm.h"
-
 #include <QAbstractScrollArea>
 #include <QApplication>
 #include <QBasicTimer>
@@ -50,8 +49,6 @@
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QTime>
-
-#include <QDebug>
 
 const int fingerAccuracyThreshold = 3;
 
@@ -191,9 +188,6 @@ void FlickCharm::activateOn(QWidget *widget)
 
         return;
     }
-
-    qWarning() << "FlickCharm only works on QAbstractScrollArea (and derived classes)";
-    qWarning() << "or QWebView (and derived classes)";
 }
 
 void FlickCharm::deactivateFrom(QWidget *widget)

@@ -4,7 +4,6 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QHBoxLayout>
-#include <QDebug>
 
 const QVector<int> BodyPostureView::TRUNK_TILT_VALUES = QVector<int>()<<-45<<-20<<0<<20<<45<<90<<110;
 const QVector<int> BodyPostureView::TRUNK_TILT_SIDEWAYS_VALUES = QVector<int>()<<0<<20<<45<<60<<90;
