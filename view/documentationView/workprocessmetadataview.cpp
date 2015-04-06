@@ -17,7 +17,7 @@ WorkProcessMetaDataView::WorkProcessMetaDataView(QWidget *parent) :
     lblEquipment(new QLabel(tr("Equipment:"))),
     btnCreateEquipment(new QPushButton()),
     txtBxDescription(new TextLineEdit()),
-    vcMTMCode(new ValueControl(TEXT)),
+    vcMTMCode(new TextControl()),
     numBxWorkingHeight(new NumberLineEdit()),
     numBxDistance(new NumberLineEdit()),
     oscImpulseIntensity(new OptionSelectionControl()),

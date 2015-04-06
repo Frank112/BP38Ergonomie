@@ -121,7 +121,9 @@ HEADERS +=\
     $$PWD/interfaces/iselecteddatabasereset.h \
     $$PWD/generalViews/errorlogview.h \
     $$PWD/timerView/gantttimerview.h \
-    $$PWD/popUps/productpopup.h
+    $$PWD/popUps/productpopup.h \
+    $$PWD/textcontrol.h
+
 
 
 SOURCES +=\
@@ -201,5 +203,6 @@ SOURCES +=\
     $$PWD/rotationGroupView/rotationgrouptasklistview.cpp \
     $$PWD/rotationGroupView/rotationgrouptaskview.cpp \
     $$PWD/generalViews/errorlogview.cpp \
-    $$PWD/popUps/productpopup.cpp
+    $$PWD/popUps/productpopup.cpp \
+    $$PWD/textcontrol.cpp
 

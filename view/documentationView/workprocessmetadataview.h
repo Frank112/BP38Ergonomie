@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include "../numberlineedit.h"
-#include "../valuecontrol.h"
+#include "../textcontrol.h"
 #include "../optionselectioncontrol.h"
 #include "../interfaces/iequipmentlist.h"
 #include "../interfaces/iworkprocess.h"
@@ -62,7 +62,7 @@ private:
     QPushButton *btnCreateEquipment;
 
     TextLineEdit *txtBxDescription;
-    ValueControl *vcMTMCode;
+    TextControl *vcMTMCode;
     NumberLineEdit *numBxWorkingHeight;
     NumberLineEdit *numBxDistance;
     OptionSelectionControl *oscImpulseIntensity;
