@@ -1,10 +1,7 @@
 #include "loadhandlingview.h"
-
-#include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QScrollArea>
-#include "../valuecontrol.h"
 #include "../separator.h"
 #include "../flickcharm.h"
 #include "../detailedlistitem.h"
@@ -31,23 +28,23 @@ LoadHandlingView::LoadHandlingView(QWidget *parent) :
 
     transportationListLayout = new QVBoxLayout;
 
-    vlcGraspType = new ValueControl(TEXT,categoryScrollArea);
-    vlcGraspType->setValues(false, graspValues,graspValues,QString(tr("GraspTypeIcons")));
+    vlcGraspType = new TextControl(categoryScrollArea);
+    vlcGraspType->setValues(false, graspValues, graspValues,QString(tr("GraspTypeIcons")));
     vlcGraspType->setText(tr("Grasptype:"));
 
-    vlcHandlingType = new ValueControl(TEXT, categoryScrollArea);
+    vlcHandlingType = new TextControl(categoryScrollArea);
     vlcHandlingType->setValues(true,HandlingTypeValues, HandlingTypeValues,QString());
     vlcHandlingType->setText(tr("loadhandling type:"));
     connect(vlcHandlingType, SIGNAL(valueChanged(QString)), this, SLOT(typeChanged(QString)));
 
 
-    vlcWeight = new ValueControl(VALUE, categoryScrollArea);
+    vlcWeight = new ValueControl(categoryScrollArea);
     vlcWeight->setUnit(tr("kg"));
     vlcWeight->setValues(1, 100, weightValues, QString());
     vlcWeight->setText(tr("Last"));
 
 
-    vlcDistance = new ValueControl(VALUE, categoryScrollArea);
+    vlcDistance = new ValueControl(categoryScrollArea);
     vlcDistance->setUnit(tr("m"));
     vlcDistance->setValues(0, 20, distanceValues, QString());
     vlcDistance->setText(tr("Weg"));

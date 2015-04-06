@@ -10,8 +10,8 @@ EmployeeView::EmployeeView(QWidget *parent) : SimpleNavigateableWidget(tr("Worke
     lblStaffNumber(new QLabel(tr("Personal ID:"))),
     lblNote(new QLabel(tr("Remarks:"))),
     oscGender(new OptionSelectionControl()),
-    vcAge(new ValueControl(VALUE)),
-    vcHeight(new ValueControl(VALUE)),
+    vcAge(new ValueControl()),
+    vcHeight(new ValueControl()),
     txtBxStaffNumber(new TextLineEdit()),
     txtBxNote(new TextEdit()),
     btnBodyMeasurements(new QPushButton())

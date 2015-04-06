@@ -21,30 +21,16 @@ public:
      * @param controlType Type of the value Control, remember you can not change the type
      * @param parent Parent widget which holds the value control or if 0 then a standalone window
      */
-    explicit ValueControl(ValueControlType controlType, QWidget *parent = 0);
+    explicit ValueControl(QWidget *parent = 0);
 
     /**
      * @brief setValues Sets the values of the control, is only appliable if the control type is VALUE_CONTROL
      * @param min Minimum value
      * @param max Maximum value
      * @param btnValues The predefinied values for the Buttons, there will be shown as many buttons as the length of the vector
-     * @param iconSetPath The path to the icons, the names of the icons muss be the values in btnValues and the filetype png
+     * @param iconSetPath The path to the icons, the names of the icons have to be the values in btnValues and the filetype png
      */
     void setValues(int min, int max, const QVector<int> &btnValues, const QString &iconSetPath);
-
-    /**
-     * @brief setValues Sets the values of the control, is only appliable if the control type is TEXT_CONTROL
-     * @param btnTexts The predefinied texts for the buttons, there will be shown as many buttons as the length of the vector
-     * @param btnTextValues The predefinied text values for a button, if a button gets selected this is the text that will be shown in the QLineEdit
-     * @param iconSetPath The path to the icons, the names of the icons muss be the texts in btnTexts and the filetype png
-     */
-    void setValues(bool showText, const QVector<QString> &btnTexts, const QVector<QString> &btnTextValues, const QString &iconSetPath);
-
-    /**
-     * @brief getControlType Returns the type of the control, which is applied the instantiation
-     * @return the control type
-     */
-    ValueControlType getControlType() const;
 
     /**
      * @brief setText Sets the description label of the control
@@ -78,40 +64,38 @@ public:
     QString getUnit() const;
 
     /**
-     * @brief getTextValue Is only appliable if the control type
-     * @return
+     * @brief getValue Returns the current adjusted value of the control
+     * @return The current adjusted value of the control
+     */
+    int getValue() const;
+
+    /**
+     * @brief getTextValue Returns the selected value of the control as a string.
+     * @return The current selected value of the control as a string.
      */
     QString getTextValue() const;
-    int getValue() const;
 
 
 signals:
     void valueChanged(int value);
-    void valueChanged(const QString &text);
-    void valueChanged(const QVariant &value);
+    void valueChanged(QVariant value);
 
 public slots:
     void setValue(int value);
-    void setValue(const QString &text);
 
 private slots:
     void txtBxValueHasChanged();
     void sldrValueHasChanged();
     void btnValueHasClicked(int id);
-    void btnTextHasClicked(int id);
     void btnPlusClicked();
     void btnMinusClicked();
-    void txtChanged(const QString &value);
 
 private:
     QVector<int> *btnRanges;
-    QVector<QString> btnTextValues;
     QString unit;
     int currentSelectedBtnID;
-    int emitChangeValue;
     int min;
     int max;
-    ValueControlType conType;
 
     QLineEdit *txtBxValue;
     QSlider *sldrValue;

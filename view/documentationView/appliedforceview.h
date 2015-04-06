@@ -6,6 +6,7 @@
 #include <QVector>
 #include <QString>
 #include "../valuecontrol.h"
+#include "../textcontrol.h"
 #include "../interfaces/iappliedforce.h"
 
 class AppliedForceView : public TitledWidget, IAppliedForce
@@ -30,8 +31,8 @@ private:
     static const QVector<int> INTENSITY_VALUES;
 
     ValueControl* valConIntensity;
-    ValueControl* valConDirection;
-    ValueControl* valConOrgan;
+    TextControl* txtConDirection;
+    TextControl* txtConOrgan;
 
 };
 

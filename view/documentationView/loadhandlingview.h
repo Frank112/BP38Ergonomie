@@ -4,6 +4,7 @@
 #include <QLabel>
 #include "../navigation/titledwidget.h"
 #include <QPushButton>
+#include "textcontrol.h"
 #include "../valuecontrol.h"
 #include "../interfaces/itransportationlist.h"
 #include "../interfaces/iloadhandling.h"
@@ -50,8 +51,8 @@ private slots:
     void btnAddTransportationClicked();
 
 private:
-    ValueControl *vlcGraspType;
-    ValueControl *vlcHandlingType;
+    TextControl *vlcGraspType;
+    TextControl *vlcHandlingType;
     ValueControl *vlcWeight;
     ValueControl *vlcDistance;
     QLabel *lblTransportation;
@@ -63,7 +64,7 @@ private:
     int selectedTransportationID;
 
 
-    const QVector<QString> graspValues =QVector<QString>()<<tr("Thumbcontact grasp")<<tr("Indexcontact grasp")<<tr("Handcontact grasp")<<tr("Thumb to 2 Fingers")<<tr("Fingergrasp")<<tr("Thumbindex")<<tr("Wrench")<<tr("Fullgrasp");
+    const QVector<QString> graspValues = QVector<QString>()<<tr("Thumbcontact grasp")<<tr("Indexcontact grasp")<<tr("Handcontact grasp")<<tr("Thumb to 2 Fingers")<<tr("Fingergrasp")<<tr("Thumbindex")<<tr("Wrench")<<tr("Fullgrasp");
     const QVector<int> weightValues = QVector<int>()<<2<<3<<5<<10<<20;
     const QVector<int> heavyWeightValues = QVector<int>()<<100<<500<<1000<<1500<<2000;
     const QVector<int> distanceValues = QVector<int>()<<2<<3<<5<<10<<20;
