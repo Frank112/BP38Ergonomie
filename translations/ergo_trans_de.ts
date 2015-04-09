@@ -34,7 +34,7 @@
         <translation>Anzahl der Wiederholungen</translation>
     </message>
     <message>
-        <location filename="../view/popUps/activitypopup.h" line="45"/>
+        <location filename="../view/popUps/activitypopup.h" line="61"/>
         <source>product number</source>
         <translation>Produktnummer</translation>
     </message>
@@ -171,87 +171,87 @@
         <translation>Organ:</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="27"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
         <source>finger</source>
         <translation>Finger</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="27"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
         <source>hand</source>
         <translation>Hand</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="27"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
         <source>arm</source>
         <translation>Arm</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="27"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
         <source>foot/leg</source>
         <translation>Fuß/Bein</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="27"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
         <source>full body</source>
         <translation>Ganzkörper</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
         <source>above</source>
         <translation>Oben</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
         <source>below</source>
         <translation>Unten</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
         <source>front</source>
         <translation>Vorne</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
         <source>back</source>
         <translation>Hinten</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
         <source>right</source>
         <translation>Rechts</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="28"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
         <source>left</source>
         <translation>Links</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="30"/>
         <source>+A</source>
         <translation>+A</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="30"/>
         <source>-A</source>
         <translation>-A</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="30"/>
         <source>+B</source>
         <translation>+B</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="30"/>
         <source>-B</source>
         <translation>-B</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="30"/>
         <source>+C</source>
         <translation>+C</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/appliedforceview.h" line="29"/>
+        <location filename="../view/documentationView/appliedforceview.h" line="30"/>
         <source>-C</source>
         <translation>-C</translation>
     </message>
@@ -347,242 +347,242 @@
 <context>
     <name>BodyPostureView</name>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="34"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="33"/>
         <source>Body posture</source>
         <translation>Körperhaltung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="77"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="81"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="76"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="80"/>
         <source>both</source>
         <translation>Beide</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="78"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="82"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="77"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="81"/>
         <source>left</source>
         <translation>Links</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="79"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="83"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="78"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="82"/>
         <source>right</source>
         <translation>Rechts</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="87"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="86"/>
         <source>Trunk tilt</source>
         <translation>Beugungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="88"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="87"/>
         <source>trunk_tilt_icon_path</source>
         <translation>:/BodyPostureIcons/Torso/Flexion/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="92"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="91"/>
         <source>Trunk sideways tilt</source>
         <translation>Seitliche Neigung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="93"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="92"/>
         <source>trunk_tilt_sideways_icon_path</source>
         <translation>:/BodyPostureIcons/Torso/Sidewise_Inclination/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="97"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="96"/>
         <source>Trunk twist</source>
         <translation>Oberkörperdrehung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="98"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="97"/>
         <source>trunk_twist_icon_path</source>
         <translation>:/BodyPostureIcons/Torso/Twist/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="101"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="106"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="111"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="116"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="121"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="126"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="131"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="136"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="100"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="105"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="110"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="115"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="120"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="125"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="130"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="135"/>
         <source>°</source>
         <translation>°</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="102"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="101"/>
         <source>Upper arm angle</source>
         <translation>Oberarmwinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="103"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="102"/>
         <source>upper_arm_angle_icon_path</source>
         <translation>:/BodyPostureIcons/Arms/Posture/Upper_Arm/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="107"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="106"/>
         <source>Forearm angle</source>
         <translation>Unterarmwinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="108"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="107"/>
         <source>forearm_angle_icon_path</source>
         <translation>:/BodyPostureIcons/Arms/Posture/Forearm/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="112"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="111"/>
         <source>Upper arm twist</source>
         <translation>Oberarmdrehungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="113"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="112"/>
         <source>upper_arm_twist_icon_path</source>
         <translation>:/BodyPostureIcons/Arms/Twist/Upper_Arm/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="117"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="116"/>
         <source>Forearm twist</source>
         <translation>Unterarmdrehungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="118"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="117"/>
         <source>forearm_twist_icon_path</source>
         <translation>:/BodyPostureIcons/Arms/Twist/Forearm/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="122"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="121"/>
         <source>Arm opening</source>
         <translation>Oberarmöffnungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="123"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="122"/>
         <source>arm_opening_icon_path</source>
         <translation>:/BodyPostureIcons/Arms/Opening/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="127"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="126"/>
         <source>Wrist angle</source>
         <translation>Handgelenkwinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="128"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="127"/>
         <source>wrist_angle_icon_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="132"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="131"/>
         <source>Wrist sideways angle</source>
         <translation>Handgelenkneigungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="133"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="132"/>
         <source>wrist_angle_sideways_icon_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="137"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="136"/>
         <source>Wrist movement</source>
         <translation>Handgelenkbewegung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="138"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="137"/>
         <source>wrist_movement_icon_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="142"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="141"/>
         <source>Hip angle</source>
         <translation>Hüftwinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="143"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="142"/>
         <source>hip_angle_icon_path</source>
         <translation>:/BodyPostureIcons/Legs/Hip/Flexion/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="147"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="146"/>
         <source>Hip sideways angle</source>
         <translation>Hüftneigungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="148"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="147"/>
         <source>hip_angle_sideways_icon_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="152"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="151"/>
         <source>Hip twist</source>
         <translation>Hüftdrehung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="153"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="152"/>
         <source>hip_twist_icon_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="157"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="156"/>
         <source>Knee angle</source>
         <translation>Kniewinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="158"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="157"/>
         <source>knee_angle_icon_path</source>
         <translation>:/BodyPostureIcons/Legs/Knee/Flexion/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="162"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="161"/>
         <source>Ankle angle</source>
         <translation>Sprunggelenkwinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="163"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="162"/>
         <source>ankle_angle_icon_path</source>
         <translation>:/BodyPostureIcons/Legs/Ankle/Flexion/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="167"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="166"/>
         <source>Ankle sideways angle</source>
         <translation>Sprunggelenkneigungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="168"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="167"/>
         <source>ankle_angle_sideways_icon_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="172"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="171"/>
         <source>Head tilt</source>
         <translation>Kopfneigungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="173"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="172"/>
         <source>head_tilt_icon_path</source>
         <translation>:/BodyPostureIcons/Head/inclination/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="177"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="176"/>
         <source>Head sideways tilt</source>
         <translation>Seitlicher Kopfneigungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="178"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="177"/>
         <source>head_tilt_sideways_icon_path</source>
         <translation>:/BodyPostureIcons/Head/sidewise_inclination/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="182"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="181"/>
         <source>Head twist</source>
         <translation>Kopfdrehungswinkel</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="183"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="182"/>
         <source>head_twist_icon_path</source>
         <translation>:/BodyPostureIcons/Head/twist/</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="186"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="185"/>
         <source>Quick Selection</source>
         <translation>Schnellauswahl</translation>
     </message>
@@ -599,78 +599,78 @@
         <translation type="vanished">Schnelle Körperhaltung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="195"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="300"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="194"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="299"/>
         <source>Trunk</source>
         <translation>Rumpf</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="197"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="249"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="196"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="248"/>
         <source>Tilt</source>
         <translation>Beugung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="199"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="251"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="198"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="250"/>
         <source>Sideways tilt</source>
         <translation>Seitl. Neigung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="201"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="213"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="253"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="200"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="212"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="252"/>
         <source>Twist</source>
         <translation>Drehung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="208"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="297"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="207"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="296"/>
         <source>Arms</source>
         <translation>Arme</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="210"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="209"/>
         <source>Posture</source>
         <translation>Haltung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="216"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="215"/>
         <source>Opening</source>
         <translation>Öffnung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="218"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="217"/>
         <source>Wrist</source>
         <translation>Handgelenk</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="229"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="228"/>
         <source>Legs</source>
         <translation>Beine</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="231"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="230"/>
         <source>Hip</source>
         <translation>Hüfte</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="235"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="234"/>
         <source>Knee</source>
         <translation>Knie</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="237"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="236"/>
         <source>Ankle</source>
         <translation>Sprunggelenk</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="247"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="246"/>
         <source>Head</source>
         <translation>Kopf</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="303"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="302"/>
         <source>Nothing</source>
         <translation>Nichts</translation>
     </message>
@@ -687,14 +687,14 @@
         <translation type="vanished">Knieend</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="533"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="876"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="532"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="875"/>
         <source>Walking</source>
         <translation>Laufend</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="537"/>
-        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="880"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="536"/>
+        <location filename="../view/documentationView/bodyPostureView/bodypostureview.cpp" line="879"/>
         <source>Running</source>
         <translation>Gehend</translation>
     </message>
@@ -806,12 +806,12 @@
 <context>
     <name>Controller</name>
     <message>
-        <location filename="../control/controller.cpp" line="98"/>
+        <location filename="../control/controller.cpp" line="75"/>
         <source>Created analyst</source>
         <translation>Analyst erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="109"/>
+        <location filename="../control/controller.cpp" line="86"/>
         <source>Deleted analyst</source>
         <translation>Analyst gelöscht</translation>
     </message>
@@ -824,90 +824,466 @@
         <translation type="vanished">Hallo  </translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="122"/>
+        <location filename="../control/controller.cpp" line="99"/>
         <source>Hello  %1!</source>
         <translation>Hallo  %1!</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="141"/>
+        <location filename="../control/controller.cpp" line="124"/>
         <source>Autogenerated workplace</source>
         <translation>Autogenerierter Arbeitsplatz</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="152"/>
+        <location filename="../control/controller.cpp" line="135"/>
         <source>Autogenerated activity</source>
         <translation>Autogenerierte Aktivität</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="195"/>
         <source>Could not save branch of industry : 
 %1</source>
-        <translation>Industriezweig konnte nicht gespeichert werden: %1</translation>
+        <translation type="vanished">Industriezweig konnte nicht gespeichert werden: %1</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="237"/>
-        <location filename="../control/controller.cpp" line="248"/>
         <source>Could not save corperation: 
 %1</source>
-        <translation>Unternehmen konnte nicht gespeichert werden: 
+        <translation type="vanished">Unternehmen konnte nicht gespeichert werden: 
 %1</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="287"/>
+        <location filename="../control/controller.cpp" line="245"/>
         <source>Could not save factory: 
 %1</source>
         <translation>Werk konnte nicht gespeichert werden: 
 %1</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="320"/>
+        <location filename="../control/controller.cpp" line="287"/>
         <source>Saved meta data</source>
         <translation>Metadaten gesichert</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="336"/>
+        <location filename="../control/controller.cpp" line="301"/>
         <source>Created new workplace</source>
         <translation>Neuer Arbeitsplatz erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="370"/>
+        <location filename="../control/controller.cpp" line="358"/>
         <source>Deleted workplace</source>
         <translation>Arbeitsplatz gelöscht</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="419"/>
+        <location filename="../control/controller.cpp" line="424"/>
         <source>Created new line</source>
         <translation>Linie erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="530"/>
+        <location filename="../control/controller.cpp" line="568"/>
         <source>Created new activity</source>
         <translation>Aktivität erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="679"/>
+        <location filename="../control/controller.cpp" line="764"/>
         <source>Created new employee</source>
         <translation>Mitarbeiter erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="697"/>
+        <location filename="../control/controller.cpp" line="785"/>
         <source>Deleted employee</source>
         <translation>Mitarbeiter gelöscht</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="761"/>
+        <location filename="../control/controller.cpp" line="1217"/>
+        <source>Could not reset branch of industry: 
+%1</source>
+        <translation>Industriezweit konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1222"/>
+        <source>Could not reset corporation: 
+%1</source>
+        <translation>Unternehmen konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1227"/>
+        <source>Could not reset employer: 
+%1</source>
+        <translation>Mitarbeiter konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1232"/>
+        <source>Could not reset factory: 
+%1</source>
+        <translation>Werk konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1242"/>
+        <location filename="../control/controller.cpp" line="1275"/>
+        <source>Could not reset recording: 
+%1</source>
+        <translation>Aufnahme konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1257"/>
+        <source>Could not reset activity: 
+%1</source>
+        <translation>Aktivität konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1260"/>
+        <source>Could not reset applied force: 
+%1</source>
+        <translation>Aktionskraft konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1263"/>
+        <source>Could not reset body posture: 
+%1</source>
+        <translation>Körperhaltung konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1266"/>
+        <source>Could not reset comment: 
+%1</source>
+        <translation>Bemerkung konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1269"/>
+        <source>Could not reset line: 
+%1</source>
+        <translation>Linie konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1272"/>
+        <source>Could not reset load handling: 
+%1</source>
+        <translation>Lastenhandhabung konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1278"/>
+        <source>Could not reset recording-line mapping: 
+%1</source>
+        <translation>Aufnahme-Linienzusammenhang konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1281"/>
+        <source>Could not reset recording-workplace mapping: 
+%1</source>
+        <translation>Aufnahme-Arbeitsplatzzusammenhang konnte nicht zurückggesetztw erden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1284"/>
+        <source>Could not reset workplace: 
+%1</source>
+        <translation>Arbeitsplatz konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1287"/>
+        <source>Could not reset work condition: 
+%1</source>
+        <translation>Arbeitsbedingungen konnten nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1290"/>
+        <source>Could not reset work process: 
+%1</source>
+        <translation>Arbeitsprozess konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1296"/>
+        <source>Could not reset requipment: 
+%1</source>
+        <translation>Betriebsmittel konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1302"/>
+        <source>Could not reset products: 
+%1</source>
+        <translation>Produkte konnten nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1308"/>
+        <source>Could not reset transportations: 
+%1</source>
+        <translation>Transportmittel konnten nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1316"/>
+        <source>Could not reset employee: 
+%1</source>
+        <translation>Mitarbeiter konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1319"/>
+        <source>Could not reset employee-shift mapping: 
+%1</source>
+        <translation>Mitarbeiter-Schichtzusammenhang konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1322"/>
+        <source>Could not reset body measurement: 
+%1</source>
+        <translation>Körperhaltung konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1328"/>
+        <source>Could not reset shift: 
+%1</source>
+        <translation>Schicht konnte nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1331"/>
+        <source>Could not reset breaks: 
+%1</source>
+        <translation>Bremsen konnten nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1334"/>
+        <source>Could not reset rotation groups: 
+%1</source>
+        <translation>Rotationsgruppen konnten nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1337"/>
+        <source>Could not reset rotation group tasks: 
+%1</source>
+        <translation>Rotationsgruppenaufgaben konnten nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1340"/>
+        <source>Could not reset rotation group task entries: 
+%1</source>
+        <translation>Rotationsgruppenaufgabeneinträge konnten nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1349"/>
+        <source>Could not reset ftp connections: 
+%1</source>
+        <translation>FTP Verbindungen konnten nicht zurückgesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1370"/>
+        <source>Could not update rotation group task duration: 
+%1</source>
+        <translation>Rotationsgruppenaufgabedauer konnte nicht aktualisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1390"/>
+        <source>Could not remove rotation group: 
+%1</source>
+        <translation>Rotationsgruppe konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1399"/>
+        <source>Could not save rotation group: 
+%1</source>
+        <translation>Rotationsgruppe konnte nicht gespeichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1427"/>
+        <source>Could not delete rotation group entries: 
+%1</source>
+        <translation>Rotationsgruppeneinträge konnten nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1453"/>
+        <source>Could not save recording-line mapping: 
+%1</source>
+        <translation>Aufnahme-Linienzusammenhang konnte nicht gespeichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1461"/>
+        <source>Could not delete recording-line mapping: 
+%1</source>
+        <translation>Aufnahmen-Linienzusammenhang konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1473"/>
+        <source>Could not save recording-workplace mapping: 
+%1</source>
+        <translation>Aufnahme-Arbeitsplatzzusammenhang konnte nicht gespeichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1481"/>
+        <source>Could not delete recording-workplace mapping: 
+%1</source>
+        <translation>Aufnahme-Arbeitsplatzzusammenhang konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1498"/>
+        <source>Could not delete body posture: 
+%1</source>
+        <translation>Körperhaltung konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1501"/>
+        <source>Could not delete applied force: 
+%1</source>
+        <translation>Anwendungskraft konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1504"/>
+        <source>Could not delete load handling: 
+%1</source>
+        <translation>Lastenhandhabung konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1507"/>
+        <source>Could not delete work condition: 
+%1</source>
+        <translation>Arbeitsbedingung konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1647"/>
+        <source>Could not initialize analysts: 
+%1</source>
+        <translation>Analyst konnte nicht initialisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1658"/>
+        <source>Could not initialize product: 
+%1</source>
+        <translation>Produkt konnte nicht initialisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1669"/>
+        <source>Could not initialize transportations: 
+%1</source>
+        <translation>Transportmittel konnten nicht initialisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1680"/>
+        <source>Could not initialize equipments: 
+%1</source>
+        <translation>Betriebsmittel konnten nicht initialisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1689"/>
+        <source>Could not initialize employees: 
+%1</source>
+        <translation>Mitarbeiter konnten nicht initialisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1718"/>
+        <source>Could not initialize activities: 
+%1</source>
+        <translation>Aktivitäten konnten nicht initialisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1736"/>
+        <source>Could not match employee to shift: 
+%1</source>
+        <translation>Mitarbeiter konnte nicht mit Schicht in verbindung gebracht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1748"/>
+        <source>Work processes could not be initialized: 
+%1</source>
+        <translation>Arbeitsprozesse konnten nicht initialisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1760"/>
+        <source>Could not retrieved FTP connections: 
+%1</source>
+        <translation>FTP Verbindungen wurden nicht erhalten:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1776"/>
+        <source>Could not initialize rotation groups: 
+%1</source>
+        <translation>Rotationsgruppen konnten nicht initialisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1787"/>
+        <source>Could not fetch additional information for rotation group: 
+%1</source>
+        <translation>Es konnten keine weiteren informationen zur Rotationsgruppe gefunden werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1820"/>
         <source>Could not create workprocess list because 
  the %1 &quot;%2&quot; %3 is missing.</source>
         <translation>Arbeitsplatzliste konnte nicht erstellt werden, 
 da %1 &quot;%2&quot; %3 fehlen.</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="788"/>
+        <location filename="../control/controller.cpp" line="1840"/>
+        <source>Could not check work processes : 
+%1</source>
+        <translation>Arbeitsprozess konnte nicht überprüfgt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1853"/>
+        <source>Could not retrieve next ID for work process: 
+%1</source>
+        <translation>Die nächste Arbeitsprozess ID konnte nicht gefunden werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1859"/>
+        <source>Could not create work process in list: 
+%1</source>
+        <translation>Arbeitsprozess konnte nicht in der Liste erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1863"/>
         <source>activity</source>
         <translation>Aktivität</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="794"/>
+        <location filename="../control/controller.cpp" line="1869"/>
         <source>workplace</source>
         <translation>Arbeitsplatz</translation>
     </message>
@@ -916,27 +1292,27 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Linie erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="442"/>
+        <location filename="../control/controller.cpp" line="463"/>
         <source>Deleted line</source>
         <translation>Linie gelöscht</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="467"/>
+        <location filename="../control/controller.cpp" line="493"/>
         <source>Created new product</source>
         <translation>Neues Produkt erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="485"/>
+        <location filename="../control/controller.cpp" line="523"/>
         <source>Deleted product</source>
         <translation>Produkt gelöscht</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="500"/>
+        <location filename="../control/controller.cpp" line="535"/>
         <source>Created new equipment</source>
         <translation>Neues Betriebsmittel erstelllt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="513"/>
+        <location filename="../control/controller.cpp" line="556"/>
         <source>Deleted equipment</source>
         <translation>Betriebsmittel gelöscht</translation>
     </message>
@@ -949,7 +1325,7 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Aktivität erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="545"/>
+        <location filename="../control/controller.cpp" line="591"/>
         <source>Deleted activity</source>
         <translation>Aktivität gelöscht</translation>
     </message>
@@ -958,7 +1334,7 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Aktivität aktualisiert</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="572"/>
+        <location filename="../control/controller.cpp" line="617"/>
         <source>Created new transportation</source>
         <translation>Neues Transportmittel erstellt</translation>
     </message>
@@ -967,7 +1343,7 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Neues Transportmittel erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="585"/>
+        <location filename="../control/controller.cpp" line="638"/>
         <source>Deleted transportation</source>
         <translation>Transportmittel gelöscht</translation>
     </message>
@@ -976,62 +1352,718 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Mitarbeiter ausgewählt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="926"/>
+        <location filename="../control/controller.cpp" line="1514"/>
         <source>Start parsing</source>
         <translation>Starte Parsen</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1032"/>
+        <location filename="../control/controller.cpp" line="1619"/>
         <source>Started Upload</source>
         <translation>Upload gestartet</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1036"/>
+        <location filename="../control/controller.cpp" line="1623"/>
         <source>Finished Upload: </source>
         <translation>Upload beendet:</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1108"/>
+        <location filename="../control/controller.cpp" line="1045"/>
         <source>Added rotation group task to calendar</source>
         <translation>Rotationsgruppenaufgabe dem Kalender hinzugefügt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1130"/>
+        <location filename="../control/controller.cpp" line="67"/>
+        <source>Could not save employer: 
+%1</source>
+        <translation>Mitarbeiter konnte nicht gespeicher werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="72"/>
+        <source>Could not create analyst: 
+%1</source>
+        <translation>Analyst konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="83"/>
+        <source>Could not delete analyst: 
+%1</source>
+        <translation>Analyst konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="94"/>
+        <source>Could not select analyst: 
+%1</source>
+        <translation>Analyst konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="105"/>
+        <location filename="../control/controller.cpp" line="253"/>
+        <source>Could not select recording: 
+%1</source>
+        <translation>Aufnahme konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="113"/>
+        <source>Could not save recording: 
+%1</source>
+        <translation>Aufnahme konnte nicht gesicher twerden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="128"/>
+        <source>Could not create recording: 
+%1</source>
+        <translation>Aufnahme konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="140"/>
+        <source>Could not create autogenerated activity: 
+%1</source>
+        <translation>Autogenerierte Aktivität konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="158"/>
+        <location filename="../control/controller.cpp" line="199"/>
+        <source>Could not select branch of industry: 
+%1</source>
+        <translation>Industriezweig konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="172"/>
+        <source>Could not save branch of industry: 
+%1</source>
+        <translation>Industriezweig konnte nicht gespeicher werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="181"/>
+        <location filename="../control/controller.cpp" line="231"/>
+        <source>Could not select corporation: 
+%1</source>
+        <translation>Unternehmen konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="209"/>
+        <source>Could not save corportation: 
+%1</source>
+        <translation>Unternehmen konnte nicht gespeichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="217"/>
+        <source>Could not select factory: 
+%1</source>
+        <translation>Werk konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="265"/>
+        <location filename="../control/controller.cpp" line="1728"/>
+        <source>Could not select shift: 
+%1</source>
+        <translation>Schicht konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="283"/>
+        <source>Could not save metadata: 
+%1</source>
+        <translation>Metadaten konnten nicht gespeichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="294"/>
+        <location filename="../control/controller.cpp" line="394"/>
+        <source>Could not save workplace: 
+%1</source>
+        <translation>Arbeitsplatz konnte nicht gesepeichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="308"/>
+        <source>Could not create workplace: 
+%1</source>
+        <translation>Arbeitsplatz konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="320"/>
+        <source>Could not select product: 
+%1</source>
+        <translation>Produkt konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="330"/>
+        <location filename="../control/controller.cpp" line="563"/>
+        <source>Could not create activity: 
+%1</source>
+        <translation>Aktivität konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="339"/>
+        <source>Could not delete workplace: 
+%1</source>
+        <translation>Arbeitsplatz konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="348"/>
+        <location filename="../control/controller.cpp" line="1832"/>
+        <source>Could not select activity: 
+%1</source>
+        <translation>Aktivität konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="356"/>
+        <source>Could not delete comment: 
+%1</source>
+        <translation>Bemerkung konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="366"/>
+        <location filename="../control/controller.cpp" line="1825"/>
+        <source>Could not select workplace: 
+%1</source>
+        <translation>Arbeitsplatz konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="376"/>
+        <location filename="../control/controller.cpp" line="470"/>
+        <location filename="../control/controller.cpp" line="1700"/>
+        <source>Could not select line: 
+%1</source>
+        <translation>Linie konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="382"/>
+        <source>Could not select Comment: 
+%1</source>
+        <translation>Bemerkung konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="405"/>
+        <source>Could not save comment: 
+%1</source>
+        <translation>Bemerkung konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="417"/>
+        <source>Could not create line: 
+%1</source>
+        <translation>Linie konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="430"/>
+        <source>Could not select line to edit: 
+%1</source>
+        <translation>Linie konnte nicht zum Bearbeiten ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="440"/>
+        <source>Could not save line: 
+%1</source>
+        <translation>Linie konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="450"/>
+        <source>Could not delete line: 
+%1</source>
+        <translation>Linie konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="460"/>
+        <source>Could not remove line from workplace: 
+%1</source>
+        <translation>Linie konnte nicht von Arbeitsplatz entfernt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="478"/>
+        <source>Could not match line with workplace: 
+%1</source>
+        <translation>Linie konnte nicht mit arbeitsplatz verbunden werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="489"/>
+        <source>Could not create product: 
+%1</source>
+        <translation>Produkt konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="500"/>
+        <source>Could not save product: 
+%1</source>
+        <translation>Produkt konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="511"/>
+        <source>Could not delete product: 
+%1</source>
+        <translation>Produkt konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="520"/>
+        <source>Could not remove product from activity: 
+%1</source>
+        <translation>Produkt konnte nicht von Aktivität entfernt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="530"/>
+        <source>Could not create equipment: 
+%1</source>
+        <translation>Betriebsmittel konnte nicht ersetellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="542"/>
+        <source>Could not save equipment: 
+%1</source>
+        <translation>Betribsmittel konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="552"/>
+        <source>Could not delete equipment: 
+%1</source>
+        <translation>Betriebsmittel konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="576"/>
+        <source>Could not save activity: 
+%1</source>
+        <translation>Aktivität konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="585"/>
+        <source>Could not delete activity: 
+%1</source>
+        <translation>Aktivität konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="603"/>
+        <source>Could not select activity to edit: 
+%1</source>
+        <translation>Aktivität konnt nicht zum Bearbeiten ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="613"/>
+        <source>Could not create transportation: 
+%1</source>
+        <translation>Transportmittel konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="624"/>
+        <source>Could not save transportation: 
+%1</source>
+        <translation>Transportmittel konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="634"/>
+        <source>Could not delete transportation: 
+%1</source>
+        <translation>Transportmittel konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="645"/>
+        <source>Could not retrieve load handling type: 
+%1</source>
+        <translation>Lastenhandhabungsart konnte nicht gefunden werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="652"/>
+        <source>Could not save load handling type: 
+%1</source>
+        <translation>Lastenhandhabungsart konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="663"/>
+        <source>Could not retrieve grasp type: 
+%1</source>
+        <translation>Greifart konnte nicht gefunden werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="670"/>
+        <source>Could not save grasp type: 
+%1</source>
+        <translation>Greifart konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="681"/>
+        <source>Could not save load handling: 
+%1</source>
+        <translation>Lastenhandhabung konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="695"/>
+        <source>Could not save body posture: 
+%1</source>
+        <translation>Körperhaltung konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="708"/>
+        <source>Could not save applied force: 
+%1</source>
+        <translation>Aktionsgraft konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="729"/>
+        <source>Could not save work process: 
+%1</source>
+        <translation>Arbeitsprozess konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="739"/>
+        <source>Could not save working condition: 
+%1</source>
+        <translation>Ausführungsbedingungen konnten nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="754"/>
+        <location filename="../control/controller.cpp" line="830"/>
+        <location filename="../control/controller.cpp" line="1881"/>
+        <source>Could not save body measurement: 
+%1</source>
+        <translation>Körpermaße konnten  nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="760"/>
+        <location filename="../control/controller.cpp" line="1887"/>
+        <source>Could not create employee: 
+%1</source>
+        <translation>Mitarbeiter konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="771"/>
+        <location filename="../control/controller.cpp" line="792"/>
+        <source>Could not select employee: 
+%1</source>
+        <translation>Mitarbeiter konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="776"/>
+        <source>Could not delete employee: 
+%1</source>
+        <translation>Mitarbeiter konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="783"/>
+        <source>Could not delete body measurement: 
+%1</source>
+        <translation>Körpermaße konnten nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="801"/>
+        <source>Could not select body measurement: 
+%1</source>
+        <translation>Körpermaße konnten nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="812"/>
+        <source>Could not save employee: 
+%1</source>
+        <translation>Mitarbeiter konnte nicht gespeicher werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="842"/>
+        <source>Could not retrieve next ID for the work process: 
+%1</source>
+        <translation>Die nächste Arbeitsvorgang ID konnte nicht gefunden werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="849"/>
+        <source>Could not create work process: 
+%1</source>
+        <translation>Arbeitsvorgang konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="884"/>
+        <location filename="../control/controller.cpp" line="1491"/>
+        <source>Could not select work process: 
+%1</source>
+        <translation>Arbeitsvorgang konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="897"/>
+        <location filename="../control/controller.cpp" line="908"/>
+        <source>Could not update work process types: 
+%1</source>
+        <translation>Arbeitsvorgangstyp konnte nicht aktualisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="924"/>
+        <source>Could not set body posture: 
+%1</source>
+        <translation>Körperhaltung konnte nicht gesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="928"/>
+        <source>Could not set applied force: 
+%1</source>
+        <translation>Aktionskraft konnte nicht gesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="932"/>
+        <source>Could not set load handling: 
+%1</source>
+        <translation>Lastenhandhabung konnte nicht gesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="936"/>
+        <source>Could not set load handling type: 
+%1</source>
+        <translation>Lastenhandhabungsart konnte nicht gesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="941"/>
+        <source>Could not set grasp type: 
+%1</source>
+        <translation>Greifart konnte nicht gesetzt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="954"/>
+        <source>It is not sure iff the work process has a previous process: 
+%1</source>
+        <translation>Es ist nicht sicher, ob der Arbeitsvorgang einen Vorgänger hat:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="958"/>
+        <source>It is not sure iff the work process has a next process: 
+%1</source>
+        <translation>Es ist nicht sicher, ob der Arbeitsvorgang einen Nachvorlger hat:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="970"/>
+        <source>Could not update work process frequency: 
+%1</source>
+        <translation>Arbeitsprozessfrequenz konnte nicht aktualisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="976"/>
+        <source>Could not select FTP connection: 
+%1</source>
+        <translation>FTB Verbindung konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="990"/>
+        <source>Could not create FTP connection: 
+%1</source>
+        <translation>FTP Verbindung konnte nicht erstellt werden
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="999"/>
+        <source>: 
+%1</source>
+        <translation>:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1009"/>
+        <source>Could not save employee matching shift: 
+%1</source>
+        <translation>Die zum Mitarbeiter gehörige Schicht konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1016"/>
+        <source>Could not save shift: 
+%1</source>
+        <translation>Schicht konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1026"/>
+        <source>Could not retrieve next ID for rotation group entry: 
+%1</source>
+        <translation>Die nächste Rotationsgruppen ID wurde nicht gefunden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1034"/>
+        <source>Could not create rotation group: 
+%1</source>
+        <translation>Rotationsgruppe konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1041"/>
+        <source>Could not retrieve additional information for rotation group task: 
+%1</source>
+        <translation>Erweiterte Informationen zur Rotationsgruppenaufgabe wurden nicht gefunden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1057"/>
+        <source>Could save break: 
+%1</source>
+        <translation>Pause wurde gesichert:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1065"/>
+        <source>Could not retrieve next ID for rotation group break entry: 
+%1</source>
+        <translation>Nächste Rotationsgruppeneintragspausen ID konnte nicht gefunden werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1073"/>
+        <source>Could not add entry to rotation group: 
+%1</source>
+        <translation>Eintrag konnte nicht zur Rotationsgruppe hinzugefügt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1079"/>
         <source>Added break to calendar</source>
         <translation>Pause dem Kalender hinzugefügt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1138"/>
+        <location filename="../control/controller.cpp" line="1088"/>
+        <source>Could not remove entry from calendar: 
+%1</source>
+        <translation>Eintrag konnte nicht aus dem Kalender entfernt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1091"/>
         <source>Removed entry form calendar</source>
         <translation>Eintrag aus dem Kalender entfernt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1173"/>
+        <location filename="../control/controller.cpp" line="1101"/>
+        <location filename="../control/controller.cpp" line="1395"/>
+        <location filename="../control/controller.cpp" line="1407"/>
+        <source>Could not update rotation group: 
+%1</source>
+        <translation>Rotationsgruppe konnte nicht aktualisiert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1122"/>
+        <source>Could not create rotation group task: 
+%1</source>
+        <translation>Rotationsgruppenaufgabe konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1125"/>
         <source>Created rotation group task</source>
         <translation>Rotationsgruppe erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1185"/>
+        <location filename="../control/controller.cpp" line="1134"/>
+        <location filename="../control/controller.cpp" line="1191"/>
+        <source>Could not delete rotation group task entry: 
+%1</source>
+        <translation>Rotationsgruppenauftragseintrag konnte nicht gelöscht werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1142"/>
         <source>Deleted rotation group task</source>
         <translation>Rotationsgruppe gelöscht</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1201"/>
+        <location filename="../control/controller.cpp" line="1151"/>
+        <source>Could not select rotation group task: 
+%1</source>
+        <translation>Rotationsgruppenaufgabe konnte nicht ausgewählt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1163"/>
+        <source>Could not save rotation group task: 
+%1</source>
+        <translation>Rotationsgruppenaufgabe konnte nicht gesichert werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1166"/>
         <source>Saved rotation group task</source>
         <translation>Rotationsgruppe gespeichert</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1229"/>
+        <location filename="../control/controller.cpp" line="1178"/>
+        <source>Could not create rotatoin group task entry: 
+%1</source>
+        <translation>Rotationsgruppenaufgabeneintrag konnte nicht erstellt werden:
+%1</translation>
+    </message>
+    <message>
+        <location filename="../control/controller.cpp" line="1183"/>
         <source>Created rotation group task entry</source>
         <translation>Rotationsgruppeneintrag erstellt</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1238"/>
+        <location filename="../control/controller.cpp" line="1196"/>
         <source>Deleted rotation group task entry</source>
         <translation>Rotationsgruppeneintrag gelöscht</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1250"/>
+        <location filename="../control/controller.cpp" line="1207"/>
         <source>Restored Factory Settings</source>
         <translation>Werkseinstellungen wiederhergestellt</translation>
     </message>
@@ -1044,12 +2076,12 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Zum Anwenden der Änderungen App neustarten</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1335"/>
+        <location filename="../control/controller.cpp" line="1363"/>
         <source>Theme changed</source>
         <translation>Design geändert</translation>
     </message>
     <message>
-        <location filename="../control/controller.cpp" line="1321"/>
+        <location filename="../control/controller.cpp" line="1352"/>
         <source>Reset successful</source>
         <translation>Erfolgreich zurückgesetzt</translation>
     </message>
@@ -1057,39 +2089,32 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
 <context>
     <name>CreateProductPopUp</name>
     <message>
-        <location filename="../view/popUps/createproductpopup.cpp" line="4"/>
         <source>Create product</source>
-        <translation>Produkt erstellen</translation>
+        <translation type="vanished">Produkt erstellen</translation>
     </message>
     <message>
-        <location filename="../view/popUps/createproductpopup.cpp" line="9"/>
         <source>Name</source>
-        <translation>Name</translation>
+        <translation type="vanished">Name</translation>
     </message>
     <message>
-        <location filename="../view/popUps/createproductpopup.cpp" line="10"/>
         <source>Product Number</source>
-        <translation>Produktnummer</translation>
+        <translation type="vanished">Produktnummer</translation>
     </message>
     <message>
-        <location filename="../view/popUps/createproductpopup.cpp" line="11"/>
         <source>Total Percentage</source>
-        <translation>Prozent</translation>
+        <translation type="vanished">Prozent</translation>
     </message>
     <message>
-        <location filename="../view/popUps/createproductpopup.cpp" line="18"/>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation type="vanished">Name:</translation>
     </message>
     <message>
-        <location filename="../view/popUps/createproductpopup.cpp" line="20"/>
         <source>Product Number:</source>
-        <translation>Produktnummer:</translation>
+        <translation type="vanished">Produktnummer:</translation>
     </message>
     <message>
-        <location filename="../view/popUps/createproductpopup.cpp" line="22"/>
         <source>Total Percentage:</source>
-        <translation>Anteil an der Gesamtproduktion:</translation>
+        <translation type="vanished">Anteil an der Gesamtproduktion:</translation>
     </message>
 </context>
 <context>
@@ -1102,12 +2127,12 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
 <context>
     <name>DateTimeSpinner</name>
     <message>
-        <location filename="../view/datetimespinner.cpp" line="63"/>
+        <location filename="../view/datetimespinner.cpp" line="62"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../view/datetimespinner.cpp" line="64"/>
+        <location filename="../view/datetimespinner.cpp" line="63"/>
         <source>Time</source>
         <translation>Zeit</translation>
     </message>
@@ -1155,7 +2180,7 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation>Mitarbeiter</translation>
     </message>
     <message>
-        <location filename="../view/popUps/employeepopup.h" line="46"/>
+        <location filename="../view/popUps/employeepopup.h" line="65"/>
         <source>Staff number</source>
         <translation>Mitarbeiternummer</translation>
     </message>
@@ -1638,7 +2663,14 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
 <context>
     <name>GantTimerView</name>
     <message>
-        <location filename="../view/timerView/ganttimerview.cpp" line="7"/>
+        <source>Gant diagram</source>
+        <translation type="vanished">Gantt Diagramm</translation>
+    </message>
+</context>
+<context>
+    <name>GanttTimerView</name>
+    <message>
+        <location filename="../view/timerView/gantttimerview.cpp" line="7"/>
         <source>Gant diagram</source>
         <translation>Gantt Diagramm</translation>
     </message>
@@ -1769,73 +2801,73 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
 <context>
     <name>LoadHandlingView</name>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="20"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="17"/>
         <source>Load handling</source>
         <translation>Lastenhandhabung</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="35"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="32"/>
         <source>GraspTypeIcons</source>
         <translation>:/icons/GrabType/GrabType_</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="36"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="33"/>
         <source>Grasptype:</source>
         <translation>Greifart:</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="40"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="37"/>
         <source>loadhandling type:</source>
         <translation>Lastenhandhabungsart:</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="45"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="42"/>
         <source>kg</source>
         <translation>kg</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="47"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="44"/>
         <source>Last</source>
         <translation>Last</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="51"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="48"/>
         <source>m</source>
         <translation>m</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="53"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="50"/>
         <source>Weg</source>
         <translation>Weg</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="55"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="52"/>
         <source>Transportation:</source>
         <translation>Transportmittel:</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="61"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="58"/>
         <source>Bockrollen</source>
         <translation>Bockrollen</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="62"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="59"/>
         <source>Bremsen</source>
         <translation>Bremsen</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="113"/>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="114"/>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="149"/>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="150"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="110"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="111"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="146"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="147"/>
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="113"/>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="114"/>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="149"/>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="150"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="110"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="111"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="146"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="147"/>
         <source>No</source>
         <translation>Ja</translation>
     </message>
@@ -1848,83 +2880,83 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Nein</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.cpp" line="191"/>
-        <location filename="../view/documentationView/loadhandlingview.h" line="70"/>
+        <location filename="../view/documentationView/loadhandlingview.cpp" line="188"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="71"/>
         <source>pulling and pushing</source>
         <translation>Ziehen &amp; Schieben</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="66"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="67"/>
         <source>Thumbcontact grasp</source>
         <translation>Daumenkontaktgriff</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="66"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="67"/>
         <source>Indexcontact grasp</source>
         <translation>Zeigefingerkontaktgriff</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="66"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="67"/>
         <source>Handcontact grasp</source>
         <translation>Handkontaktgriff</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="66"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="67"/>
         <source>Thumb to 2 Fingers</source>
         <translation>Daumen auf 2 Finger</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="66"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="67"/>
         <source>Fingergrasp</source>
         <translation>Fingerzufassungsgriff</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="66"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="67"/>
         <source>Thumbindex</source>
         <translation>Daumen-Zeigefinger</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="66"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="67"/>
         <source>Wrench</source>
         <translation>Zange</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="66"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="67"/>
         <source>Fullgrasp</source>
         <translation>Umfassungsgriff</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="70"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="71"/>
         <source>holding</source>
         <translation>Halten</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="70"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="71"/>
         <source>replacing</source>
         <translation>Umsetzen</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="70"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="71"/>
         <source>carrying</source>
         <translation>Tragen</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="72"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="73"/>
         <source>empty weight:</source>
         <translation>Leergewicht:</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="72"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="73"/>
         <source>max. load:</source>
         <translation>Maximalgewicht:</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="72"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="73"/>
         <source>fixed rollers:</source>
         <translation>Bockrollen:</translation>
     </message>
     <message>
-        <location filename="../view/documentationView/loadhandlingview.h" line="72"/>
+        <location filename="../view/documentationView/loadhandlingview.h" line="73"/>
         <source>brakes:</source>
         <translation>Bremsen:</translation>
     </message>
@@ -2087,73 +3119,80 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
 <context>
     <name>ProductPopUp</name>
     <message>
+        <location filename="../view/popUps/productpopup.cpp" line="4"/>
         <source>Create product</source>
-        <translation type="vanished">Produkt erstellen</translation>
+        <translation>Produkt erstellen</translation>
     </message>
     <message>
+        <location filename="../view/popUps/productpopup.cpp" line="9"/>
         <source>Name</source>
-        <translation type="vanished">Name</translation>
+        <translation>Name</translation>
     </message>
     <message>
+        <location filename="../view/popUps/productpopup.cpp" line="10"/>
         <source>Product Number</source>
-        <translation type="vanished">Produktnummer</translation>
+        <translation>Produktnummer</translation>
     </message>
     <message>
+        <location filename="../view/popUps/productpopup.cpp" line="11"/>
         <source>Total Percentage</source>
-        <translation type="vanished">Prozent</translation>
+        <translation>Prozent</translation>
     </message>
     <message>
+        <location filename="../view/popUps/productpopup.cpp" line="18"/>
         <source>Name:</source>
-        <translation type="vanished">Name:</translation>
+        <translation>Name:</translation>
     </message>
     <message>
+        <location filename="../view/popUps/productpopup.cpp" line="20"/>
         <source>Product Number:</source>
-        <translation type="vanished">Produktnummer:</translation>
+        <translation>Produktnummer:</translation>
     </message>
     <message>
+        <location filename="../view/popUps/productpopup.cpp" line="22"/>
         <source>Total Percentage:</source>
-        <translation type="vanished">Anteil an der Gesamtproduktion:</translation>
+        <translation>Anteil an der Gesamtproduktion:</translation>
     </message>
 </context>
 <context>
     <name>ProductView</name>
     <message>
-        <location filename="../view/ressourceManagementView/productview.cpp" line="9"/>
+        <location filename="../view/ressourceManagementView/productview.cpp" line="8"/>
         <source>Products</source>
         <translation>Produkte</translation>
     </message>
     <message>
-        <location filename="../view/ressourceManagementView/productview.cpp" line="11"/>
+        <location filename="../view/ressourceManagementView/productview.cpp" line="10"/>
         <source>Add Product</source>
         <translation>Produkt hinzufügen</translation>
     </message>
     <message>
-        <location filename="../view/ressourceManagementView/productview.cpp" line="12"/>
+        <location filename="../view/ressourceManagementView/productview.cpp" line="11"/>
         <source>Product name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="../view/ressourceManagementView/productview.cpp" line="13"/>
+        <location filename="../view/ressourceManagementView/productview.cpp" line="12"/>
         <source>Product number:</source>
         <translation>Produktnummer:</translation>
     </message>
     <message>
-        <location filename="../view/ressourceManagementView/productview.cpp" line="14"/>
+        <location filename="../view/ressourceManagementView/productview.cpp" line="13"/>
         <source>Percentage of the whole production:</source>
         <translation>Anteil an der Gesamtproduktion:</translation>
     </message>
     <message>
-        <location filename="../view/ressourceManagementView/productview.cpp" line="27"/>
+        <location filename="../view/ressourceManagementView/productview.cpp" line="26"/>
         <source>name of the product</source>
         <translation>Produktname</translation>
     </message>
     <message>
-        <location filename="../view/ressourceManagementView/productview.cpp" line="28"/>
+        <location filename="../view/ressourceManagementView/productview.cpp" line="27"/>
         <source>number of the product</source>
         <translation>Produktnummer</translation>
     </message>
     <message>
-        <location filename="../view/ressourceManagementView/productview.cpp" line="29"/>
+        <location filename="../view/ressourceManagementView/productview.cpp" line="28"/>
         <source>percentage of total production</source>
         <translation>Prozent</translation>
     </message>
@@ -2449,7 +3488,7 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
 <context>
     <name>SettingsView</name>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="13"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="12"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
@@ -2458,57 +3497,57 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Daten importieren</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="14"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="13"/>
         <source>Reset Recordings</source>
         <translation>Aufnahmen zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="15"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="14"/>
         <source>Restore Factory Settings</source>
         <translation>Auf Werkseinstellungen zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="16"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="15"/>
         <source>Error Log</source>
         <translation>Error Log</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="17"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="16"/>
         <source>Change Language</source>
         <translation>Sprache ändern</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="18"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="17"/>
         <source>Change Theme</source>
         <translation>Design ändern</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="19"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="18"/>
         <source>Show Titles</source>
         <translation>Titel anzeigen</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="20"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="19"/>
         <source>Show Notifications</source>
         <translation>Benachrichtigungen anzeigen</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="42"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="41"/>
         <source>User Interface Settings</source>
         <translation>Benutzeroberflächeneinstellungen</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="43"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="42"/>
         <source>Advanced Settings</source>
         <translation>Erweiterte Einstellungen</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="46"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="45"/>
         <source>Disabling this option will cause the the Application not to show titles in the navigation bar.</source>
         <translation>Beim Deaktivieren dieser Option wird die Applikation keine Titel in der Navigationsleiste anzeigen.</translation>
     </message>
     <message>
-        <location filename="../view/generalViews/settingsview.cpp" line="47"/>
+        <location filename="../view/generalViews/settingsview.cpp" line="46"/>
         <source>Disabling this option will cause the the Application not to provide notification messages.</source>
         <translation>Beim Deaktivieren dieser Option wird die Applikation keine Benachrichtiungen anzeigen.</translation>
     </message>
@@ -2525,32 +3564,32 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation type="vanished">Arbeitsplätze</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="16"/>
+        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="15"/>
         <source>Calendar</source>
         <translation>Kalender</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="21"/>
+        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="20"/>
         <source>Add Rotation Group:</source>
         <translation>Rotationsgruppe hinzufügen:</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="25"/>
+        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="24"/>
         <source>Add break:</source>
         <translation>Pause hinzufügen:</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="26"/>
+        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="25"/>
         <source>Duration [min]:</source>
         <translation>Dauer [min]:</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="231"/>
+        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="229"/>
         <source>Break</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="319"/>
+        <location filename="../view/rotationGroupView/shiftcalendar.cpp" line="316"/>
         <source>You have to enter a duration for the break!</source>
         <translation>Sie müssen die Dauer der Pause festlegen!</translation>
     </message>
@@ -2597,22 +3636,22 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation>Mitarbeiter</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftview.h" line="69"/>
+        <location filename="../view/rotationGroupView/shiftview.h" line="83"/>
         <source>early shift</source>
         <translation>Frühschicht</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftview.h" line="69"/>
+        <location filename="../view/rotationGroupView/shiftview.h" line="83"/>
         <source>late shift</source>
         <translation>Spätschicht</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftview.h" line="69"/>
+        <location filename="../view/rotationGroupView/shiftview.h" line="83"/>
         <source>night shift</source>
         <translation>Nachtschicht</translation>
     </message>
     <message>
-        <location filename="../view/rotationGroupView/shiftview.h" line="69"/>
+        <location filename="../view/rotationGroupView/shiftview.h" line="83"/>
         <source>special shift</source>
         <translation>Sonderschicht</translation>
     </message>
@@ -2720,12 +3759,12 @@ da %1 &quot;%2&quot; %3 fehlen.</translation>
         <translation>Bremsen:</translation>
     </message>
     <message>
-        <location filename="../view/popUps/transporationpopup.h" line="33"/>
+        <location filename="../view/popUps/transporationpopup.h" line="49"/>
         <source>yes</source>
         <translation>Ja</translation>
     </message>
     <message>
-        <location filename="../view/popUps/transporationpopup.h" line="33"/>
+        <location filename="../view/popUps/transporationpopup.h" line="49"/>
         <source>no</source>
         <translation>Nein</translation>
     </message>
