@@ -3,6 +3,10 @@
 
 #include <QTextEdit>
 
+/**
+ * @brief The TextEdit class provides functionality for displayed and editing multiline text.
+ * @see QTextEdit
+ */
 class TextEdit : public QTextEdit
 {
     Q_OBJECT

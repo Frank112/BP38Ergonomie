@@ -3,6 +3,10 @@
 
 #include <QLineEdit>
 
+/**
+ * @brief The TextLineEdit class provides functionality for displaying and editing single lined text.
+ * @see QLineEdit
+ */
 class TextLineEdit : public QLineEdit
 {
     Q_OBJECT
