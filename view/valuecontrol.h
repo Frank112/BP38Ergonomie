@@ -12,6 +12,14 @@
 #include "selectablevaluebutton.h"
 #include "../enum.h"
 
+/**
+ * @brief The ValueControl class provides functionality for a integer value selection within given bounds with a slider.
+ * Also to have predefinied values with the possiblity to illustraed these values with a icon and the posibility
+ * to directly enter a value or to increase/decrease the value directly by 1.
+ *
+ * @author Frank Loeffler
+ *
+ */
 class ValueControl : public QWidget
 {
     Q_OBJECT
