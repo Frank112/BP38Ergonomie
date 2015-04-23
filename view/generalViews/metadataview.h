@@ -13,6 +13,15 @@
 #include "../interfaces/ibranchofindustry.h"
 #include "../../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The MetaDataView class provides functionality to display and document various overall data
+ * about factory and coperation.
+ *
+ * MetaDataView inherits SimpleNavigateableWidget and implements IRecording, IFactory, ICorperation
+ * and IBranchOfIndustry.
+ *
+ * @author Markus Danz
+ */
 class MetaDataView : public SimpleNavigateableWidget, IRecording, IFactory, ICorperation, IBranchOfIndustry
 {
     Q_OBJECT
@@ -21,6 +30,10 @@ class MetaDataView : public SimpleNavigateableWidget, IRecording, IFactory, ICor
     Q_INTERFACES(ICorperation)
     Q_INTERFACES(IBranchOfIndustry)
 public:
+    /**
+     * @brief MetaDataView Creates a new MetaDataView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit MetaDataView(QWidget *parent = 0);
 
     bool canGoForward() const{
