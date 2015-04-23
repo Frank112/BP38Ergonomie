@@ -1,19 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+XML Format für Arbeitsplätze.
+Der "workplaces" Knoten signalisiert eine Liste von Arbeitsplätzen.
+-->
 <workplaces>
+	<!--
+	Der "workplace" Knoten steht für einen konkreten Arbeitsplatz,
+	der mit den angegebenen Werten erstellt werden soll.
+	Beachte: 	Die Reihenfolge der inneren Knoten ist hierbei irrelevant. Bei mehrfachen Auftreten 
+					eines inneren Knoten wird nur das letzte Vorkommen beachtet.
+					Es müssen theoretisch nicht alle Felder angegeben werden, auch
+					ein leerer "workplace" Knoten wird zu einem leeren 
+					Arbeitsplatz (nicht empfohlen !).
+	-->
 	<workplace>
+		<!-- Der Name des Arbeitsplatzes -->
 		<name>Workplace 1</name>
+		<!-- Die Beschreibung des Arbeitsplatzes -->
 		<description>Amazing workplace 1</description>
+		<!-- Der Anteil Frauen an dem Arbeitsplatz in ganzzahligen Prozent -->
 		<percentageWoman>50</percentageWoman>
+		<!-- Der Arbeitsplatzcode -->
 		<code>MTM123</code>
+		<!-- -->
 		<cycleTime>60</cycleTime>
 		<setupTime>50</setupTime>
 		<basicTime>40</basicTime>
 		<restTime>30</restTime>
 		<allowanceTime>20</allowanceTime>
+		<!--
+		Der "activities" Knoten signalisiert eine Liste von Aktivitäten zu dem Arbeitsplatz. 
+		-->
 		<activities>
+			<!--
+			Der "activity" Knoten steht für eine konkrete Aktivität,
+			die mit den angegebenen Werten erstellt werden soll.
+			Beachte: 	Die Reihenfolge der inneren Knoten ist hierbei irrelevant. Bei mehrfachen Auftreten 
+							eines inneren Knoten wird nur das letzte Vorkommen beachtet.
+							Es müssen theoretisch nicht alle Felder angegeben werden, auch
+							ein leerer "activity" Knoten wird zu einer leeren 
+							Aktivität (nicht empfohlen !).
+			-->
 			<activity>
+				<!-- Der Name der Aktivität -->
 				<description>Aktivitaet</description>
+				<!-- Ganzzahlige Anzahl der Wiederholungen der Aktivität -->
 				<repetitions>10</repetitions>
+				<!-- Der Name des Produktes das hierbei produziert wird. 
+				Beachte:	Der Name muss mit einem angelegten Produkt übereinstimmen
+								(siehe z.B. products.xml), nur dann wird die Aktivität mit dem 
+								dem angegeben Produkt in Verbingung gebracht. Andernfalls
+								wird die Aktivität ohne diese Verbindung erstellt.
+				-->
 				<productName>Product 1</productName>
 			</activity>
 			<activity>

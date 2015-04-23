@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+XML Format für Produkte.
+Der "products" Knoten signalisiert eine Liste von Produkten.
+-->
 <products>
+	<!--
+	Der "product" Knoten steht für ein konkretes Produkt,
+	dass mit den angegebenen Werten erstellt werden soll.
+	Beachte: 	Die Reihenfolge der inneren Knoten ist hierbei irrelevant. Bei mehrfachen Auftreten 
+					eines inneren Knoten wird nur das letzte Vorkommen beachtet.
+					Es müssen theoretisch nicht alle Felder angegeben werden, auch
+					ein leerer "product" Knoten wird zu einem leeren 
+					Produkt (nicht empfohlen !).
+	-->
 	<product>
+		<!-- Der Name des Produkts -->
 		<name>Product 1</name>
+		<!-- Die Produktnummer als Zeichenkette -->
 		<number>12CLB456</number>
+		<!-- Ganzzahliger Prozentsatz vom Anteil des Produkts an der kompletten Produktion -->
 		<totalPercentage>40</totalPercentage>
 	</product>
 	<product>

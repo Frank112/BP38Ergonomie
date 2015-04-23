@@ -1,11 +1,38 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+XML Format für Mitarbeiter.
+Der "employees" Knoten signalisiert eine Liste von Mitarbeitern.
+-->
 <employees>
+	<!--
+	Der "employee" Knoten steht für ein konkreten Mitarbeiter,
+	der mit den angegebenen Werten erstellt werden soll.
+	Beachte: 	Die Reihenfolge der inneren Knoten ist hierbei irrelevant. Bei mehrfachen Auftreten 
+					eines inneren Knoten wird nur das letzte Vorkommen beachtet.
+					Es müssen theoretisch nicht alle Felder angegeben werden, auch
+					ein leerer "employee" Knoten wird zu einem "leeren"
+					Mitarbeiter (nicht empfohlen !).
+	-->
 	<employee>
+		<!-- Die Personalnummer als Zeichenketter -->
 		<staffNumber>123ABC567</staffNumber>
+		<!-- Das Alter des Mitarbeiters -->
 		<age>35</age>
+		<!-- Geschlecht des Mitarbeiters: 0 männlich, 1 weiblich -->
 		<gender>0</gender>
+		<!-- Größe des Mitarbeiters in [cm] -->
 		<height>182</height>
+		<!-- Bemerkung zum Mitarbeiter -->
 		<note>Hier koennte Ihre Werbung stehen!</note>
+		<!-- 
+		Körpervermessung des Mitarbeiters.
+		Alle Werte sind Ganzzahlig und in [mm] anzugeben.
+		Beachte: 	Die Reihenfolge der inneren Knoten ist hierbei irrelevant. Bei mehrfachen Auftreten 
+						eines inneren Knoten wird nur das letzte Vorkommen beachtet.
+						Es müssen theoretisch nicht alle Felder angegeben werden.
+						Ein leerer "bodyMeasurement" Knoten wird zu einer Körpervermessung mit den
+						Standardwerten die in der Datenbank angegeben sind.
+		-->
 		<bodyMeasurement>
 			<headNeckHeight>150</headNeckHeight>
 			<shoulderWidth>400</shoulderWidth>

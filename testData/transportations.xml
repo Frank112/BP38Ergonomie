@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+XML Format für Transportmittel.
+Der "transportations" Knoten signalisiert eine Liste von Transportmitteln.
+-->
 <transportations>
+	<!--
+	Der "transportation" Knoten steht für ein konkretes Transportmittel,
+	dass mit den angegebenen Werten erstellt werden soll.
+	Beachte: 	Die Reihenfolge der inneren Knoten ist hierbei irrelevant. Bei mehrfachen Auftreten 
+					eines inneren Knoten wird nur das letzte Vorkommen beachtet.
+					Es müssen theoretisch nicht alle Felder angegeben werden, auch
+					ein leerer "transportation" Knoten wird zu einem leeren 
+					Transportmittel (nicht empfohlen !).
+	-->
 	<transportation>
+		<!-- Der Name des Transportmittels -->
 		<name>Transportation 1</name>
+		<!-- 0 hat keine Bockrollen, 1 hat Bockrollen -->
 		<fixedRoller>0</fixedRoller>
+		<!-- 0 hat keine Bremsen, 1 hat Bremsen -->
 		<brakes>1</brakes>
+		<!-- Ganzzahliges Leergewicht in [kg] des Transportmittels -->
 		<emptyWeight>10</emptyWeight>
+		<!-- Ganzzahliges maximales Lastgewicht in [kg] des Transportmittels -->
 		<maxLoad>400</maxLoad>
 	</transportation>
 	<transportation>

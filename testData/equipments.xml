@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+XML Format für Betriebsmittel.
+Der "equipments" Knoten signalisiert eine Liste von Betriebsmittel.
+-->
 <equipments>
+	<!--
+	Der "equipment" Knoten steht für ein konkretes Betriebsmittel, dass
+	mit den angegebenen Werten erstellt werden soll.
+	Beachte: 	Die Reihenfolge der inneren Knoten ist hierbei irrelevant. Bei mehrfachen Auftreten 
+					eines inneren Knoten wird nur das letzte Vorkommen beachtet.
+					Es müssen theoretisch nicht alle Felder angegeben werden, auch
+					ein leerer "equipment" Knoten wird zu einem leeren 
+					Betriebsmittel (nicht empfohlen !).
+	-->
 	<equipment>
+		<!-- Der Name des Betriebsmittels -->
 		<name>Equipment 1</name>
+		<!-- Ganzzahlige Rückschlagsanzahl des Betriebsmittels -->
 		<recoilCount>100</recoilCount>
+		<!-- Ganzzahlige Rückschlagsintensität in [N] des Betriebsmittels -->
 		<recoilIntensity>10</recoilIntensity>
+		<!-- Ganzzahlige Vibrationsanzahl des Betriebsmittels -->
 		<vibrationCount>200</vibrationCount>
+		<!-- Ganzzahlige Vibrationsintensität in [N] des Betriebsmittels -->
 		<vibrationIntensity>20</vibrationIntensity>
 	</equipment>
 		<equipment>
