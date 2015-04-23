@@ -15,13 +15,17 @@
  *
  * CommentView inherits SimpleNavigateableWidget and implements IComment.
  *
- *
+ * @author Frank Loeffler
  */
 class CommentView : public SimpleNavigateableWidget, IComment
 {
     Q_OBJECT
     Q_INTERFACES(IComment)
 public:
+    /**
+     * @brief CommentView Creates a new CommentView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit CommentView(QWidget *parent = 0);
     ~CommentView();
 

@@ -14,11 +14,22 @@
 #include "../interfaces/ilinelist.h"
 #include "../navigation/simplenavigateablewidget.h"
 
+/**
+ * @brief The LineView class provides functionality to display, create, edit and select lines.
+ *
+ * LineView inherits SimpleNavigateableWidget and implements ILineList.
+ *
+ * @author Frank Loeffler
+ */
 class LineView : public SimpleNavigateableWidget, ILineList
 {
     Q_OBJECT
     Q_INTERFACES(ILineList)
 public:
+    /**
+     * @brief LineView Creates a new LineView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit LineView(QWidget *parent = 0);
     ~LineView();
 
@@ -28,6 +39,10 @@ signals:
     void selectLine(int id);
     void editLine(int id);
 
+    /**
+     * @brief lineSelected Can be emitted to indicate that the line with the given id is selected.
+     * @param id The id of the selected line.
+     */
     void lineSelected(int id);
 
 public slots:
