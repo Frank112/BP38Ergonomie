@@ -22,11 +22,15 @@ Der "workplaces" Knoten signalisiert eine Liste von Arbeitsplätzen.
 		<percentageWoman>50</percentageWoman>
 		<!-- Der Arbeitsplatzcode -->
 		<code>MTM123</code>
-		<!-- -->
+		<!-- Die Taktzeit des Arbeitsplatzes in [s] -->
 		<cycleTime>60</cycleTime>
+		<!-- Die Rüstzeit des Arbeitsplatzes in [s] -->
 		<setupTime>50</setupTime>
+		<!-- Die Grundzeit des Arbeitsplatzes in [s] -->
 		<basicTime>40</basicTime>
+		<!-- Die Erholzeit des Arbeitsplatzes in [s] -->
 		<restTime>30</restTime>
+		<!-- Die Verteilzeit des Arbeitsplatzes in [s] -->
 		<allowanceTime>20</allowanceTime>
 		<!--
 		Der "activities" Knoten signalisiert eine Liste von Aktivitäten zu dem Arbeitsplatz. 

@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+XML Format für Arbeitsprozesslisten.
+Der "workprocessLists" Knoten signalisiert eine Liste von Arbeitsprozesslisten.
+-->
 <workprocessLists>
+	<!--
+		Der "workprocessList" Knoten steht für eine Liste von Arbeitsprozessen.
+		Diese werden zu dem angegebenen Arbeitspatz und zur angegeben Aktivität
+		gespeichert.
+		Beachte: 	Es muss sowohl Arbeitsplatz, als auch die Aktivität zu diesem Arbeitsplatz
+						angegeben sein und in der Datenbank vorhanden sein, damit die Arbeitsprozesse
+						erstellt werden können. Die Arbeitsprozesse werden in der Reihenfolge eingetragen
+						in der sie hier aufgelistet sind.
+	-->
 	<workprocessList>
+		<!-- Name des zugehörigen Arbeitsplatzes -->
 		<workplaceName>Arbeitsplatz 1</workplaceName>
+		<!-- Name der Aktivität im oben angeben Arbeitsplatz für die Arbeitsprozesse -->
 		<activityName>Activitaet 1</activityName>
+		<!--
+		Der "workprocess" Knoten beschreibt nun einen konkreten Arbeitsvorgang, der mit
+		den angegeben Werten abgespeichert werden soll.
+		Beachte: 	Die Reihenfolge der inneren Knoten ist hierbei irrelevant. Bei mehrfachen Auftreten 
+						eines inneren Knoten wird nur das letzte Vorkommen beachtet.
+						Es müssen auf jeden Fall der Knoten "duration" angegeben werden.
+		-->
 		<workprocess>
+			<!-- Beschreibung des Arbeitsplatzes -->
 			<description>AV 1</description>
+			<!-- MTM Code des Arbeitsprozesses -->
 			<mtmCode>A</mtmCode>
+			<!-- Die Dauer in [s] des Arbeitsprozesses -->
 			<duration>10</duration>
 		</workprocess>
 		<workprocess>
