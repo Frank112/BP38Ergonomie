@@ -13,6 +13,10 @@
 #include "../interfaces/iproductlist.h"
 #include "../interfaces/iactivitylist.h"
 
+/**
+ * @brief The ActivityView class provides functionality to create and delete activities, as well
+ * as products. To each activity one product can be assigned.
+ */
 class ActivityView : public SimpleNavigateableWidget, IProductList, IActivityList
 {
     Q_OBJECT
@@ -30,6 +34,10 @@ signals:
     void createProduct(QHash<QString, QVariant> values);
     void deleteProduct(int id);
 
+    /**
+     * @brief selectedProduct A signal that is emitted, when a product has been selected.
+     * @param id The ID of the selected product.
+     */
     void selectedProduct(int id);
 
 public slots:

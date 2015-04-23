@@ -8,6 +8,9 @@
 #include <QPushButton>
 #include <QScrollArea>
 
+/**
+ * @brief The WorkplaceListView class provides functionality to display, create and delete workplaces.
+ */
 class WorkplaceListView : public SimpleNavigateableWidget, IWorkplaceList
 {
     Q_OBJECT

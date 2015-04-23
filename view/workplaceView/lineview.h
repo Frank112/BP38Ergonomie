@@ -14,6 +14,10 @@
 #include "../interfaces/ilinelist.h"
 #include "../navigation/simplenavigateablewidget.h"
 
+/**
+ * @brief The LineView class provides functionality to create and delete lines.
+ * A line can be selected a workplace to it.
+ */
 class LineView : public SimpleNavigateableWidget, ILineList
 {
     Q_OBJECT
@@ -28,6 +32,10 @@ signals:
     void selectLine(int id);
     void editLine(int id);
 
+    /**
+     * @brief lineSelected A signal that is emitted when a line is selected.
+     * @param id The ID of the selected line.
+     */
     void lineSelected(int id);
 
 public slots:

@@ -10,6 +10,10 @@
 #include "../interfaces/iworkplace.h"
 #include "../../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The WorkplaceView class provides functionality to create and display a workplace.
+ * Each workplace can be assigned to a line, an employee, comments and a list of activities.
+ */
 class WorkplaceView : public SimpleNavigateableWidget, IWorkplace
 {
     Q_OBJECT
