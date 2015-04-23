@@ -41,46 +41,14 @@ signals:
     void createBlankRecording();
 
 private slots:
-    /**
-     * @brief btnSettingsClicked Emits a signal to open the settings view.
-     */
     void btnSettingsClicked();
-
-    /**
-     * @brief btnMetaDataViewClicked Emits a signal to open the metadata view.
-     */
     void btnMetaDataViewClicked();
-
-    /**
-     * @brief btnWorkplaceListClicked Emits a signal to open the workplace list view.
-     */
     void btnWorkplaceListClicked();
-
-    /**
-     * @brief btnRessourceManagementClicked Emits a signal to open the ressource management view.
-     */
     void btnRessourceManagementClicked();
-
-    /**
-     * @brief btnShiftClicked Emits a signal to open the shift view.
-     */
     void btnShiftClicked();
-
-    /**
-     * @brief btnNewRecordingClicked Emits a signal to create a new blank recording.
-     */
     void btnNewRecordingClicked();
-
-    /**
-     * @brief btnSendDatabaseClicked Emits a signal to open the send data popup.
-     */
     void btnSendDatabaseClicked();
-
-    /**
-     * @brief btnImportClicked Emits a signal to open the import data popup.
-     */
     void btnImportClicked();
-
 
 private:
     QLabel *lblViewName;

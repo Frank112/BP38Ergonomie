@@ -10,11 +10,22 @@
 #include "../navigation/simplenavigateablewidget.h"
 #include "../interfaces/ibodymeasurement.h"
 
+/**
+ * @brief The BodyMeasurementView class provides functionality to display and document body measurements.
+ *
+ * BodyMeasurementView inherits SimpleNavigateableWidget and implements IBodyMeasurement.
+ *
+ * @author Markus Danz
+ */
 class BodyMeasurementView : public SimpleNavigateableWidget, IBodyMeasurement
 {
     Q_OBJECT
     Q_INTERFACES(IBodyMeasurement)
 public:
+    /**
+     * @brief BodyMeasurementView Creates a new BodyMeasurementView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit BodyMeasurementView(QWidget *parent = 0);
 
 signals:

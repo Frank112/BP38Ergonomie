@@ -8,11 +8,23 @@
 #include <QPushButton>
 #include <QScrollArea>
 
+/**
+ * @brief The EmployeeListView class provides functionality to display and edit a list
+ * of employees.
+ *
+ * EmployeeListView inherits SimpleNavigateableWidget and implements IEmployeeList.
+ *
+ * @author Marius Gassen
+ */
 class EmployeeListView : public SimpleNavigateableWidget, IEmployeeList
 {
     Q_OBJECT
     Q_INTERFACES(IEmployeeList)
 public:
+    /**
+     * @brief EmployeeListView Creates a new EmployeeListView object with the given parent.
+     * @param parent The parent of the object.
+     */
     EmployeeListView(QWidget *parent = 0);
 
     bool hasAdditionalNavigation() const {
