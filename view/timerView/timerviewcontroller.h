@@ -10,11 +10,19 @@
 #include "maximizedtimerview.h"
 #include "ganttTimerview.h"
 
+/**
+ * @brief The TimerViewController class provides functionality to manage the recording,
+ * selection and display of the workprocesses.
+ */
 class TimerViewController : public QWidget, IWorkProcessController
 {
     Q_OBJECT
     Q_INTERFACES(IWorkProcessController)
 public:
+    /**
+     * @brief TimerViewController Creates a new TimerViewController object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit TimerViewController(QWidget *parent = 0);
 
 signals:
@@ -25,8 +33,19 @@ signals:
     void createWorkProcess(QHash<QString, QVariant> values);
     void resetWorkProcesses();
 
+    /**
+     * @brief showGantView Can be emitted to signal that the GANTT view should be displayed.
+     */
     void showGantView();
+
+    /**
+     * @brief hideGantView Can be emitted to signal that the GANTT view should be closed.
+     */
     void hideGantView();
+
+    /**
+     * @brief changingWorkProcess Can be emitted to signal that a differernt workprocess is selected.
+     */
     void changingWorkProcess();
 
 public slots:
@@ -36,8 +55,19 @@ public slots:
     void setSelectedWorkProcessType(AVType type);
     void initializedWorkProcesses(QList<QHash<QString, QVariant>> values);
 
+    /**
+     * @brief closeTimerView Stops the timer and closes the GANTT view if necessary.
+     */
     void closeTimerView();
+
+    /**
+     * @brief gantViewShown Disables the maximize button.
+     */
     void gantViewShown();
+
+    /**
+     * @brief gantViewHidden Enables the maximize button.
+     */
     void gantViewHidden();
 
 protected:

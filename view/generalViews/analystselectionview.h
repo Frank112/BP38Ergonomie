@@ -11,12 +11,23 @@
 #include "../detailedlistitem.h"
 #include "../../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The AnalystSelectionView class provides functionality to display and select analysts.
+ *
+ * AnalystSelectionView inherits SimpleNavigateableWidget and implements IAnalystList.
+ *
+ * @author Markus Danz
+ */
 class AnalystSelectionView : public SimpleNavigateableWidget, IAnalystList
 {
     Q_OBJECT
     Q_INTERFACES(IAnalystList)
 
 public:
+    /**
+     * @brief AnalystSelectionView Creates a new AnalystSelectionView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit AnalystSelectionView(QWidget *parent = 0);
 
     bool canGoBack() const{

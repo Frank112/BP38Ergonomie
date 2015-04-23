@@ -9,16 +9,25 @@
 #include "xmlconstants.h"
 #include "iimportdataparser.h"
 
+/**
+ * @brief The XMLParser is a concrete parser for imported data that implements the
+ * IImportDataParser as a muliple file parser.
+ */
 class XMLParser : public QObject, IImportDataParser
 {
     Q_OBJECT
     Q_INTERFACES(IImportDataParser)
 
 public:
+    /**
+     * @brief Creates a new object of the XMLParser
+     * @param parent
+     *          The parent object of the new created object.
+     */
     explicit XMLParser(QObject *parent = 0);
     ~XMLParser();
 
-    QString getModeName() const;
+    QString getName() const;
     FileMode getFileMode() const;
 
     QString getSingleFilename() const;

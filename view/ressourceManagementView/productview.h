@@ -12,11 +12,22 @@
 #include "../navigation/simplenavigateablewidget.h"
 #include "../interfaces/iproductlist.h"
 
+/**
+ * @brief The ProductView class provides functionality to display and document product data.
+ *
+ * ProductView inherits SimpleNavigateableWidget and implements IProductList.
+ *
+ * @author Frank Loeffler
+ */
 class ProductView : public SimpleNavigateableWidget, IProductList
 {
     Q_OBJECT
     Q_INTERFACES(IProductList)
 public:
+    /**
+     * @brief ProductView Creates a new ProductView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit ProductView(QWidget *parent = 0);
     ~ProductView();
 

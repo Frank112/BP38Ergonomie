@@ -14,8 +14,12 @@
 #include "../interfaces/iactivitylist.h"
 
 /**
- * @brief The ActivityView class provides functionality to create and delete activities, as well
- * as products. To each activity one product can be assigned.
+ * @brief The ActivityView class provides functionality to display, create, edit and select activities,
+ * as well as selecting a product for an activity.
+ *
+ * ActivityView inherits SimpleNavigateableWidget and implements IProductList and IActivityList.
+ *
+ * @author Marius Gassen
  */
 class ActivityView : public SimpleNavigateableWidget, IProductList, IActivityList
 {
@@ -23,6 +27,10 @@ class ActivityView : public SimpleNavigateableWidget, IProductList, IActivityLis
     Q_INTERFACES(IProductList)
     Q_INTERFACES(IActivityList)
 public:
+    /**
+     * @brief ActivityView Creates a new ActivityView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit ActivityView(QWidget *parent = 0);
 
 signals:
@@ -35,8 +43,15 @@ signals:
     void deleteProduct(int id);
 
     /**
+<<<<<<< HEAD
      * @brief selectedProduct A signal that is emitted, when a product has been selected.
      * @param id The ID of the selected product.
+=======
+     * @brief selectedProduct Can be emitted to indicate that the selected Product is
+     * the given product.
+     *
+     * @param id The id of the selected product.
+>>>>>>> origin/master
      */
     void selectedProduct(int id);
 

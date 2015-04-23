@@ -12,11 +12,23 @@
 #include "../interfaces/itransportationlist.h"
 #include "../interfaces/itransportation.h"
 
+/**
+ * @brief The TransportationView class provides functionality to display and document
+ * transportation data.
+ *
+ * TransportationView inherits SimpleNavigateableWidget and implements ITransportationList.
+ *
+ * @author Marius Gassen
+ */
 class TransportationView : public SimpleNavigateableWidget, ITransportationList
 {
     Q_OBJECT
     Q_INTERFACES(ITransportationList)
 public:
+    /**
+     * @brief TransportationView Creates a new TransportationView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit TransportationView(QWidget *parent = 0);
     ~TransportationView();
 

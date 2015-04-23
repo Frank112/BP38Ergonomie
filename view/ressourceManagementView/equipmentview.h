@@ -11,11 +11,22 @@
 #include "../interfaces/iequipmentlist.h"
 #include "../../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The EquipmentView class provides functionality to display and document equipment data.
+ *
+ * EquipmentView inherits SimpleNavigateableWidget and implements IEquipmentList.
+ *
+ * @author Marius Gassen
+ */
 class EquipmentView : public SimpleNavigateableWidget, IEquipmentList
 {
     Q_OBJECT
     Q_INTERFACES(IEquipmentList)
 public:
+    /**
+     * @brief EquipmentView Creates a new EquipmentView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit EquipmentView(QWidget *parent = 0);
     ~EquipmentView();
 

@@ -9,13 +9,22 @@
 #include <QScrollArea>
 
 /**
- * @brief The WorkplaceListView class provides functionality to display, create and delete workplaces.
+ * @brief The WorkplaceListView class provides functionality to create a new workplace and display
+ * all existing workplaces in a list.
+ *
+ * WorkplaceListView inherits SimpleNavigateableWidget and implements IWorkplaceList.
+ *
+ * @author Marius Gassen
  */
 class WorkplaceListView : public SimpleNavigateableWidget, IWorkplaceList
 {
     Q_OBJECT
     Q_INTERFACES(IWorkplaceList)
 public:
+    /**
+     * @brief WorkplaceListView Creates a new WorkplaceListView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit WorkplaceListView(QWidget *parent = 0);
 
     bool hasAdditionalNavigation() const{

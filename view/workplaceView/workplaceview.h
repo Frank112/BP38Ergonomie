@@ -11,14 +11,22 @@
 #include "../../databaseHandler/dbconstants.h"
 
 /**
- * @brief The WorkplaceView class provides functionality to create and display a workplace.
- * Each workplace can be assigned to a line, an employee, comments and a list of activities.
+ * @brief The WorkplaceView class provides functionality to display and document the various
+ * aspects of a workplace.
+ *
+ * WorkplaceView inherits SimpleNavigateableWidget and implements IWorkplace.
+ *
+ * @author Frank Loeffler
  */
 class WorkplaceView : public SimpleNavigateableWidget, IWorkplace
 {
     Q_OBJECT
     Q_INTERFACES(IWorkplace)
 public:
+    /**
+     * @brief WorkplaceView Creates a new WorkplaceView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit WorkplaceView(QWidget *parent = 0);
 
     bool hasAdditionalNavigation() const{

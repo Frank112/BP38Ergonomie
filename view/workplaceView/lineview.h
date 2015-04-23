@@ -15,14 +15,21 @@
 #include "../navigation/simplenavigateablewidget.h"
 
 /**
- * @brief The LineView class provides functionality to create and delete lines.
- * A line can be selected a workplace to it.
+ * @brief The LineView class provides functionality to display, create, edit and select lines.
+ *
+ * LineView inherits SimpleNavigateableWidget and implements ILineList.
+ *
+ * @author Frank Loeffler
  */
 class LineView : public SimpleNavigateableWidget, ILineList
 {
     Q_OBJECT
     Q_INTERFACES(ILineList)
 public:
+    /**
+     * @brief LineView Creates a new LineView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit LineView(QWidget *parent = 0);
     ~LineView();
 
@@ -33,8 +40,13 @@ signals:
     void editLine(int id);
 
     /**
+<<<<<<< HEAD
      * @brief lineSelected A signal that is emitted when a line is selected.
      * @param id The ID of the selected line.
+=======
+     * @brief lineSelected Can be emitted to indicate that the line with the given id is selected.
+     * @param id The id of the selected line.
+>>>>>>> origin/master
      */
     void lineSelected(int id);
 

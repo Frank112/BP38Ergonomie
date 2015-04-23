@@ -437,7 +437,7 @@ void XMLParser::addElementDataToHash(QXmlStreamReader &xmlReader, const QString 
 }
 
 // GETTER
-QString XMLParser::getModeName() const{
+QString XMLParser::getName() const{
     return "XML";
 }
 IImportDataParser::FileMode XMLParser::getFileMode() const{

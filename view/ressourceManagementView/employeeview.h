@@ -13,11 +13,22 @@
 #include "../interfaces/iemployee.h"
 #include "../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The EmployeeView class provides functionality to display and document employee data.
+ *
+ * EmployeeView inherits SimpleNavigateableWidget and implements IEmployee.
+ *
+ * @author Marius Gassen
+ */
 class EmployeeView : public SimpleNavigateableWidget, IEmployee
 {
     Q_OBJECT
     Q_INTERFACES(IEmployee)
 public:
+    /**
+     * @brief EmployeeView Creates a new EmployeeView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit EmployeeView(QWidget *parent = 0);
     ~EmployeeView();
 

@@ -7,10 +7,21 @@
 #include <QWidget>
 #include <QLabel>
 
+/**
+ * @brief The MainMenu class provides functionality to display and open main menu entries.
+ *
+ * MainMenu inherits SimpleNavigateableWidget.
+ *
+ * @author Marius Gassen
+ */
 class MainMenu : public SimpleNavigateableWidget
 {
     Q_OBJECT
 public:
+    /**
+     * @brief MainMenu Creates a new MainMenu object with the given parent.
+     * @param btnparent The parent of the object.
+     */
     explicit MainMenu(QWidget *btnparent = 0);
 
     bool canGoBack() const{
@@ -24,6 +35,9 @@ public:
     QList<QAbstractButton*> * getAdditionalNavigation() const;
 
 signals:
+    /**
+     * @brief createBlankRecording Can be emitted to signal that a new blank recording should be created.
+     */
     void createBlankRecording();
 
 private slots:
@@ -35,7 +49,6 @@ private slots:
     void btnNewRecordingClicked();
     void btnSendDatabaseClicked();
     void btnImportClicked();
-
 
 private:
     QLabel *lblViewName;
