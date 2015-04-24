@@ -11,6 +11,8 @@
 /**
  * @brief The VerticalOptionSelectionControl class provides functionality to quickly chage between different Bodypostures.
  * It does this by implementing a Vertical set of Buttons.
+ *
+ * @author Johannes Pfannmueller
  */
 class VerticalOptionSelectionControl : public QWidget
 {

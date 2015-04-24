@@ -13,6 +13,8 @@
 #include <QHash>
 /**
  * @brief The QuickSelectionControl class provides Functionality to quickly change arm, leg and body posture.
+ *
+ * @author Johannes Pfannmueller
  */
 class QuickSelectionControl : public QWidget
 { Q_OBJECT

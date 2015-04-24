@@ -11,6 +11,8 @@
 /**
  * @brief The QuickLegPostureControl class provides functionality to quickly change Leg Positions.
  * It does this by implementing a Vertical set of Buttons.
+ *
+ * @author Johannes Pfannmueller
  */
 class QuickLegPostureControl : public QWidget
 {
