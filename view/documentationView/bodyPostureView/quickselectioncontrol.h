@@ -11,11 +11,22 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QHash>
+/**
+ * @brief The QuickSelectionControl class provides Functionality to quickly change arm, leg and body posture.
+ */
 class QuickSelectionControl : public QWidget
 { Q_OBJECT
 public:
+    /**
+     * @brief QuickSelectionControl Creates a new QuickSelectionControl
+     * @param parent Parent widget which holds the value control or if 0 then a standalone window
+     */
     explicit QuickSelectionControl(QWidget *parent=0);
 
+    /**
+     * @brief getName Returns The Name of the QuickSelectionControl as a String
+     * @return The Name of the QuickSelectionControl as a String
+     */
     QString getName() const;
 
     QuickLegPostureControl *qlpcQuickLegPosture;
@@ -32,14 +43,51 @@ signals:
 
 public slots:
 
+    /**
+     * @brief hideContent hides everything but the Name of the QuickSelectionControl
+     */
     void hideContent();
+    /**
+     * @brief showContent shows the Content
+     */
     void showContent();
+    /**
+     * @brief setName sets the Name of the QuickSelectionControl
+     * @param name a String
+     */
     void setName(const QString &name);
+    /**
+     * @brief setButtonIcon seths an icon to be displayed on a button
+     * @param objectName the name of the object which is a path to the image
+     * @param size a QSize which sets the size of the Image
+     */
     void setButtonIcon(const QString &objectName, const QSize &size);
+    /**
+     * @brief setExclusiveDisplayByName sets the content to be only displayed by the given name
+     * @param name the name
+     */
     void setExclusiveDisplayByName(const QString &name);
+    /**
+     * @brief voscQuickTrunkPostureChanged indicates that the QuickTrunkPosture has changed
+     * @param id the id of the newly selected button
+     */
     void voscQuickTrunkPostureChanged(int id);
+    /**
+     * @brief voscQuickArmPostureChanged indicates that the QuickTrunkPosture has changed
+     * @param id the id of the newly selected Button
+     * @param sel the id of the newly selected Specification Button
+     */
     void voscQuickArmPostureChanged(int id, int sel);
+    /**
+     * @brief qlpcQuickLegPostureChanged indicates that the QuickArmPosture has changed
+     * @param id the id of the newly selected Button
+     * @param sel the id of the newly selected Specification Button
+     */
     void qlpcQuickLegPostureChanged(int id, int sel);
+    /**
+     * @brief qlpcQuickLegPostureSpecificationChagend indicates that the QuickLetPostureSpecification has changed
+     * @param sel the id of the Specificationi Button
+     */
     void qlpcQuickLegPostureSpecificationChagend(int sel);
 
 private slots:
