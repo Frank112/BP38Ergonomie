@@ -11,6 +11,7 @@
 #include "../../databaseHandler/dbconstants.h"
 
 /**
+ * @brief The CommentView class provides funtionality to display and save comments for a workplace in a form.
  *
  * CommentView inherits SimpleNavigateableWidget and implements IComment.
  *

@@ -5,16 +5,7 @@
 #include <QVBoxLayout>
 #include <QVector>
 #include "../../selectablevaluebutton.h"
-/**
- * @brief The VariantSpecification class blablablaaaaablablabaaaa
- * afsdijflasdf
- * asdf
- * asdf
- * asdf
- * asdf
- * asdf
- * asdf
- */
+
 class VariantSpecification : public QWidget
 {
     Q_OBJECT
