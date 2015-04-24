@@ -8,19 +8,11 @@
 #include <QStack>
 #include "../timerView/timerviewcontroller.h"
 
-/**
- * @brief The DocumentationView contains all view elements needed when
- * documenting a workflow.
- * A StopWatch is always present in the bottom area, the top area
- * contains a QCombobox with the different criteria views as options:
- * AngleView, TransportView, ActionForceView, ExecutionConditionView.
- * The main content of the different view is in the mid area on a
- * QStackedWidget.
- */
 class DocumentationView : public SimpleNavigateableWidget
 {
     Q_OBJECT
 public:
+
     explicit DocumentationView(QWidget *parent = 0);
 
     bool hasInternalNavigation() const{

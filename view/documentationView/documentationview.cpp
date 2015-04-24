@@ -2,12 +2,6 @@
 #include <QVBoxLayout>
 #include "../separator.h"
 
-/**
- * @brief Constructs a DocumentationView widget which is a child of parent.
- * @param parent If parent is 0, the new widget becomes a window.
- * If parent is another widget, this widget becomes a child window inside parent.
- * The new widget is deleted when its parent is deleted.
- */
 DocumentationView::DocumentationView(QWidget *parent) :
     SimpleNavigateableWidget(tr("Documentation"), parent),
     indexBeforeTimeLineView(0),
