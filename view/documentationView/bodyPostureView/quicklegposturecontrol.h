@@ -46,7 +46,17 @@ public:
     int getSelectedSpecification() const;
 
 signals:
+    /**
+     * @brief selectionChanged indicates that a Selection has Changed by providing the id of the newly selected Button and the id
+     *  of the selected specification
+     * @param id the id of the newly selected Button
+     * @param speci the id of the specification
+     */
     void selectionChanged(int id, int speci);
+    /**
+     * @brief specificationChanged indicates that the specification has Changed by providing the id of the newly selected Specification
+     * @param id the ID of the specification
+     */
     void specificationChanged(int id);
 
 public slots:

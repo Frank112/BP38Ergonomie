@@ -36,11 +36,32 @@ public:
     VerticalOptionSelectionControl *voscQuickTrunkPosture;
 
 signals:
-    void QuickSelectionChanged(int id);
+    /**
+     * @brief requestShowContent a signal that is emitted, to indicate that the user wants to see the content.
+     * @param name The name of the Widget that is to be shown. in this case it would be the name of the QuickSelectionControl
+     */
     void requestShowContent(const QString &name);
+    /**
+     * @brief quickTrunkPostureChanged a signal that is emitted to indicate that the quickTrunkPosture has changed
+     * @param id the ID of the newly selected quickTrunkPosture button
+     */
     void quickTrunkPostureChanged(int id);
+    /**
+     * @brief quickArmPostureChanged a signal that is emitted to indicate that the quickArmPosture has changed
+     * @param id the id of the newly selected quickArmPosture Button
+     * @param sel the id of the button that indicates if right or left is selected
+     */
     void quickArmPostureChanged(int id, int sel);
+    /**
+     * @brief quickLegPostureChanged a signal that is emitted to indicate that the quickLegPosture has changed
+     * @param id the id of the newly selected quickLegPosture Button
+     * @param sel the id of the button that indicates if right or left is selected
+     */
     void quickLegPostureChanged(int id, int sel);
+    /**
+     * @brief quickLegPostureSpecificationChanged a signal that is emitted to indicate that the leg posture specification has changed
+     * @param sel the id of the button that indicates if right or left is selected
+     */
     void quickLegPostureSpecificationChanged(int sel);
 
 public slots:

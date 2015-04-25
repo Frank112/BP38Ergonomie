@@ -42,6 +42,10 @@ public:
     int getSelectedID() const;
 
 signals:
+    /**
+     * @brief selectionChanged indicates that the Selection has Changed by providing the id of the newly selected Button
+     * @param id The id of the newly selected Button
+     */
     void selectionChanged(int id);
 
 public slots:
