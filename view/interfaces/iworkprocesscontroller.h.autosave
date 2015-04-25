@@ -1,0 +1,88 @@
+#ifndef IWORKPROCESSCONTROLLER
+#define IWORKPROCESSCONTROLLER
+
+#include <QtPlugin>
+#include "../../enum.h"
+
+/**
+ * @brief The IWorkProcessController class is an interface that can be implemented to indicate that
+ * functionalty to manage displaying a saving of different work process is provided.
+ */
+class IWorkProcessController {
+
+signals:
+    
+    /**
+     * @brief selectNextWorkProcess A signal that can be emitted to signal that the next workprocess
+     * should be selected.
+     */
+    virtual void selectNextWorkProcess() = 0;
+    
+    /**
+     * @brief selectPreviousWorkProcess A signal that can be emitted to signal that the previous workprocess
+     * should be selected.
+     */
+    virtual void selectPreviousWorkProcess() = 0;
+    
+    /**
+     * @brief workProcessTypeChanged A signal that can be emitted to signal that the displayed workprocess
+     * type has changed.
+     * @param type The new work process type to display
+     */
+    virtual void workProcessTypeChanged(AVType type) = 0;
+    
+    /**
+     * @brief workProcessDurationChanged A signal that can be emitted that the 
+     * @param duration
+     */
+    virtual void workProcessDurationChanged(QTime duration) = 0;
+    
+    /**
+     * @brief createWorkProcess
+     * @param values
+     */
+    virtual void createWorkProcess(QHash<QString, QVariant> values) = 0;
+    
+    /**
+     * @brief resetWorkProcesses
+     */
+    virtual void resetWorkProcesses() = 0;
+
+public slots:
+    /**
+     * @brief setSelectedWorkProcess
+     * @param values
+     */
+    virtual void setSelectedWorkProcess(QHash<QString, QVariant> values) = 0;
+    
+    /**
+     * @brief setHasPreviousWorkProcess
+     * @param hasPrevious
+     */
+    virtual void setHasPreviousWorkProcess(bool hasPrevious) = 0;
+    
+    /**
+     * @brief setHasNextWorkProcess
+     * @param hasNext
+     */
+    virtual void setHasNextWorkProcess(bool hasNext) = 0;
+    
+    /**
+     * @brief setSelectedWorkProcessType
+     * @param type
+     */
+    virtual void setSelectedWorkProcessType(AVType type) = 0;
+    
+    /**
+     * @brief initializedWorkProcesses
+     * @param values
+     */
+    virtual void initializedWorkProcesses(QList<QHash<QString, QVariant>> values) = 0;
+
+};
+
+#define IWorkProcessController_iid "IWorkProcessController"
+Q_DECLARE_INTERFACE(IWorkProcessController, IWorkProcessController_iid)
+
+#endif // IWORKPROCESSCONTROLLER
+

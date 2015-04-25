@@ -3,6 +3,12 @@
 
 #include <QtPlugin>
 
+/**
+ * @brief The IProduct class is an interface, that can be implemented to indicate that functionality
+ * for displaying and saving a product is provided.
+ *
+ * @author Marius Gassen
+ */
 class IProduct {
 
 public slots:

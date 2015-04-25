@@ -4,9 +4,13 @@
 #include <QtPlugin>
 #include "../../enum.h"
 
+/**
+ * @brief The IWorkProcessController class
+ */
 class IWorkProcessController {
 
 signals:
+
     virtual void selectNextWorkProcess() = 0;
     virtual void selectPreviousWorkProcess() = 0;
     virtual void workProcessTypeChanged(AVType type) = 0;

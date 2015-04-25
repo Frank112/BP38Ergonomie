@@ -12,15 +12,15 @@ class ILine {
 
 signals:
     /**
-     * @brief saveLine
-     * @param values
+     * @brief saveLine A signal that can be emitted to signal that a line with the given values should be saved.
+     * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     virtual void saveLine(QHash<QString, QVariant> values) = 0;
 
 public slots:
     /**
-     * @brief setLine
-     * @param values
+     * @brief setLine Sets the line to be displayed.
+     * @param values A hashmap of values with each the column name and the corresponding value to this column.
      */
     virtual void setLine(QHash<QString, QVariant> values) = 0;
 };
