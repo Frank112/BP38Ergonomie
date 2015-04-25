@@ -82,7 +82,7 @@ QVariant OptionSelectionControl::getSelectedValue() const{
     if(currentSelectedBtn != NULL)
         return currentSelectedBtn->getValue();
     else
-        return 0;
+        return QVariant();
 }
 
 QString OptionSelectionControl::getSelectedTexts() const{
