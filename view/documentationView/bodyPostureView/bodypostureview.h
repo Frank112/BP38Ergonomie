@@ -13,21 +13,43 @@
 #include "../../interfaces/ibodyposture.h"
 #include "quickselectioncontrol.h"
 
-
+/**
+ * @brief The BodyPostureView class provides functionality to display and document body postures.
+ *
+ * BodyPostureView inherits TitledWidget and implements IBodyPosture.
+ *
+ * @author Frank Loeffler
+ */
 class BodyPostureView : public TitledWidget, IBodyPosture
 {
 
     Q_OBJECT
     Q_INTERFACES(IBodyPosture)
 public:
+    /**
+     * @brief BodyPostureView Creates a new BodyPostureView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit BodyPostureView(QWidget *parent = 0);
 
 public slots:
+    /**
+     * @brief setSelectedType Sets the selected specification to the given type. Resets the selected variants of the
+     * different specifications. Emits a signal to show the selected type.
+     *
+     * @param type The type to set.
+     */
     void setSelectedType(const AVType &type);
     void setBodyPosture(QHash<QString, QVariant> values);
     void onLeaving();
 
 signals:
+    /**
+     * @brief showExclusiveContentByName Can be emitted to signal that the content of the given name
+     * should be displayed.
+     *
+     * @param name The name of the content to display.
+     */
     void showExclusiveContentByName(const QString &name);
     void saveBodyPosture(QHash<QString, QVariant> values);
 

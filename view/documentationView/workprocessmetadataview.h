@@ -11,21 +11,23 @@
 #include "../interfaces/iworkprocess.h"
 #include "../../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The WorkProcessMetaDataView class provides functionality to display
+ *
+ * WorkProcessMetaDataView inherits TitledWidget and implements IEquipmentList and IWorkProcess.
+ */
 class WorkProcessMetaDataView : public TitledWidget, IEquipmentList, IWorkProcess
 {
     Q_OBJECT
     Q_INTERFACES(IEquipmentList)
     Q_INTERFACES(IWorkProcess)
 public:
+    /**
+     * @brief WorkProcessMetaDataView Creates a new WorkProcessMetaDataView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit WorkProcessMetaDataView(QWidget *parent = 0);
     ~WorkProcessMetaDataView();
-
-    QString getDescription() const;
-    QString getMTMCode() const;
-    int getWorkingHeight() const;
-    int getDistance() const;
-    int getImpulseIntensity() const;
-    int getImpulseCount() const;
 
 signals:
     void saveWorkProcess(QHash<QString, QVariant> values);
@@ -34,6 +36,11 @@ signals:
     void deleteEquipment(int id);
     void selectEquipment(int id);
 
+    /**
+     * @brief selectEquipmentExclusive Can be emitted to signal that the equipment with the given id
+     * was selected.
+     * @param id The id of the selected equipment.
+     */
     void selectEquipmentExclusive(int id);
 
 public slots:

@@ -9,11 +9,23 @@
 #include "../interfaces/iexecutioncondition.h"
 #include "../../databaseHandler/dbconstants.h"
 
+/**
+ * @brief The ExecutionConditionView class provides functionality to display and document
+ * the various conditions of a workprocess.
+ *
+ * ExecutionConditionView inherits TitledWidget and implements IExecutionCondition.
+ *
+ * @author Frank Loeffler
+ */
 class ExecutionConditionView : public TitledWidget, IExecutionCondition
 {
     Q_OBJECT
     Q_INTERFACES(IExecutionCondition)
 public:
+    /**
+     * @brief ExecutionConditionView Creates a new ExecutionConditionView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit ExecutionConditionView(QWidget *parent = 0);
 
 signals:

@@ -9,11 +9,23 @@
 #include "../textcontrol.h"
 #include "../interfaces/iappliedforce.h"
 
+/**
+ * @brief The AppliedForceView class provides functionality to display and document
+ * the applied forces of a workprocess via value controls.
+ *
+ * AppliedForceView inherits TitledWidget and implements IAppliedForce.
+ *
+ * @author Frank Loeffler
+ */
 class AppliedForceView : public TitledWidget, IAppliedForce
 {
     Q_OBJECT
     Q_INTERFACES(IAppliedForce)
 public:
+    /**
+     * @brief AppliedForceView Creates a new AppliedForceView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit AppliedForceView(QWidget *parent = 0);
 
 signals:

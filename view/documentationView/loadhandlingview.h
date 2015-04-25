@@ -14,6 +14,10 @@
  * different ValueControl for the type, of handling the weight to be handled,
  * the way to go and the hand used. Furthermore there is a TransportationListControl
  * with the list of transportations available.
+ *
+ * LoadHandlingView inherits TitledWidget and implements ITransportationList and ILoadHandling.
+ *
+ * @author Marius Gassen
  */
 class LoadHandlingView : public TitledWidget, ITransportationList, ILoadHandling
 {
@@ -22,6 +26,10 @@ class LoadHandlingView : public TitledWidget, ITransportationList, ILoadHandling
     Q_INTERFACES(ILoadHandling)
 
 public:
+    /**
+     * @brief LoadHandlingView Creates a new LoadHandlingView object with the given parent.
+     * @param parent The parent of the object.
+     */
     explicit LoadHandlingView(QWidget *parent = 0);
     ~LoadHandlingView();
 
@@ -32,6 +40,11 @@ signals:
     void deleteTransportation(int id);
     void selectTransportation(int id);
 
+    /**
+     * @brief selectedTransportation Can be emitted to signal that the transportation with the
+     * given id is the selected transportation.
+     * @param id The id of the selected transportation.
+     */
     void selectedTransportation(int id);
 
 public slots:
