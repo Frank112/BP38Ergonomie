@@ -129,6 +129,7 @@ void VariantControl::btnVariantClicked(int id){
 void VariantControl::vcValueChanged(const QVariant &value){
     if(hasSpeci)
         emit valueChanged(varSpeci->getSelectedID(), value);
+    emit valueChanged(value);
 }
 
 void VariantControl::btnNameClicked() {
@@ -142,8 +143,4 @@ QString VariantControl::getName() const{
 
 int VariantControl::getValue(int variantID, int subVariantID) const{
     return valueControls->at(variantID)->at(subVariantID)->getValue();
-}
-
-QString VariantControl::getTextValue(int variantID, int subVariantID) const{
-    return valueControls->at(variantID)->at(subVariantID)->getTextValue();
 }
