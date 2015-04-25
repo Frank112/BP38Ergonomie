@@ -140,7 +140,7 @@ void ValueControl::sldrValueHasChanged(){
 
 void ValueControl::btnValueHasClicked(int id){
     SelectableValueButton *btn = btnList->at(id);
-    btnHighlight(btn->getValue().toInt());
+    //btnHighlight(btn->getValue().toInt());
     sldrValue->setValue(btn->getValue().toInt());
 }
 

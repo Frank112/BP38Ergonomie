@@ -85,10 +85,30 @@ public:
 
 
 signals:
+    /**
+     * @brief Is emitted when ever the selected value has changed.
+     *
+     * @param value
+     *          The new value.
+     */
     void valueChanged(int value);
+
+    /**
+     * @brief Is emitted when ever the selected value has changed.
+     *
+     * @param value
+     *          The new value.
+     */
     void valueChanged(QVariant value);
 
 public slots:
+    /**
+     * @brief Sets the value of the control to the given value, iff
+     * the value is within the bounds.
+     *
+     * @param value
+     *          The value to set the control to.
+     */
     void setValue(int value);
 
 private slots:

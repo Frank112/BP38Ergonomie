@@ -129,7 +129,6 @@ void VariantControl::btnVariantClicked(int id){
 void VariantControl::vcValueChanged(const QVariant &value){
     if(hasSpeci)
         emit valueChanged(varSpeci->getSelectedID(), value);
-    emit valueChanged(value);
 }
 
 void VariantControl::btnNameClicked() {
