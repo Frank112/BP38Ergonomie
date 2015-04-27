@@ -13,6 +13,10 @@
 #include "../textlineedit.h"
 #include "../numberlineedit.h"
 
+/**
+ * @brief The RotationGroupTaskView class provides functionality to enter information for a rotation group task
+ * and and workplaces with a certain time as the tasks' entries.
+ */
 class RotationGroupTaskView : public SimpleNavigateableWidget, IRotationGroupTask, IWorkplaceList, IRotationGroupTaskEntryList
 {
     Q_OBJECT
@@ -20,6 +24,11 @@ class RotationGroupTaskView : public SimpleNavigateableWidget, IRotationGroupTas
     Q_INTERFACES(IRotationGroupTask)
     Q_INTERFACES(IWorkplaceList)
 public:
+
+    /**
+     * @brief RotationGroupTaskView Creates a new RotationGroupTaskView object with its parent.
+     * @param parent The parent widget.
+     */
     explicit RotationGroupTaskView(QWidget *parent = 0);
 
     bool hasAdditionalNavigation() const{

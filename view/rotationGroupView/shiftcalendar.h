@@ -16,6 +16,13 @@
 #include "../textlineedit.h"
 #include "../navigation/simplenavigateablewidget.h"
 
+/**
+ * @brief The ShiftCalendar class provides functionality for displaying existing rotation groups
+ * and adding these as well as breaks to a list of rotation groups, that displays a time
+ * and give the entries a length, proportional to the entry's duration.
+ *
+ * @author Marius Gassen
+ */
 class ShiftCalendar : public SimpleNavigateableWidget, IRotationGroup, IShift, IRotationGroupTaskList
 {
     Q_OBJECT
@@ -24,6 +31,13 @@ class ShiftCalendar : public SimpleNavigateableWidget, IRotationGroup, IShift, I
     Q_INTERFACES(IShift)
 
 public:
+
+    /**
+     * @brief ShiftCalendar Creates a new ShiftCalendar object with its parent and initial begin and end times.
+     * @param parent The parent widget.
+     * @param beginTime The begin time do display initially.
+     * @param endTime The end time do display initially.
+     */
     explicit ShiftCalendar(QWidget *parent = 0, const QTime &beginTime = QTime(6,0), const QTime &endTime = QTime(14, 0));
     ~ShiftCalendar();
 

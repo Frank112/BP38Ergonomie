@@ -7,11 +7,22 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 
+/**
+ * @brief The RotationGroupTaskListView class provides functionality to create a new rotation group tasks
+ * and display all existing tasks in a list.
+ *
+ * @author Marius Gassen
+ */
 class RotationGroupTaskListView : public SimpleNavigateableWidget, IRotationGroupTaskList
 {
     Q_OBJECT
     Q_INTERFACES(IRotationGroupTaskList)
 public:
+
+    /**
+     * @brief RotationGroupTaskListView Creates a new RotationGroupTaskListView object with its parent.
+     * @param parent The parent widget.
+     */
     explicit RotationGroupTaskListView(QWidget *parent = 0);
 
     bool hasAdditionalNavigation() const {
